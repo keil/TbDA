@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<gadget>
+    <name>Twadget</name>
+    <namespace>org.arsecandle.twadget</namespace>
+    <version>1.4.0.0</version>
+    <author name="Rod Begbie">
+      <info url="arsecandle.org/twadget" text="Arsecandle Industries" />
+      <logo src="avatar80.png" />
+    </author>
+    <copyright>&#169; 2006</copyright>
+    <description>Shows you your friends' latest Twitter updates</description>
+  <icons>
+    <icon height="36" width="49" src="twitter-t.png" />
+  </icons>
+
+  <hosts>
+        <host name="sidebar">
+            <base type="HTML" apiVersion="1.0.0" src="twitter.html" />
+            <permissions>full</permissions>
+            <platform minPlatformVersion="0.3" />
+        </host>
+    </hosts>
+</gadget>

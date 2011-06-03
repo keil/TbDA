@@ -1,0 +1,3 @@
+test/micro/test70.js:9: [maybe] ReferenceError, reading absent variable: y
+test/micro/test70.js:1: [maybe] Uncaught exception, constructed at [test/micro/test70.js:9]
+test/micro/test70.js:9: [info] Abstract value: 42.0

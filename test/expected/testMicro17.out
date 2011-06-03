@@ -1,0 +1,8 @@
+test/micro/test17.js:19: [definite] Variable is null/undefined: u
+test/micro/test17.js:13: [maybe] Assertion fails
+test/micro/test17.js:16: [maybe] ReferenceError, reading absent variable: q
+test/micro/test17.js:1: [maybe] Uncaught exception, constructed at [test/micro/test17.js:16]
+test/micro/test17.js:14: [info] Abstract value: Bool
+test/micro/test17.js:16: [info] Abstract value: 42.0
+test/micro/test17.js:17: [info] Abstract value: Undef|"foo"
+test/micro/test17.js:19: [info] Abstract value: Undef

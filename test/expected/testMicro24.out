@@ -1,0 +1,4 @@
+test/micro/test24.js:12: [maybe] Assertion fails
+test/micro/test24.js:13: [maybe] Assertion fails
+test/micro/test24.js:14: [info] Abstract value: UInt|NotUInt
+test/micro/test24.js:15: [info] Abstract value: UInt|NotUInt

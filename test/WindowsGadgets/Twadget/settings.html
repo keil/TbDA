@@ -1,0 +1,60 @@
+<html>
+<head>
+	<style>
+		body{ 
+			width: 250px;
+			height: 200px;
+		}
+	</style>
+	<script>
+	function init() {
+		var username = System.Gadget.Settings.read("username");
+		if (username != "")
+			inputusername.innerText = username;
+		var password = System.Gadget.Settings.read("password");
+		if (password != "")
+			inputpassword.innerText = password;
+		var chirp = System.Gadget.Settings.read("chirp");
+		if (typeof(chirp) == "boolean") {
+			inputchirp.checked = chirp;
+		} else {
+			inputchirp.checked = true;
+		}
+	}
+
+	System.Gadget.onSettingsClosing = SettingsClosing;
+	function SettingsClosing(event)
+	{
+ 		if (event.closeAction == event.Action.commit) {
+			username = inputusername.value;
+			System.Gadget.Settings.write("username", username);
+			password = inputpassword.value;
+			System.Gadget.Settings.write("password", password);
+			chirp = inputchirp.checked;
+			System.Gadget.Settings.write("chirp", chirp);
+		}
+		
+		event.cancel = false;
+	}
+	</script>
+</head>
+<body onload="init()">
+	<span id="mySpan" style="font-family: Tahoma; font-size: 10pt;">
+		<p>
+		<label for="inputusername">Twitter username:</label><br>
+		<input type="text" id="inputusername" length="40">
+		</p>
+		<p>
+		<label for="inputpassword">Twitter password:</label><br>
+		<input type="password" id="inputpassword" length="40">
+		</p>
+		<hr/>
+		<p>
+		<input type="checkbox" id="inputchirp"/>
+		<label for="inputchirp">Chirp when new message arrives</label>
+		</p>
+
+	</span>
+</body>
+</html>
+

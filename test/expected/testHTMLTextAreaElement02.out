@@ -1,0 +1,5 @@
+test/dom/html/HTMLTextAreaElement02.html:4: [info] Abstract value: [*native HTMLTextAreaElement]
+test/dom/html/HTMLTextAreaElement02.html:5: [info] Prototype: [@native HTMLTextAreaElement.prototype] -> [@native HTMLElement.prototype] -> [@native Element.prototype] -> [@native Node.prototype] -> [@native Object.prototype]
+test/dom/html/HTMLTextAreaElement02.html:7: [info] Abstract value: [@native HTMLTextAreaElement.prototype.blur]
+test/dom/html/HTMLTextAreaElement02.html:8: [info] Abstract value: [@native HTMLTextAreaElement.prototype.focus]
+test/dom/html/HTMLTextAreaElement02.html:9: [info] Abstract value: [@native HTMLTextAreaElement.prototype.select]

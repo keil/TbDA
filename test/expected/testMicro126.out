@@ -1,0 +1,3 @@
+test/micro/test126.js:12: [definite] ReferenceError, reading absent variable: gt
+test/micro/test126.js:1: [definite] Uncaught exception, constructed at [test/micro/test126.js:12]
+test/micro/test126.js:11: [info] Abstract value: "funny"

@@ -1,0 +1,37 @@
+test/micro/test138.js:18: [info] Abstract state (modified parts):
+  @native <the global object> (<initial state>):
+    make: [@function make#fun1]
+    x: [@Object#node6, *Object#node6]
+    y: Undef|[@Object#node6]
+  @native Math (<initial state>):
+  @native Object.prototype (<initial state>):
+  *activation#node3 (test/micro/test138.js:1):
+    arguments: [*arguments#node3]
+  *arguments#node3 (test/micro/test138.js:1):
+    callee: [@function make#fun1]
+    length: 0.0
+    [[Prototype]] = [@native Object.prototype]
+  @Object#node39 (test/micro/test138.js:1):
+    constructor: [@function make#fun1]
+    [[Prototype]] = [@native Object.prototype]
+    [[Value]] = NaN
+  @activation#node3 (test/micro/test138.js:1):
+    arguments: [@arguments#node3]
+  @arguments#node3 (test/micro/test138.js:1):
+    callee: [@function make#fun1]
+    length: 0.0
+    [[Prototype]] = [@native Object.prototype]
+  @function make#fun1 (test/micro/test138.js:1):
+    length: 0.0
+    prototype: [@Object#node39]
+    [[Prototype]] = [@native Function.prototype]
+  *Object#node6 (test/micro/test138.js:2):
+    a: 7.0
+    b: [*Object#node6]
+    [[Prototype]] = [@native Object.prototype]
+  @Object#node6 (test/micro/test138.js:2):
+    a: 7.0|"foo"
+    b: [@Object#node6]|absent
+    c: [@Object#node6]|absent
+    d: [*Object#node6]|absent
+    [[Prototype]] = [@native Object.prototype]

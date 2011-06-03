@@ -1,0 +1,24 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+    <title>none</title>
+</head>
+<body>
+
+<script type="text/javascript">
+    var x = document.getElementsByClassName("foo");
+    dumpValue(x);
+    dumpPrototype(x);
+    dumpValue(x[0]);
+    dumpPrototype(x[0]);
+
+    var y = document.createElement("h1").getElementsByClassName("baz");
+    dumpValue(y);
+    dumpPrototype(y);
+    dumpValue(y[0]);
+    dumpPrototype(y[0]);
+</script>
+
+</body>
+</html>

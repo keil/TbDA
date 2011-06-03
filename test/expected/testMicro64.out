@@ -1,0 +1,17 @@
+test/micro/test64.js:7: [definite] Reading 'this' yields the global object
+test/micro/test64.js:9: [definite] Reading 'this' yields the global object
+test/micro/test64.js:10: [definite] Reading 'this' yields the global object
+test/micro/test64.js:11: [definite] Reading 'this' yields the global object
+test/micro/test64.js:3: [info] Abstract object: {gb:10.0,gh:32.0,[[Prototype]]=[@native Object.prototype]}
+test/micro/test64.js:5: [info] Abstract object: {gh:32.0,[[Prototype]]=[@native Object.prototype]}
+test/micro/test64.js:7: [info] Abstract object: {arr:Undef,dumpObject:[@native dumpObject],id:[@function id#fun1],p:[@Object#node3],s:Undef,t:Undef,[[DefaultArray]]=?,[[DefaultNonArray]]=?,[[Prototype]]=?,[[Value]]=?,[[Scope]]=?}
+test/micro/test64.js:9: [info] Property attributes: (DontDelete-)(DontEnum+)(ReadOnly-)
+test/micro/test64.js:10: [info] Abstract value: true
+test/micro/test64.js:11: [info] Abstract object: {arr:Undef,dumpAttributes:[@native dumpAttributes],dumpObject:[@native dumpObject],dumpValue:[@native dumpValue],id:[@function id#fun1],p:[@Object#node3],s:Undef,t:Undef,[[DefaultArray]]=?,[[DefaultNonArray]]=?,[[Prototype]]=?,[[Value]]=?,[[Scope]]=?}
+test/micro/test64.js:13: [info] Property attributes: (DontDelete+)(DontEnum+)(ReadOnly+)
+test/micro/test64.js:14: [info] Abstract value: false
+test/micro/test64.js:15: [info] Abstract object: {length:1.0,[[DefaultArray]]=?,[[DefaultNonArray]]=?,[[Prototype]]=?,[[Value]]=?,[[Scope]]=?}
+test/micro/test64.js:19: [info] Abstract object: {0:0.0,1:1.0,10:34.0,11:55.0,12:89.0,2:1.0,3:2.0,4:3.0,5:5.0,6:8.0,7:13.0,8:"not a fib number",9:21.0,length:13.0,[[Prototype]]=[@native Array.prototype]}
+test/micro/test64.js:21: [info] Abstract object: {0:0.0,1:1.0,10:34.0,11:55.0,12:89.0,2:1.0,3:2.0,4:3.0,5:5.0,6:8.0,7:13.0,9:21.0,length:13.0,[[Prototype]]=[@native Array.prototype]}
+test/micro/test64.js:25: [info] Abstract value: Str
+test/micro/test64.js:27: [info] Abstract object: {0:0.0|absent,1:1.0|absent,10:34.0|absent,11:55.0|absent,12:89.0|absent,2:1.0|absent,3:2.0|absent,4:3.0|absent,5:5.0|absent,6:8.0|absent,7:13.0|absent,9:21.0|absent,length:13.0,[[Prototype]]=[@native Array.prototype]}

@@ -1,0 +1,168 @@
+/////////// Papers using applications \\\\\\\\\\\\\\\
+-----------------------------------------------------
+
+-- Using Static Analysis for AJAX Intrusion Detection --
+--------------------------------------------------------
+Benchmarks used:
+    * Student-written blog applications (unavailable)
+    * Continue application (hard to find?)
+    * Resume application (hard to find?)
+    * AjaxIM
+    * GWT generated code
+    * Prototype
+    * FLAPJAX
+
+AjaxIM is already in our list of benchmarks.
+
+Prototype is already in our list of benchmarks.
+
+FLAPJAX is a library like Prototype, i.e. it needs driver programs for us to test it.
+
+
+-- A case study-based comparison of web testing techniques applied to AJAX web applications --
+----------------------------------------------------------------------------------------------
+Benchmarks used:
+    * Photoshare (available from APress.com)
+    * The Organizer (available from APress.com)
+
+Both applications are available from APress.com on: http://apress.com/book/view/1590596951
+
+Photoshare and The Organizer are both Java-based applications, however it seems that their main JSP/HTML files provide most
+of the functionality.
+
+The JSP files need to be renamed to .html to get through parsing (if they don't contain JSP code).
+For Photoshare there are some calls to eval from the Dojo framework.
+For TheOrganizer there are two calls to eval from the prototype framework.
+
+
+-- Search-Based Testing of Ajax Web Applications -
+--------------------------------------------------
+Benchmarks used:
+    * Oryx (http://bpt.hpi.uni-potsdam.de/Oryx/WebHome)
+    * Tudu (http://sourceforge.net/projects/tudu/)
+
+Oryx includes the entire Prototype library - thus calls to eval are possible, and there are > 9 KLOC.
+TODO: How to extract javascript code from Tudu application???
+
+
+-- Invariant-Based Automatic Testing of AJAX User Interfaces --
+---------------------------------------------------------------
+Benchmarks used:
+    * Tudu
+    * Coachjezelf (http://www.coachjezelf.nl)
+
+Coachjezelf has some uses of eval. In the article they only test the interactive TOC ("the only AJAX UI part").
+
+
+-- Points-to analysis for Javascript --
+---------------------------------------
+Benchmarks used:
+    * SunSpider
+
+We already have SunSpider in our list of benchmarks.
+
+
+-- Gatekeeper: Mostly Static Enforcement of Security and Reliability Policies for JavaScript Code --
+----------------------------------------------------------------------------------------------------
+Benchmarks used:
+    * Widgets from Live.com
+    * Widgets from the Vista Sidebar
+    * Widgets from Google (http://desktop.google.com/plugins/)
+
+I have downloaded the following Google Desktop gadgets:
+    - YouTube
+    - Google Calendar
+    - Google Docs
+    - GMail
+    - DigitalAlarmClock
+    - Day/Night World Clock
+    - Weather
+
+They use a main.xml which can be rewritten to an HTML file, in order to get it through parsing.
+Doing that seems to get a lot of dead code - so they may depend on some Google Desktop program to call different functions.
+UPDATE: The main.xml file specifies a View, which in Googles API has some special functions. We need to be aware if the
+applets we run are dependent on any of these Google specific functions. At least we know they will be reported as call to
+null/undefined.
+
+TODO: Look into the possibility of combining all xml-documents to a single html-document, in order to simulate
+clicking around and changing "pages".
+
+The following Windows Sidebar gadgets are downloaded:
+    - PingMonitor
+    - Twadget
+    - CoreTemp
+
+TODO: Like the GoogleGadgets they seem to use an external program to call the functions they define.
+
+
+-- FLAX: Systematic Discovery of Client-side Validation Vulnerabilities in Rich Web Applications --
+---------------------------------------------------------------------------------------------------
+Benchmarks used:
+    * Widgets from Google (http://desktop.google.com/plugins/)
+
+See GateKeeper for details. The most popular gadgets, according to the download site, are downloaded:
+    - Weather
+    - Day/Night World Clock
+
+
+-- JSTrace: Run-time Type Discovery for JavaScript --
+-----------------------------------------------------
+Benchmarks used:
+    * watchtimer.js
+    * countdown.js
+    * animation.js
+    * resistor.js
+    * morse.js
+    * text2wav
+    * hashapass.js
+    * rsi.js
+    * metronome.js
+    * catchit.js
+    * topten.js
+
+Of these, the only I was able to locate (or some version thereof) is countdown.js. I made a quick page using the countdown
+timer.
+
+
+/////////// Papers using web pages \\\\\\\\\\\\\\\
+--------------------------------------------------
+
+-- Crawling AJAX by Inferring User Interface State Changes --
+-------------------------------------------------------------
+Benchmarks use:
+    * An AJAX demo site (http://spci.st.ewi.tudelft.nl/demo/aowe)
+    * The Java PetStore from Sun
+    * 4Launch webshop (http://www.4launch.nl)
+    * BlindtextGenerator (http://www.blindtextgenerator.com)
+    * Delft uni sport (http://site.snc.tudelft.nl)
+    * Gucci web shop (http://www.gucci.com)
+
+I have downloaded each of these sites, and the Sun PetStore application.
+
+TODO: How to extract JS from PetStore?
+
+
+-- An Analysis of the Dynamic Behavior of JavaScript Programs --
+-----------------------------------------------------------------
+Benchmarks used:
+    * 280slides.com
+    * bing.com
+    * blogger.com
+    * digg.com
+    * ebay.com
+    * facebook.com
+    * flickr.com
+    * maps.google.com
+    * gmail.com
+    * google.com
+    * imageshack.us
+    * research.sun.com/projects/lively
+    * me.com
+    * twitter.com
+    * wikipedia.com
+    * wordpress.com
+    * youtube.com
+    * + more (top 100 of Alexa list of most popular)
+
+Common for all these sites are a heavy use of eval and arrays (according to the paper), meaning we would probably have
+trouble analysing them.

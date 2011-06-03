@@ -1,0 +1,401 @@
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "DTD/xhtml1-strict.dtd" >
+
+<!--
+**********************************
+*  CARPE Calculator ZF 2.0       *
+*                                *
+*  By Tom Hermansson Snickars    *
+*  Copyright CARPE  2002-2006    *
+*  carpe.ambiprospect.com        *
+**********************************
+-->
+
+<html>
+
+<link rel="SHORTCUT ICON" href="favicon.ico" />
+
+<head>
+<title>CARPE&trade; ZF 2.0 ....... </title>
+
+<link rel="stylesheet" type="text/css" href="styles/calculator_zf4.css" />
+
+<script type="text/javascript" language="JavaScript" src="calculator_zf3.js" ></script>
+</head>
+
+<body>
+
+<form name="calculator" action="*">
+	<table cellpadding="0" cellspacing="0" >
+		<tr>
+			<td colspan="5">
+				<div class="numeric-display-holder">
+					<div id="lcd-symbols"></div>
+					<input
+						class="n_display"
+						value="0"
+						type="text"
+						name="expr"
+						onClick="blur(this)" />
+				</div>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<div class="button_border" >
+					<div class="bugfix" ></div><!-- Fixing IE bug -->
+					<a href="#" class="special_button" onclick="stopcalc();window.close()" >OFF</a>
+				</div>
+			</td>
+			<td>
+				<div class="button_border" >
+					<div class="bugfix" ></div><!-- Fixing IE bug -->
+					<a href="#" class="button"
+						title="Store exchange rate (&euro; per $) [Keyboard: 'R']"
+						onclick="set_rate();blur(this)" >&curren;</a>
+				</div>
+			</td>
+			<td>
+				<div class="button_border" >
+					<div class="bugfix" ></div><!-- Fixing IE bug -->
+					<a href="#" class="button"
+						title="Convert to $ [Keyboard: 'T']"
+						onclick="to_rate();blur(this)" >$</a>
+				</div>
+			</td>
+			<td>
+				<div class="button_border" >
+					<div class="bugfix" ></div><!-- Fixing IE bug -->
+					<a href="#" class="button"
+						title="Convert to &euro; [Keyboard: 'Y']"
+						onclick="from_rate();blur(this)" >&euro;</a>
+				</div>
+			</td>
+			<td>
+				<div class="button_border" >
+					<div class="bugfix" ></div><!-- Fixing IE bug -->
+					<a href="#" class="special_button" title="Clear [Keyboard: 'Del']"
+						onclick="clearDisplay();blur(this)" >C</a>
+				</div>
+			</td>
+		</tr>
+
+		<tr>
+			<td>
+				<div class="button_border" >
+					<div class="bugfix" ></div><!-- Fixing IE bug -->
+					<a href="#" class="button" onclick="sin();blur(this)" >asin</a>
+				</div>
+			</td>
+			<td>
+				<div class="button_border" >
+					<div class="bugfix" ></div><!-- Fixing IE bug -->
+					<a href="#" class="button" onclick="cos();blur(this)" >acos</a>
+				</div>
+			</td>
+			<td>
+				<div class="button_border" >
+					<div class="bugfix" ></div><!-- Fixing IE bug -->
+					<a href="#" class="button" onclick="tan();blur(this)" >atan</a>
+				</div>
+			</td>
+			<td>
+				<div class="button_border" >
+					<div class="bugfix" ></div><!-- Fixing IE bug -->
+					<a href="#" class="button" onclick="power_x(Math.E);blur(this)" >e<sup>x</sup></a>
+				</div>
+			</td>
+			<td>
+				<div class="button_border" >
+					<div class="bugfix" ></div><!-- Fixing IE bug -->
+					<a href="#" class="button" onclick="power_x(10);blur(this)" >10<sup>x</sup></a>
+				</div>
+			</td>
+		</tr>
+		
+		<tr>
+			<td>
+				<div class="button_border" >
+					<div class="bugfix" ></div><!-- Fixing IE bug -->
+					<a href="#" class="button" onclick="invsin();blur(this)" >sin<sup>-1</sup></a>
+				</div>
+			</td>
+			<td>
+				<div class="button_border" >
+					<div class="bugfix" ></div><!-- Fixing IE bug -->
+					<a href="#" class="button" onclick="invcos();blur(this)" >cos<sup>-1</sup></a>
+				</div>
+			</td>
+			<td>
+				<div class="button_border" >
+					<div class="bugfix" ></div><!-- Fixing IE bug -->
+					<a href="#" class="button" onclick="invtan();blur(this)" >tan<sup>-1</sup></a>
+				</div>
+			</td>
+			<td>
+				<div class="button_border" >
+					<div class="bugfix" ></div><!-- Fixing IE bug -->
+					<a href="#" class="button" onclick="ln();blur(this)" >ln</a>
+				</div>
+			</td>
+			<td>
+				<div class="button_border" >
+					<div class="bugfix" ></div><!-- Fixing IE bug -->
+					<a href="#" class="button" onclick="log();blur(this)" >log</a>
+				</div>
+			</td>
+		</tr>
+		
+		<tr>
+			<td>
+				<div class="button_border" >
+					<div class="bugfix" ></div><!-- Fixing IE bug -->
+					<a href="#" class="button" onclick="sin();blur(this)" >sin</a>
+				</div>
+			</td>
+			<td>
+				<div class="button_border" >
+					<div class="bugfix" ></div><!-- Fixing IE bug -->
+					<a href="#" class="button" onclick="cos();blur(this)" >cos</a>
+				</div>
+			</td>
+			<td>
+				<div class="button_border" >
+					<div class="bugfix" ></div><!-- Fixing IE bug -->
+					<a href="#" class="button" onclick="tan();blur(this)" >tan</a>
+				</div>
+			</td>
+			<td>
+				<div class="button_border" >
+					<div class="bugfix" ></div><!-- Fixing IE bug -->
+					<a href="#" class="button" onclick="enter(Math.PI);blur(this)" ><em>&pi;</em></a>
+				</div>
+			</td>
+			<td>
+				<div class="button_border" >
+					<div class="bugfix" ></div><!-- Fixing IE bug -->
+					<a href="#" class="button" onclick="enter(Math.E);blur(this)" ><em>e</em></a>
+				</div>
+			</td>
+		</tr>
+		
+		<tr>
+			<td>
+				<div class="button_border" >
+					<div class="bugfix" ></div><!-- Fixing IE bug -->
+					<a href="#" class="button" title="Square root"
+						onclick="power('0.5');blur(this)" >&radic;</a>
+				</div>
+			</td>
+			<td>
+				<div class="button_border" >
+					<div class="bugfix" ></div><!-- Fixing IE bug -->
+					<a href="#" class="button" onclick="power('2');blur(this)" >x&sup2;</a>
+				</div>
+			</td>
+			<td>
+				<div class="button_border" >
+					<div class="bugfix" ></div><!-- Fixing IE bug -->
+					<a href="#" class="button" onclick="inv();blur(this)" >1/x</a>
+				</div>
+			</td>
+			<td>
+				<div class="button_border" >
+					<div class="bugfix" ></div><!-- Fixing IE bug -->
+					<a href="#" class="button" onclick="fac();blur(this)" >x!</a>
+				</div>
+			</td>
+			<td>
+				<div class="button_border" >
+					<div class="bugfix" ></div><!-- Fixing IE bug -->
+					<a href="#" class="button" onclick="power_m();blur(this)" >x<sup>M</sup></a>
+				</div>
+			</td>
+		</tr>
+		
+		<tr>
+			<td>
+				<div class="button_border" >
+					<div class="bugfix" ></div><!-- Fixing IE bug -->
+					<a href="#" class="button" onclick="neg();blur(this)" >&plusmn;</a>
+				</div>
+			</td>
+			<td>
+				<div class="button_border" >
+					<div class="bugfix" ></div><!-- Fixing IE bug -->
+					<a href="#" class="button" onclick="enter('(');blur(this)" >(</a>
+				</div>
+			</td>
+			<td>
+				<div class="button_border" >
+					<div class="bugfix" ></div><!-- Fixing IE bug -->
+					<a href="#" class="button" onclick="enter(')');blur(this)" >)</a>
+				</div>
+			</td>
+			<td>
+				<div class="button_border" >
+					<div class="bugfix" ></div><!-- Fixing IE bug -->
+					<a href="#" class="button" onclick="enter('e');blur(this)" >exp</a>
+				</div>
+			</td>
+			<td>
+				<div class="button_border" >
+					<div class="bugfix" ></div><!-- Fixing IE bug -->
+					<a href="#" class="button" title="Clear memory"
+						onclick="clear_mem();blur(this)" >MC</a>
+				</div>
+			</td>
+		</tr>
+		
+		<tr>
+			<td>
+				<div class="button_border" >
+					<div class="bugfix" ></div><!-- Fixing IE bug -->
+					<a href="#" class="button" onclick="enter(7);blur(this)" >7</a>
+				</div>
+			</td>
+			<td>
+				<div class="button_border" >
+					<div class="bugfix" ></div><!-- Fixing IE bug -->
+					<a href="#" class="button" onclick="enter(8);blur(this)" >8</a>
+				</div></td>
+			<td>
+				<div class="button_border" >
+					<div class="bugfix" ></div><!-- Fixing IE bug -->
+					<a href="#" class="button" onclick="enter(9);blur(this)" >9</a>
+				</div></td>
+			<td>
+				<div class="button_border" >
+					<div class="bugfix" ></div><!-- Fixing IE bug -->
+					<a href="#" class="button" onclick="enter('/');blur(this)" >&divide;</a>
+				</div></td>
+			<td>
+				<div class="button_border" >
+					<div class="bugfix" ></div><!-- Fixing IE bug -->
+					<a href="#" class="button"
+						title="Store in memory [Keyboard: 'S']" onclick="push_mem();blur(this)" >MS</a>
+				</div></td>
+		</tr>
+		
+		<tr>
+			<td>
+				<div class="button_border" >
+					<div class="bugfix" ></div><!-- Fixing IE bug -->
+					<a href="#" class="button" onclick="enter(4);blur(this)" >4</a>
+				</div>
+			</td>
+			<td>
+				<div class="button_border" >
+					<div class="bugfix" ></div><!-- Fixing IE bug -->
+					<a href="#" class="button" onclick="enter(5);blur(this)" >5</a>
+				</div>
+			</td>
+			<td>
+				<div class="button_border" >
+					<div class="bugfix" ></div><!-- Fixing IE bug -->
+					<a href="#" class="button" onclick="enter(6);blur(this)" >6</a>
+				</div>
+			</td>
+			<td>
+				<div class="button_border" >
+					<div class="bugfix" ></div><!-- Fixing IE bug -->
+					<a href="#" class="button" onclick="enter('*');blur(this)" >&times;</a>
+				</div>
+			</td>
+			<td>
+				<div class="button_border" >
+					<div class="bugfix" ></div><!-- Fixing IE bug -->
+					<a href="#" class="button"
+						title="Recall from memory [Keyboard: 'M']" onclick="pop_mem();blur(this)" >MR</a>
+				</div>
+			</td>
+		</tr>
+		
+		<tr>
+			<td>
+				<div class="button_border" >
+					<div class="bugfix" ></div><!-- Fixing IE bug -->
+					<a href="#" class="button" onclick="enter(1);blur(this)" >1</a>
+				</div>
+			</td>
+			<td>
+				<div class="button_border" >
+					<div class="bugfix" ></div><!-- Fixing IE bug -->
+					<a href="#" class="button" onclick="enter(2);blur(this)" >2</a>
+				</div>
+			</td>
+			<td>
+				<div class="button_border" >
+					<div class="bugfix" ></div><!-- Fixing IE bug -->
+					<a href="#" class="button" onclick="enter(3);blur(this)" >3</a>
+				</div>
+			</td>
+			<td>
+				<div class="button_border" >
+					<div class="bugfix" ></div><!-- Fixing IE bug -->
+					<a href="#" class="button" onclick="enter('-');blur(this)" >-</a>
+				</div>
+			</td>
+			<td>
+				<div class="button_border" >
+					<div class="bugfix" ></div><!-- Fixing IE bug -->
+					<a href="#" class="button" title="Subtract from memory" onclick="minus_mem();blur(this)" >M-</a>
+				</div>
+			</td>
+		</tr>
+		
+		<tr>
+			<td>
+				<div class="button_border" >
+					<div class="bugfix" ></div><!-- Fixing IE bug -->
+					<a href="#" class="button" onclick="enter(0);blur(this)" >0</a>
+				</div></td>
+			<td>
+				<div class="button_border" >
+					<div class="bugfix" ></div><!-- Fixing IE bug -->
+					<a href="#" class="button" onclick="enter('.');blur(this)" >&middot;</a>
+				</div>
+			</td>
+			<td>
+				<div class="button_border" >
+					<div class="bugfix" ></div><!-- Fixing IE bug -->
+					<a href="#" class="button" onclick="calc();blur(this)" >=</a>
+				</div>
+			</td>
+			<td>
+				<div class="button_border" >
+					<div class="bugfix" ></div><!-- Fixing IE bug -->
+					<a href="#" class="button" onclick="enter('+');blur(this)" >+</a>
+				</div>
+			</td>
+			<td>
+				<div class="button_border" >
+					<div class="bugfix" ></div><!-- Fixing IE bug -->
+					<a href="#" class="button"
+						title="Add to memory" onclick="plus_mem();blur(this)" >M+</a>
+				</div>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2">
+				<input class="d_display" type="text" name="datewatch" />
+			</td>
+			<td>
+				<a
+					class="carpe"
+					href="http://carpe.ambiprospect.com/"
+					title="CARPE"
+					target="_blank"
+					onclick="blur(this)" >&copy;<br>CARPE</a>
+			</td>
+			<td colspan="2" align="center">
+				<input class="t_display" type="text" name="digiwatch" id="digiwatch" />
+			</td>
+		</tr>
+	</table>
+</form>
+<script language="javascript" >a = showDisplay();</script>
+</body>
+
+</html>

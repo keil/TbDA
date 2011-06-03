@@ -1,0 +1,2 @@
+Uses eval, though not extensively (7 occurences on ~3000 LOC).
+No external libraries used.

@@ -1,0 +1,125 @@
+﻿<view height="355" resizable="true" width="160" onopen="view_onOpen()"
+  resizeBorder="8">
+  <img name="base_topleft" src="images\base_topleft.png"/>
+  <img name="base_topright" src="images\base_topright.png"/>
+  <img name="base_bottomleft" src="images\base_bottomleft.png"/>
+  <img name="base_bottomright" src="images\base_bottomright.png"/>
+  <img name="base_top" src="images\base_top.png"/>
+  <img name="base_left" src="images\base_left.png"/>
+  <img name="base_right" src="images\base_right.png"/>
+  <img name="base_bottom" src="images\base_bottom.png"/>
+  <edit name="sizeCalc" visible="false" x="10" y="10"/>
+  <div name="background" background="#FFFFFF"/>
+  <div name="mainDiv">
+    <div name="agendaDiv"/>
+    <div name="footerDiv">
+      <img name="footerLeft" src="images\footer_left.png"/>
+      <img name="footerRight" src="images\footer_right.png"/>
+      <div name="footerBg" background="images\footer_bg.png"/>
+      <a height="16" name="linkAddEvent" y="6" color="#0065CD" font="Arial"
+        size="10" valign="middle">&ADD_EVENT;
+      </a>
+      <a height="16" name="linkToday" y="6" color="#0065CD" font="Arial"
+        size="10" valign="middle">&TODAY;
+      </a>
+      <a height="16" name="linkOptions" y="6" color="#0065CD" font="Arial"
+        size="10" valign="middle">&OPTIONS_LINK;
+      </a>
+    </div>
+    <div enabled="true" hitTest="htclient" name="miniCalendarDiv"/>
+    <div enabled="true" hitTest="htclient" name="dayviewDiv"/>
+    <div enabled="true" hitTest="htclient" name="dialogDiv" visible="false"
+     >
+      <img name="blueTopLeft" src="images/dayview_header_left.png"/>
+      <div name="blueTopMiddle" background="images/month_nav_bg.png"/>
+      <img name="blueTopRight" src="images/dayview_header_right.png"/>
+      <img name="blueBottomLeft" src="images/blue_bottom_left.png"/>
+      <img name="blueBottomRight" src="images/blue_bottom_right.png"/>
+      <div name="blueBottomMiddle" background="images/blue_bottom_middle.png"/>
+      <div name="dialogBg" background="#D6E9F8"/>
+      <div name="loginDiv">
+        <img name="loginIcon" x="3" y="-2" src="images/loginIcon.png"/>
+        <label name="signinTitle" font="arial" size="9">&SIGN_IN_TO_CALENDAR;
+        </label>
+        <label name="signinYour" font="arial" size="9">&YOUR;
+        </label>
+        <img name="signinLogo" src="images/google_logo.png"/>
+        <label name="signinAccount" bold="true" font="arial" size="9">&ACCOUNT;
+        </label>
+        <div height="20" name="userBg" y="95" background="#7F9DB9">
+          <edit height="18" name="user" x="1" y="1" font="arial"/>
+        </div>
+        <div height="20" name="passBg" y="135" background="#7F9DB9">
+          <edit height="18" name="pass" x="1" y="1" font="arial" passwordChar="*"
+           />
+        </div>
+        <label height="16" name="userLabel" width="100%" x="5" y="80" color="#0066CC"
+          font="arial" size="9">&USERNAME;
+        </label>
+        <label height="16" name="passLabel" width="87%" x="5" y="120" color="#0066CC"
+          font="arial" size="9">&PASSWORD;
+        </label>
+        <img height="22" name="rememberFocus" width="22" visible="false"
+          x="5" y="162" src="images/checkbox_focus.png"/>
+        <checkbox cursor="hand" height="16" name="remember" width="100%" x="8"
+          y="165" font="arial" size="9" trimming="word-ellipsis"
+          downImage="images/checkbox_default.png" image="images/checkbox_default.png"
+          overImage="images/checkbox_default.png" caption="&REMEMBER_ME;"
+          checkedDownImage="images/checkbox_checked.png" checkedImage="images/checkbox_checked.png"
+          checkedOverImage="images/checkbox_checked.png" value="false"
+         />
+        <button cursor="hand" height="24" name="login" width="84" y="185" font="arial"
+          size="10" downImage="images/action_down.png" image="images/action_default.png"
+          overImage="images/action_hover.png" caption="&LOGIN;"/>
+        <label height="30" name="labelNoAccount" width="100%" x="0" y="220"
+          align="center" font="arial" size="9" wordwrap="true"
+         >&NO_ACCOUNT;
+        </label>
+        <a height="16" name="newAccountLink" width="100%" x="0" y="250"
+          align="center" font="arial" size="9">&CREATE_ACCOUNT;
+        </a>
+        <img height="75" name="captchaImg" width="100%" visible="false" x="0"
+          y="80"/>
+        <div height="18" name="captchaBg" width="100%" visible="false" x="0"
+          y="160" background="#7F9DB9">
+          <edit height="16" name="captcha" x="1" y="1" font="arial"/>
+        </div>
+      </div>
+      <div name="upgradeDiv" visible="false">
+        <label height="80" name="upgradeReason" width="100%" y="15" font="arial"
+          size="9" trimming="character-ellipsis" wordwrap="true"
+         />
+        <a height="20" name="upgradeDownloadUrl" width="100%" y="90" font="arial"
+          size="10">&DOWNLOAD_GADGET;
+        </a>
+        <a height="20" name="upgradeInfoUrl" width="100%" y="115" font="arial"
+          size="9">&MORE_INFORMATION;
+        </a>
+      </div>
+    </div>
+    <div height="18" name="loadingIndicator" width="70" visible="false"
+      x="10" y="0" background="#CC4444">
+      <label color="#FFFFFF" font="arial" size="10" height="100%">&LOADING;
+      </label>
+    </div>
+    <img name="resizeIndicator" src="images/resize_indicator.png"/>
+  </div>
+  <script src="main.js" />
+  <script src="auth.js" />
+  <script src="cache.js" />
+  <script src="calendar.js" />
+  <script src="calendarevent.js" />
+  <script src="constants.js" />
+  <script src="errorMessage.js" />
+  <script src="events.js" />
+  <script src="geocode.js" />
+  <script src="json_sans_eval.js" />
+  <script src="online_checker.js" />
+  <script src="utils.js" />
+  <script src="ui_agenda.js" />
+  <script src="ui_calendar.js" />
+  <script src="ui_dayview.js" />
+  <script src="ui_main.js" />
+  <script src="ui_main_resize.js" />
+  <script src="version_checker.js" />
+</view>

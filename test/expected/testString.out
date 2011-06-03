@@ -1,0 +1,40 @@
+test/micro/testString.js:61: [definite] Too few parameters to native function String.prototype.localeCompare
+test/micro/testString.js:10: [definite] Converting primitive string to object
+test/micro/testString.js:10: [definite] Converting primitive string to object
+test/micro/testString.js:4: [maybe] Converting boolean to string
+test/micro/testString.js:13: [maybe] Converting boolean to string
+test/micro/testString.js:7: [info] Abstract value: ""
+test/micro/testString.js:8: [info] Abstract value: "true"
+test/micro/testString.js:9: [info] Abstract value: "77"
+test/micro/testString.js:10: [info] Abstract value: "77"
+test/micro/testString.js:16: [info] Abstract value: [@String#node29]
+test/micro/testString.js:17: [info] Abstract value: ""
+test/micro/testString.js:18: [info] Abstract value: 0.0
+test/micro/testString.js:19: [info] Abstract value: [@String#node33]
+test/micro/testString.js:20: [info] Abstract value: "false"
+test/micro/testString.js:21: [info] Abstract value: "FALSE"
+test/micro/testString.js:22: [info] Abstract value: 5.0
+test/micro/testString.js:23: [info] Abstract value: [@String#node37]
+test/micro/testString.js:24: [info] Abstract value: "77.77"
+test/micro/testString.js:25: [info] Abstract value: 5.0
+test/micro/testString.js:27: [info] Abstract value: ""
+test/micro/testString.js:28: [info] Abstract value: "ABCDEF"
+test/micro/testString.js:30: [info] Abstract value: "."
+test/micro/testString.js:31: [info] Abstract value: ""
+test/micro/testString.js:33: [info] Abstract value: 46.0
+test/micro/testString.js:34: [info] Abstract value: NaN
+test/micro/testString.js:37: [info] Abstract value: 49.0
+test/micro/testString.js:40: [info] Abstract value: Str
+test/micro/testString.js:42: [info] Abstract value: Str
+test/micro/testString.js:45: [info] Abstract value: UInt|NotUInt
+test/micro/testString.js:46: [info] Abstract value: UInt|NotUInt
+test/micro/testString.js:47: [info] Abstract value: UInt|NotUInt
+test/micro/testString.js:49: [info] Abstract value: UInt|NotUInt
+test/micro/testString.js:51: [info] Abstract value: UInt|NotUInt
+test/micro/testString.js:52: [info] Abstract value: UInt|NotUInt
+test/micro/testString.js:53: [info] Abstract value: UInt|NotUInt
+test/micro/testString.js:55: [info] Abstract value: UInt|NotUInt
+test/micro/testString.js:58: [info] Abstract value: Num
+test/micro/testString.js:59: [info] Abstract value: Num
+test/micro/testString.js:60: [info] Abstract value: Num
+test/micro/testString.js:61: [info] Abstract value: Num

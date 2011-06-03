@@ -1,0 +1,2 @@
+test/resig/ejohn35.js:2: [definite] Reading 'this' yields the global object
+test/resig/ejohn35.js:9: [info] Abstract value: "John Resig"

@@ -1,0 +1,4 @@
+test/micro/test06.js:3: [definite] Unreachable code
+test/micro/test06.js:21: [maybe] Assertion fails
+test/micro/test06.js:9: [info] Abstract value: "jolly1234"
+test/micro/test06.js:20: [info] Abstract value: 2011.0|"jolly1234"

@@ -1,0 +1,86 @@
+<?xml version="1.0" ?>
+<!-- view width and height should always match that of 
+     Gadget_DOCKED_WIDTH and Gadget_DOCKED_HEIGHT in main.js -->
+<view height="66" onminimize="_onMinimize()" onopen="_onOpen()" onpopin="_onPopIn()" onpopout="_onPopOut()" onrestore="_onRestore()" onsizing="_onSizing()" resizable="true" width="140">
+	  
+  
+	<img name="slateMainBkg" visible="false" x="49" y="15"/>
+	
+  
+	<img height="119" name="slateOpenBkg" src="slate_open.png" width="147" x="49" y="60"/>
+	
+  
+	<img name="slateClosedBkg" visible="false" x="49" y="60"/>
+	
+  
+	<div height="119" name="forecastPane" width="147" x="49" y="60">
+		
+    
+		<label align="center" bold="true" color="#FFFFFF" font="tahoma" height="13" name="date_1" size="8" trimming="character" width="45" x="3" y="36"/>
+		
+    
+		<label align="center" bold="true" color="#FFFFFF" font="tahoma" height="13" name="date_2" size="8" trimming="character" width="45" x="51" y="36"/>
+		
+    
+		<label align="center" bold="true" color="#FFFFFF" font="tahoma" height="13" name="date_3" size="8" trimming="character" width="45" x="99" y="36"/>
+		
+    
+		<img name="weather_1" x="0" y="49"/>
+		
+    
+		<img name="weather_2" x="48" y="49"/>
+		
+    
+		<img name="weather_3" x="96" y="49"/>
+		
+    
+		<label color="#FFFFFF" font="tahoma" height="13" name="high_temp_1" size="8" width="248" x="10" y="83"/>
+		
+    
+		<label color="#FFFFFF" font="tahoma" height="13" name="high_temp_2" size="8" width="248" x="58" y="83"/>
+		
+    
+		<label color="#FFFFFF" font="tahoma" height="13" name="high_temp_3" size="8" width="248" x="106" y="83"/>
+		
+    
+		<label color="#FFFFFF" font="tahoma" height="13" name="low_temp_1" size="8" width="248" x="10" y="95"/>
+		
+    
+		<label color="#FFFFFF" font="tahoma" height="13" name="low_temp_2" size="8" width="248" x="58" y="95"/>
+		
+    
+		<label color="#FFFFFF" font="tahoma" height="13" name="low_temp_3" size="8" width="248" x="106" y="95"/>
+		
+  
+	</div>
+	
+
+  
+	<script src="0_main.xml.compiled.js"/>
+	  
+  
+	<script src="1_main.xml.compiled.js"/>
+	
+  
+	<script src="2_main.xml.compiled.js"/>
+	
+  
+	<script src="3_main.xml.compiled.js"/>
+	
+  
+	<script src="4_main.xml.compiled.js"/>
+	
+  
+	<script src="5_main.xml.compiled.js"/>
+	
+  
+	<script src="6_main.xml.compiled.js"/>
+	
+  
+	<script src="7_main.xml.compiled.js"/>
+	    
+  
+	<script src="8_main.xml.compiled.js"/>
+	
+
+</view>

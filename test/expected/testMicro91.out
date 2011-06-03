@@ -1,0 +1,5 @@
+test/micro/test91.js:7: [maybe] Reading absent property (computed name)
+test/micro/test91.js:8: [info] Abstract value: Undef|[@native Object, @native Object.prototype.toString, @native Object.prototype.toLocaleString, @native Object.prototype.valueOf, @native Object.prototype.hasOwnProperty, @native Object.prototype.isPrototypeOf, @native Object.prototype.propertyIsEnumerable]
+test/micro/test91.js:15: [info] Abstract value: NotUIntStr
+test/micro/test91.js:16: [info] Abstract value: Undef|[@native Object, @native Object.prototype.toString, @native Object.prototype.toLocaleString, @native Object.prototype.valueOf, @native Object.prototype.hasOwnProperty, @native Object.prototype.isPrototypeOf, @native Object.prototype.propertyIsEnumerable]
+test/micro/test91.js:17: [info] Abstract value: Bool

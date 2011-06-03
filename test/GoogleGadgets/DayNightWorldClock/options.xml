@@ -1,0 +1,85 @@
+<view width="320" height="590" onopen="view_onopen()" onclose="view_onclose()">
+
+ <script src="load.js"/>
+ <script src="options.js"/>
+
+<img name="options_bottom" width="320" height="35" y="560" src="options_bottom.png"/>
+<div width="320" height="560" background="#FFFFFF">
+
+ <!-- Map with Marker-->
+ <img name="map_back_top" width="300" height="9" x="10" y="11" src="backg_top_300.png"/>
+ <div name="map_back_div" width="300" height="200" x="10" y="20" background="backg_center_300.png">
+   <div name="map_div" width="296" height="200" x="2">
+     <img name="map" width="376" height="200" x="-38" y="0" src="Day.jpg"/>
+     <img name="marker" width="19" height="19" x="-10" y="-10" src="marker.png"/>
+   </div>
+ </div>
+ <img name="map_back_bottom" width="300" height="9" x="10" y="220" src="backg_bottom_300.png"/>
+ 
+ <!-- Show City Info-->
+ <img name="info_back_top" width="300" height="9" x="10" y="236" src="backg_top_300.png"/>
+ <div name="info_div" width="300" height="99" x="10" y="245" background="backg_center_300.png">
+   <label name="city_label" x="20" width="83" trimming="character-ellipsis" font="verdana" size="9" tooltip="&LOCATION;" enabled="true">&LOCATION;</label>
+   <label name="lon_label" x="20" y="20" width="83" trimming="character-ellipsis" font="verdana" size="9" tooltip="&LONGITUDE;" enabled="true">&LONGITUDE;</label>
+   <label name="lat_label" x="20" y="40" width="83" trimming="character-ellipsis" font="verdana" size="9" tooltip="&LATITUDE;" enabled="true">&LATITUDE;</label>
+   <label name="sunr_label" x="150" y="20" width="93" trimming="character-ellipsis" font="verdana" size="9" tooltip="&SUNRISE;" enabled="true">&SUNRISE;</label>
+   <label name="suns_label" x="150" y="40" width="93" trimming="character-ellipsis" font="verdana" size="9" tooltip="&SUNSET;" enabled="true">&SUNSET;</label>
+   <label name="zone_label" x="20" y="60" width="83" trimming="character-ellipsis" font="verdana" size="9" tooltip="&ZONE;" enabled="true">&ZONE;</label>
+
+   <label name="city_info" x="100" y="1" trimming="character-ellipsis" font="verdana" size="8"></label>
+   <label name="lon_info" x="105" y="21" width="45" align="right" font="verdana" size="8"></label>
+   <label name="lat_info" x="105" y="41" width="45" align="right" font="verdana" size="8"></label>
+   <label name="sunr_info" x="238" y="21" width="55" align="right" font="verdana" size="8"></label>
+   <label name="suns_info" x="238" y="41" width="55" align="right" font="verdana" size="8"></label>
+   <label name="zone_info" x="100" y="61" align="right" font="verdana" size="8"></label>
+   
+   <checkbox name="show_info_checkbox" x="20" y="80" width="20" height="20" image="chk_normal.png" downImage="chk_down.png" overImage="chk_over.png" checkedImage="chk_chk_normal.png" checkedDownImage="chk_chk_down.png" checkedOverImage="chk_chk_over.png" value="true" onchange="show_info_checkbox_onchange()"/>
+   <label name="show_info_label" x="40" y="82" font="verdana" size="9" tooltip="&SHOW_INFO;" enabled="true">&SHOW_INFO;</label>
+ </div>
+ <img name="info_back_bottom" width="300" height="9" x="10" y="344" src="backg_bottom_300.png"/>
+
+ <!-- Search City --> 
+ <img name="city_back_top" width="300" height="9" x="10" y="359" src="backg_top_300.png"/>
+ <div name="new_city_div" width="300" height="74" x="10" y="367" background="backg_center_300.png">
+  <label name="new_city_label" x="20" y="-2" wordWrap="true" width="270" height="50" font="verdana" size="9" tooltip="&EDIT_CITY_LABEL;" enabled="true">&EDIT_CITY_LABEL;</label>
+  <img name="edit_back" width="250" height="40" x="10" y="24" src="searchfield_background.png"/>
+  <edit name="new_city_edit" x="33" y="34" width="200" height="20" size="12" value="&EDIT_CITY_VALUE;" onfocusin="new_city_edit_onfocusin()" onfocusout="new_city_edit_onfocusout()" onkeypress="city_search_onkeypress()"/>
+  <button name="city_search_button" width="32" height="32" x="250" y="28" image="search_btn_normal.png" overImage="search_btn_over.png" downImage="search_btn_down.png" onclick="city_search_button_clicked()"/> 
+  <progressBar name="search_progress" x="33" y="60" width="200" emptyImage="progress_empty_200.png" fullImage="progress_full_200.png" min="0" max="100" orientation="horizontal" visible="false" value="0"/>
+  <label name="error_label" x="20" y="60" color="#FF0000" visible="false" font="verdana" size="7"></label>
+ </div>
+ <img name="city_back_bottom" width="300" height="9" x="10" y="440" src="backg_bottom_300.png"/>
+
+  <!-- Clock Map Zoom -->
+ <img name="zoom_back_top" width="97" height="9" x="10" y="455" src="backg_top_100.png"/>
+ <div name="zoom_div" width="97" height="50" x="10" y="464" background="backg_center_97.png">
+  <label name="zoom_label" x="5" width="90" height="50" trimming="character-ellipsis" font="verdana" size="9" tooltip="&ZOOM;" enabled="true">&ZOOM;</label>
+  <progressBar name="zoom_progress_bar" x="15" y="20" width="52" height="30" emptyImage="zoom_progress_bar_empty.png" fullImage="zoom_progress_bar_full.png" min="1" max="100" orientation="horizontal" value="0"/>
+  <button name="zoom_in_button" width="14" height="14" x="75" y="19" image="zoom_in_normal.png" overImage="zoom_in_over.png" downImage="zoom_in_down.png" onclick="zoom_in_button_clicked()"/> 
+  <button name="zoom_out_button" width="14" height="14" x="75" y="36" image="zoom_out_normal.png" overImage="zoom_out_over.png" downImage="zoom_out_down.png" onclick="zoom_out_button_clicked()"/> 
+ </div>  
+ <img name="zoom_back_bottom" width="97" height="9" x="10" y="514" src="backg_bottom_100.png"/>
+
+  <!-- Transparency -->
+ <img name="transparency_back_top" width="96" height="9" x="112" y="455" src="backg_top_100.png"/>
+ <div name="transparency_div" width="96" height="50" x="112" y="464" background="backg_center_96.png">
+  <label name="zoom_label" x="5" width="90" height="50" trimming="character-ellipsis" font="verdana" size="9" tooltip="&OPACITY;" enabled="true">&OPACITY;</label>
+  <progressBar name="transparency_progress_bar" x="10" y="30" width="75" emptyImage="progress_empty_75.png" fullImage="progress_full_75.png" thumbImage="thumb_normal_s.png" thumbOverImage="thumb_over_s.png" thumbDownImage="thumb_down_s.png" thumbDisabledImage="thumb_normal_s.png" min="0" max="255" orientation="horizontal" value="0"  enabled="true" onchange="transparency_onchange()"/>
+ </div>  
+ <img name="transparency_back_bottom" width="96" height="9" x="112" y="514" src="backg_bottom_100.png"/>
+
+  <!-- Day/Night Transition Speed -->
+ <img name="shift_back_top" width="97" height="9" x="213" y="455" src="backg_top_100.png"/>
+ <div name="shift_div" width="97" height="50" x="213" y="464" background="backg_center_97.png">
+  <label name="zoom_label" x="5" width="90" height="50" trimming="character-ellipsis" font="verdana" size="9" tooltip="&SHIFT_SPEED;" enabled="true">&SHIFT_SPEED;</label>
+  <progressBar name="shift_progress_bar" x="10" y="30" width="75" emptyImage="progress_empty_75.png" fullImage="progress_full_75.png" thumbImage="thumb_normal_s.png" thumbOverImage="thumb_over_s.png" thumbDownImage="thumb_down_s.png" thumbDisabledImage="thumb_normal_s.png" min="1" max="255" orientation="horizontal" value="0"  enabled="true" onchange="shift_onchange()"/>
+ </div>  
+ <img name="shift_back_bottom" width="97" height="9" x="213" y="514" src="backg_bottom_100.png"/>
+ 
+ <!-- The Weather Channel -->
+ <img name="twc_logo" width="32" height="32" x="10" y="524" src="TWClogo_32px.png"/>
+ <label name="twc label" x="42" y="530" width="250" height="20" size="8" color="#888888">&WEATHER_DATA_PROVIDED;</label>
+ <a x="10" y="524" width="300" height="32" href="&WEATHER_CHANNEL;"/>
+  
+</div>
+</view>

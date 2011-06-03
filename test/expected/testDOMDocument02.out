@@ -1,0 +1,10 @@
+test/dom/core/DOMDocument02.html:4: [info] Abstract value: [*native Attr]
+test/dom/core/DOMDocument02.html:5: [info] Abstract value: [@native CDATASection]
+test/dom/core/DOMDocument02.html:6: [info] Abstract value: [@native Comment]
+test/dom/core/DOMDocument02.html:7: [info] Abstract value: [@native DocumentFragment]
+test/dom/core/DOMDocument02.html:8: [info] Abstract value: [*native HTMLElement]
+test/dom/core/DOMDocument02.html:9: [info] Abstract value: [*native EntityReference]
+test/dom/core/DOMDocument02.html:10: [info] Abstract value: [*native ProcessingInstruction]
+test/dom/core/DOMDocument02.html:11: [info] Abstract value: [*native Text]
+test/dom/core/DOMDocument02.html:12: [info] Abstract value: Null
+test/dom/core/DOMDocument02.html:13: [info] Abstract value: [@native NodeList]

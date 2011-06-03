@@ -1,0 +1,3 @@
+test/wala/inherit.js:6: [definite] Unreachable function: area
+test/wala/inherit.js:41: [info] Abstract value: 15.0
+test/wala/inherit.js:42: [info] Abstract value: "rectangle"

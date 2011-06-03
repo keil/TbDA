@@ -1,0 +1,23 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+    <title>none</title>
+</head>
+<body>
+<script type="text/javascript">
+
+    var x = self;
+
+    dumpValue(x.history.back());
+    dumpValue(x.history.forward());
+    dumpValue(x.history.go(0));
+
+    dumpValue(x.location.assign("string"));
+    dumpValue(x.location.reload(true));
+    dumpValue(x.location.replace("string"));
+    dumpValue(x.location.toString());
+
+</script>
+</body>
+</html>

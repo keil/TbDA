@@ -1,0 +1,24 @@
+test/micro/testRegExp.js:28: [definite] Unreachable code
+test/micro/testRegExp.js:1: [definite] Uncaught exception, constructed at [test/micro/testRegExp.js:13, test/micro/testRegExp.js:28]
+test/micro/testRegExp.js:13: [maybe] TypeError, reading property of null/undefined
+test/micro/testRegExp.js:28: [maybe] SyntaxError in flags of RegExp constructor.
+test/micro/testRegExp.js:1: [maybe] Converting boolean to string
+test/micro/testRegExp.js:6: [maybe] Converting boolean to string
+test/micro/testRegExp.js:8: [maybe] Converting boolean to string
+test/micro/testRegExp.js:16: [maybe] Reading absent property (computed name)
+test/micro/testRegExp.js:17: [maybe] Reading absent property (computed name)
+test/micro/testRegExp.js:21: [maybe] Converting boolean to string
+test/micro/testRegExp.js:2: [info] Abstract value: [@native RegExp]
+test/micro/testRegExp.js:3: [info] Abstract value: Str
+test/micro/testRegExp.js:4: [info] Abstract value: 0.0
+test/micro/testRegExp.js:5: [info] Abstract value: true
+test/micro/testRegExp.js:7: [info] Abstract value: [@native RegExp]
+test/micro/testRegExp.js:9: [info] Abstract value: [*native RegExp, @native RegExp]
+test/micro/testRegExp.js:12: [info] Abstract value: Null|[@Array#node43]
+test/micro/testRegExp.js:13: [info] Abstract value: UInt
+test/micro/testRegExp.js:14: [info] Abstract value: Str
+test/micro/testRegExp.js:15: [info] Abstract value: UInt
+test/micro/testRegExp.js:16: [info] Abstract value: Undef|Str
+test/micro/testRegExp.js:17: [info] Abstract value: Undef|Str
+test/micro/testRegExp.js:19: [info] Abstract value: Str
+test/micro/testRegExp.js:22: [info] Abstract value: [@native RegExp]

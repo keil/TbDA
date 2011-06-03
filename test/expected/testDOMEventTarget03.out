@@ -1,0 +1,2 @@
+test/dom/events/DOMEventTarget03.html:3: [definite] TypeError, non-function event handler.
+test/dom/events/DOMEventTarget03.html:3: [info] Abstract value: Undef

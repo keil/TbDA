@@ -1,0 +1,29 @@
+<html>
+<head>
+	<title>CoreTemp</title>
+	<script type="text/javascript" language="javascript" src="scripts/update.js"></script>
+    <link href="flyout.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+    <table class="tableCls">
+        <tr style="vertical-align:text-top;	">
+            <td colspan="2">
+                <h4 id="title">1</h4>
+                <div id="version">2</div>
+                <div id="date">3</div><br />
+                <div style="overflow-y:auto; max-height:60px; display:block;" id="notes">4</div>
+                <div style="display:block;" id="infoNotesSped"><br /></div>
+                <div style="overflow-y:auto; height:205px;" id="info">5</div>
+            </td>
+        </tr>
+        <tr style="vertical-align:text-bottom">
+            <td>
+                <a href="" class="download" id="download" onclick="closeUpdateInfo();">Download</a>
+            </td>
+            <td style="text-align:right;">
+                <span onclick="closeUpdateInfo();" onmouseout="updateMouseOut(this);" onmouseover="updateMouseIn(this);" class="download">Close</span>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>

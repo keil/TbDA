@@ -1,0 +1,3 @@
+test/dom/canvas/Canvas09.html:4: [definite] TypeError, argument is not of expected type.
+test/dom/canvas/Canvas09.html:3: [info] Prototype: [@native CanvasRenderingContext2D.prototype] -> [@native Object.prototype]
+test/dom/canvas/Canvas09.html:4: [info] Abstract value: Undef

@@ -1,0 +1,44 @@
+<html xmlns:v="urn:schemas-microsoft-com:vml">
+<head>
+	<title>CoreTemp</title>
+	<script type="text/javascript" language="javascript" src="scripts/libhelper.js"></script>
+	<script type="text/javascript" language="javascript" src="scripts/gadget.js"></script>
+	<script type="text/javascript" language="javascript" src="scripts/update.js"></script>
+    <link href="gadget.css" rel="stylesheet" type="text/css" />
+	<style>v\:* { behavior: url(#default#VML); position:absolute; }</style>
+</head>
+<body onload="onLoad();" onunload="FreeLibrary();" >
+    <g:background id="background" src="images/orb_back.png" style="top:0px; left:0px; width:160px; height:112px; z-index:0; background-attachment:fixed;  " />
+	
+    <img id="cpuLogo" src="images/logos/cpu32.png" style="position:absolute;top:8px;left:8px; width:32px; height:32px"/>
+	<div id="gadgetTitle" style="position:absolute;font-size:14; top:6px;  left:4px; width:152px; text-align:center; color:White; font-weight:bold; padding-left:32px; "> - Core Temp - </div>
+	<div id="cpuName" style="position:absolute;font-size:12; top:23px; left:4px; height:16px; width:152px; text-align:center; color:7CCDFF; overflow:hidden; padding-left:32px; "></div>
+	<div id="cpuClock" style="position:absolute;font-size:11; top:38px; left:4px; width:152px; text-align:center; color:7CCDFF; "></div>
+	<div id="cpuInfo" style="position:absolute;font-size:11; top:52px; left:4px; width:152px; text-align:center; color:7CCDFF; "></div>
+	<div id="ramInfo" style="position:absolute;font-size:11; top:66px; left:4px; width:152px; text-align:center; color:7CCDFF; "></div>
+    <a style="position:absolute;font-size:13; top:40px; left:8px; width:144px; text-align:center; visibility:hidden;" 
+        id="getCoreTemp" href="http://www.alcpu.com/CoreTemp/" class="ct" >Get <b>Core Temp</b></a>
+	
+    <div id="Cores" style='width:inherit;height:inherit;top:0;left:0;position:absolute; visibility:hidden;'>
+        <div id="Core0" style="position:absolute;font-size:11; top:80px; left:0px; width:152px; color:Gainsboro ; ">
+            <div id="temp" style="position:absolute;top:0px;left:79px"></div>
+            <div id="load" style="text-align:right; position:absolute;top:0px;width:152px;left:0px"></div>
+            <img id="back" src="images/barback.png" style="position:absolute;top:4px;left:8px; width:60px; height:8px"/>
+            <div id="bar" style="position:absolute;overflow:hidden; width:25px; height:2px; left:8px;top:4px">
+	            <img id="imgbar" src="images/bar.png" style="top:0px;left:0px;width:60px; height:6px" /></div>
+        </div>
+    </div>
+
+    <div id="Graphs" style='width:160;height:42;top:130;left:0;position:absolute;'>
+        <v:shape id="linesX" style='width:140;height:40;top:1;left:9;position:absolute;' filled="false" strokecolor="#2F4F4F" strokeweight="1pt"  
+            coordorigin="0 0" coordsize="140 40"path=" m 5,40 l 5,0  m 15,40 l 15,0  m 25,40 l 25,0  m 35,40 l 35,0  m 45,40 l 45,0  m 55,40 l 55,0  m 65,40 l 65,0  m 75,40 l 75,0  m 85,40 l 85,0  m 95,40 l 95,0  m 105,40 l 105,0  m 115,40 l 115,0  m 125,40 l 125,0  m 135,40 l 135,0  m 140,40 l 140,0  "/>
+        <v:shape id="linesY" style='width:140;height:40;top:1;left:9;position:absolute;' filled="false" strokecolor="#2F4F4F" strokeweight="1pt"  
+            coordorigin="0 0" coordsize="140 40"path=" m 140,5 l 0,5  m 140,15 l 0,15  m 140,25 l 0,25  m 140,35 l 0,35 "/>
+        <v:shape id="Core0Graph" style="width:140;height:40;top:1;left:9;position:absolute;" filled="false" strokecolor="#9c640a" strokeweight="1pt" fillcolor="#9c640a" coordorigin="0 0" coordsize="140 100"path=" m 140,13 l 0,13"/>
+        <v:rect id="graphsFrame" style="left:8;top:0;width:142;height:42" filled="false" strokecolor="gray"  strokeweight="1pt"/>
+    </div>
+    
+    <div style="position:absolute;font-size:13; top:178px; left:4px; width:152px; text-align:center; visibility:hidden;" onclick="openUpdateInfo();"
+        id="gadgetVersion" onmouseout="updateMouseOut(this);" onmouseover="updateMouseIn(this);" class="update">Version <b>2.2</b> is available!</div>
+</body>
+</html>

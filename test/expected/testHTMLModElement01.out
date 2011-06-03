@@ -1,0 +1,3 @@
+test/dom/html/HTMLModElement01.html:4: [info] Abstract value: [*native HTMLModeElement]
+test/dom/html/HTMLModElement01.html:5: [info] Abstract value: Str
+test/dom/html/HTMLModElement01.html:6: [info] Abstract value: Str

@@ -1,0 +1,3 @@
+test/micro/test104.js:12: [definite] ReferenceError, reading absent variable: a
+test/micro/test104.js:17: [definite] Unreachable code
+test/micro/test104.js:1: [definite] Uncaught exception, constructed at [test/micro/test104.js:12]

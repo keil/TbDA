@@ -1,0 +1,14 @@
+test/micro/test65.js:9: [maybe] Reading absent property (computed name)
+test/micro/test65.js:12: [maybe] Reading absent property (computed name)
+test/micro/test65.js:5: [info] Abstract value: Str
+test/micro/test65.js:9: [info] Abstract value: Undef|42.0|[@native Object, @native Object.prototype.toString, @native Object.prototype.toLocaleString, @native Object.prototype.valueOf, @native Object.prototype.hasOwnProperty, @native Object.prototype.isPrototypeOf, @native Object.prototype.propertyIsEnumerable]
+test/micro/test65.js:12: [info] Abstract value: Undef|42.0|"foo"|[@native Object, @native Object.prototype.toString, @native Object.prototype.toLocaleString, @native Object.prototype.valueOf, @native Object.prototype.hasOwnProperty, @native Object.prototype.isPrototypeOf, @native Object.prototype.propertyIsEnumerable]
+test/micro/test65.js:13: [info] Abstract value: 42.0|"foo"
+test/micro/test65.js:20: [info] Abstract value: 487.0
+test/micro/test65.js:25: [info] Abstract value: false
+test/micro/test65.js:28: [info] Abstract value: true
+test/micro/test65.js:29: [info] Abstract value: Bool
+test/micro/test65.js:30: [info] Abstract value: false
+test/micro/test65.js:32: [info] Abstract value: "number"
+test/micro/test65.js:43: [info] Abstract object: {a:123.0,[[Prototype]]=[@native Object.prototype]}
+test/micro/test65.js:45: [info] Abstract object: {[[Prototype]]=[@Object#node107]}

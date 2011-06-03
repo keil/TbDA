@@ -1,0 +1,3 @@
+test/dom/core/DOMText01.html:4: [info] Abstract value: [*native Text]
+test/dom/core/DOMText01.html:5: [info] Prototype: [@native Text.prototype] -> [@native CharacterData.prototype] -> [@native Node.prototype] -> [@native Object.prototype]
+test/dom/core/DOMText01.html:7: [info] Abstract value: [@native Text.prototype.splitText]

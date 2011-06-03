@@ -1,0 +1,25 @@
+﻿<gadget minimumGoogleDesktopVersion="5.8.0.0">
+  <platform>
+    <windows minimumGadgetHostVersion="5.8.0.0"/>
+    <mac minimumGadgetHostVersion="1.0.0.0"/>
+    <linux minimumGadgetHostVersion="0.10.4"/>
+  </platform>
+  <about>
+    <name>&GADGET_NAME;</name>
+    <description>&GADGET_DESCRIPTION;</description>
+    <aboutText>&GADGET_ABOUT_TEXT;
+
+&GADGET_VERSION;</aboutText>
+    <smallIcon>icon_small.png</smallIcon>
+    <icon>icon_large.png</icon>
+    <version>&GADGET_VERSION;</version>
+    <category>google,lifestyle,tools</category>
+    <author>Google</author>
+    <authorWebsite>http://desktop.google.com/plugins.html</authorWebsite>
+    <id>E70A0197-C815-49D1-87FC-D9B3738072C0</id>
+    <copyright>Copyright 2009 Google Inc. All Rights Reserved.</copyright>
+    <authorEmail></authorEmail>
+    <displayAPI usesNotifier="true"></displayAPI>
+    <personalizationAPI />
+  </about>
+</gadget>

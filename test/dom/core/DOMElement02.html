@@ -1,0 +1,31 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+    <title>none</title>
+</head>
+<body>
+<script type="text/javascript">
+
+    var x = Element;
+    var y = Attr;
+
+    dumpValue(x.getAttribute("string"));
+    dumpValue(x.getAttributeNS("string", "string"));
+    dumpValue(x.getAttributeNode("string"));
+    dumpValue(x.getAttributeNodeNS("string", "string"));
+    dumpValue(x.getElementsByTagName("string"));
+    dumpValue(x.getElementsByTagNameNS("string", "string"));
+    dumpValue(x.hasAttribute("string"));
+    dumpValue(x.hasAttributeNS("string", "string"));
+    dumpValue(x.removeAttribute("string"));
+    dumpValue(x.removeAttributeNS("string", "string"));
+    dumpValue(x.removeAttributeNode(y));
+    dumpValue(x.setAttribute("string", "string"));
+    dumpValue(x.setAttributeNS("string", "string", "string"));
+    dumpValue(x.setAttributeNode(y));
+    dumpValue(x.setAttributeNodeNS(y))
+
+</script>
+</body>
+</html>

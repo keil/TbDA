@@ -1,0 +1,5 @@
+test/dom/core/DOMImplementation01.html:2: [info] Abstract value: [@native DOMImplementation.prototype]
+test/dom/core/DOMImplementation01.html:3: [info] Abstract value: [*native DOMImplementation]
+test/dom/core/DOMImplementation01.html:5: [info] Abstract value: [@native hasFeature]
+test/dom/core/DOMImplementation01.html:6: [info] Abstract value: [@native createDocumentType]
+test/dom/core/DOMImplementation01.html:7: [info] Abstract value: [@native createDocument]

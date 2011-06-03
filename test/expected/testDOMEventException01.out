@@ -1,0 +1,4 @@
+test/dom/events/DOMEventException01.html:3: [info] Abstract value: [*native EventException]
+test/dom/events/DOMEventException01.html:4: [info] Prototype: [@native EventException.prototype] -> [@native Object.prototype]
+test/dom/events/DOMEventException01.html:6: [info] Abstract value: UInt
+test/dom/events/DOMEventException01.html:7: [info] Abstract value: 0.0

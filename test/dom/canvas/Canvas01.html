@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Canvas Primer - Example: Using paths</title>
+</head>
+<body>
+<p>
+    <canvas id="myCanvas" width="300" height="150">Your browser does not have support for Canvas.
+    </canvas>
+</p>
+<script type="text/javascript">
+    // Get the canvas element.
+    var elem = document.getElementById('myCanvas');
+
+    // Get the canvas 2d context.
+    var context = elem.getContext('2d');
+
+    context.fillStyle = '#00f';
+    context.strokeStyle = '#f00';
+    context.lineWidth = 4;
+
+    // Draw a line, then a Bèzier curve.
+    context.beginPath();
+    context.moveTo(10, 10);
+    context.lineTo(100, 100);
+    context.moveTo(150, 100);
+
+    // Arguments: cp1x, cp1y, cp2x, cp2y, x, y
+    // cp = control point.
+    context.bezierCurveTo(180, 30, 250, 180, 300, 100);
+    context.stroke();
+    context.closePath();
+
+    // Draw a circle using the arc function.
+    context.beginPath();
+
+    // Arguments: x, y, radius, start angle, end angle, anticlockwise
+    context.arc(125, 115, 30, 0, 360, false);
+    context.stroke();
+    context.closePath();
+</script>
+</body>
+</html>

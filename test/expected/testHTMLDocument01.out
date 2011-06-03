@@ -1,0 +1,17 @@
+test/dom/html/HTMLDocument01.html:4: [info] Abstract value: [*native HTMLDocument]
+test/dom/html/HTMLDocument01.html:5: [info] Abstract value: Str
+test/dom/html/HTMLDocument01.html:6: [info] Abstract value: Str
+test/dom/html/HTMLDocument01.html:7: [info] Abstract value: Str
+test/dom/html/HTMLDocument01.html:8: [info] Abstract value: Str
+test/dom/html/HTMLDocument01.html:9: [info] Abstract value: [*native HTMLBodyElement]
+test/dom/html/HTMLDocument01.html:10: [info] Abstract value: [*native HTMLCollection]
+test/dom/html/HTMLDocument01.html:11: [info] Abstract value: [*native HTMLCollection]
+test/dom/html/HTMLDocument01.html:12: [info] Abstract value: [*native HTMLCollection]
+test/dom/html/HTMLDocument01.html:13: [info] Abstract value: [*native HTMLCollection]
+test/dom/html/HTMLDocument01.html:14: [info] Abstract value: [*native HTMLCollection]
+test/dom/html/HTMLDocument01.html:15: [info] Abstract value: Str
+test/dom/html/HTMLDocument01.html:17: [info] Abstract value: [@native HTMLDocument.prototype.open]
+test/dom/html/HTMLDocument01.html:18: [info] Abstract value: [@native HTMLDocument.prototype.close]
+test/dom/html/HTMLDocument01.html:19: [info] Abstract value: [@native HTMLDocument.prototype.write]
+test/dom/html/HTMLDocument01.html:20: [info] Abstract value: [@native HTMLDocument.prototype.writeln]
+test/dom/html/HTMLDocument01.html:21: [info] Abstract value: [@native HTMLDocument.prototype.getElementsByName]

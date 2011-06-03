@@ -1,0 +1,4 @@
+test/micro/test42.js:11: [definite] TypeError, call to non-function
+test/micro/test42.js:11: [definite] Unreachable code
+test/micro/test42.js:1: [definite] Uncaught exception, constructed at [test/micro/test42.js:11]
+test/micro/test42.js:10: [info] Abstract value: 1.0|"sdf"|[@Object#node21]

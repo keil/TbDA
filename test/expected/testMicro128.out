@@ -1,0 +1,2 @@
+test/micro/test128.js:19: [definite] Reading 'this' yields the global object
+test/micro/test128.js:18: [info] Abstract value: [*Object#node15]

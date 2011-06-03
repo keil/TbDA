@@ -1,0 +1,21 @@
+<gadget minimumGoogleDesktopVersion="5.8.0.0">
+  <platform>
+    <windows minimumGadgetHostVersion="5.8.0.0"/>
+    <linux minimumGadgetHostVersion="0.10.3"/>
+  </platform>
+  <about>
+    <id>346F5B4E-0285-4b14-89E8-ED967CF349C7</id>
+    <version>&VERSION_STRING;</version>
+    <author>Google Inc.</author>
+    <authorEmail></authorEmail>
+    <authorWebsite>http://desktop.google.com/plugins.html</authorWebsite>
+    <name>&GADGET_NAME;</name>
+    <description>&GADGET_DESCRIPTION;</description>
+    <aboutText>&GADGET_ABOUT_TEXT;
+
+&VERSION_STRING;</aboutText>
+    <smallIcon>icon24_youtube.png</smallIcon>
+    <icon>icon32_youtube.png</icon>
+    <category>google,fun_games,lifestyle</category>
+  </about>
+</gadget>

@@ -1,0 +1,5 @@
+test/dom/html/HTMLDocument02.html:4: [info] Abstract value: Undef
+test/dom/html/HTMLDocument02.html:5: [info] Abstract value: Undef
+test/dom/html/HTMLDocument02.html:6: [info] Abstract value: Undef
+test/dom/html/HTMLDocument02.html:7: [info] Abstract value: Undef
+test/dom/html/HTMLDocument02.html:8: [info] Abstract value: [@native NodeList]

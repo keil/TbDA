@@ -1,0 +1,2 @@
+test/dom/core/DOMEntityReference01.html:4: [info] Abstract value: [*native EntityReference]
+test/dom/core/DOMEntityReference01.html:5: [info] Prototype: [@native EntityReference.prototype] -> [@native Node.prototype] -> [@native Object.prototype]

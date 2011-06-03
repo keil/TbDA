@@ -1,0 +1,4 @@
+test/resig/ejohn34.js:8: [definite] Variable is null/undefined: user
+test/resig/ejohn34.js:2: [definite] Reading 'this' yields the global object
+test/resig/ejohn34.js:7: [info] Abstract value: "undefined"
+test/resig/ejohn34.js:8: [info] Abstract value: Undef

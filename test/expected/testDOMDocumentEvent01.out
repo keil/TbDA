@@ -1,0 +1,3 @@
+test/dom/events/DOMDocumentEvent01.html:3: [info] Abstract value: [*native DocumentEvent]
+test/dom/events/DOMDocumentEvent01.html:4: [info] Prototype: [@native DocumentEvent.prototype] -> [@native Object.prototype]
+test/dom/events/DOMDocumentEvent01.html:6: [info] Abstract value: [@native DocumentEvent.createEvent]

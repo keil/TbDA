@@ -1,0 +1,14 @@
+test/sunspider/access-nbody.js:91: [maybe] TypeError, reading property of null/undefined
+test/sunspider/access-nbody.js:107: [maybe] TypeError, reading property of null/undefined
+test/sunspider/access-nbody.js:107: [maybe] TypeError, reading property of null/undefined
+test/sunspider/access-nbody.js:126: [maybe] TypeError, reading property of null/undefined
+test/sunspider/access-nbody.js:140: [maybe] TypeError, reading property of null/undefined
+test/sunspider/access-nbody.js:147: [maybe] TypeError, reading property of null/undefined
+test/sunspider/access-nbody.js:1: [maybe] Uncaught exception, constructed at [test/sunspider/access-nbody.js:91, test/sunspider/access-nbody.js:107, test/sunspider/access-nbody.js:126, test/sunspider/access-nbody.js:140, test/sunspider/access-nbody.js:147]
+test/sunspider/access-nbody.js:90: [maybe] Reading absent property (computed name)
+test/sunspider/access-nbody.js:104: [maybe] Reading absent property (computed name)
+test/sunspider/access-nbody.js:106: [maybe] Reading absent property (computed name)
+test/sunspider/access-nbody.js:125: [maybe] Reading absent property (computed name)
+test/sunspider/access-nbody.js:138: [maybe] Reading absent property (computed name)
+test/sunspider/access-nbody.js:146: [maybe] Reading absent property (computed name)
+test/sunspider/access-nbody.js:178: [info] Abstract value: UInt

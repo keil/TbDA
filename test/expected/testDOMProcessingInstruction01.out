@@ -1,0 +1,4 @@
+test/dom/core/DOMProcessingInstruction01.html:5: [info] Abstract value: [*native ProcessingInstruction]
+test/dom/core/DOMProcessingInstruction01.html:6: [info] Prototype: [@native ProcessingInstruction.prototype] -> [@native Node.prototype] -> [@native Object.prototype]
+test/dom/core/DOMProcessingInstruction01.html:7: [info] Abstract value: Str
+test/dom/core/DOMProcessingInstruction01.html:8: [info] Abstract value: Str

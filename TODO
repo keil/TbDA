@@ -1,0 +1,207 @@
+* window.setTimeout:
+  - occurrences of window.setTimeout("someFunction(arg1 ... argn);", x) is converted to:
+    window.setTimeout(function() { someFunction(arg1 ... argn); }, x).
+  - Because of hack in DOMWindow, where setTimeout can only handle functions of no arguments.
+  - Rewrite done in Chrome Experiments number 033.html and 034.html.
+  
+* Chrome experiments
+    ** 015.html:
+        - medium precision
+        - uses lots of onload / onunload event binders
+        - challenging
+        - dead code found
+    ** 018.html:
+        - lots of warnings
+    ** 022.html:
+        - precision problems with arrays
+        - dead code found
+        - real errors found
+    ** 026.html
+        - lots and lots of maybe's (mostly null/undef and maybe reading undef)
+    ** 029.html
+        - lots of maybe's
+        - medium precision
+        - finds usages of non-standard features
+    ** 033.html:
+        - unreachable code probably due to problem on line 739 in BlockState.
+    ** 099.html:
+        - commented safari-specific touch-events.
+    ** 076.html:
+        - good precision
+        - some spurious maybe's
+    ** 077.html:
+        - good precision
+        - real errors found
+        - commented IE-specific offsetLeft and offsetTop (lines 183/184).
+  
+* Other tests:
+    ** 3dmodel: out of memory exception (Java Heap Space)
+    ** ajaxtabscontent (demo.htm):
+        - had to remove spaces before code in <a href="javascript: foo()">, otherwise the space gets expanded to %20.
+        - line 32-53 def. unreachable code is good, needs implementation of ActiveXObject and XmlHTTPRequest
+        - line 49 def. unreachable function is correct (triggered by HTML5 event)
+        - line 56 def. unreachable function is correct (triggered by HTML5 event)
+        - line 66 def. unreachable function is correct.
+        - line 82 def. unreachable function is wrong - because of lines 145-160
+        - line 88 def. unreachable function is wrong - called by href="javascript:..."
+        - line 92, 94, 95, 99 def. unreachable is wrong. (called by href="javascript:...")
+        - line 93 def. unreachable is good
+        - line 104, 107 def. unreachable is wrong - called by a href="javascript:...".
+        - line 127 def. unreachable is good.
+        - line 130-131 def. unreachable is probably wrong - reported due to 209-223 and 145-160
+        - line 145-160 def. unreachable code is wrong - because of type error on line 145 (call property of null/undefined). Happens b/c line 231
+        - line 165 def. unreachable is good
+        - line 169 def. unreachable is good - due to exception line 164
+        - line 176, 184 def. unreachable function is wrong - because of wrong def. unreachable code line 145-160
+        - line 193 def. unreachable function is good.
+        - line 199 def. unreachable is good - autoruntimer never set.
+        - line 206 def. undef is correct
+        - line 207 def. undef is correct - probably disappears when/if innerHTML magic property is implemented
+        - line 209-223 def. unreachable is wrong - probably due to array usage?
+        - line 228 def. unreachable is wrong - correct execution of program always updates selectedtab.
+        - line 233-234 def. unreachable (function) is good.
+
+        NOTES:
+            -- Main problem for unreachable code seems to be the way arrays are handled.
+            -- if one object of a group, that are all assigned a lambda function as event-handler (onclick) as part of a loop
+               does not get assigned that handler, will the analysis report it as unreachable (seeing as they are different
+               function objects)?
+               Might explain why line 214 gets marked def. unreachable
+            -- if (elem.getAttribute("someattribute") { ... } else { ... } - good enough? Responsible for some def. unreachable code.
+    ** ball_pool: NegativeArraySizeException starting from line 52 in JSString.java
+    ** chrome-canopy-read-only:
+        - renamed index.php to index.html to get it past parsing.
+        - takes > 10min - have not run it to completion.
+    ** google_pacman:
+        - dynamic import of .js files using createElement and .type/.src attributes.
+        - report of unreachable code is ~3000 lines 
+        - got around this by manually importing .js files in index.html, but we need to support dynamic script import?
+        - it seems like most of the code should be unreachable as reported... ?
+    ** homeostasis:
+        - commented out "sylvester.js", as it uses eval().
+        - worklist grows to > 800, and keeps growing...
+        - stops with UnsupportedOperationException due to a call to UnmodifiableCollection.add() in Value.joinObject(), Value.java line 1651. 
+
+
+* General notes:
+    ** Observed an occurrence of a ConcurrentModificatonException, with last TAJS point in callFunction.
+    ** Would be nice if the analysis would ignore known libraries like Ext, Prototype.
+
+--------------------
+Questions:
+* This makes an error report as maybe when it is a definite (FunctionCalls.java : 347):
+    				if (returnval.isMaybeValue())
+					c.addMessage(n, Status.NONE, Severity.LOW, msgkey, "");
+  -- Why do we need it?
+
+  
+--------------------
+
+* nativefunctions:
+  - RegExp
+  - see FIXMEs
+  - 'eval' and Function(...)
+    
+* Conversion & Operators
+  - FIXMEs
+
+* NodeTransfer
+  - 'with' and 'for-in' need testing
+  - better transfer function for 'for-in'
+  - allow access to __proto__? (optionally)
+  - see FIXMEs
+  
+* js2flowgraph
+  - improve AssertNode at conditionals?
+  - avoid making return nodes for the top-level function?
+  
+* tests
+  - micro (check output, 'for-in', 'finally')
+  - resig (check output, 'for-in', HTML DOM, ...)
+  - v8tests (check output, 'finally', ...)
+  - wala (check output, 'for-in')
+  - sunspider
+  - google (note: new AssumeNodes have caused better precision!)
+ (- ajaxslt, ajaxim, mochikit, ...?)
+  - test context sensitivity
+  - coverage tests
+  
+* solver
+  - sub-nodes at messages (see NodeTransfer FIXME)
+  
+* lattice
+  - represent object kinds in Obj instead of ObjectLabel?
+     - see micro/test19.js
+     - would then have to add 'sub' to ObjectLabel to distinguish different object labels from same node
+
+---------
+
+- prefuse: http://prefuse.org/doc/manual/introduction/example/
+- jung: http://jung.sourceforge.net
+
+- run timing tests with -server (as VM argument) and -timing (as TAJS argument) (?)
+
+------
+
+event handlers: wrap in function, unwrap after parse
+	* test case
+
+add -library option to main
+	* ignore dead code warnings for libraries
+
+hand-fix setTimeout/interval in benchmarks
+
+FLAPJAX demos
+
+PetStore 2.0 (Sun)
+
+Status AJAX
+    * implement XMLHttpRequestObject and ActiveXObject as properties on Window
+	* return values as json?
+	* option -jsonAJAX to assume return from AJAX functions is JSON
+	* extend Value - String sublattice of JSON strings
+
+    -------
+
+Parse frames with javascript (CoachJezelf)
+
+Gadgets: how many with flash?!
+	* External code with flash?
+
+later: study of eval in sites
+use of eval in libraries
+	* Function, eval, setTimeout, setInterval
+	* code string?
+
+;; Other APIs, Google Desktop Gadgets, Windows Live, Browser plugins (Chrome firefox)
+
+------
+
+* what is the typical length of a prototype chain? -- see Vitek's SOP'09 paper (compare dynamic vs. static analysis?)
+* is the length and structure of the prototype hierarchy hardwired in
+ the code or is it dynamically determined?
+* what is the typical number of properties of an object?
+* how many of these are prototype properties?
+* are prototype properties typically functions?
+ (i.e., are they typically used to implement method delegation?)
+* how often are prototype properties accessed (out of all property accesses)
+** through the delegating object
+** directly
+* how often are prototype properties modified
+** through the delegating object
+** directly
+* how often are singleton objects used?
+* are prototype objects singletons?
+* how often are factories used?
+ Reason: suppose we are creating a group of objects using the same
+ factory and then perform some initialization on them. If all objects
+ have the same creation side, then only one of them will carry
+ precise type information.
+ Example: create some nodes for a graph and connect them using edges
+ Example: create some DOM nodes, modify them (add attributes etc),
+ and put them together in some document
+* Is it true that: following an initialization phase, programs rarely
+ add a new property to an object or change the type of a property
+* Conditionals with constant condition (constant propagation)
+* Identify initialization code that does not depend on user input 
+

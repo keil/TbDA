@@ -1,0 +1,4 @@
+test/dom/core/DOMStringList02.html:4: [info] Abstract value: [*native StringList]
+test/dom/core/DOMStringList02.html:5: [info] Prototype: [@native StringList.prototype] -> [@native Object.prototype]
+test/dom/core/DOMStringList02.html:7: [info] Abstract value: Null|Str
+test/dom/core/DOMStringList02.html:8: [info] Abstract value: Bool

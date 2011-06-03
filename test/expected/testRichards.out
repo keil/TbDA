@@ -1,0 +1,87 @@
+test/google/richards.js:6: [definite] ReferenceError, reading absent variable: document
+test/google/richards.js:116: [definite] Variable is null/undefined: queue
+test/google/richards.js:146: [definite] Variable is null/undefined: queue
+test/google/richards.js:157: [definite] Variable is null/undefined: queue
+test/google/richards.js:58: [definite] Unreachable code
+test/google/richards.js:345: [definite] Unreachable function
+test/google/richards.js:375: [definite] Unreachable function
+test/google/richards.js:402: [definite] Unreachable function
+test/google/richards.js:439: [definite] Unreachable function
+test/google/richards.js:482: [definite] Unreachable function
+test/google/richards.js:526: [definite] Unreachable function
+test/google/richards.js:180: [maybe] TypeError, reading property of null/undefined
+test/google/richards.js:181: [maybe] TypeError, reading property of null/undefined
+test/google/richards.js:183: [maybe] TypeError, reading property of null/undefined
+test/google/richards.js:196: [maybe] TypeError, reading property of null/undefined
+test/google/richards.js:231: [maybe] TypeError, reading property of null/undefined
+test/google/richards.js:236: [maybe] TypeError, reading property of null/undefined
+test/google/richards.js:317: [maybe] TypeError, reading property of null/undefined
+test/google/richards.js:340: [maybe] TypeError, call to non-function
+test/google/richards.js:428: [maybe] TypeError, writing property of null/undefined
+test/google/richards.js:433: [maybe] TypeError, writing property of null/undefined
+test/google/richards.js:456: [maybe] TypeError, reading property of null/undefined
+test/google/richards.js:457: [maybe] TypeError, call to non-function
+test/google/richards.js:459: [maybe] TypeError, call to non-function
+test/google/richards.js:463: [maybe] TypeError, reading property of null/undefined
+test/google/richards.js:468: [maybe] TypeError, reading property of null/undefined
+test/google/richards.js:469: [maybe] TypeError, reading property of null/undefined
+test/google/richards.js:469: [maybe] TypeError, reading property of null/undefined
+test/google/richards.js:469: [maybe] TypeError, writing property of null/undefined
+test/google/richards.js:470: [maybe] TypeError, writing property of null/undefined
+test/google/richards.js:475: [maybe] TypeError, reading property of null/undefined
+test/google/richards.js:520: [maybe] TypeError, reading property of null/undefined
+test/google/richards.js:231: [maybe] Reading absent property: id
+test/google/richards.js:317: [maybe] Reading absent property: link
+test/google/richards.js:340: [maybe] Reading absent property: addTo
+test/google/richards.js:364: [maybe] Reading absent property: count
+test/google/richards.js:365: [maybe] Reading absent property: count
+test/google/richards.js:431: [maybe] Reading absent property: v2
+test/google/richards.js:432: [maybe] Reading absent property: v2
+test/google/richards.js:433: [maybe] Reading absent property: a2
+test/google/richards.js:433: [maybe] Reading absent property: v2
+test/google/richards.js:456: [maybe] Reading absent property: kind
+test/google/richards.js:457: [maybe] Reading absent property: addTo
+test/google/richards.js:459: [maybe] Reading absent property: addTo
+test/google/richards.js:459: [maybe] Reading absent property: v2
+test/google/richards.js:463: [maybe] Reading absent property: a1
+test/google/richards.js:466: [maybe] Reading absent property: v2
+test/google/richards.js:467: [maybe] Reading absent property: v2
+test/google/richards.js:468: [maybe] Reading absent property: link
+test/google/richards.js:468: [maybe] Reading absent property: v2
+test/google/richards.js:469: [maybe] Reading absent property: a2
+test/google/richards.js:475: [maybe] Reading absent property: link
+test/google/richards.js:520: [maybe] Reading absent property: link
+test/google/richards.js:1: [maybe] Uncaught exception, constructed at [test/google/richards.js:180, test/google/richards.js:181, test/google/richards.js:183, test/google/richards.js:196, test/google/richards.js:231, test/google/richards.js:236, test/google/richards.js:317, test/google/richards.js:340, test/google/richards.js:428, test/google/richards.js:433, test/google/richards.js:456, test/google/richards.js:457, test/google/richards.js:459, test/google/richards.js:463, test/google/richards.js:468, test/google/richards.js:469, test/google/richards.js:470, test/google/richards.js:475, test/google/richards.js:520]
+test/google/richards.js:194: [maybe] Reading absent property (computed name)
+test/google/richards.js:231: [maybe] Converting primitive number to object
+test/google/richards.js:231: [maybe] Reading absent property (computed name)
+test/google/richards.js:234: [maybe] Converting primitive number to object
+test/google/richards.js:235: [maybe] Converting primitive number to object
+test/google/richards.js:317: [maybe] Converting primitive number to object
+test/google/richards.js:340: [maybe] Converting primitive number to object
+test/google/richards.js:340: [maybe] Converting primitive number to object
+test/google/richards.js:364: [maybe] Conversion to number yields NaN
+test/google/richards.js:366: [maybe] Conversion to number yields NaN
+test/google/richards.js:367: [maybe] Conversion to number yields NaN
+test/google/richards.js:370: [maybe] Conversion to number yields NaN
+test/google/richards.js:428: [maybe] Converting primitive number to object
+test/google/richards.js:429: [maybe] Converting primitive number to object
+test/google/richards.js:431: [maybe] Conversion to number yields NaN
+test/google/richards.js:432: [maybe] Conversion to number yields NaN
+test/google/richards.js:433: [maybe] Converting primitive number to object
+test/google/richards.js:456: [maybe] Converting primitive number to object
+test/google/richards.js:457: [maybe] Converting primitive number to object
+test/google/richards.js:457: [maybe] Converting primitive number to object
+test/google/richards.js:459: [maybe] Converting primitive number to object
+test/google/richards.js:459: [maybe] Converting primitive number to object
+test/google/richards.js:463: [maybe] Converting primitive number to object
+test/google/richards.js:465: [maybe] Conversion to number yields NaN
+test/google/richards.js:468: [maybe] Converting primitive number to object
+test/google/richards.js:469: [maybe] Converting primitive number to object
+test/google/richards.js:469: [maybe] Converting primitive number to object
+test/google/richards.js:469: [maybe] Reading absent property (computed name)
+test/google/richards.js:470: [maybe] Conversion to number yields NaN
+test/google/richards.js:470: [maybe] Converting primitive number to object
+test/google/richards.js:475: [maybe] Converting primitive number to object
+test/google/richards.js:520: [maybe] Converting primitive number to object
+test/google/richards.js:522: [maybe] Converting primitive number to object

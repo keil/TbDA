@@ -1,0 +1,13 @@
+test/chrome/077.html:31: [definite] Unreachable code
+test/chrome/077.html:182: [definite] Unreachable code
+test/chrome/077.html:217: [definite] Unreachable function: rect
+test/chrome/077.html:220: [definite] Unreachable code
+test/chrome/077.html:221: [definite] Unreachable code
+test/chrome/077.html:222: [definite] Unreachable code
+test/chrome/077.html:87: [maybe] TypeError, reading property of null/undefined
+test/chrome/077.html:1: [maybe] Uncaught exception, constructed at [test/chrome/077.html:87]
+test/chrome/077.html:65: [maybe] Conversion to number yields NaN
+test/chrome/077.html:66: [maybe] Conversion to number yields NaN
+test/chrome/077.html:86: [maybe] Reading absent property (computed name)
+test/chrome/077.html:92: [maybe] Conversion to number yields NaN
+test/chrome/077.html:93: [maybe] Conversion to number yields NaN

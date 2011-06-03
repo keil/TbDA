@@ -1,0 +1,2 @@
+test/dom/core/DOMCDataSection01.html:4: [info] Abstract value: [*native CDATASection]
+test/dom/core/DOMCDataSection01.html:5: [info] Prototype: [@native CDATASection.prototype] -> [@native Text.prototype] -> [@native CharacterData.prototype] -> [@native Node.prototype] -> [@native Object.prototype]

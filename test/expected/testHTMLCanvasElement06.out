@@ -1,0 +1,17 @@
+test/dom/canvas/Canvas06.html:3: [info] Prototype: [@native CanvasRenderingContext2D.prototype] -> [@native Object.prototype]
+test/dom/canvas/Canvas06.html:4: [info] Abstract value: [*native HTMLCanvasElement]
+test/dom/canvas/Canvas06.html:5: [info] Abstract value: 1.0
+test/dom/canvas/Canvas06.html:6: [info] Abstract value: "source-over"
+test/dom/canvas/Canvas06.html:7: [info] Abstract value: Bool|Num|Str
+test/dom/canvas/Canvas06.html:8: [info] Abstract value: Bool|Num|Str
+test/dom/canvas/Canvas06.html:9: [info] Abstract value: 1.0
+test/dom/canvas/Canvas06.html:10: [info] Abstract value: "butt"
+test/dom/canvas/Canvas06.html:11: [info] Abstract value: "miter"
+test/dom/canvas/Canvas06.html:12: [info] Abstract value: 10.0
+test/dom/canvas/Canvas06.html:13: [info] Abstract value: 0.0
+test/dom/canvas/Canvas06.html:14: [info] Abstract value: 0.0
+test/dom/canvas/Canvas06.html:15: [info] Abstract value: 0.0
+test/dom/canvas/Canvas06.html:16: [info] Abstract value: "transparent black"
+test/dom/canvas/Canvas06.html:17: [info] Abstract value: "10px sans-serif"
+test/dom/canvas/Canvas06.html:18: [info] Abstract value: "start"
+test/dom/canvas/Canvas06.html:19: [info] Abstract value: "alphabetic"

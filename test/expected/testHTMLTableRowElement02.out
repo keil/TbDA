@@ -1,0 +1,3 @@
+test/dom/html/HTMLTableRowElement02.html:4: [info] Abstract value: [*native HTMLTableRowElement]
+test/dom/html/HTMLTableRowElement02.html:5: [info] Abstract value: [@native HTMLElement.prototype]
+test/dom/html/HTMLTableRowElement02.html:6: [info] Abstract value: Undef

@@ -1,0 +1,5 @@
+test/dom/core/DOMAttr01.html:4: [info] Abstract value: Str
+test/dom/core/DOMAttr01.html:5: [info] Abstract value: [*native Element]
+test/dom/core/DOMAttr01.html:6: [info] Abstract value: Bool
+test/dom/core/DOMAttr01.html:7: [info] Abstract value: Str
+test/dom/core/DOMAttr01.html:8: [info] Abstract value: Bool

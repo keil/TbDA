@@ -1,0 +1,2 @@
+test/dom/core/DOMText04.html:4: [info] Abstract value: [@native Text.prototype]
+test/dom/core/DOMText04.html:5: [info] Abstract value: Null|[@native Text.prototype]

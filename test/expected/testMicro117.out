@@ -1,0 +1,3 @@
+test/micro/test117.js:2: [definite] Converting primitive string to object
+test/micro/test117.js:2: [definite] Converting primitive string to object
+test/micro/test117.js:3: [info] Abstract value: "FOO"

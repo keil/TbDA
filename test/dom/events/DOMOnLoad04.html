@@ -1,0 +1,21 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+    <title>none</title>
+    <script type="text/javascript">
+        var x = null;
+        function init() {
+            x = {z : "foo"};
+        }
+        function a() {
+            alert(x.z);
+        }
+    </script>
+</head>
+<body onload="init()">
+
+<p onclick="a();">foo</p>
+
+</body>
+</html>

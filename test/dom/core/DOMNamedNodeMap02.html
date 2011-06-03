@@ -1,0 +1,22 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+    <title>none</title>
+</head>
+<body>
+<script type="text/javascript">
+
+    var x = NamedNodeMap;
+
+    dumpValue(x.getNamedItem("string"));
+    dumpValue(x.setNamedItem(null));
+    dumpValue(x.removeNamedItem("string"));
+    dumpValue(x.item(0));
+    dumpValue(x.getNamedItemNS("namespace", "string"));
+    dumpValue(x.setNamedItemNS(null));
+    dumpValue(x.removeNamedItemNS("namespace", "string"));
+
+</script>
+</body>
+</html>

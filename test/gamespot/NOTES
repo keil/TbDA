@@ -1,0 +1,4 @@
+No use of eval.
+
+Test a large site ~ 1600 LOC.
+Generated flowgraph is huge - needs ~4GB memory

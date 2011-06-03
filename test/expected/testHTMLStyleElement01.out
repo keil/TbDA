@@ -1,0 +1,4 @@
+test/dom/html/HTMLStyleElement01.html:4: [info] Abstract value: [*native HTMLStyleElement]
+test/dom/html/HTMLStyleElement01.html:5: [info] Abstract value: Bool
+test/dom/html/HTMLStyleElement01.html:6: [info] Abstract value: Str
+test/dom/html/HTMLStyleElement01.html:7: [info] Abstract value: Str

@@ -1,0 +1,6 @@
+test/micro/test43.js:3: [definite] Converting primitive number to object
+test/micro/test43.js:3: [definite] Converting primitive number to object
+test/micro/test43.js:6: [definite] Converting primitive number to object
+test/micro/test43.js:6: [definite] Converting primitive number to object
+test/micro/test43.js:4: [info] Abstract value: "42.66"
+test/micro/test43.js:7: [info] Abstract value: 42.66

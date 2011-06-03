@@ -1,0 +1,3 @@
+test/anderson/anderson1.js:18: [definite] TypeError, writing property of null/undefined
+test/anderson/anderson1.js:18: [definite] Reading absent property: submi
+test/anderson/anderson1.js:1: [definite] Uncaught exception, constructed at [test/anderson/anderson1.js:18]

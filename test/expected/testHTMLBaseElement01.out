@@ -1,0 +1,4 @@
+test/dom/html/HTMLBaseElement01.html:4: [info] Abstract value: [*native HTMLBaseElement]
+test/dom/html/HTMLBaseElement01.html:5: [info] Prototype: [@native HTMLBaseElement.prototype] -> [@native HTMLElement.prototype] -> [@native Element.prototype] -> [@native Node.prototype] -> [@native Object.prototype]
+test/dom/html/HTMLBaseElement01.html:7: [info] Abstract value: Str
+test/dom/html/HTMLBaseElement01.html:8: [info] Abstract value: Str

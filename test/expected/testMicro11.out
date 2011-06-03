@@ -1,0 +1,12 @@
+test/micro/test11.js:12: [definite] Reading absent property (computed name)
+test/micro/test11.js:17: [maybe] Assertion fails
+test/micro/test11.js:21: [maybe] Assertion fails
+test/micro/test11.js:12: [maybe] Conversion to number yields NaN
+test/micro/test11.js:21: [maybe] Conversion from string to number yields NaN
+test/micro/test11.js:16: [info] Abstract value: 306.0|Str
+test/micro/test11.js:20: [info] Abstract value: 306.0|Str
+test/micro/test11.js:24: [info] Abstract value: "x101x102x103"
+test/micro/test11.js:28: [info] Abstract value: 306.0
+test/micro/test11.js:32: [info] Abstract value: NaN
+test/micro/test11.js:34: [info] Abstract value: true
+test/micro/test11.js:41: [info] Abstract value: 306.0

@@ -1,0 +1,60 @@
+diff -rU 4 r_pristine/rhino1_7R2/src/org/mozilla/javascript/Node.java rhino1_7R2/src/org/mozilla/javascript/Node.java
+--- r_pristine/rhino1_7R2/src/org/mozilla/javascript/Node.java	2009-03-22 14:32:24.000000000 +0100
++++ rhino1_7R2/src/org/mozilla/javascript/Node.java	2009-04-26 16:00:52.000000000 +0200
+@@ -231,9 +231,9 @@
+         private Node target2;
+         private Jump jumpNode;
+     }
+     
+-    static class Symbol {
++    public static class Symbol {
+         Symbol(int declType, String name) {
+             this.declType = declType;
+             this.name = name;
+             this.index = -1;
+@@ -241,11 +241,11 @@
+         /**
+          * One of Token.FUNCTION, Token.LP (for parameters), Token.VAR, 
+          * Token.LET, or Token.CONST
+          */
+-        int declType;
+-        int index;
+-        String name;
++        public int declType;
++        public int index;
++        public String name;
+         Node.Scope containingTable;
+     }
+     
+     static class Scope extends Jump {
+@@ -1318,14 +1318,11 @@
+         }
+     }
+ 
+     public String toStringTree(ScriptOrFnNode treeTop) {
+-        if (Token.printTrees) {
+             StringBuffer sb = new StringBuffer();
+             toStringTreeHelper(treeTop, this, null, 0, sb);
+             return sb.toString();
+-        }
+-        return null;
+     }
+ 
+     private static void toStringTreeHelper(ScriptOrFnNode treeTop, Node n,
+                                            ObjToIntMap printIds,
+diff -rU 4 r_pristine/rhino1_7R2/src/org/mozilla/javascript/Token.java rhino1_7R2/src/org/mozilla/javascript/Token.java
+--- r_pristine/rhino1_7R2/src/org/mozilla/javascript/Token.java	2009-03-22 14:32:26.000000000 +0100
++++ rhino1_7R2/src/org/mozilla/javascript/Token.java	2009-04-21 13:23:00.000000000 +0200
+@@ -57,10 +57,10 @@
+ public class Token
+ {
+ 
+     // debug flags
+-    public static final boolean printTrees = false;
+-    static final boolean printICode = false;
++    public static final boolean printTrees = true;
++    static final boolean printICode = true;
+     static final boolean printNames = printTrees || printICode;
+ 
+     /**
+      * Token types.  These values correspond to JSTokenType values in

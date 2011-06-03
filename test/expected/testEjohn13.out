@@ -1,0 +1,3 @@
+test/resig/ejohn13.js:14: [definite] Assertion fails
+test/resig/ejohn13.js:3: [maybe] TypeError, reading property of null/undefined
+test/resig/ejohn13.js:6: [maybe] Assertion fails

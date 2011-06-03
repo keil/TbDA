@@ -1,0 +1,3 @@
+test/micro/test46.js:3: [definite] Unreachable function
+test/micro/test46.js:25: [info] Abstract object: {area:[@function <anonymous>#fun2],temp:[@function Polygon#fun1],[[Prototype]]=[@Object#node52]}
+test/micro/test46.js:26: [info] Abstract object: {[[Prototype]]=[@Object#node31]}

@@ -1,0 +1,59 @@
+﻿<view height="335" width="250" onok="options_store()" onopen="options_onOpen()"
+ >
+  <label height="20" name="labelChoose" width="112" x="10" y="10">&OPTION_VIEWS;
+  </label>
+  <combobox height="100" name="optionView" width="115" x="125" y="10" background="#FFFFFF"
+    itemSeparator="false" selectedIndex="0" itemWidth="100%"
+    itemHeight="18" type="droplist" value="&CALENDAR_VIEW;">
+    <item height="18" width="100" selected="true">
+      <label valign="middle">&CALENDAR_VIEW;
+      </label>
+    </item>
+    <item height="18" width="100">
+      <label valign="middle">&DAY_VIEW;
+      </label>
+    </item>
+    <item height="18" width="100">
+      <label valign="middle">&AGENDA_VIEW;
+      </label>
+    </item>
+  </combobox>
+  <checkbox cursor="hand" height="16" name="option24Hour" width="230" x="13"
+    y="60" font="arial" size="9" trimming="word-ellipsis" downImage="images/checkbox_default.png"
+    image="images/checkbox_default.png" overImage="images/checkbox_default.png"
+    caption="&OPTION_TIME;" checkedDownImage="images/checkbox_checked.png"
+    checkedImage="images/checkbox_checked.png" checkedOverImage="images/checkbox_checked.png"
+    value="false"/>
+  <label height="20" name="labelWeekStart" width="115" x="10" y="35">
+    &OPTION_WEEKSTART;
+  </label>
+  <combobox height="100" name="optionWeekStart" width="115" x="125" y="35"
+    background="#FFFFFF" itemSeparator="false" selectedIndex="0"
+    itemWidth="100%" itemHeight="18" type="droplist" value="&DAY_SAT;"
+   >
+    <item height="18" width="100" selected="true">
+      <label valign="middle">&DAY_SAT;
+      </label>
+    </item>
+    <item height="18" width="100">
+      <label valign="middle">&DAY_SUN;
+      </label>
+    </item>
+    <item height="18" width="100">
+      <label valign="middle">&DAY_MON;
+      </label>
+    </item>
+  </combobox>
+  <listbox height="235" name="calendarList" width="230" x="10" y="90"
+    itemWidth="210" itemHeight="20" itemOverColor="#00000000"
+    autoscroll="true" itemSelectedColor="#00000000"/>
+  <label height="50" name="calendarError" width="220" visible="false"
+    x="15" y="110" bold="true" color="#C00000" wordwrap="true"
+   >&OPTIONS_ERROR_LOGIN;
+  </label>
+  <script src="options.js" />
+  <script src="calendar.js" />
+  <script src="constants.js" />
+  <script src="json_sans_eval.js" />
+  <script src="utils.js" />
+</view>

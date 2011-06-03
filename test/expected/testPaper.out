@@ -1,0 +1,115 @@
+test/micro/testPaper.js:11: [definite] Converting primitive number to object
+test/micro/testPaper.js:11: [definite] Converting primitive number to object
+test/micro/testPaper.js:22: [maybe] Assertion fails
+test/micro/testPaper.js:19: [info] Abstract object: {name:"Joe Average",studentid:"100026",[[Prototype]]=[@Object#node60]}
+test/micro/testPaper.js:20: [info] Abstract object: {name:NotUIntStr,studentid:"100027",[[Prototype]]=[@Object#node60]}
+test/micro/testPaper.js:26: [info] Abstract state (modified parts):
+  @native <the global object> (<initial state>):
+    Person: [@function Person#fun1]
+    Student: [@function Student#fun3]
+    t: 100027.0
+    x: [@Object#node72]
+    y: [@Object#node77]
+  @native Number.prototype (<initial state>):
+  @native Object.prototype (<initial state>):
+  *activation#node3 (test/micro/testPaper.js:1):
+    arguments: [*arguments#node3]
+    n: Undef|"Joe Average"
+  *arguments#node3 (test/micro/testPaper.js:1):
+    0: "Joe Average"|absent
+    callee: [@function Person#fun1]
+    length: UInt
+    [[Prototype]] = [@native Object.prototype]
+  @Object#node119 (test/micro/testPaper.js:1):
+    constructor: [@function Person#fun1]
+    count: 3.0
+    setName: [@function <anonymous>#fun2]
+    [[Prototype]] = [@native Object.prototype]
+    [[Value]] = NaN
+  @Object#node120 (test/micro/testPaper.js:1):
+    constructor: [@function Student#fun3]
+    [[Prototype]] = [@native Object.prototype]
+    [[Value]] = NaN
+  @activation#node3 (test/micro/testPaper.js:1):
+    arguments: [@arguments#node3]
+    n: "John Doe"
+  @arguments#node3 (test/micro/testPaper.js:1):
+    0: "John Doe"
+    callee: [@function Person#fun1]
+    length: 1.0
+    [[Prototype]] = [@native Object.prototype]
+  @function Person#fun1 (test/micro/testPaper.js:1):
+    length: 1.0
+    prototype: [@Object#node119]
+    [[Prototype]] = [@native Function.prototype]
+  *activation#node22 (test/micro/testPaper.js:6):
+    arguments: [*arguments#node22]
+    n: Undef|NotUIntStr
+  *arguments#node22 (test/micro/testPaper.js:6):
+    0: Undef|NotUIntStr
+    callee: [@function <anonymous>#fun2]
+    length: 1.0
+    [[Prototype]] = [@native Object.prototype]
+  @Object#node55 (test/micro/testPaper.js:6):
+    constructor: [@function <anonymous>#fun2]
+    [[Prototype]] = [@native Object.prototype]
+    [[Value]] = NaN
+  @activation#node22 (test/micro/testPaper.js:6):
+    arguments: [@arguments#node22]
+    n: "John Q. Doe"
+  @arguments#node22 (test/micro/testPaper.js:6):
+    0: "John Q. Doe"
+    callee: [@function <anonymous>#fun2]
+    length: 1.0
+    [[Prototype]] = [@native Object.prototype]
+  @function <anonymous>#fun2 (test/micro/testPaper.js:6):
+    length: 1.0
+    prototype: [@Object#node55]
+    [[Prototype]] = [@native Function.prototype]
+  *activation#node28 (test/micro/testPaper.js:7):
+    arguments: [*arguments#node28]
+    n: "Joe Average"
+    s: 100026.0
+  *arguments#node28 (test/micro/testPaper.js:7):
+    0: "Joe Average"
+    1: 100026.0
+    callee: [@function Student#fun3]
+    length: 2.0
+    [[Prototype]] = [@native Object.prototype]
+  @activation#node28 (test/micro/testPaper.js:7):
+    arguments: [@arguments#node28]
+    n: "John Doe"
+    s: 100027.0
+  @arguments#node28 (test/micro/testPaper.js:7):
+    0: "John Doe"
+    1: 100027.0
+    callee: [@function Student#fun3]
+    length: 2.0
+    [[Prototype]] = [@native Object.prototype]
+  @function Student#fun3 (test/micro/testPaper.js:7):
+    length: 2.0
+    prototype: [@Object#node60]
+    [[Prototype]] = [@native Function.prototype]
+  *Number#node43 (test/micro/testPaper.js:11):
+    [[Prototype]] = [@native Number.prototype]
+    [[Value]] = 100026.0
+  *Number#node44 (test/micro/testPaper.js:11):
+    [[Prototype]] = [@native Number.prototype]
+    [[Value]] = 100026.0
+  @Number#node43 (test/micro/testPaper.js:11):
+    [[Prototype]] = [@native Number.prototype]
+    [[Value]] = 100027.0
+  @Number#node44 (test/micro/testPaper.js:11):
+    [[Prototype]] = [@native Number.prototype]
+    [[Value]] = 100027.0
+  @Object#node60 (test/micro/testPaper.js:13):
+    name: Undef
+    [[Prototype]] = [@Object#node119]
+  @Object#node72 (test/micro/testPaper.js:16):
+    name: "Joe Average"
+    studentid: "100026"
+    [[Prototype]] = [@Object#node60]
+  @Object#node77 (test/micro/testPaper.js:17):
+    name: NotUIntStr
+    studentid: "100027"
+    [[Prototype]] = [@Object#node60]

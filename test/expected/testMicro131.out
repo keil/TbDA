@@ -1,0 +1,5 @@
+test/micro/test131.js:1: [maybe] Uncaught exception: "hep"
+test/micro/test131.js:13: [info] Abstract value: "5"
+test/micro/test131.js:13: [info] Abstract value: 5.0|[@Object#node29]
+test/micro/test131.js:14: [info] Abstract object: 
+test/micro/test131.js:14: [info] Abstract object: {[[Prototype]]=[@native Object.prototype]}

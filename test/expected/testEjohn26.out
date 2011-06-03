@@ -1,0 +1,2 @@
+test/resig/ejohn26.js:4: [definite] Reading 'this' yields the global object
+test/resig/ejohn26.js:5: [definite] Reading 'this' yields the global object

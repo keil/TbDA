@@ -1,0 +1,6 @@
+test/dom/getElementsByTagName01.html:6: [maybe] Reading absent property (computed name)
+test/dom/getElementsByTagName01.html:7: [maybe] Reading absent property (computed name)
+test/dom/getElementsByTagName01.html:3: [info] Abstract value: [@native NodeList]
+test/dom/getElementsByTagName01.html:4: [info] Prototype: [@native Object.prototype]
+test/dom/getElementsByTagName01.html:6: [info] Abstract value: Undef|[*native HTMLInputElement]
+test/dom/getElementsByTagName01.html:7: [info] Prototype: [@native HTMLInputElement.prototype] -> [@native HTMLElement.prototype] -> [@native Element.prototype] -> [@native Node.prototype] -> [@native Object.prototype]

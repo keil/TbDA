@@ -1,0 +1,12 @@
+test/micro/test109.js:2: [maybe] No object present
+test/micro/test109.js:3: [maybe] No object present
+test/micro/test109.js:4: [maybe] No object present
+test/micro/test109.js:5: [maybe] No object present
+test/micro/test109.js:7: [maybe] Conversion to number yields NaN
+test/micro/test109.js:9: [maybe] Converting primitive number to object
+test/micro/test109.js:10: [maybe] Converting primitive number to object
+test/micro/test109.js:11: [maybe] No object present
+test/micro/test109.js:12: [maybe] No object present
+test/micro/test109.js:5: [info] Abstract value: 42.0
+test/micro/test109.js:10: [info] Abstract value: NaN
+test/micro/test109.js:12: [info] Abstract value: 88.0

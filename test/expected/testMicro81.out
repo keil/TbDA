@@ -1,0 +1,4 @@
+test/micro/test81.js:8: [info] Abstract value: "Exception!"|[@native Object]
+test/micro/test81.js:12: [info] Abstract value: [@native Number]
+test/micro/test81.js:19: [info] Abstract value: [@native Number]
+test/micro/test81.js:24: [info] Abstract value: Undef|[@native Number]

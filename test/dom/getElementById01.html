@@ -1,0 +1,21 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+    <title>none</title>
+</head>
+<body>
+
+<form action="getElementById01.html" method="post">
+    <input id="foo" name="bar" class="baz" type="text" value=""/>
+</form>
+
+<script type="text/javascript">
+    var x = document.getElementById("foo");
+
+    dumpValue(x);
+    dumpPrototype(x);
+</script>
+
+</body>
+</html>

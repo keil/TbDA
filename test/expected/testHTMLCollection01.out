@@ -1,0 +1,4 @@
+test/dom/html/HTMLCollection01.html:4: [info] Abstract value: [*native HTMLCollection]
+test/dom/html/HTMLCollection01.html:5: [info] Abstract value: UInt
+test/dom/html/HTMLCollection01.html:6: [info] Abstract value: [@native HTMLCollection.prototype.item]
+test/dom/html/HTMLCollection01.html:7: [info] Abstract value: [@native HTMLCollection.prototype.namedItem]

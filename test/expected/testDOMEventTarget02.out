@@ -1,0 +1,4 @@
+test/dom/events/DOMEventTarget02.html:3: [info] Abstract value: [*native Node]
+test/dom/events/DOMEventTarget02.html:4: [info] Prototype: [@native Node.prototype] -> [@native Object.prototype]
+test/dom/events/DOMEventTarget02.html:8: [info] Abstract value: Undef
+test/dom/events/DOMEventTarget02.html:9: [info] Abstract value: Undef

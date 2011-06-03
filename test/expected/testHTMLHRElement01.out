@@ -1,0 +1,6 @@
+test/dom/html/HTMLHRElement01.html:4: [info] Abstract value: [*native HTMLHRElement]
+test/dom/html/HTMLHRElement01.html:5: [info] Prototype: [@native HTMLHRElement.prototype] -> [@native HTMLElement.prototype] -> [@native Element.prototype] -> [@native Node.prototype] -> [@native Object.prototype]
+test/dom/html/HTMLHRElement01.html:7: [info] Abstract value: Str
+test/dom/html/HTMLHRElement01.html:8: [info] Abstract value: Bool
+test/dom/html/HTMLHRElement01.html:9: [info] Abstract value: Str
+test/dom/html/HTMLHRElement01.html:10: [info] Abstract value: Str

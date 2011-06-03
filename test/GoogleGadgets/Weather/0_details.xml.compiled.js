@@ -1,0 +1,2 @@
+
+function _onOpen(){var d=detailsViewData("forecasts");for(var c=0;c<d.length;++c){var a=c+1,b=d[c];forecastPane.children("high_temp_"+a).innerText=b.hi;forecastPane.children("low_temp_"+a).innerText=b.lo;forecastPane.children("date_"+a).innerText=b.date;forecastPane.children("weather_"+a).src=b.iconPath;forecastPane.children("weather_"+a).opacity=b.opacity;forecastPane.children("weather_"+a).tooltip=b.condition}};

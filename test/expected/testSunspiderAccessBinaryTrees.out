@@ -1,0 +1,4 @@
+test/sunspider/access-binary-trees.js:17: [maybe] TypeError, reading property of null/undefined
+test/sunspider/access-binary-trees.js:17: [maybe] TypeError, reading property of null/undefined
+test/sunspider/access-binary-trees.js:1: [maybe] Uncaught exception, constructed at [test/sunspider/access-binary-trees.js:17]
+test/sunspider/access-binary-trees.js:59: [info] Abstract value: UInt

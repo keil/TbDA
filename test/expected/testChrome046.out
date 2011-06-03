@@ -1,0 +1,31 @@
+test/chrome/046.html:21: [definite] Unreachable code
+test/chrome/046.html:21: [definite] Unreachable function
+test/chrome/046.html:46: [maybe] TypeError, writing property of null/undefined
+test/chrome/046.html:48: [maybe] TypeError, writing property of null/undefined
+test/chrome/046.html:62: [maybe] TypeError, reading property of null/undefined
+test/chrome/046.html:62: [maybe] TypeError, reading property of null/undefined
+test/chrome/046.html:63: [maybe] TypeError, reading property of null/undefined
+test/chrome/046.html:63: [maybe] TypeError, reading property of null/undefined
+test/chrome/046.html:64: [maybe] TypeError, reading property of null/undefined
+test/chrome/046.html:64: [maybe] TypeError, reading property of null/undefined
+test/chrome/046.html:65: [maybe] TypeError, reading property of null/undefined
+test/chrome/046.html:65: [maybe] TypeError, reading property of null/undefined
+test/chrome/046.html:1: [maybe] Uncaught exception, constructed at [test/chrome/046.html:46, test/chrome/046.html:48, test/chrome/046.html:62, test/chrome/046.html:63, test/chrome/046.html:64, test/chrome/046.html:65]
+test/chrome/046.html:46: [maybe] Conversion to number yields NaN
+test/chrome/046.html:46: [maybe] Conversion to number yields NaN
+test/chrome/046.html:46: [maybe] Reading absent property (computed name)
+test/chrome/046.html:46: [maybe] Reading absent property (computed name)
+test/chrome/046.html:46: [maybe] Reading absent property (computed name)
+test/chrome/046.html:48: [maybe] Conversion to number yields NaN
+test/chrome/046.html:48: [maybe] Conversion to number yields NaN
+test/chrome/046.html:48: [maybe] Reading absent property (computed name)
+test/chrome/046.html:48: [maybe] Reading absent property (computed name)
+test/chrome/046.html:48: [maybe] Reading absent property (computed name)
+test/chrome/046.html:62: [maybe] Reading absent property (computed name)
+test/chrome/046.html:62: [maybe] Reading absent property (computed name)
+test/chrome/046.html:63: [maybe] Reading absent property (computed name)
+test/chrome/046.html:63: [maybe] Reading absent property (computed name)
+test/chrome/046.html:64: [maybe] Reading absent property (computed name)
+test/chrome/046.html:64: [maybe] Reading absent property (computed name)
+test/chrome/046.html:65: [maybe] Reading absent property (computed name)
+test/chrome/046.html:65: [maybe] Reading absent property (computed name)

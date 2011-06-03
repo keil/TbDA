@@ -1,0 +1,3 @@
+test/resig/ejohn30.js:6: [definite] Variable is null/undefined: ninjaA
+test/resig/ejohn30.js:2: [maybe] Reading 'this' yields the global object
+test/resig/ejohn30.js:10: [info] Abstract value: "Ninja"

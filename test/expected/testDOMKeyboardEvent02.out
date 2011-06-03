@@ -1,0 +1,4 @@
+test/dom/events/DOMKeyboardEvent02.html:3: [info] Abstract value: [*native KeyboardEvent]
+test/dom/events/DOMKeyboardEvent02.html:4: [info] Prototype: [@native KeyboardEvent.prototype] -> [@native UIEvent.prototype] -> [@native event.prototype] -> [@native Object.prototype]
+test/dom/events/DOMKeyboardEvent02.html:6: [info] Abstract value: Bool
+test/dom/events/DOMKeyboardEvent02.html:7: [info] Abstract value: Undef

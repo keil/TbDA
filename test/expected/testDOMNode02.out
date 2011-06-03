@@ -1,0 +1,9 @@
+test/dom/core/DOMNode02.html:5: [info] Abstract value: [*native Node]
+test/dom/core/DOMNode02.html:6: [info] Abstract value: [*native Node]
+test/dom/core/DOMNode02.html:7: [info] Abstract value: [*native Node]
+test/dom/core/DOMNode02.html:8: [info] Abstract value: [*native Node]
+test/dom/core/DOMNode02.html:9: [info] Abstract value: Bool
+test/dom/core/DOMNode02.html:10: [info] Abstract value: [*native Node]
+test/dom/core/DOMNode02.html:11: [info] Abstract value: Bool
+test/dom/core/DOMNode02.html:12: [info] Abstract value: Bool
+test/dom/core/DOMNode02.html:13: [info] Abstract value: Undef

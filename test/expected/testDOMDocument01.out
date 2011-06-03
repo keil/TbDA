@@ -1,0 +1,28 @@
+test/dom/core/DOMDocument01.html:4: [info] Abstract value: [*native Document]
+test/dom/core/DOMDocument01.html:5: [info] Prototype: [@native Document.prototype] -> [@native Node.prototype] -> [@native Object.prototype]
+test/dom/core/DOMDocument01.html:7: [info] Abstract value: [*native DocumentType]
+test/dom/core/DOMDocument01.html:8: [info] Abstract value: [*native DOMImplementation]
+test/dom/core/DOMDocument01.html:9: [info] Abstract value: [*native HTMLHtmlElement]
+test/dom/core/DOMDocument01.html:10: [info] Abstract value: Str
+test/dom/core/DOMDocument01.html:11: [info] Abstract value: Str
+test/dom/core/DOMDocument01.html:12: [info] Abstract value: Bool
+test/dom/core/DOMDocument01.html:13: [info] Abstract value: Bool
+test/dom/core/DOMDocument01.html:14: [info] Abstract value: Str
+test/dom/core/DOMDocument01.html:15: [info] Abstract value: [*native DOMConfiguration]
+test/dom/core/DOMDocument01.html:17: [info] Abstract value: [@native Document.createElement]
+test/dom/core/DOMDocument01.html:18: [info] Abstract value: [@native Document.createDocumentFragment]
+test/dom/core/DOMDocument01.html:19: [info] Abstract value: [@native Document.createTextNode]
+test/dom/core/DOMDocument01.html:20: [info] Abstract value: [@native Document.createComment]
+test/dom/core/DOMDocument01.html:21: [info] Abstract value: [@native Document.createCDATASection]
+test/dom/core/DOMDocument01.html:22: [info] Abstract value: [@native Document.createProcessingInstruction]
+test/dom/core/DOMDocument01.html:23: [info] Abstract value: [@native Document.createAttribute]
+test/dom/core/DOMDocument01.html:24: [info] Abstract value: [@native Document.createEntityReference]
+test/dom/core/DOMDocument01.html:25: [info] Abstract value: [@native Document.getElementsByTagName]
+test/dom/core/DOMDocument01.html:26: [info] Abstract value: [@native Document.importNode]
+test/dom/core/DOMDocument01.html:27: [info] Abstract value: [@native Document.createElementNS]
+test/dom/core/DOMDocument01.html:28: [info] Abstract value: [@native Document.createAttributeNS]
+test/dom/core/DOMDocument01.html:29: [info] Abstract value: [@native Document.getElementsByTagNameNS]
+test/dom/core/DOMDocument01.html:30: [info] Abstract value: [@native Document.getElementById]
+test/dom/core/DOMDocument01.html:31: [info] Abstract value: [@native Document.adoptNode]
+test/dom/core/DOMDocument01.html:32: [info] Abstract value: [@native Document.normalizeDocument]
+test/dom/core/DOMDocument01.html:33: [info] Abstract value: [@native Document.renameNode]

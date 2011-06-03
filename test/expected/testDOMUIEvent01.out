@@ -1,0 +1,5 @@
+test/dom/events/DOMUIEvent01.html:3: [info] Abstract value: [@native UIEvent]
+test/dom/events/DOMUIEvent01.html:4: [info] Prototype: [@native UIEvent.prototype] -> [@native event.prototype] -> [@native Object.prototype]
+test/dom/events/DOMUIEvent01.html:6: [info] Abstract value: Num
+test/dom/events/DOMUIEvent01.html:7: [info] Abstract value: [@native <the global object>]
+test/dom/events/DOMUIEvent01.html:9: [info] Abstract value: [@native UIEvent.initUIEvent]

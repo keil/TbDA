@@ -1,0 +1,6 @@
+test/dom/html/HTMLInputElement02.html:4: [info] Abstract value: [*native HTMLInputElement]
+test/dom/html/HTMLInputElement02.html:5: [info] Prototype: [@native HTMLInputElement.prototype] -> [@native HTMLElement.prototype] -> [@native Element.prototype] -> [@native Node.prototype] -> [@native Object.prototype]
+test/dom/html/HTMLInputElement02.html:7: [info] Abstract value: Undef
+test/dom/html/HTMLInputElement02.html:8: [info] Abstract value: Undef
+test/dom/html/HTMLInputElement02.html:9: [info] Abstract value: Undef
+test/dom/html/HTMLInputElement02.html:10: [info] Abstract value: Undef

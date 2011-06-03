@@ -1,0 +1,15 @@
+test/sunspider/string-fasta.js:52: [definite] Converting primitive string to object
+test/sunspider/string-fasta.js:53: [definite] Converting primitive string to object
+test/sunspider/string-fasta.js:53: [definite] Converting primitive string to object
+test/sunspider/string-fasta.js:56: [definite] Converting primitive string to object
+test/sunspider/string-fasta.js:56: [definite] Converting primitive string to object
+test/sunspider/string-fasta.js:57: [definite] Converting primitive string to object
+test/sunspider/string-fasta.js:58: [definite] Converting primitive string to object
+test/sunspider/string-fasta.js:58: [definite] Converting primitive string to object
+test/sunspider/string-fasta.js:68: [maybe] RangeError, invalid value of array length
+test/sunspider/string-fasta.js:1: [maybe] Uncaught exception, constructed at [test/sunspider/string-fasta.js:68]
+test/sunspider/string-fasta.js:43: [maybe] Conversion to number yields NaN
+test/sunspider/string-fasta.js:43: [maybe] Reading absent property (computed name)
+test/sunspider/string-fasta.js:43: [maybe] Reading absent property (computed name)
+test/sunspider/string-fasta.js:72: [maybe] Reading absent property (computed name)
+test/sunspider/string-fasta.js:94: [info] Abstract value: UInt

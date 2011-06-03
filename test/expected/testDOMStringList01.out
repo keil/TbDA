@@ -1,0 +1,5 @@
+test/dom/core/DOMStringList01.html:4: [info] Abstract value: [*native StringList]
+test/dom/core/DOMStringList01.html:5: [info] Prototype: [@native StringList.prototype] -> [@native Object.prototype]
+test/dom/core/DOMStringList01.html:7: [info] Abstract value: UInt
+test/dom/core/DOMStringList01.html:8: [info] Abstract value: [@native StringList.item]
+test/dom/core/DOMStringList01.html:9: [info] Abstract value: [@native StringList.contains]

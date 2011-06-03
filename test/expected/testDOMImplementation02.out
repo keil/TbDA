@@ -1,0 +1,3 @@
+test/dom/core/DOMImplementation02.html:4: [info] Abstract value: Bool
+test/dom/core/DOMImplementation02.html:5: [info] Abstract value: [*native DocumentType]
+test/dom/core/DOMImplementation02.html:6: [info] Abstract value: [*native Document]

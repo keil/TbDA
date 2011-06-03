@@ -1,0 +1,7 @@
+- constant code strings with events: setTimeout("start()", 1000);
+
+- eval()  (for evaluating calculator expressions)
+
+- control flow depending on substring(...)!! - see enter() line 89-100
+
+program input is a sequence of events that builds a store (in particular, the value of document.calculator.expr.value)

@@ -1,0 +1,8 @@
+test/sunspider/access-nsieve.js:10: [definite] Unreachable function: pad
+test/sunspider/access-nsieve.js:11: [definite] Unreachable code
+test/sunspider/access-nsieve.js:14: [definite] Unreachable code
+test/sunspider/access-nsieve.js:16: [definite] Unreachable code
+test/sunspider/access-nsieve.js:37: [maybe] RangeError, invalid value of array length
+test/sunspider/access-nsieve.js:1: [maybe] Uncaught exception, constructed at [test/sunspider/access-nsieve.js:37]
+test/sunspider/access-nsieve.js:26: [maybe] Reading absent property (computed name)
+test/sunspider/access-nsieve.js:47: [info] Abstract value: UInt

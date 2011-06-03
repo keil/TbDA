@@ -1,0 +1,10 @@
+test/micro/test56.js:3: [definite] Reading 'this' yields the global object
+test/micro/test56.js:6: [definite] Reading 'this' yields the global object
+test/micro/test56.js:7: [definite] Reading 'this' yields the global object
+test/micro/test56.js:11: [info] Abstract value: 42.0
+test/micro/test56.js:12: [info] Abstract value: 43.0
+test/micro/test56.js:13: [info] Abstract value: 44.0
+test/micro/test56.js:14: [info] Abstract value: 45.0
+test/micro/test56.js:15: [info] Abstract value: [@function f#fun1]
+test/micro/test56.js:16: [info] Abstract value: [@native <the global object>]
+test/micro/test56.js:17: [info] Abstract value: [@native <the global object>]

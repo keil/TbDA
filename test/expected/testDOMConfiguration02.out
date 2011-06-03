@@ -1,0 +1,4 @@
+test/dom/core/DOMConfiguration02.html:4: [info] Abstract value: [*native DOMConfiguration]
+test/dom/core/DOMConfiguration02.html:5: [info] Prototype: [@native DOMConfiguration.prototype] -> [@native Object.prototype]
+test/dom/core/DOMConfiguration02.html:7: [info] Abstract value: Bool
+test/dom/core/DOMConfiguration02.html:8: [info] Abstract value: Undef

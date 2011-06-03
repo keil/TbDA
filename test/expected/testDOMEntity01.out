@@ -1,0 +1,8 @@
+test/dom/core/DOMEntity01.html:4: [info] Abstract value: [*native Entity]
+test/dom/core/DOMEntity01.html:5: [info] Prototype: [@native Entity.prototype] -> [@native Node.prototype] -> [@native Object.prototype]
+test/dom/core/DOMEntity01.html:7: [info] Abstract value: Null|Str
+test/dom/core/DOMEntity01.html:8: [info] Abstract value: Null|Str
+test/dom/core/DOMEntity01.html:9: [info] Abstract value: Null|Str
+test/dom/core/DOMEntity01.html:11: [info] Abstract value: Null|Str
+test/dom/core/DOMEntity01.html:12: [info] Abstract value: Null|Str
+test/dom/core/DOMEntity01.html:13: [info] Abstract value: Null|Str

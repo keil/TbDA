@@ -1,0 +1,4 @@
+test/dom/html/HTMLOptionsCollection01.html:4: [info] Abstract value: [*native HTMLOptionsCollection]
+test/dom/html/HTMLOptionsCollection01.html:5: [info] Abstract value: UInt
+test/dom/html/HTMLOptionsCollection01.html:6: [info] Abstract value: [@native HTMLOptionsCollection.prototype.item]
+test/dom/html/HTMLOptionsCollection01.html:7: [info] Abstract value: [@native HTMLOptionsCollection.prototype.namedItem]

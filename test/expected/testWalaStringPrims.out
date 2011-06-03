@@ -1,0 +1,9 @@
+test/wala/string-prims.js:8: [definite] Converting primitive string to object
+test/wala/string-prims.js:8: [definite] Converting primitive string to object
+test/wala/string-prims.js:8: [maybe] TypeError, reading property of null/undefined
+test/wala/string-prims.js:1: [maybe] Uncaught exception, constructed at [test/wala/string-prims.js:8]
+test/wala/string-prims.js:6: [maybe] Reading absent property (computed name)
+test/wala/string-prims.js:10: [info] Abstract value: "this is a string of words"
+test/wala/string-prims.js:11: [info] Abstract object: {length:UInt,[[DefaultArray]]=Str|absent,[[Prototype]]=[@native Array.prototype]}
+test/wala/string-prims.js:12: [info] Abstract value: Undef|Str
+test/wala/string-prims.js:13: [info] Abstract value: Str

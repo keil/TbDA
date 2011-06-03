@@ -1,0 +1,10 @@
+test/dom/core/DOMNamedNodeMap01.html:4: [info] Abstract value: [*native NamedNodeMap]
+test/dom/core/DOMNamedNodeMap01.html:5: [info] Prototype: [@native NamedNodeMap.prototype] -> [@native Object.prototype]
+test/dom/core/DOMNamedNodeMap01.html:7: [info] Abstract value: 0.0
+test/dom/core/DOMNamedNodeMap01.html:8: [info] Abstract value: [@native NamedNodeMap.getNamedItem]
+test/dom/core/DOMNamedNodeMap01.html:9: [info] Abstract value: [@native NamedNodeMap.setNamedItem]
+test/dom/core/DOMNamedNodeMap01.html:10: [info] Abstract value: [@native NamedNodeMap.removeNamedItem]
+test/dom/core/DOMNamedNodeMap01.html:11: [info] Abstract value: [@native NamedNodeMap.item]
+test/dom/core/DOMNamedNodeMap01.html:12: [info] Abstract value: [@native NamedNodeMap.getNamedItemNS]
+test/dom/core/DOMNamedNodeMap01.html:13: [info] Abstract value: [@native NamedNodeMap.setNamedItemNS]
+test/dom/core/DOMNamedNodeMap01.html:14: [info] Abstract value: [@native NamedNodeMap.removedNamedItemNS]

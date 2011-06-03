@@ -1,0 +1,8 @@
+test/micro/test103.js:6: [definite] Variable is null/undefined: y1
+test/micro/test103.js:7: [definite] Variable is null/undefined: y2
+test/micro/test103.js:2: [definite] Reading absent property: a
+test/micro/test103.js:3: [definite] Reading absent property: b
+test/micro/test103.js:6: [info] Abstract value: Undef
+test/micro/test103.js:7: [info] Abstract value: Undef
+test/micro/test103.js:8: [info] Abstract value: 42.0
+test/micro/test103.js:9: [info] Abstract value: 42.0

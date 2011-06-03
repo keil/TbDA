@@ -1,0 +1,8 @@
+test/micro/test27.js:13: [definite] ReferenceError, reading absent variable: baz
+test/micro/test27.js:1: [definite] Variable is null/undefined: foo
+test/micro/test27.js:1: [definite] Reading 'this' yields the global object
+test/micro/test27.js:4: [definite] Reading 'this' yields the global object
+test/micro/test27.js:1: [definite] Uncaught exception, constructed at [test/micro/test27.js:13]
+test/micro/test27.js:2: [info] Abstract object: {a:42.0,b:Undef,c:[@native <the global object>],d:[@native Math],[[Prototype]]=[@native Object.prototype]}
+test/micro/test27.js:4: [info] Abstract value: [@native <the global object>]
+test/micro/test27.js:11: [info] Abstract value: 42.0

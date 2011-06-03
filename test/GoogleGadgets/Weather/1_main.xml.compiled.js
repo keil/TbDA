@@ -1,0 +1,2 @@
+
+function q(a,b){return a.getElementsByTagName(b)[0].getAttribute("data")}function Lb(){var a=new Date,b=a.getHours();return b>=6&&b<=18}function Pa(a){var b=a.indexOf(",");if(b!=-1){return a.substring(0,b)}return a}function na(a,b,c){return a.replace("[!["+b+"]!]",c)}function ma(){var a=new DOMDocument;a.resolveExternals=false;a.validateOnParse=false;a.setProperty("ProhibitDTD",false);return a};

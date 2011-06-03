@@ -1,0 +1,108 @@
+test/chrome/034.html:91: [definite] Unreachable function: brickJiggler
+test/chrome/034.html:95: [definite] Unreachable code
+test/chrome/034.html:96: [definite] Unreachable code
+test/chrome/034.html:97: [definite] Unreachable code
+test/chrome/034.html:98: [definite] Unreachable code
+test/chrome/034.html:99: [definite] Unreachable code
+test/chrome/034.html:102: [definite] Unreachable code
+test/chrome/034.html:102: [definite] Unreachable function
+test/chrome/034.html:161: [definite] Unreachable code
+test/chrome/034.html:163: [definite] Unreachable code
+test/chrome/034.html:164: [definite] Unreachable code
+test/chrome/034.html:166: [definite] Unreachable code
+test/chrome/034.html:167: [definite] Unreachable code
+test/chrome/034.html:168: [definite] Unreachable code
+test/chrome/034.html:170: [definite] Unreachable code
+test/chrome/034.html:220: [definite] Reading absent property: complete
+test/chrome/034.html:224: [definite] Unreachable code
+test/chrome/034.html:226: [definite] Unreachable code
+test/chrome/034.html:228: [definite] Unreachable code
+test/chrome/034.html:352: [definite] Unreachable code
+test/chrome/034.html:355: [definite] Unreachable code
+test/chrome/034.html:358: [definite] Unreachable code
+test/chrome/034.html:361: [definite] Unreachable code
+test/chrome/034.html:674: [definite] Unreachable function: setObjOpacity
+test/chrome/034.html:761: [definite] Unreachable function: popTitle
+test/chrome/034.html:766: [definite] Unreachable code
+test/chrome/034.html:768: [definite] Unreachable code
+test/chrome/034.html:769: [definite] Unreachable code
+test/chrome/034.html:771: [definite] Unreachable function
+test/chrome/034.html:776: [definite] Unreachable code
+test/chrome/034.html:780: [definite] Unreachable code
+test/chrome/034.html:782: [definite] Unreachable code
+test/chrome/034.html:782: [definite] Unreachable function
+test/chrome/034.html:787: [definite] Unreachable code
+test/chrome/034.html:192: [definite] Converting primitive string to object
+test/chrome/034.html:199: [definite] Converting primitive string to object
+test/chrome/034.html:199: [definite] Converting primitive string to object
+test/chrome/034.html:285: [definite] Converting primitive string to object
+test/chrome/034.html:285: [definite] Converting primitive string to object
+test/chrome/034.html:737: [definite] Converting primitive string to object
+test/chrome/034.html:744: [definite] Converting primitive string to object
+test/chrome/034.html:744: [definite] Converting primitive string to object
+test/chrome/034.html:285: [maybe] TypeError, reading property of null/undefined
+test/chrome/034.html:423: [maybe] ReferenceError, reading absent variable: ballH
+test/chrome/034.html:423: [maybe] ReferenceError, reading absent variable: ballV
+test/chrome/034.html:491: [maybe] ReferenceError, reading absent variable: ballH
+test/chrome/034.html:491: [maybe] ReferenceError, reading absent variable: ballV
+test/chrome/034.html:499: [maybe] ReferenceError, reading absent variable: ballH
+test/chrome/034.html:500: [maybe] ReferenceError, reading absent variable: ballV
+test/chrome/034.html:504: [maybe] ReferenceError, reading absent variable: ballH
+test/chrome/034.html:505: [maybe] ReferenceError, reading absent variable: ballV
+test/chrome/034.html:510: [maybe] ReferenceError, reading absent variable: ballV
+test/chrome/034.html:512: [maybe] ReferenceError, reading absent variable: ballH
+test/chrome/034.html:512: [maybe] ReferenceError, reading absent variable: ballH
+test/chrome/034.html:514: [maybe] ReferenceError, reading absent variable: ballH
+test/chrome/034.html:515: [maybe] ReferenceError, reading absent variable: ballV
+test/chrome/034.html:523: [maybe] ReferenceError, reading absent variable: ballH
+test/chrome/034.html:538: [maybe] ReferenceError, reading absent variable: ballH
+test/chrome/034.html:543: [maybe] ReferenceError, reading absent variable: ballH
+test/chrome/034.html:548: [maybe] ReferenceError, reading absent variable: ballV
+test/chrome/034.html:555: [maybe] ReferenceError, reading absent variable: ballV
+test/chrome/034.html:572: [maybe] ReferenceError, reading absent variable: ballH
+test/chrome/034.html:572: [maybe] ReferenceError, reading absent variable: ballH
+test/chrome/034.html:572: [maybe] ReferenceError, reading absent variable: ballV
+test/chrome/034.html:572: [maybe] ReferenceError, reading absent variable: ballV
+test/chrome/034.html:576: [maybe] ReferenceError, reading absent variable: ballV
+test/chrome/034.html:577: [maybe] ReferenceError, reading absent variable: ballV
+test/chrome/034.html:578: [maybe] ReferenceError, reading absent variable: ballH
+test/chrome/034.html:579: [maybe] ReferenceError, reading absent variable: ballH
+test/chrome/034.html:1: [maybe] Uncaught exception, constructed at [test/chrome/034.html:285, test/chrome/034.html:423, test/chrome/034.html:491, test/chrome/034.html:499, test/chrome/034.html:500, test/chrome/034.html:504, test/chrome/034.html:505, test/chrome/034.html:510, test/chrome/034.html:512, test/chrome/034.html:514, test/chrome/034.html:515, test/chrome/034.html:523, test/chrome/034.html:538, test/chrome/034.html:543, test/chrome/034.html:548, test/chrome/034.html:555, test/chrome/034.html:572, test/chrome/034.html:576, test/chrome/034.html:577, test/chrome/034.html:578, test/chrome/034.html:579]
+test/chrome/034.html:285: [maybe] Reading absent property (computed name)
+test/chrome/034.html:293: [maybe] Reading absent property (computed name)
+test/chrome/034.html:294: [maybe] Reading absent property (computed name)
+test/chrome/034.html:303: [maybe] Reading absent property (computed name)
+test/chrome/034.html:304: [maybe] Reading absent property (computed name)
+test/chrome/034.html:313: [maybe] Reading absent property (computed name)
+test/chrome/034.html:314: [maybe] Reading absent property (computed name)
+test/chrome/034.html:323: [maybe] Reading absent property (computed name)
+test/chrome/034.html:324: [maybe] Reading absent property (computed name)
+test/chrome/034.html:393: [maybe] Conversion to number yields NaN
+test/chrome/034.html:393: [maybe] Conversion to number yields NaN
+test/chrome/034.html:393: [maybe] Reading absent property (computed name)
+test/chrome/034.html:393: [maybe] Reading absent property (computed name)
+test/chrome/034.html:570: [maybe] Conversion to number yields NaN
+test/chrome/034.html:570: [maybe] Reading absent property (computed name)
+test/chrome/034.html:572: [maybe] Conversion to number yields NaN
+test/chrome/034.html:572: [maybe] Conversion to number yields NaN
+test/chrome/034.html:572: [maybe] Reading absent property (computed name)
+test/chrome/034.html:572: [maybe] Reading absent property (computed name)
+test/chrome/034.html:572: [maybe] Reading absent property (computed name)
+test/chrome/034.html:572: [maybe] Reading absent property (computed name)
+test/chrome/034.html:576: [maybe] Conversion to number yields NaN
+test/chrome/034.html:576: [maybe] Reading absent property (computed name)
+test/chrome/034.html:577: [maybe] Conversion to number yields NaN
+test/chrome/034.html:577: [maybe] Reading absent property (computed name)
+test/chrome/034.html:578: [maybe] Conversion to number yields NaN
+test/chrome/034.html:578: [maybe] Reading absent property (computed name)
+test/chrome/034.html:579: [maybe] Conversion to number yields NaN
+test/chrome/034.html:579: [maybe] Reading absent property (computed name)
+test/chrome/034.html:605: [maybe] Reading absent property (computed name)
+test/chrome/034.html:610: [maybe] Reading absent property (computed name)
+test/chrome/034.html:615: [maybe] Reading absent property (computed name)
+test/chrome/034.html:621: [maybe] Reading absent property (computed name)
+test/chrome/034.html:621: [maybe] Reading absent property (computed name)
+test/chrome/034.html:634: [maybe] Reading absent property (computed name)
+test/chrome/034.html:634: [maybe] Reading absent property (computed name)
+test/chrome/034.html:634: [maybe] Reading absent property (computed name)
+test/chrome/034.html:634: [maybe] Reading absent property (computed name)

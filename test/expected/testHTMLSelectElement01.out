@@ -1,0 +1,17 @@
+test/dom/html/HTMLSelectElement01.html:4: [info] Abstract value: [*native HTMLSelectElement]
+test/dom/html/HTMLSelectElement01.html:5: [info] Prototype: [@native HTMLSelectElement.prototype] -> [@native HTMLElement.prototype] -> [@native Element.prototype] -> [@native Node.prototype] -> [@native Object.prototype]
+test/dom/html/HTMLSelectElement01.html:7: [info] Abstract value: Str
+test/dom/html/HTMLSelectElement01.html:8: [info] Abstract value: Num
+test/dom/html/HTMLSelectElement01.html:9: [info] Abstract value: Str
+test/dom/html/HTMLSelectElement01.html:10: [info] Abstract value: Num
+test/dom/html/HTMLSelectElement01.html:11: [info] Abstract value: [*native HTMLFormElement]
+test/dom/html/HTMLSelectElement01.html:12: [info] Abstract value: [*native HTMLOptionsCollection]
+test/dom/html/HTMLSelectElement01.html:13: [info] Abstract value: Bool
+test/dom/html/HTMLSelectElement01.html:14: [info] Abstract value: Bool
+test/dom/html/HTMLSelectElement01.html:15: [info] Abstract value: Str
+test/dom/html/HTMLSelectElement01.html:16: [info] Abstract value: Num
+test/dom/html/HTMLSelectElement01.html:17: [info] Abstract value: Num
+test/dom/html/HTMLSelectElement01.html:19: [info] Abstract value: [@native HTMLSelectElement.prototype.add]
+test/dom/html/HTMLSelectElement01.html:20: [info] Abstract value: [@native HTMLSelectElement.prototype.remove]
+test/dom/html/HTMLSelectElement01.html:21: [info] Abstract value: [@native HTMLSelectElement.prototype.blur]
+test/dom/html/HTMLSelectElement01.html:22: [info] Abstract value: [@native HTMLSelectElement.prototype.focus]

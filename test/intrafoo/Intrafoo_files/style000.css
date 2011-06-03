@@ -1,0 +1,14 @@
+.x-toolbar .x-add-tag {
+    background-image: url(drop-add.gif);
+}
+.x-toolbar .x-remove-tag {
+    background-image: url(drop-no0.gif);
+}
+.x-toolbar .x-send-mail {
+	background:transparent no-repeat;
+	background-position:-208px 0 !important;
+    background-image: url(tb-sprit.gif);
+}
+.x-toolbar .x-update-contacts {
+    background-image: url(refresh0.gif);
+}

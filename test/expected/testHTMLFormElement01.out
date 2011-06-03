@@ -1,0 +1,11 @@
+test/dom/html/HTMLFormElement01.html:4: [info] Abstract value: [*native HTMLFormElement]
+test/dom/html/HTMLFormElement01.html:5: [info] Abstract value: [*native HTMLCollection]
+test/dom/html/HTMLFormElement01.html:6: [info] Abstract value: 0.0
+test/dom/html/HTMLFormElement01.html:7: [info] Abstract value: Str
+test/dom/html/HTMLFormElement01.html:8: [info] Abstract value: Str
+test/dom/html/HTMLFormElement01.html:9: [info] Abstract value: Str
+test/dom/html/HTMLFormElement01.html:10: [info] Abstract value: Str
+test/dom/html/HTMLFormElement01.html:11: [info] Abstract value: Str
+test/dom/html/HTMLFormElement01.html:12: [info] Abstract value: Str
+test/dom/html/HTMLFormElement01.html:14: [info] Abstract value: [@native HTMLFormElement.prototype.submit]
+test/dom/html/HTMLFormElement01.html:15: [info] Abstract value: [@native HTMLFormElement.prototype.reset]

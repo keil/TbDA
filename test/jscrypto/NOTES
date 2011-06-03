@@ -1,0 +1,4 @@
+http://crypto.stanford.edu/sjcl/
+http://corte.si/posts/security/jscrypto.html 
+
+- only simple event model and probably very complex numerical and string constraints -- better for type analysis than concolic testing?

@@ -1,0 +1,4 @@
+test/dom/toNativeObject01.html:8: [definite] TypeError, argument is not of expected type.
+test/dom/toNativeObject01.html:6: [info] Abstract value: Undef
+test/dom/toNativeObject01.html:7: [info] Abstract value: Undef
+test/dom/toNativeObject01.html:8: [info] Abstract value: Undef

@@ -1,0 +1,11 @@
+test/dom/html/HTMLTableRowElement01.html:4: [info] Abstract value: [*native HTMLTableRowElement]
+test/dom/html/HTMLTableRowElement01.html:5: [info] Abstract value: Num
+test/dom/html/HTMLTableRowElement01.html:6: [info] Abstract value: Num
+test/dom/html/HTMLTableRowElement01.html:7: [info] Abstract value: [*native HTMLCollection]
+test/dom/html/HTMLTableRowElement01.html:8: [info] Abstract value: Str
+test/dom/html/HTMLTableRowElement01.html:9: [info] Abstract value: Str
+test/dom/html/HTMLTableRowElement01.html:10: [info] Abstract value: Str
+test/dom/html/HTMLTableRowElement01.html:11: [info] Abstract value: Str
+test/dom/html/HTMLTableRowElement01.html:12: [info] Abstract value: Str
+test/dom/html/HTMLTableRowElement01.html:14: [info] Abstract value: [@native HTMLTableRowElement.prototype.insertCell]
+test/dom/html/HTMLTableRowElement01.html:15: [info] Abstract value: [@native HTMLTableRowElement.prototype.deleteCell]

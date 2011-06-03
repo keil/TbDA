@@ -1,0 +1,15 @@
+test/micro/test113.js:5: [definite] Too few parameters to native function Object.prototype.hasOwnProperty
+test/micro/test113.js:8: [definite] Reading 'this' yields the global object
+test/micro/test113.js:2: [maybe] Converting boolean to string
+test/micro/test113.js:2: [maybe] Converting boolean to string
+test/micro/test113.js:5: [maybe] Converting undefined to string
+test/micro/test113.js:16: [info] Abstract value: Infinity
+test/micro/test113.js:17: [info] Abstract value: "false true"
+test/micro/test113.js:18: [info] Abstract value: 2.718281828459045
+test/micro/test113.js:19: [info] Abstract value: NaN
+test/micro/test113.js:20: [info] Abstract value: false
+test/micro/test113.js:21: [info] Abstract value: "[object Math]"
+test/micro/test113.js:22: [info] Abstract value: 4711.0
+test/micro/test113.js:23: [info] Abstract value: NaN
+test/micro/test113.js:25: [info] Abstract value: 111.0
+test/micro/test113.js:27: [info] Abstract value: [@String#node47]

@@ -1,0 +1,18 @@
+The following are the running times of all chrome experiments, without debugging:
+
+015: 18s    [lots of reported dead code]
+029: 14s
+032: 24s    [lots of reported dead code]
+033: 22s    [lots of reported dead code]
+034: 40s    [some reported dead code]
+046: 8s
+069: 9s
+076: 11s
+077: 7s
+090: 8s
+091: 9s
+092: 23s    [some reported dead code]
+094: 5s
+099: 7s
+
+This is primarily a status on which tests make the analysis report a lot of dead code.

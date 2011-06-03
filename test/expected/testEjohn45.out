@@ -1,0 +1,9 @@
+test/resig/ejohn45.js:11: [maybe] Assertion fails
+test/resig/ejohn45.js:12: [maybe] Assertion fails
+test/resig/ejohn45.js:14: [info] Abstract value: UInt
+test/resig/ejohn45.js:15: [info] Abstract value: Undef|UInt
+test/resig/ejohn45.js:8: [definite] Too few parameters to native function Array.prototype.slice
+test/resig/ejohn45.js:12: [maybe] Reading absent property (computed name)
+test/resig/ejohn45.js:15: [maybe] Reading absent property (computed name)
+test/resig/ejohn45.js:2: [definite] Unreachable function
+test/resig/ejohn45.js:3: [definite] Unreachable code

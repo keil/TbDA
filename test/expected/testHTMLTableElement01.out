@@ -1,0 +1,23 @@
+test/dom/html/HTMLTableElement01.html:4: [info] Abstract value: [*native HTMLTableElement]
+test/dom/html/HTMLTableElement01.html:5: [info] Abstract value: [*native HTMLTableCaptionElement]
+test/dom/html/HTMLTableElement01.html:6: [info] Abstract value: [*native HTMLTableSectionElement]
+test/dom/html/HTMLTableElement01.html:7: [info] Abstract value: [*native HTMLTableSectionElement]
+test/dom/html/HTMLTableElement01.html:8: [info] Abstract value: [*native HTMLCollection]
+test/dom/html/HTMLTableElement01.html:9: [info] Abstract value: [*native HTMLCollection]
+test/dom/html/HTMLTableElement01.html:10: [info] Abstract value: Str
+test/dom/html/HTMLTableElement01.html:11: [info] Abstract value: Str
+test/dom/html/HTMLTableElement01.html:12: [info] Abstract value: Str
+test/dom/html/HTMLTableElement01.html:13: [info] Abstract value: Str
+test/dom/html/HTMLTableElement01.html:14: [info] Abstract value: Str
+test/dom/html/HTMLTableElement01.html:15: [info] Abstract value: Str
+test/dom/html/HTMLTableElement01.html:16: [info] Abstract value: Str
+test/dom/html/HTMLTableElement01.html:17: [info] Abstract value: Str
+test/dom/html/HTMLTableElement01.html:18: [info] Abstract value: Str
+test/dom/html/HTMLTableElement01.html:20: [info] Abstract value: [@native HTMLTableElement.prototype.createTHead]
+test/dom/html/HTMLTableElement01.html:21: [info] Abstract value: [@native HTMLTableElement.prototype.deleteTHead]
+test/dom/html/HTMLTableElement01.html:22: [info] Abstract value: [@native HTMLTableElement.prototype.createTFoot]
+test/dom/html/HTMLTableElement01.html:23: [info] Abstract value: [@native HTMLTableElement.prototype.deleteTFoot]
+test/dom/html/HTMLTableElement01.html:24: [info] Abstract value: [@native HTMLTableElement.prototype.createCaption]
+test/dom/html/HTMLTableElement01.html:25: [info] Abstract value: [@native HTMLTableElement.prototype.deleteCaption]
+test/dom/html/HTMLTableElement01.html:26: [info] Abstract value: [@native HTMLTableElement.prototype.insertRow]
+test/dom/html/HTMLTableElement01.html:27: [info] Abstract value: [@native HTMLTableElement.prototype.deleteRow]

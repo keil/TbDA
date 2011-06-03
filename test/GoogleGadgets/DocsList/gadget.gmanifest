@@ -1,0 +1,24 @@
+<gadget minimumGoogleDesktopVersion="5.8.0.0">
+  <platform>
+    <windows minimumGadgetHostVersion="5.8.0.0"/>
+    <linux minimumGadgetHostVersion="0.10.4.0"/>
+    <mac supported="no"/>
+  </platform>
+  <about>
+    <name>&GADGET_NAME;</name>
+    <description>&GADGET_DESCRIPTION;</description>
+    <aboutText>&GADGET_ABOUT_TEXT;
+
+&VERSION_STRING;
+</aboutText>
+    <smallIcon>icon_small.png</smallIcon>
+    <icon>icon_large.png</icon>
+    <version>&VERSION_STRING;</version>
+    <author>&GADGET_OWNER;</author>
+    <authorWebsite>http://desktop.google.com/plugins.html</authorWebsite>
+    <id>3c0bed5e-0e1d-48b8-94f6-5571958f19f3</id>
+    <copyright>&GADGET_COPYRIGHT;</copyright>
+    <authorEmail></authorEmail>
+    <category>google,tools,technology</category>
+  </about>
+</gadget>

@@ -1,0 +1,222 @@
+...
+block 44 at test/google/benchpress_with_assumes.js:35, transfers: 16095 (avg/node: 9.373), pending: 1, contexts: 1, position: 1436869
+===========  Scanning for messages ===========
+test/google/benchpress_with_assumes.js:76: [maybe] TypeError, reading property of null/undefined
+test/google/benchpress_with_assumes.js:457: [maybe] TypeError, reading property of null/undefined
+test/google/benchpress_with_assumes.js:457: [maybe] TypeError, reading property of null/undefined
+test/google/benchpress_with_assumes.js:457: [maybe] TypeError, reading property of null/undefined
+test/google/benchpress_with_assumes.js:468: [maybe] TypeError, reading property of null/undefined
+test/google/benchpress_with_assumes.js:74: [maybe] Reading absent property (computed name)
+test/google/benchpress_with_assumes.js:82: [maybe] Reading absent property (computed name)
+test/google/benchpress_with_assumes.js:132: [maybe] Reading absent property (computed name)
+test/google/benchpress_with_assumes.js:155: [maybe] Reading absent property (computed name)
+test/google/benchpress_with_assumes.js:157: [maybe] Reading absent property (computed name)
+test/google/benchpress_with_assumes.js:192: [maybe] Reading absent property (computed name)
+test/google/benchpress_with_assumes.js:192: [maybe] Reading absent property (computed name)
+test/google/benchpress_with_assumes.js:192: [maybe] Reading absent property (computed name)
+test/google/benchpress_with_assumes.js:275: [maybe] Reading absent property (computed name)
+test/google/benchpress_with_assumes.js:276: [maybe] Reading absent property (computed name)
+test/google/benchpress_with_assumes.js:291: [maybe] Reading absent property (computed name)
+test/google/benchpress_with_assumes.js:291: [maybe] Reading absent property (computed name)
+test/google/benchpress_with_assumes.js:294: [maybe] Reading absent property (computed name)
+test/google/benchpress_with_assumes.js:294: [maybe] Reading absent property (computed name)
+test/google/benchpress_with_assumes.js:304: [maybe] Reading absent property (computed name)
+test/google/benchpress_with_assumes.js:304: [maybe] Reading absent property (computed name)
+test/google/benchpress_with_assumes.js:326: [maybe] Reading absent property (computed name)
+test/google/benchpress_with_assumes.js:330: [maybe] Reading absent property (computed name)
+test/google/benchpress_with_assumes.js:331: [maybe] Reading absent property (computed name)
+test/google/benchpress_with_assumes.js:332: [maybe] Reading absent property (computed name)
+test/google/benchpress_with_assumes.js:334: [maybe] Reading absent property (computed name)
+test/google/benchpress_with_assumes.js:408: [maybe] Reading absent property (computed name)
+test/google/benchpress_with_assumes.js:413: [maybe] Reading absent property (computed name)
+test/google/benchpress_with_assumes.js:494: [maybe] Reading absent property (computed name)
+test/google/benchpress_with_assumes.js:278: [maybe] Conversion to number yields NaN
+test/google/benchpress_with_assumes.js:279: [maybe] Conversion to number yields NaN
+test/google/benchpress_with_assumes.js:294: [maybe] Conversion to number yields NaN
+test/google/benchpress_with_assumes.js:306: [maybe] Conversion to number yields NaN
+test/google/benchpress_with_assumes.js:330: [maybe] Conversion to number yields NaN
+test/google/benchpress_with_assumes.js:331: [maybe] Conversion to number yields NaN
+test/google/benchpress_with_assumes.js:364: [maybe] Conversion to number yields NaN
+test/google/benchpress_with_assumes.js:391: [maybe] Conversion to number yields NaN
+test/google/benchpress_with_assumes.js:399: [maybe] Conversion to number yields NaN
+test/google/benchpress_with_assumes.js:494: [maybe] Conversion to number yields NaN
+===========  Call graph ===========
+function sum() at test/google/benchpress_with_assumes.js:251 may be called from:
+  test/google/benchpress_with_assumes.js:19
+function Benchmark(string,run) at test/google/benchpress_with_assumes.js:9 may be called from:
+  test/google/benchpress_with_assumes.js:1
+  test/google/benchpress_with_assumes.js:1
+  test/google/benchpress_with_assumes.js:1
+  test/google/benchpress_with_assumes.js:1
+  test/google/benchpress_with_assumes.js:1
+  test/google/benchpress_with_assumes.js:1
+  test/google/benchpress_with_assumes.js:1
+  test/google/benchpress_with_assumes.js:1
+  test/google/benchpress_with_assumes.js:1
+  test/google/benchpress_with_assumes.js:1
+  test/google/benchpress_with_assumes.js:1
+  test/google/benchpress_with_assumes.js:1
+  test/google/benchpress_with_assumes.js:1
+function doFib(n) at test/google/benchpress_with_assumes.js:35 may be called from:
+  test/google/benchpress_with_assumes.js:35
+  test/google/benchpress_with_assumes.js:35
+  test/google/benchpress_with_assumes.js:40
+function towers() at test/google/benchpress_with_assumes.js:113 may be called from:
+  test/google/benchpress_with_assumes.js:19
+function() at test/google/benchpress_with_assumes.js:383 may be called from:
+  test/google/benchpress_with_assumes.js:391
+  test/google/benchpress_with_assumes.js:399
+  test/google/benchpress_with_assumes.js:414
+function(n) at test/google/benchpress_with_assumes.js:363 may be called from:
+  test/google/benchpress_with_assumes.js:369
+  test/google/benchpress_with_assumes.js:377
+  test/google/benchpress_with_assumes.js:413
+function TowersDisk(size) at test/google/benchpress_with_assumes.js:69 may be called from:
+  test/google/benchpress_with_assumes.js:109
+function quicksort() at test/google/benchpress_with_assumes.js:345 may be called from:
+  test/google/benchpress_with_assumes.js:19
+function() at test/google/benchpress_with_assumes.js:239 may be called from:
+  test/google/benchpress_with_assumes.js:19
+function takl() at test/google/benchpress_with_assumes.js:466 may be called from:
+  test/google/benchpress_with_assumes.js:19
+function recurse(n) at test/google/benchpress_with_assumes.js:233 may be called from:
+  test/google/benchpress_with_assumes.js:233
+  test/google/benchpress_with_assumes.js:235
+  test/google/benchpress_with_assumes.js:239
+function check(data) at test/google/benchpress_with_assumes.js:288 may be called from:
+  test/google/benchpress_with_assumes.js:317
+  test/google/benchpress_with_assumes.js:348
+function loop() at test/google/benchpress_with_assumes.js:51 may be called from:
+  test/google/benchpress_with_assumes.js:19
+function random() at test/google/benchpress_with_assumes.js:264 may be called from:
+  test/google/benchpress_with_assumes.js:272
+function tryQueens(i,a,b,c,x) at test/google/benchpress_with_assumes.js:187 may be called from:
+  test/google/benchpress_with_assumes.js:198
+  test/google/benchpress_with_assumes.js:223
+function queens() at test/google/benchpress_with_assumes.js:212 may be called from:
+  test/google/benchpress_with_assumes.js:19
+function towersMoveTop(from,to) at test/google/benchpress_with_assumes.js:91 may be called from:
+  test/google/benchpress_with_assumes.js:102
+  test/google/benchpress_with_assumes.js:98
+function bubblesort() at test/google/benchpress_with_assumes.js:314 may be called from:
+  test/google/benchpress_with_assumes.js:19
+function makeList(length) at test/google/benchpress_with_assumes.js:439 may be called from:
+  test/google/benchpress_with_assumes.js:466
+  test/google/benchpress_with_assumes.js:466
+  test/google/benchpress_with_assumes.js:439
+  test/google/benchpress_with_assumes.js:466
+function permute() at test/google/benchpress_with_assumes.js:173 may be called from:
+  test/google/benchpress_with_assumes.js:19
+function ListElement(length,next) at test/google/benchpress_with_assumes.js:434 may be called from:
+  test/google/benchpress_with_assumes.js:439
+function treesort() at test/google/benchpress_with_assumes.js:408 may be called from:
+  test/google/benchpress_with_assumes.js:19
+function error(string) at test/google/benchpress_with_assumes.js:27 may be called from:
+  test/google/benchpress_with_assumes.js:178
+  test/google/benchpress_with_assumes.js:58
+  test/google/benchpress_with_assumes.js:119
+  test/google/benchpress_with_assumes.js:144
+  test/google/benchpress_with_assumes.js:414
+  test/google/benchpress_with_assumes.js:224
+  test/google/benchpress_with_assumes.js:469
+  test/google/benchpress_with_assumes.js:84
+  test/google/benchpress_with_assumes.js:77
+  test/google/benchpress_with_assumes.js:294
+  test/google/benchpress_with_assumes.js:253
+  test/google/benchpress_with_assumes.js:292
+  test/google/benchpress_with_assumes.js:42
+function SortData(length) at test/google/benchpress_with_assumes.js:269 may be called from:
+  test/google/benchpress_with_assumes.js:314
+  test/google/benchpress_with_assumes.js:345
+  test/google/benchpress_with_assumes.js:408
+function doQuicksort(a,low,high) at test/google/benchpress_with_assumes.js:326 may be called from:
+  test/google/benchpress_with_assumes.js:341
+  test/google/benchpress_with_assumes.js:342
+  test/google/benchpress_with_assumes.js:347
+function doTakl(x,y,z) at test/google/benchpress_with_assumes.js:456 may be called from:
+  test/google/benchpress_with_assumes.js:457
+  test/google/benchpress_with_assumes.js:457
+  test/google/benchpress_with_assumes.js:457
+  test/google/benchpress_with_assumes.js:457
+  test/google/benchpress_with_assumes.js:466
+function doSum(start,end) at test/google/benchpress_with_assumes.js:245 may be called from:
+  test/google/benchpress_with_assumes.js:251
+function towersPop(pile) at test/google/benchpress_with_assumes.js:82 may be called from:
+  test/google/benchpress_with_assumes.js:92
+function doSieve(flags,size) at test/google/benchpress_with_assumes.js:128 may be called from:
+  test/google/benchpress_with_assumes.js:140
+function doPermute(n,array) at test/google/benchpress_with_assumes.js:161 may be called from:
+  test/google/benchpress_with_assumes.js:167
+  test/google/benchpress_with_assumes.js:164
+  test/google/benchpress_with_assumes.js:177
+function() at test/google/benchpress_with_assumes.js:428 may be called from:
+  test/google/benchpress_with_assumes.js:19
+function fib() at test/google/benchpress_with_assumes.js:40 may be called from:
+  test/google/benchpress_with_assumes.js:19
+function sieve() at test/google/benchpress_with_assumes.js:140 may be called from:
+  test/google/benchpress_with_assumes.js:19
+function isShorter(x,y) at test/google/benchpress_with_assumes.js:444 may be called from:
+  test/google/benchpress_with_assumes.js:457
+function TreeNode(value) at test/google/benchpress_with_assumes.js:357 may be called from:
+  test/google/benchpress_with_assumes.js:365
+  test/google/benchpress_with_assumes.js:373
+  test/google/benchpress_with_assumes.js:408
+function doBubblesort(a,len) at test/google/benchpress_with_assumes.js:302 may be called from:
+  test/google/benchpress_with_assumes.js:316
+function towersBuild(pile,disks) at test/google/benchpress_with_assumes.js:107 may be called from:
+  test/google/benchpress_with_assumes.js:115
+function tak(x,y,z) at test/google/benchpress_with_assumes.js:423 may be called from:
+  test/google/benchpress_with_assumes.js:423
+  test/google/benchpress_with_assumes.js:423
+  test/google/benchpress_with_assumes.js:423
+  test/google/benchpress_with_assumes.js:423
+  test/google/benchpress_with_assumes.js:428
+function towersMove(from,to,disks) at test/google/benchpress_with_assumes.js:96 may be called from:
+  test/google/benchpress_with_assumes.js:103
+  test/google/benchpress_with_assumes.js:101
+  test/google/benchpress_with_assumes.js:117
+function towersPush(pile,disk) at test/google/benchpress_with_assumes.js:74 may be called from:
+  test/google/benchpress_with_assumes.js:92
+  test/google/benchpress_with_assumes.js:109
+function time(benchmark) at test/google/benchpress_with_assumes.js:15 may be called from:
+  test/google/benchpress_with_assumes.js:485
+  test/google/benchpress_with_assumes.js:480
+  test/google/benchpress_with_assumes.js:478
+  test/google/benchpress_with_assumes.js:484
+  test/google/benchpress_with_assumes.js:486
+  test/google/benchpress_with_assumes.js:489
+  test/google/benchpress_with_assumes.js:490
+  test/google/benchpress_with_assumes.js:483
+  test/google/benchpress_with_assumes.js:479
+  test/google/benchpress_with_assumes.js:482
+  test/google/benchpress_with_assumes.js:488
+  test/google/benchpress_with_assumes.js:487
+  test/google/benchpress_with_assumes.js:481
+function swap(n,k,array) at test/google/benchpress_with_assumes.js:155 may be called from:
+  test/google/benchpress_with_assumes.js:168
+  test/google/benchpress_with_assumes.js:166
+===========  Statistics ===========
+Node transfers: 16095
+
+Call/construct nodes with potential call to non-function:                     0
+Total number of call/construct nodes:                                         126
+==> Call/construct nodes that are certain to never call non-functions:        100.0%
+
+Read variable nodes with potential absent variable:                           0
+Total number of (non-this) read variable nodes:                               507
+==> Read variable nodes that are certain to never read absent variables:      100.0%
+
+Property access nodes with potential null/undef base:                         5
+Total number of property access nodes:                                        113
+==> Property access nodes that are certain to never have null/undef base:     95.5%
+
+Fixed-property read nodes with potential absent property:                     0
+Total number of fixed-property read nodes:                                    48
+==> Fixed-property read nodes that are certain to never have absent property: 100.0%
+
+State: created=11011, makeWritableStore=9406
+Obj: created=1091167, makeWritableProperties=439699
+Value cache: hits=159206, misses=4020, finalSize=1136
+Value object set cache: hits=72417, misses=485, finalSize=365
+ScopeChain cache: hits=59283, misses=138, finalSize=47
+Analysis finished in 10244ms

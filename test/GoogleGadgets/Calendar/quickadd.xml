@@ -1,0 +1,36 @@
+﻿<view height="106" resizable="false" width="356" onopen="view_onopen()"
+  onsizing="view_onsizing()">
+  <div height="100%" name="divBg" width="100%" x="0" y="0" background="images/quick_add_bg.png">
+    <div height="60" name="inputContent" width="334" x="10" y="28" background="#F0F1FA">
+      <label height="25" name="exampleLabel" width="325" x="5" y="35" font="Arial"
+        size="10" valign="middle" wordwrap="true">&QUICK_ADD_EXAMPLE;
+      </label>
+      <div height="23" name="inputBg" width="322" x="5" y="5" background="#668CD9">
+        <edit height="21" name="quickAddEdit" width="295" x="1" y="1" font="Arial"
+          size="12"/>
+        <label cursor="hand" enabled="true" height="19" hitTest="htclient"
+          name="btnAdd" width="20" x="299" y="2" align="center"
+          bold="true" color="#FFFFFF" font="Arial" size="12"
+         >+
+        </label>
+      </div>
+      <img name="imgCorner1" x="0" y="0" src="images\details_corner_tl.png"
+       />
+      <img name="imgCorner2" x="330" y="0" src="images\details_corner_tr.png"
+       />
+      <img name="imgCorner3" x="0" y="55" src="images\details_corner_bl.png"
+       />
+      <img name="imgCorner4" x="330" y="55" src="images\details_corner_br.png"
+       />
+    </div>
+    <label height="16" name="inputTitle" width="300" x="14" y="9" bold="true"
+      color="#FFFFFF">&QUICK_ADD_EVENT;
+    </label>
+    <img cursor="hand" enabled="true" hitTest="htclient" name="imgClose"
+      x="328" y="8" onclick="imgClose_onclick()" src="images\closeBtn.png"
+     />
+  </div>
+  <script src="constants.js" />
+  <script src="quickadd.js" />
+  <script src="utils.js" />
+</view>

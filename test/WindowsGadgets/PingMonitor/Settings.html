@@ -1,0 +1,29 @@
+﻿<html>
+<head>
+<title>Ping Monitor Settings</title>
+<link href="css/settings.css" rel="stylesheet" type="text/css">
+<script type="text/jscript" language="javascript" src="js/sttings.js"></script>
+</head>
+<body onload="LoadSettings();">
+ <b style="font-size:15px;">Enter server address:</b><br>
+ <input id="server" style="width:100%;">
+ <div style="font-size:10px;">
+ The form of the value can be either the URL ("myfaviritegadgets.info"), IPv4 address ("192.168.177.124"), or IPv6 address ("2010:836B:4179::836B:4179").
+ </div>
+ 
+ <b style="font-size:15px;">Size:&nbsp;</b>
+ <input style="width:34px;" id="size" type="text" size="3" maxlength="3" onkeypress="validateNumber(this);">&nbsp;<b style="font-size:14px;">%</b>&nbsp;&nbsp;
+ <b style="font-size:15px;">Refresh rate:</b>&nbsp;
+ <input style="width:34px;" id="timetorefresh" type="text" size="4" maxlength="4" onkeypress="validateNumber(this);">&nbsp;<b style="font-size:14x;">[sec]</b><br>
+ <div><input name="fillgraph" type="checkbox">&nbsp;<b style="font-size:15px;">Fill graph drawing style</b></div><br>
+ 
+ <hr style="width:70%;text-align:left">
+ <div class="settingProductName"><strong>Ping Monitor 1.0</strong></div>
+ <div class="settingProductAuthor">Designed and written by<br><em>Igor "Igogo" Bushin</em></div>
+ <div class="settingCopyright">&copy; 2010 Igor "Igogo" Bushin</div>
+ <div class="settingLink"><a href="http://www.shvaika.info/">shvaika.info</a></div>
+ <div class="settingLink"><a href="http://www.myfavoritegadgets.info/">More gadgets</a></div>  
+ <div style="position:absolute;top:156px;left:170px"><img width="59px" height="80px" src="images/Shvaechka.gif"></div>
+
+</body>
+</html>

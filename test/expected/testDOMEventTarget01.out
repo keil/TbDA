@@ -1,0 +1,5 @@
+test/dom/events/DOMEventTarget01.html:3: [info] Abstract value: [*native Node]
+test/dom/events/DOMEventTarget01.html:4: [info] Prototype: [@native Node.prototype] -> [@native Object.prototype]
+test/dom/events/DOMEventTarget01.html:6: [info] Abstract value: [@native EventTarget.addEventListener]
+test/dom/events/DOMEventTarget01.html:7: [info] Abstract value: [@native EventTarget.removeEventListener]
+test/dom/events/DOMEventTarget01.html:8: [info] Abstract value: [@native EventTarget.dispatchEvent]

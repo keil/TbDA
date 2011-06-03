@@ -1,0 +1,57 @@
+test/dom/DOMWindow01.html:4: [info] Abstract value: [@native <the global object>]
+test/dom/DOMWindow01.html:6: [info] Abstract value: [*native HTMLDocument]
+test/dom/DOMWindow01.html:7: [info] Abstract value: [@native Window.history]
+test/dom/DOMWindow01.html:8: [info] Abstract value: UInt
+test/dom/DOMWindow01.html:9: [info] Abstract value: UInt
+test/dom/DOMWindow01.html:10: [info] Abstract value: [@native Window.location]
+test/dom/DOMWindow01.html:11: [info] Abstract value: [@native Navigator]
+test/dom/DOMWindow01.html:12: [info] Abstract value: UInt
+test/dom/DOMWindow01.html:13: [info] Abstract value: UInt
+test/dom/DOMWindow01.html:14: [info] Abstract value: UInt
+test/dom/DOMWindow01.html:15: [info] Abstract value: UInt
+test/dom/DOMWindow01.html:16: [info] Abstract value: [@native <the global object>]
+test/dom/DOMWindow01.html:17: [info] Abstract value: [@native Window.screen]
+test/dom/DOMWindow01.html:18: [info] Abstract value: UInt
+test/dom/DOMWindow01.html:19: [info] Abstract value: UInt
+test/dom/DOMWindow01.html:20: [info] Abstract value: UInt
+test/dom/DOMWindow01.html:21: [info] Abstract value: UInt
+test/dom/DOMWindow01.html:22: [info] Abstract value: UInt
+test/dom/DOMWindow01.html:23: [info] Abstract value: UInt
+test/dom/DOMWindow01.html:24: [info] Abstract value: [@native <the global object>]
+test/dom/DOMWindow01.html:25: [info] Abstract value: Str
+test/dom/DOMWindow01.html:26: [info] Abstract value: [@native <the global object>]
+test/dom/DOMWindow01.html:27: [info] Abstract value: [@native <the global object>]
+test/dom/DOMWindow01.html:29: [info] Abstract value: [@native Window.addEventListener]
+test/dom/DOMWindow01.html:30: [info] Abstract value: [@native Window.removeEventListener]
+test/dom/DOMWindow01.html:32: [info] Abstract value: [@native Window.alert]
+test/dom/DOMWindow01.html:33: [info] Abstract value: [@native Window.atob]
+test/dom/DOMWindow01.html:34: [info] Abstract value: [@native Window.back]
+test/dom/DOMWindow01.html:35: [info] Abstract value: [@native Window.blur]
+test/dom/DOMWindow01.html:36: [info] Abstract value: [@native Window.btoa]
+test/dom/DOMWindow01.html:37: [info] Abstract value: [@native Window.clearInterval]
+test/dom/DOMWindow01.html:38: [info] Abstract value: [@native Window.clearTimeout]
+test/dom/DOMWindow01.html:39: [info] Abstract value: [@native Window.close]
+test/dom/DOMWindow01.html:40: [info] Abstract value: [@native Window.confirm]
+test/dom/DOMWindow01.html:41: [info] Abstract value: [@native Window.escape]
+test/dom/DOMWindow01.html:42: [info] Abstract value: [@native Window.focus]
+test/dom/DOMWindow01.html:43: [info] Abstract value: [@native Window.forward]
+test/dom/DOMWindow01.html:44: [info] Abstract value: [@native Window.home]
+test/dom/DOMWindow01.html:45: [info] Abstract value: [@native Window.maximize]
+test/dom/DOMWindow01.html:46: [info] Abstract value: [@native Window.minimize]
+test/dom/DOMWindow01.html:47: [info] Abstract value: [@native Window.moveBy]
+test/dom/DOMWindow01.html:48: [info] Abstract value: [@native Window.moveTo]
+test/dom/DOMWindow01.html:49: [info] Abstract value: [@native Window.open]
+test/dom/DOMWindow01.html:50: [info] Abstract value: [@native Window.print]
+test/dom/DOMWindow01.html:51: [info] Abstract value: [@native Window.prompt]
+test/dom/DOMWindow01.html:52: [info] Abstract value: [@native Window.resizeBy]
+test/dom/DOMWindow01.html:53: [info] Abstract value: [@native Window.resizeTo]
+test/dom/DOMWindow01.html:54: [info] Abstract value: [@native Window.scroll]
+test/dom/DOMWindow01.html:55: [info] Abstract value: [@native Window.scrollBy]
+test/dom/DOMWindow01.html:56: [info] Abstract value: [@native Window.scrollByLines]
+test/dom/DOMWindow01.html:57: [info] Abstract value: [@native Window.scrollByPages]
+test/dom/DOMWindow01.html:58: [info] Abstract value: [@native Window.scrollTo]
+test/dom/DOMWindow01.html:59: [info] Abstract value: [@native Window.setInterval]
+test/dom/DOMWindow01.html:60: [info] Abstract value: [@native Window.setTimeout]
+test/dom/DOMWindow01.html:61: [info] Abstract value: [@native Window.stop]
+test/dom/DOMWindow01.html:62: [info] Abstract value: [@native Window.unescape]
+test/dom/DOMWindow01.html:64: [info] Abstract value: UInt

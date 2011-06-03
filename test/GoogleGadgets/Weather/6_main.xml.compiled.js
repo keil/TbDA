@@ -1,0 +1,3 @@
+
+function Gb(a,b,c){var d=a.filename,e="http://desktop.google.com/images/weather/"+d;debug.trace("Resource URL: "+e);var g=new XMLHttpRequest;g.onreadystatechange=l;g.open("GET",e,true);g.send();function l(){if(g.readyState!=4){return}if(g.status==200){try{var m=E(d);debug.trace("Resource Path: "+m);var j=new ActiveXObject("ADODB.Stream");j.type=1;j.open();j.write(g.responseBody);j.saveToFile(m,2);j.close();b(a)}catch(r){debug.error("Error retrieving resource: "+r.message);if(c){c(r)}}}else{if(c){c()}}g=
+null}}f.REGULAR=0;f.PANEL=1;f.IMAGE=2;function f(a,b,c){this.id=a;this.filename=b;this.type=c};

@@ -1,0 +1,13 @@
+test/micro/test20.js:22: [definite] ReferenceError, reading absent variable: bar4
+test/micro/test20.js:2: [definite] Reading 'this' yields the global object
+test/micro/test20.js:17: [definite] Reading 'this' yields the global object
+test/micro/test20.js:1: [definite] Uncaught exception, constructed at [test/micro/test20.js:16, test/micro/test20.js:17, test/micro/test20.js:18, test/micro/test20.js:22]
+test/micro/test20.js:16: [maybe] TypeError, call to non-function
+test/micro/test20.js:17: [maybe] TypeError, call to non-function
+test/micro/test20.js:18: [maybe] TypeError, call to non-function
+test/micro/test20.js:3: [maybe] Conversion to number yields NaN
+test/micro/test20.js:13: [info] Abstract value: 44.0|[@function foo#fun1]
+test/micro/test20.js:14: [info] Abstract value: [@function foo#fun1]
+test/micro/test20.js:19: [info] Abstract value: UInt|NotUInt|NaN
+test/micro/test20.js:20: [info] Abstract value: UInt|NotUInt|NaN
+test/micro/test20.js:21: [info] Abstract value: UInt|NotUInt|NaN

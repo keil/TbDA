@@ -1,0 +1,38 @@
+test/dom/DOMWindow03.html:5: [info] Abstract value: [@native Window.history]
+test/dom/DOMWindow03.html:6: [info] Prototype: [@native Object.prototype]
+test/dom/DOMWindow03.html:8: [info] Abstract value: UInt
+test/dom/DOMWindow03.html:9: [info] Abstract value: [@native Window.history.back]
+test/dom/DOMWindow03.html:10: [info] Abstract value: [@native Window.history.forward]
+test/dom/DOMWindow03.html:11: [info] Abstract value: [@native Window.history.go]
+test/dom/DOMWindow03.html:14: [info] Abstract value: [@native Window.location]
+test/dom/DOMWindow03.html:15: [info] Prototype: [@native Object.prototype]
+test/dom/DOMWindow03.html:17: [info] Abstract value: Str
+test/dom/DOMWindow03.html:18: [info] Abstract value: Str
+test/dom/DOMWindow03.html:19: [info] Abstract value: Str
+test/dom/DOMWindow03.html:20: [info] Abstract value: Str
+test/dom/DOMWindow03.html:21: [info] Abstract value: Str
+test/dom/DOMWindow03.html:22: [info] Abstract value: Str
+test/dom/DOMWindow03.html:23: [info] Abstract value: Str
+test/dom/DOMWindow03.html:24: [info] Abstract value: Str
+test/dom/DOMWindow03.html:26: [info] Abstract value: [@native Window.location.assign]
+test/dom/DOMWindow03.html:27: [info] Abstract value: [@native Window.location.reload]
+test/dom/DOMWindow03.html:28: [info] Abstract value: [@native Window.location.replace]
+test/dom/DOMWindow03.html:29: [info] Abstract value: [@native Window.location.toString]
+test/dom/DOMWindow03.html:32: [info] Abstract value: [@native Navigator]
+test/dom/DOMWindow03.html:33: [info] Prototype: [@native Object.prototype]
+test/dom/DOMWindow03.html:35: [info] Abstract value: Str
+test/dom/DOMWindow03.html:36: [info] Abstract value: Str
+test/dom/DOMWindow03.html:37: [info] Abstract value: Str
+test/dom/DOMWindow03.html:38: [info] Abstract value: Str
+test/dom/DOMWindow03.html:41: [info] Abstract value: [@native Window.screen]
+test/dom/DOMWindow03.html:42: [info] Prototype: [@native Object.prototype]
+test/dom/DOMWindow03.html:44: [info] Abstract value: UInt
+test/dom/DOMWindow03.html:45: [info] Abstract value: UInt
+test/dom/DOMWindow03.html:46: [info] Abstract value: UInt
+test/dom/DOMWindow03.html:47: [info] Abstract value: UInt
+test/dom/DOMWindow03.html:48: [info] Abstract value: UInt
+test/dom/DOMWindow03.html:49: [info] Abstract value: UInt
+test/dom/DOMWindow03.html:50: [info] Abstract value: UInt
+test/dom/DOMWindow03.html:51: [info] Abstract value: UInt
+test/dom/DOMWindow03.html:52: [info] Abstract value: UInt
+test/dom/DOMWindow03.html:53: [info] Abstract value: UInt

@@ -1,0 +1,59 @@
+test/sunspider/crypto-sha1.js:27: [definite] Unreachable code
+test/sunspider/crypto-sha1.js:27: [definite] Unreachable function: b64_sha1
+test/sunspider/crypto-sha1.js:28: [definite] Unreachable code
+test/sunspider/crypto-sha1.js:28: [definite] Unreachable function: str_sha1
+test/sunspider/crypto-sha1.js:29: [definite] Unreachable function: hex_hmac_sha1
+test/sunspider/crypto-sha1.js:30: [definite] Unreachable function: b64_hmac_sha1
+test/sunspider/crypto-sha1.js:31: [definite] Unreachable function: str_hmac_sha1
+test/sunspider/crypto-sha1.js:36: [definite] Unreachable function: sha1_vm_test
+test/sunspider/crypto-sha1.js:38: [definite] Unreachable code
+test/sunspider/crypto-sha1.js:112: [definite] Unreachable function: core_hmac_sha1
+test/sunspider/crypto-sha1.js:114: [definite] Unreachable code
+test/sunspider/crypto-sha1.js:115: [definite] Unreachable code
+test/sunspider/crypto-sha1.js:117: [definite] Unreachable code
+test/sunspider/crypto-sha1.js:118: [definite] Unreachable code
+test/sunspider/crypto-sha1.js:120: [definite] Unreachable code
+test/sunspider/crypto-sha1.js:124: [definite] Unreachable code
+test/sunspider/crypto-sha1.js:125: [definite] Unreachable code
+test/sunspider/crypto-sha1.js:163: [definite] Unreachable function: binb2str
+test/sunspider/crypto-sha1.js:165: [definite] Unreachable code
+test/sunspider/crypto-sha1.js:167: [definite] Unreachable code
+test/sunspider/crypto-sha1.js:168: [definite] Unreachable code
+test/sunspider/crypto-sha1.js:169: [definite] Unreachable code
+test/sunspider/crypto-sha1.js:177: [definite] Unreachable code
+test/sunspider/crypto-sha1.js:190: [definite] Unreachable function: binb2b64
+test/sunspider/crypto-sha1.js:192: [definite] Unreachable code
+test/sunspider/crypto-sha1.js:194: [definite] Unreachable code
+test/sunspider/crypto-sha1.js:196: [definite] Unreachable code
+test/sunspider/crypto-sha1.js:199: [definite] Unreachable code
+test/sunspider/crypto-sha1.js:201: [definite] Unreachable code
+test/sunspider/crypto-sha1.js:202: [definite] Unreachable code
+test/sunspider/crypto-sha1.js:205: [definite] Unreachable code
+test/sunspider/crypto-sha1.js:26: [definite] Converting primitive string to object
+test/sunspider/crypto-sha1.js:155: [definite] Converting primitive string to object
+test/sunspider/crypto-sha1.js:156: [definite] Converting primitive string to object
+test/sunspider/crypto-sha1.js:156: [definite] Converting primitive string to object
+test/sunspider/crypto-sha1.js:181: [definite] Converting primitive string to object
+test/sunspider/crypto-sha1.js:181: [definite] Converting primitive string to object
+test/sunspider/crypto-sha1.js:181: [definite] Converting primitive string to object
+test/sunspider/crypto-sha1.js:181: [definite] Converting primitive string to object
+test/sunspider/crypto-sha1.js:47: [maybe] Conversion to number yields NaN
+test/sunspider/crypto-sha1.js:47: [maybe] Reading absent property (computed name)
+test/sunspider/crypto-sha1.js:67: [maybe] Reading absent property (computed name)
+test/sunspider/crypto-sha1.js:68: [maybe] Conversion to number yields NaN
+test/sunspider/crypto-sha1.js:68: [maybe] Conversion to number yields NaN
+test/sunspider/crypto-sha1.js:68: [maybe] Conversion to number yields NaN
+test/sunspider/crypto-sha1.js:68: [maybe] Reading absent property (computed name)
+test/sunspider/crypto-sha1.js:68: [maybe] Reading absent property (computed name)
+test/sunspider/crypto-sha1.js:68: [maybe] Reading absent property (computed name)
+test/sunspider/crypto-sha1.js:68: [maybe] Reading absent property (computed name)
+test/sunspider/crypto-sha1.js:69: [maybe] Reading absent property (computed name)
+test/sunspider/crypto-sha1.js:134: [maybe] Conversion to number yields NaN
+test/sunspider/crypto-sha1.js:135: [maybe] Conversion to number yields NaN
+test/sunspider/crypto-sha1.js:156: [maybe] Conversion to number yields NaN
+test/sunspider/crypto-sha1.js:156: [maybe] Reading absent property (computed name)
+test/sunspider/crypto-sha1.js:181: [maybe] Conversion to number yields NaN
+test/sunspider/crypto-sha1.js:181: [maybe] Conversion to number yields NaN
+test/sunspider/crypto-sha1.js:181: [maybe] Reading absent property (computed name)
+test/sunspider/crypto-sha1.js:181: [maybe] Reading absent property (computed name)
+test/sunspider/crypto-sha1.js:233: [info] Abstract value: UInt

@@ -1,0 +1,9 @@
+-propagate-dead-flow test/prototype/prototype2.js
+-no-unreachable test/prototype/prototype.js test/prototype/p1.js
+
+TODO:
+- prototype.js:4427: __proto__
+- eval
+- DOM/AJAX/JSON functionality in prototype.js
+- larger applications
+- other libraries?

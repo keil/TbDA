@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<gadget>
+	<name>Core Temp</name>
+	<namespace>coretemp</namespace>
+	<version>2.4</version>
+	<author name="Arthur Liberman">
+		<info url="http://www.alcpu.com/CoreTemp/addons.html" text="Core Temp Add-Ons" />
+		<logo src="images/logos/cpu48.png" />
+	</author>
+	<copyright>© 2010</copyright>
+	<description>Core Temp Windows Sidebar gadget. Displays processor information such as processor brand and model, temperature, load, frequency and VID. Requires "Core Temp" version 0.99 or later to work.</description>
+  <icons>
+    <icon height="64" width="64" src="images/logos/cpu64.png" />
+  </icons>
+  <hosts>
+		<host name="sidebar">
+			<base type="HTML" apiVersion="1.0.0.0" src="gadget.html" />
+			<permissions>Full</permissions>
+			<platform minPlatformVersion="1.0"/>
+			<defaultImage src="images/logos/cpu128.png" />
+			<!-- DO NOT ENABLE --><autoscaleDPI>false</autoscaleDPI>
+		</host>
+	</hosts>
+</gadget>

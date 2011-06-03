@@ -1,0 +1,120 @@
+test/sunspider/3d-raytrace.js:34: [definite] Unreachable function: sqrLengthVector
+test/sunspider/3d-raytrace.js:113: [definite] Conversion to number yields NaN
+test/sunspider/3d-raytrace.js:113: [definite] Reading absent property (computed name)
+test/sunspider/3d-raytrace.js:114: [definite] Conversion to number yields NaN
+test/sunspider/3d-raytrace.js:114: [definite] Reading absent property (computed name)
+test/sunspider/3d-raytrace.js:115: [definite] Conversion to number yields NaN
+test/sunspider/3d-raytrace.js:115: [definite] Reading absent property (computed name)
+test/sunspider/3d-raytrace.js:43: [maybe] TypeError, reading property of null/undefined
+test/sunspider/3d-raytrace.js:43: [maybe] TypeError, reading property of null/undefined
+test/sunspider/3d-raytrace.js:57: [maybe] TypeError, reading property of null/undefined
+test/sunspider/3d-raytrace.js:64: [maybe] TypeError, reading property of null/undefined
+test/sunspider/3d-raytrace.js:72: [maybe] TypeError, reading property of null/undefined
+test/sunspider/3d-raytrace.js:76: [maybe] TypeError, reading property of null/undefined
+test/sunspider/3d-raytrace.js:76: [maybe] TypeError, reading property of null/undefined
+test/sunspider/3d-raytrace.js:80: [maybe] TypeError, reading property of null/undefined
+test/sunspider/3d-raytrace.js:80: [maybe] TypeError, reading property of null/undefined
+test/sunspider/3d-raytrace.js:84: [maybe] TypeError, reading property of null/undefined
+test/sunspider/3d-raytrace.js:88: [maybe] TypeError, reading property of null/undefined
+test/sunspider/3d-raytrace.js:167: [maybe] TypeError, reading property of null/undefined
+test/sunspider/3d-raytrace.js:168: [maybe] TypeError, reading property of null/undefined
+test/sunspider/3d-raytrace.js:197: [maybe] TypeError, reading property of null/undefined
+test/sunspider/3d-raytrace.js:207: [maybe] TypeError, reading property of null/undefined
+test/sunspider/3d-raytrace.js:214: [maybe] TypeError, call to non-function
+test/sunspider/3d-raytrace.js:239: [maybe] TypeError, reading property of null/undefined
+test/sunspider/3d-raytrace.js:243: [maybe] TypeError, reading property of null/undefined
+test/sunspider/3d-raytrace.js:253: [maybe] TypeError, reading property of null/undefined
+test/sunspider/3d-raytrace.js:304: [maybe] TypeError, writing property of null/undefined
+test/sunspider/3d-raytrace.js:399: [maybe] TypeError, writing property of null/undefined
+test/sunspider/3d-raytrace.js:416: [maybe] TypeError, reading property of null/undefined
+test/sunspider/3d-raytrace.js:213: [maybe] Reading absent property: shader
+test/sunspider/3d-raytrace.js:214: [maybe] Reading absent property: shader
+test/sunspider/3d-raytrace.js:221: [maybe] Reading absent property: reflection
+test/sunspider/3d-raytrace.js:224: [maybe] Reading absent property: reflection
+test/sunspider/3d-raytrace.js:239: [maybe] Reading absent property: colour
+test/sunspider/3d-raytrace.js:243: [maybe] Reading absent property: reflection
+test/sunspider/3d-raytrace.js:243: [maybe] Reading absent property: reflection
+test/sunspider/3d-raytrace.js:1: [maybe] Uncaught exception, constructed at [test/sunspider/3d-raytrace.js:43, test/sunspider/3d-raytrace.js:57, test/sunspider/3d-raytrace.js:64, test/sunspider/3d-raytrace.js:72, test/sunspider/3d-raytrace.js:76, test/sunspider/3d-raytrace.js:80, test/sunspider/3d-raytrace.js:84, test/sunspider/3d-raytrace.js:88, test/sunspider/3d-raytrace.js:167, test/sunspider/3d-raytrace.js:168, test/sunspider/3d-raytrace.js:197, test/sunspider/3d-raytrace.js:207, test/sunspider/3d-raytrace.js:214, test/sunspider/3d-raytrace.js:239, test/sunspider/3d-raytrace.js:243, test/sunspider/3d-raytrace.js:253, test/sunspider/3d-raytrace.js:304, test/sunspider/3d-raytrace.js:399, test/sunspider/3d-raytrace.js:416]
+test/sunspider/3d-raytrace.js:57: [maybe] Conversion to number yields NaN
+test/sunspider/3d-raytrace.js:58: [maybe] Conversion to number yields NaN
+test/sunspider/3d-raytrace.js:59: [maybe] Conversion to number yields NaN
+test/sunspider/3d-raytrace.js:88: [maybe] Conversion to number yields NaN
+test/sunspider/3d-raytrace.js:88: [maybe] Conversion to number yields NaN
+test/sunspider/3d-raytrace.js:88: [maybe] Conversion to number yields NaN
+test/sunspider/3d-raytrace.js:105: [maybe] Conversion to number yields NaN
+test/sunspider/3d-raytrace.js:105: [maybe] Conversion to number yields NaN
+test/sunspider/3d-raytrace.js:105: [maybe] Conversion to number yields NaN
+test/sunspider/3d-raytrace.js:106: [maybe] Conversion to number yields NaN
+test/sunspider/3d-raytrace.js:106: [maybe] Conversion to number yields NaN
+test/sunspider/3d-raytrace.js:106: [maybe] Conversion to number yields NaN
+test/sunspider/3d-raytrace.js:107: [maybe] Conversion to number yields NaN
+test/sunspider/3d-raytrace.js:107: [maybe] Conversion to number yields NaN
+test/sunspider/3d-raytrace.js:107: [maybe] Conversion to number yields NaN
+test/sunspider/3d-raytrace.js:118: [maybe] Reading absent property (computed name)
+test/sunspider/3d-raytrace.js:120: [maybe] Reading absent property (computed name)
+test/sunspider/3d-raytrace.js:121: [maybe] Conversion to number yields NaN
+test/sunspider/3d-raytrace.js:121: [maybe] Conversion to number yields NaN
+test/sunspider/3d-raytrace.js:121: [maybe] Conversion to number yields NaN
+test/sunspider/3d-raytrace.js:122: [maybe] Conversion to number yields NaN
+test/sunspider/3d-raytrace.js:122: [maybe] Conversion to number yields NaN
+test/sunspider/3d-raytrace.js:122: [maybe] Conversion to number yields NaN
+test/sunspider/3d-raytrace.js:123: [maybe] Conversion to number yields NaN
+test/sunspider/3d-raytrace.js:123: [maybe] Conversion to number yields NaN
+test/sunspider/3d-raytrace.js:123: [maybe] Conversion to number yields NaN
+test/sunspider/3d-raytrace.js:145: [maybe] Reading absent property (computed name)
+test/sunspider/3d-raytrace.js:146: [maybe] Reading absent property (computed name)
+test/sunspider/3d-raytrace.js:148: [maybe] Reading absent property (computed name)
+test/sunspider/3d-raytrace.js:149: [maybe] Reading absent property (computed name)
+test/sunspider/3d-raytrace.js:151: [maybe] Conversion to number yields NaN
+test/sunspider/3d-raytrace.js:151: [maybe] Reading absent property (computed name)
+test/sunspider/3d-raytrace.js:151: [maybe] Reading absent property (computed name)
+test/sunspider/3d-raytrace.js:152: [maybe] Conversion to number yields NaN
+test/sunspider/3d-raytrace.js:152: [maybe] Reading absent property (computed name)
+test/sunspider/3d-raytrace.js:152: [maybe] Reading absent property (computed name)
+test/sunspider/3d-raytrace.js:153: [maybe] Conversion to number yields NaN
+test/sunspider/3d-raytrace.js:153: [maybe] Reading absent property (computed name)
+test/sunspider/3d-raytrace.js:154: [maybe] Conversion to number yields NaN
+test/sunspider/3d-raytrace.js:154: [maybe] Conversion to number yields NaN
+test/sunspider/3d-raytrace.js:155: [maybe] Reading absent property (computed name)
+test/sunspider/3d-raytrace.js:156: [maybe] Reading absent property (computed name)
+test/sunspider/3d-raytrace.js:157: [maybe] Conversion to number yields NaN
+test/sunspider/3d-raytrace.js:158: [maybe] Conversion to number yields NaN
+test/sunspider/3d-raytrace.js:159: [maybe] Conversion to number yields NaN
+test/sunspider/3d-raytrace.js:160: [maybe] Conversion to number yields NaN
+test/sunspider/3d-raytrace.js:167: [maybe] Conversion to number yields NaN
+test/sunspider/3d-raytrace.js:167: [maybe] Conversion to number yields NaN
+test/sunspider/3d-raytrace.js:167: [maybe] Conversion to number yields NaN
+test/sunspider/3d-raytrace.js:167: [maybe] Reading absent property (computed name)
+test/sunspider/3d-raytrace.js:167: [maybe] Reading absent property (computed name)
+test/sunspider/3d-raytrace.js:167: [maybe] Reading absent property (computed name)
+test/sunspider/3d-raytrace.js:168: [maybe] Conversion to number yields NaN
+test/sunspider/3d-raytrace.js:168: [maybe] Conversion to number yields NaN
+test/sunspider/3d-raytrace.js:168: [maybe] Conversion to number yields NaN
+test/sunspider/3d-raytrace.js:168: [maybe] Reading absent property (computed name)
+test/sunspider/3d-raytrace.js:168: [maybe] Reading absent property (computed name)
+test/sunspider/3d-raytrace.js:168: [maybe] Reading absent property (computed name)
+test/sunspider/3d-raytrace.js:169: [maybe] Conversion to number yields NaN
+test/sunspider/3d-raytrace.js:171: [maybe] Conversion to number yields NaN
+test/sunspider/3d-raytrace.js:171: [maybe] Conversion to number yields NaN
+test/sunspider/3d-raytrace.js:171: [maybe] Conversion to number yields NaN
+test/sunspider/3d-raytrace.js:171: [maybe] Reading absent property (computed name)
+test/sunspider/3d-raytrace.js:171: [maybe] Reading absent property (computed name)
+test/sunspider/3d-raytrace.js:172: [maybe] Conversion to number yields NaN
+test/sunspider/3d-raytrace.js:172: [maybe] Conversion to number yields NaN
+test/sunspider/3d-raytrace.js:172: [maybe] Conversion to number yields NaN
+test/sunspider/3d-raytrace.js:172: [maybe] Reading absent property (computed name)
+test/sunspider/3d-raytrace.js:172: [maybe] Reading absent property (computed name)
+test/sunspider/3d-raytrace.js:196: [maybe] Reading absent property (computed name)
+test/sunspider/3d-raytrace.js:198: [maybe] Conversion to number yields NaN
+test/sunspider/3d-raytrace.js:221: [maybe] Conversion to number yields NaN
+test/sunspider/3d-raytrace.js:224: [maybe] Conversion to number yields NaN
+test/sunspider/3d-raytrace.js:230: [maybe] Reading absent property (computed name)
+test/sunspider/3d-raytrace.js:243: [maybe] Conversion to number yields NaN
+test/sunspider/3d-raytrace.js:252: [maybe] Reading absent property (computed name)
+test/sunspider/3d-raytrace.js:304: [maybe] Reading absent property (computed name)
+test/sunspider/3d-raytrace.js:399: [maybe] Reading absent property (computed name)
+test/sunspider/3d-raytrace.js:416: [maybe] Converting null to string
+test/sunspider/3d-raytrace.js:416: [maybe] Converting undefined to string
+test/sunspider/3d-raytrace.js:416: [maybe] Reading absent property (computed name)
+test/sunspider/3d-raytrace.js:416: [maybe] Reading absent property (computed name)
+test/sunspider/3d-raytrace.js:450: [info] Abstract value: UInt

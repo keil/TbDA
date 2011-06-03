@@ -1,0 +1,11 @@
+test/dom/events/DOMMutationEvent01.html:3: [info] Abstract value: [*native MutationEvent]
+test/dom/events/DOMMutationEvent01.html:4: [info] Prototype: [@native MutationEvent.prototype] -> [@native event.prototype] -> [@native Object.prototype]
+test/dom/events/DOMMutationEvent01.html:6: [info] Abstract value: 1.0
+test/dom/events/DOMMutationEvent01.html:7: [info] Abstract value: 2.0
+test/dom/events/DOMMutationEvent01.html:8: [info] Abstract value: 3.0
+test/dom/events/DOMMutationEvent01.html:10: [info] Abstract value: Str
+test/dom/events/DOMMutationEvent01.html:11: [info] Abstract value: Str
+test/dom/events/DOMMutationEvent01.html:12: [info] Abstract value: Str
+test/dom/events/DOMMutationEvent01.html:13: [info] Abstract value: Str
+test/dom/events/DOMMutationEvent01.html:14: [info] Abstract value: UInt
+test/dom/events/DOMMutationEvent01.html:16: [info] Abstract value: [@native MutationEvent.initMutationEvent]

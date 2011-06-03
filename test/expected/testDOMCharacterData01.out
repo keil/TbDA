@@ -1,0 +1,8 @@
+test/dom/core/DOMCharacterData01.html:4: [info] Abstract value: [*native CharacterData]
+test/dom/core/DOMCharacterData01.html:5: [info] Abstract value: Str
+test/dom/core/DOMCharacterData01.html:6: [info] Abstract value: UInt
+test/dom/core/DOMCharacterData01.html:7: [info] Abstract value: [@native CharacterData.substringData]
+test/dom/core/DOMCharacterData01.html:8: [info] Abstract value: [@native CharacterData.appendData]
+test/dom/core/DOMCharacterData01.html:9: [info] Abstract value: [@native CharacterData.insertData]
+test/dom/core/DOMCharacterData01.html:10: [info] Abstract value: [@native CharacterData.deleteData]
+test/dom/core/DOMCharacterData01.html:11: [info] Abstract value: [@native CharacterData.replaceData]

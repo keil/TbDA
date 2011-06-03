@@ -1,0 +1,2 @@
+test/dom/events/DOMOnLoad06.html:6: [maybe] TypeError, reading property of null/undefined
+test/dom/events/DOMOnLoad06.html:1: [maybe] Uncaught exception, constructed at [test/dom/events/DOMOnLoad06.html:6]

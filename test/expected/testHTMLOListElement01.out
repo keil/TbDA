@@ -1,0 +1,4 @@
+test/dom/html/HTMLOListElement01.html:4: [info] Abstract value: [*native HTMLOListElement]
+test/dom/html/HTMLOListElement01.html:5: [info] Abstract value: Bool
+test/dom/html/HTMLOListElement01.html:6: [info] Abstract value: Num
+test/dom/html/HTMLOListElement01.html:7: [info] Abstract value: Str

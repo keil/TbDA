@@ -1,0 +1,14 @@
+test/micro/testBoolean.js:19: [definite] TypeError, native function Boolean.prototype.toString called on invalid object kind, expected Boolean
+test/micro/testBoolean.js:5: [definite] Reading absent property: xy
+test/micro/testBoolean.js:20: [definite] Unreachable code
+test/micro/testBoolean.js:23: [definite] Unreachable code
+test/micro/testBoolean.js:24: [definite] Unreachable code
+test/micro/testBoolean.js:1: [definite] Uncaught exception, constructed at [test/micro/testBoolean.js:19]
+test/micro/testBoolean.js:2: [info] Abstract object: {[[Prototype]]=[@native Boolean.prototype],[[Value]]=false}
+test/micro/testBoolean.js:4: [info] Abstract object: {[[Prototype]]=[@native Boolean.prototype],[[Value]]=true}
+test/micro/testBoolean.js:5: [info] Abstract value: Undef
+test/micro/testBoolean.js:7: [info] Abstract object: {[[Prototype]]=[@native Boolean.prototype],[[Value]]=true}
+test/micro/testBoolean.js:9: [info] Abstract value: true
+test/micro/testBoolean.js:11: [info] Abstract value: false
+test/micro/testBoolean.js:13: [info] Abstract value: "true"
+test/micro/testBoolean.js:15: [info] Abstract value: true

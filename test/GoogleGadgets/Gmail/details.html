@@ -1,0 +1,1007 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html>
+  <head>
+    <title></title>
+    <script type="text/javascript">
+var g_ui;
+var g_getContacts;
+var g_strings;
+var g_alertUi;
+
+[![details_common.js]!]
+
+[![details_compose.js]!]
+
+function Ui(thread) {
+  this.thread = thread;
+  this.view = gel('view');
+  Ele.event(window.document, 'onkeyup', bind(this, this.onKeyUp));
+
+  this.loading = gel('loading');
+  Ele.text(this.loading, g_strings('LOADING'));
+  this.hideLoading();
+
+  this.header = gel('header');
+  this.footer = gel('footer');
+  this.bodyLeft = gel('bodyLeft');
+  this.bodyRight = gel('bodyRight');
+  this.bodyContent = gel('bodyContent');
+  this.titleLink = gel('titleLink');
+  this.replyLink = gel('replyLink');
+  Ele.text(this.replyLink, g_strings('REPLY_FOOTER'));
+  Ele.event(this.replyLink, 'onclick', bind(this, this.handleReplyCommand));
+
+  this.replyAllLink = gel('replyAllLink');
+  Ele.text(this.replyAllLink, g_strings('REPLY_ALL_FOOTER'));
+  Ele.event(this.replyAllLink, 'onclick',
+      bind(this, this.handleReplyAllCommand));
+
+  this.forwardLink = gel('forwardLink');
+  Ele.text(this.forwardLink, g_strings('FORWARD_FOOTER'));
+  Ele.event(this.forwardLink, 'onclick', bind(this, this.handleForwardCommand));
+
+  Ele.event(window, 'onresize', bind(this, this.resize));
+
+  this.messageUis = [];
+  this.focusedMessage = null;
+
+  this.setTitleLink(this.thread.buildBrowserUrl(), this.thread.subject);
+  this.getMessages();
+
+  this.bodyContent.focus();
+}
+
+Ui.prototype.getMessages = function() {
+  this.showLoading();
+  this.thread.getMessages(bind(this, this.onMessagesReady),
+      bind(this, this.onMessagesFail));
+};
+
+Ui.prototype.clear = function() {
+  this.messageUis = [];
+  this.focusedMessage = null;
+  while (this.bodyContent.firstChild) {
+    this.bodyContent.removeChild(this.bodyContent.firstChild);
+  }
+};
+
+Ui.prototype.loadThread = function(thread) {
+  this.thread = thread;
+  this.clear();
+  this.setTitleLink(this.thread.buildBrowserUrl(), this.thread.subject);
+  this.getMessages();
+};
+
+Ui.prototype.onMessagesReady = function() {
+  this.hideLoading();
+  this.draw();
+};
+
+Ui.prototype.onMessagesFail = function() {
+  g_alertUi.show(g_strings('ERROR_LOADING_CONVERSATION'));
+  this.hideLoading();
+};
+
+Ui.prototype.draw = function() {
+  this.clear();
+
+  var messages = this.thread.messages;
+
+  for (var i = 0; i < messages.length; ++i) {
+    this.addMessage(messages[i]);
+  }
+
+  this.resize();
+
+  if (this.messageUis.length) {
+    var lastMessage = this.messageUis[this.messageUis.length - 1];
+    lastMessage.expand();
+    lastMessage.setCanToggle(false);
+    this.setFocus(lastMessage);
+    this.scrollToFocus();
+
+    // Don't show focus arrows initially.
+    lastMessage.drawUnfocus();
+  }
+};
+
+Ui.prototype.scrollToFocus = function() {
+  this.scrollTo(this.focusedMessage);
+};
+
+Ui.prototype.onKeyUp = function(event) {
+  if (event.ctrlKey || event.altKey || event.metaKey) {
+    return;
+  }
+
+  var keyCode = event.keyCode;
+
+  if (keyCode == KEY_ESCAPE) {
+    this.thread.close();
+  } else if (keyCode == KEY_A) {
+    this.handleReplyAllCommand();
+  } else if (keyCode == KEY_F) {
+    this.handleForwardCommand();
+  } else if (keyCode == KEY_N) {
+    if (this.focusedMessage && this.focusedMessage.next) {
+      this.focusedMessage.next.attemptExpand();
+    }
+  } else if (keyCode == KEY_P) {
+    if (this.focusedMessage && this.focusedMessage.previous) {
+      this.focusedMessage.previous.attemptExpand();
+    }
+  } else if (keyCode == KEY_R) {
+    this.handleReplyCommand();
+  } else if (keyCode == KEY_Y) {
+    this.handleArchiveCommand();
+  }
+};
+
+Ui.prototype.setTitleLink = function(url, title) {
+  Ele.text(this.titleLink, title);
+  this.titleLink.title = title;
+  this.titleLink.alt = title;
+  this.titleLink.href = url;
+};
+
+Ui.prototype.handleCloseClick = function() {
+  this.thread.close();
+};
+
+Ui.prototype.handleReplyCommand = function() {
+  this.focusedMessage.composeReply();
+};
+
+Ui.prototype.handleReplyAllCommand = function() {
+  this.focusedMessage.composeReplyAll();
+};
+
+Ui.prototype.handleForwardCommand = function() {
+  this.focusedMessage.composeForward();
+};
+
+Ui.prototype.handleArchiveCommand = function() {
+  this.thread.archive();
+};
+
+Ui.prototype.showReplyAllLink = function() {
+  Ele.show(this.replyAllLink);
+};
+
+Ui.prototype.hideReplyAllLink = function() {
+  Ele.hide(this.replyAllLink);
+};
+
+Ui.prototype.scrollTo = function(messageUi) {
+  this.bodyContent.scrollTop = messageUi.getTop();
+};
+
+Ui.prototype.scroll = function(offset) {
+  this.bodyContent.scrollTop = this.bodyContent.scrollTop + offset;
+};
+
+Ui.prototype.scrollBottom = function() {
+  this.bodyContent.scrollTop = this.bodyContent.scrollHeight;
+};
+
+Ui.MIN_WIDTH = 200;
+
+Ui.prototype.resize = function() {
+  var newHeight = this.view.offsetHeight -
+      this.header.offsetHeight -
+      this.footer.offsetHeight;
+
+  if (newHeight > 0) {
+    Ele.height(this.bodyContent, newHeight);
+  }
+
+  var newWidth =
+      this.bodyRight.offsetLeft - this.bodyLeft.offsetLeft - 4;
+
+  if (newWidth > 0) {
+    Ele.width(this.bodyContent, newWidth);
+  }
+
+  for (var i = 0; i < this.messageUis.length; ++i) {
+    this.messageUis[i].resize();
+  }
+};
+
+Ui.prototype.addMessage = function(message) {
+  var messageUi = new MessageUi(this, message);
+};
+
+Ui.prototype.removeFocus = function(messageUi) {
+};
+
+Ui.prototype.setFocus = function(messageUi) {
+  this.focusedMessage = messageUi;
+
+  for (var i = 0; i < this.messageUis.length; ++i) {
+    this.messageUis[i].drawUnfocus();
+  }
+
+  if (this.messageUis.length > 1) {
+    this.focusedMessage.drawFocus();
+  }
+
+  if (this.focusedMessage.canReplyAll()) {
+    this.showReplyAllLink();
+  } else {
+    this.hideReplyAllLink();
+  }
+};
+
+Ui.prototype.showLoading = function() {
+  Ele.show(this.loading);
+};
+
+Ui.prototype.hideLoading = function() {
+  Ele.hide(this.loading);
+};
+
+
+function onLoad() {
+  window.onunload = onUnload;
+  window.document.oncontextmenu = function() { return false; };
+  g_strings = window.external.getMessage;
+  g_alertUi = new AlertUi();
+  g_ui = new Ui(window.external.thread);
+  g_getContacts = window.external.getContacts;
+
+  window.external.loadThread = loadThread;
+}
+
+function onUnload() {
+  Ele.cleanup();
+}
+
+function loadThread(thread) {
+  g_ui.loadThread(thread);
+}
+
+
+MessageUi.FOCUS_ARROW_IMAGE = '[![focus_arrow.gif]!]';
+
+function MessageUi(ui, message) {
+  this.ui = ui;
+  this.composeUi = null;
+  this.message = message;
+
+  this.previous = null;
+  this.next = null;
+
+  if (this.ui.messageUis.length > 0) {
+    var last = this.ui.messageUis[this.ui.messageUis.length - 1];
+    this.previous = last;
+    last.next = this;
+  }
+
+  this.mainDiv = document.createElement('div');
+  this.mainDiv.className = 'messageDiv';
+  Ele.event(this.mainDiv, 'onclick', bind(this.ui, this.ui.setFocus, this));
+
+  this.headerDiv = Ele.create(this.mainDiv, 'div', 'messageHeaderDiv');
+  Ele.event(this.headerDiv, 'onclick', bind(this, this.handleHeaderClick));
+
+  this.canToggle = false;
+  this.setCanToggle(true);
+
+  this.headerLeft = Ele.create(this.headerDiv, 'div', 'messageHeaderLeft');
+  this.focusArrowImg = Ele.create(this.headerLeft, 'img', 'messageFocusArrow');
+  this.focusArrowImg.src = MessageUi.FOCUS_ARROW_IMAGE;
+
+  this.starImg = Ele.create(this.headerLeft, 'img', 'messageStar');
+  Ele.event(this.starImg, 'onclick', bind(this, this.handleStarClick));
+
+  this.fromSpan = Ele.create(this.headerLeft, 'span', 'messageFrom');
+  Ele.text(this.fromSpan, this.message.sender);
+  this.fromSpan.style.color = this.message.getFromColor();
+  this.toSpan = Ele.create(this.headerLeft, 'span', 'messageTo');
+  Ele.text(this.toSpan, ' ' + g_strings('HEADING_TO') + ' ' +
+          this.message.recepients);
+
+  this.headerRight = Ele.create(this.headerDiv, 'div', 'messageHeaderRight');
+
+  this.detailsLink = Ele.create(this.headerRight, 'a', 'messageDetailsLink');
+  Ele.event(this.detailsLink, 'onclick', bind(this, this.toggleDetails));
+  this.dateSpan = Ele.create(this.headerRight, 'span', 'messageDate');
+  Ele.text(this.dateSpan, this.message.shortDate);
+
+  this.bodyDiv = Ele.create(this.mainDiv, 'div');
+
+  this.detailsTable = Ele.create(this.bodyDiv, 'table', 'messageDetailsTable');
+  this.detailsBody = Ele.create(this.detailsTable, 'tbody');
+
+  this.addDetailsItem(g_strings('FROM'), this.message.from);
+  this.addDetailsItem(g_strings('REPLY_TO'), this.message.replyRecepients);
+  this.addDetailsItem(g_strings('TO'), this.message.to);
+
+  if (this.message.cc != MILU_BLANK_LINE_MARKER) {
+    this.addDetailsItem(g_strings('CC'), this.message.cc);
+  }
+  if (this.message.bcc != MILU_BLANK_LINE_MARKER) {
+    this.addDetailsItem(g_strings('BCC'), this.message.bcc);
+  }
+
+  this.addDetailsItem(g_strings('DATE'), this.message.longDate);
+  this.addDetailsItem(g_strings('SUBJECT'), this.message.subject);
+
+  if (this.message.attachment) {
+    this.attachmentsLink =
+        Ele.create(this.bodyDiv, 'a', 'messageAttachmentsLink');
+    this.attachmentsLink.innerText = g_strings('MESSAGE_ATTACHMENTS');
+    this.attachmentsLink.href = this.ui.thread.buildBrowserUrl();
+  }
+
+  this.messageBodyDiv = Ele.create(this.bodyDiv, 'div', 'messageBodyDiv');
+  this.updateBody();
+
+  this.drawStar();
+  this.toggleDetails();
+
+  if (this.message.isComplete) {
+    this.expand();
+  } else {
+    this.collapse();
+  }
+
+  this.ui.bodyContent.appendChild(this.mainDiv);
+  this.ui.messageUis.push(this);
+}
+
+MessageUi.prototype.composeReply = function() {
+  this.showCompose(this.message.replyRecepients,
+      this.message.getReplySubject(false), false);
+};
+
+MessageUi.prototype.composeReplyAll = function() {
+  this.showCompose(this.message.replyAllRecepients,
+      this.message.getReplySubject(false), false);
+};
+
+MessageUi.prototype.composeForward = function() {
+  this.showCompose('', this.message.getReplySubject(true), true);
+};
+
+// Downward scroll nudge when compose is created.
+MessageUi.COMPOSE_SCROLL_NUDGE = 50;
+
+MessageUi.prototype.showCompose = function(to, subject, isForward) {
+  if (!this.composeUi) {
+    // TODO: without this workaround, scrolling breaks for long conversations.
+    if (this.isLast()) {
+      this.ui.scrollBottom();
+    }
+    this.composeUi = new ComposeUi(this.mainDiv, to, subject, isForward);
+    this.composeUi.onSend = bind(this, this.onComposeSend);
+    this.composeUi.onSendFinish = bind(this, this.onComposeSendFinish);
+    this.composeUi.onDiscard = bind(this, this.discardCompose);
+    this.ui.scroll(MessageUi.COMPOSE_SCROLL_NUDGE);
+    // TODO: without this workaround, scrolling breaks for long conversations.
+    if (this.isLast()) {
+      this.ui.scrollBottom();
+    }
+    this.composeUi.setFocus();
+  } else {
+    this.composeUi.update(to, subject, isForward);
+  }
+};
+
+MessageUi.prototype.isLast = function() {
+  return !this.next;
+};
+
+MessageUi.prototype.onComposeSend = function(onReady, onFail, isForward,
+    to, subject, body, cc, bcc) {
+  this.ui.thread.replyOrForward(onReady, onFail,
+      isForward,
+      this.message.id,
+      to, subject, body, cc, bcc);
+};
+
+MessageUi.prototype.onComposeSendFinish = function() {
+  this.destroyCompose();
+  this.ui.getMessages();
+};
+
+MessageUi.prototype.discardCompose = function() {
+  if (this.composeUi.isEmpty() ||
+      window.confirm(g_strings('CONFIRM_DISCARD'))) {
+    this.destroyCompose();
+  }
+};
+
+MessageUi.prototype.destroyCompose = function() {
+  this.composeUi.destroy();
+  this.composeUi = null;
+};
+
+MessageUi.prototype.setCanToggle = function(value) {
+  this.canToggle = value;
+
+  if (this.canToggle) {
+    this.headerDiv.style.cursor = 'pointer';
+  } else {
+    this.headerDiv.style.cursor = 'default';
+  }
+};
+
+MessageUi.prototype.addDetailsItem = function(label, text) {
+  var tr = Ele.create(this.detailsBody, 'tr');
+  var labelCell = Ele.create(tr, 'th');
+  Ele.text(labelCell, label);
+  var textCell = Ele.create(tr, 'td');
+  Ele.text(textCell, text);
+};
+
+MessageUi.prototype.toggleDetails = function(event) {
+  cancelEvent(event);
+
+  var isVisible = Ele.isVisible(this.detailsTable);
+
+  if (isVisible) {
+    Ele.hide(this.detailsTable);
+    Ele.text(this.detailsLink, g_strings('SHOW_DETAILS'));
+  } else {
+    Ele.show(this.detailsTable);
+    Ele.text(this.detailsLink, g_strings('HIDE_DETAILS'));
+  }
+};
+
+MessageUi.STARRED_IMAGE = '[![star_active_pad.gif]!]';
+MessageUi.UNSTARRED_IMAGE = '[![star_default_pad.gif]!]';
+
+MessageUi.prototype.drawStar = function() {
+  if (this.message.starred) {
+    this.starImg.src = MessageUi.STARRED_IMAGE;
+  } else {
+    this.starImg.src = MessageUi.UNSTARRED_IMAGE;
+  }
+};
+
+MessageUi.prototype.resize = function() {
+  var newWidth =
+      this.headerRight.offsetLeft - this.headerLeft.offsetLeft;
+
+  if (newWidth > 0) {
+    Ele.width(this.headerLeft, newWidth);
+  }
+};
+
+MessageUi.prototype.handleHeaderClick = function() {
+  if (!this.canToggle) {
+    this.ui.setFocus(this);
+    this.ui.scrollToFocus();
+    return;
+  }
+
+  var isVisible = Ele.isVisible(this.bodyDiv);
+
+  if (isVisible) {
+    this.collapse();
+  } else {
+    this.attemptExpand();
+  }
+};
+
+MessageUi.prototype.collapse = function() {
+  Ele.hide(this.bodyDiv);
+  Ele.hide(this.detailsLink);
+  this.resize();
+  this.ui.removeFocus(this);
+};
+
+MessageUi.prototype.updateBody = function() {
+  Ele.html(this.messageBodyDiv, this.message.body);
+};
+
+MessageUi.prototype.attemptExpand = function() {
+  if (!this.message.isComplete) {
+    this.ui.showLoading();
+    this.message.expand(bind(this, this.onMessageReady),
+        bind(this, this.onMessageFail));
+    return;
+  }
+
+  this.expand();
+};
+
+MessageUi.prototype.expand = function() {
+  Ele.show(this.bodyDiv);
+  Ele.show(this.detailsLink);
+  this.resize();
+  this.ui.setFocus(this);
+  this.ui.scrollToFocus();
+};
+
+MessageUi.prototype.onMessageReady  = function() {
+  this.ui.hideLoading();
+
+  if (this.message.isComplete) {
+    this.updateBody();
+    this.expand();
+  } else {
+    g_alertUi.show(g_strings('ERROR_LOADING_CONVERSATION'));
+  }
+};
+
+MessageUi.prototype.onMessageFail  = function() {
+  this.ui.hideLoading();
+  g_alertUi.show(g_strings('ERROR_LOADING_CONVERSATION'));
+};
+
+MessageUi.prototype.handleStarClick  = function(event) {
+  cancelEvent(event);
+  this.ui.showLoading();
+  this.message.toggleMessageStar(bind(this, this.onStarReady),
+      bind(this, this.onStarFail));
+};
+
+MessageUi.prototype.onStarReady  = function() {
+  this.ui.hideLoading();
+  this.drawStar();
+};
+
+MessageUi.prototype.onStarFail  = function() {
+  this.ui.hideLoading();
+  g_alertUi.show(g_strings('SERVER_OR_NETWORK_ERROR'));
+};
+
+MessageUi.prototype.drawFocus = function() {
+  Ele.show(this.focusArrowImg);
+};
+
+MessageUi.prototype.drawUnfocus = function() {
+  Ele.hide(this.focusArrowImg);
+};
+
+MessageUi.prototype.getTop = function() {
+  return this.mainDiv.offsetTop;
+};
+
+MessageUi.prototype.canReplyAll = function() {
+  return this.message.replyRecepients != this.message.replyAllRecepients;
+};
+
+Ele.event(window, 'onload', onLoad);
+    </script>
+    <style type="text/css">
+body {
+  margin: 0px;
+  padding: 0px;
+  height: 100%;
+}
+
+html {
+  overflow: hidden;
+}
+
+#view {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: #FFFFFF;
+}
+
+div, fieldset {
+  position: relative;
+  padding: 0px;
+  margin: 0px;
+  border: 0px solid black;
+}
+
+.composeDiv {
+  background-color: #D6E9F8;
+}
+
+.composeHeaderDiv {
+  border-bottom: 1px solid #67A7E4;
+}
+
+.composeBody {
+  font-family: Arial;
+  font-size: 9pt;
+  border: 0px solid black;
+  padding: 0px;
+  margin: 0px;
+  width: 100%;
+  height: 100px;
+  overflow: auto;
+}
+
+.composeFooterDiv {
+  height: 36px;
+  border-top: 1px solid #67A7E4;
+}
+
+.composeFieldsTable {
+  table-layout: fixed;
+}
+
+.composeFieldsTable th {
+  vertical-align: middle;
+  text-align: right;
+  font-family: Arial;
+  font-weight: normal;
+  font-size: 9pt;
+  width: 45px;
+}
+
+.composeFieldsTable td {
+  width: 100%;
+}
+
+.composeField {
+  font-family: Arial;
+  font-size: 9pt;
+  border: 1px solid #7F9DB9;
+  width: 95%;
+}
+
+.composeFieldControl {
+  font-family: Arial;
+  font-size: 8pt;
+  color: #0066CC;
+  margin: 2px;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.composeButtonWrapper {
+  background: url('[![action_button.gif]!]') no-repeat;
+  float: left;
+  margin: 5px;
+}
+
+.composeButton, .composeButtonFocus {
+  color: black;
+  font-family: Arial;
+  font-size: 9pt;
+  text-decoration: none;
+  text-align: center;
+  display: block;
+  width: 84px;
+  height: 24px;
+  line-height: 24px;
+}
+
+.composeButton {
+  background: url('[![action_button.gif]!]') no-repeat;
+}
+
+.composeButton:visited, .composeButtonFocus:visited {
+  color: black;
+}
+
+.composeButton:hover, .composeButtonFocus {
+  background: url('[![action_button.gif]!]') 0 -24px no-repeat;
+}
+
+.messageDiv {
+}
+
+.messageFocusArrow {
+  position: absolute;
+}
+
+.messageHeaderDiv {
+  position: relative;
+  height: 25px;
+  line-height: 25px;
+  font-family: Arial;
+  font-size: 9pt;
+  border-top: 1px solid #DDDDDD;
+}
+
+.messageHeaderLeft {
+  position: absolute;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.messageHeaderRight {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+}
+
+.messageStar {
+  margin-left: 3px;
+  vertical-align: middle;
+  cursor: pointer;
+}
+
+.messageFrom {
+  margin-left: 2px;
+  font-weight: bold;
+}
+
+.messageTo {
+}
+
+.messageDetailsLink {
+  margin: 2px;
+  color: #80AAF8;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.messageAttachmentsLink {
+  padding: 2px;
+  margin-bottom: 2px;
+  color: #0000FF;
+  text-decoration: underline;
+  font-family: Arial;
+  font-size: 9pt;
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  background-color: #EEEEEE;
+}
+
+.messageDate {
+  margin: 2px;
+}
+
+.messageDetailsTable th {
+  vertical-align: top;
+  text-align: right;
+  font-family: Arial;
+  color: #999999;
+  font-size: 8pt;
+  width: 55px;
+}
+
+.messageDetailsTable td {
+  font-family: Arial;
+  font-size: 8pt;
+}
+
+.messageBodyDiv {
+  font-family: Arial;
+  font-size: 9pt;
+  position: static;
+}
+
+/* Main frame */
+
+#header {
+  width: 100%;
+  height: 34px;
+  line-height: 34px;
+  background: url('[![dv_top.gif]!]') repeat-x;
+  position: absolute;
+  top: 0px;
+}
+
+#headerLeftCorner {
+  width: 13px;
+  height: 34px;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  background: url('[![dv_topleft.gif]!]') no-repeat;
+}
+
+#headerRightCorner {
+  width: 9px;
+  height: 34px;
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  background: url('[![dv_topright.gif]!]') no-repeat;
+}
+
+#headerContent {
+  margin: 0px 10px;
+}
+
+#footer {
+  width: 100%;
+  height: 33px;
+  line-height: 33px;
+  background: url('[![dv_bottom.gif]!]') repeat-x;
+  position: absolute;
+  bottom: 0px;
+}
+
+#footerLeftCorner {
+  width: 13px;
+  height: 33px;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  background: url('[![dv_bottomleft.gif]!]') no-repeat;
+}
+
+#footerRightCorner {
+  width: 9px;
+  height: 33px;
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  background: url('[![dv_bottomright.gif]!]') no-repeat;
+}
+
+#footerContent {
+  margin: 0px 10px;
+  height: 33px;
+  line-height: 33px;
+}
+
+#body {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+#bodyLeft {
+  width: 13px;
+  height: 100%;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  background: url('[![dv_left.gif]!]') repeat-y;
+}
+
+#bodyRight {
+  width: 9px;
+  height: 100%;
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  background: url('[![dv_right.gif]!]') repeat-y;
+}
+
+#bodyContent {
+  position: absolute;
+  overflow: auto;
+  left: 5px;
+  top: 34px;
+  width: 0px;
+  height: 0px;
+}
+
+#titleLink {
+  font-family: Arial;
+  color: #0066CC;
+  font-weight: bold;
+  font-size: 10pt;
+  display: block;
+  width: 90%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+#loading {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  font-family: Arial;
+  font-size: 9pt;
+  color: white;
+  background-color: #CC4444;
+  height: 16px;
+  padding: 0px 5px;
+}
+
+.composeAction {
+  vertical-align: top;
+  font-family: Arial;
+  font-size: 8pt;
+  color: #0066CC;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+#debug {
+  position: absolute;
+  top: 500px;
+  width: 500px;
+  height: 300px;
+  overflow: auto;
+}
+
+#alertMessage {
+  position: absolute;
+  top: 35%;
+  left: 10%;
+  background: url('[![error_center.gif]!]') repeat-x;
+  height: 44px;
+  line-height: 44px;
+  width: 80%;
+  text-align: center;
+}
+
+#alertMessageSpan {
+  font-family: Arial;
+  font-size: 7pt;
+  font-weight: bold;
+}
+
+#alertMessageLeft {
+  background: url('[![error_left.gif]!]') repeat-x;
+  width: 7px;
+  height: 44px;
+  float: left;
+}
+
+#alertMessageRight {
+  background: url('[![error_right.gif]!]') repeat-x;
+  width: 7px;
+  height: 44px;
+  float: right;
+}
+
+.contacts {
+  background-color: #FFFFFF;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  border: 1px solid #719DB9;
+  width: 220px;
+  height: 75px;
+  left: 52px;
+  overflow: hidden;
+}
+
+.contacts div {
+  width: 100%;
+  height: 15px;
+  font-family: Arial;
+  font-size: 8pt;
+  border-bottom: 1px solid #F0F0F0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.contacts div.selected {
+  background-color: #E0ECEF;
+}
+  </style>
+  </head>
+  <body>
+    <div id="view">
+      <div id="body">
+        <div id="bodyLeft"></div>
+        <div id="bodyRight"></div>
+        <div id="bodyContent">
+        </div>
+      </div>
+      <div id="header">
+        <div id="headerLeftCorner"></div>
+        <div id="headerRightCorner"></div>
+        <div id="headerContent">
+          <a id="titleLink" href="#"></a>
+        </div>
+      </div>
+      <div id="footer">
+        <div id="footerLeftCorner"></div>
+        <div id="footerRightCorner"></div>
+        <div id="footerContent">
+          <span id="replyLink" class="composeAction"></span>
+          &nbsp;
+          <span id="replyAllLink" class="composeAction"></span>
+          &nbsp;
+          <span id="forwardLink" class="composeAction"></span>
+        </div>
+      </div>
+      <span id="loading"></span>
+      <div id="alertMessage">
+        <div id="alertMessageLeft"></div>
+        <div id="alertMessageRight"></div>
+        <span id="alertMessageSpan"></span>
+      </div>
+    </div>
+    <!--
+    <div id="debug">
+    </div>
+    -->
+  </body>
+</html>

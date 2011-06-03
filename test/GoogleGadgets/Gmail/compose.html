@@ -1,0 +1,393 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html>
+  <head>
+    <title></title>
+    <script type="text/javascript">
+var g_ui;
+var g_getContacts;
+var g_strings;
+var g_alertUi;
+
+[![details_common.js]!]
+
+[![details_compose.js]!]
+
+function Ui(gmailGadget) {
+  this.gmailGadget = gmailGadget;
+  this.view = gel('view');
+
+  this.loading = gel('loading');
+  Ele.text(this.loading, g_strings('LOADING'));
+  this.hideLoading();
+
+  this.header = gel('header');
+  this.footer = gel('footer');
+  this.bodyContent = gel('bodyContent');
+  this.composeUi = new ComposeUi(this.bodyContent, '', '', false);
+  this.composeUi.onDiscard = bind(this, this.discardCompose);
+  this.composeUi.onSend = bind(this, this.sendMessage);
+
+  Ele.event(window, 'onresize', bind(this, this.resize));
+  this.composeUi.setFocus();
+}
+
+Ui.prototype.sendMessage = function(callback, onFail,
+    isForward, to, subject, body, cc, bcc) {
+  this.gmailGadget.sendMessage(callback, onFail,
+      isForward, to, subject, body, cc, bcc);
+};
+
+Ui.prototype.discardCompose = function() {
+  if (this.composeUi.isEmpty() ||
+      window.confirm(g_strings('CONFIRM_DISCARD'))) {
+    this.gmailGadget.discardMessage();
+  }
+};
+
+Ui.MIN_WIDTH = 200;
+
+Ui.prototype.resize = function() {
+  var newHeight = this.view.offsetHeight -
+      this.header.offsetHeight -
+      this.footer.offsetHeight;
+
+  if (newHeight > 0) {
+    Ele.height(this.bodyContent, newHeight);
+    this.composeUi.resize();
+  }
+};
+
+Ui.prototype.showLoading = function() {
+  Ele.show(this.loading);
+};
+
+Ui.prototype.hideLoading = function() {
+  Ele.hide(this.loading);
+};
+
+
+function onLoad() {
+  window.onunload = onUnload;
+  window.document.oncontextmenu = function() { return false; };
+  g_strings = window.external.getMessage;
+  g_alertUi = new AlertUi();
+  g_ui = new Ui(window.external.gmailGadget);
+  g_getContacts = window.external.getContacts;
+}
+
+function onUnload() {
+  Ele.cleanup();
+}
+
+Ele.event(window, 'onload', onLoad);
+    </script>
+    <style type="text/css">
+body {
+  margin: 0px;
+  padding: 0px;
+  height: 100%;
+}
+
+html {
+  overflow: hidden;
+}
+
+#view {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+div, fieldset {
+  position: relative;
+  padding: 0px;
+  margin: 0px;
+  border: 0px solid black;
+}
+
+.composeDiv {
+  position: absolute;
+  width: 100%;
+  background-color: #D6E9F8;
+}
+
+.composeHeaderDiv {
+  border-bottom: 1px solid #67A7E4;
+}
+
+.composeBody {
+  font-family: Arial;
+  font-size: 9pt;
+  border: 0px solid black;
+  padding: 0px;
+  margin: 0px;
+  width: 100%;
+  overflow: auto;
+}
+
+.composeFooterDiv {
+  min-width: 100%;
+  height: 36px;
+  border-top: 1px solid #67A7E4;
+  bottom: 0px;
+}
+
+.composeFieldsTable {
+  width: 100%;
+  table-layout: fixed;
+}
+
+.composeFieldsTable th {
+  vertical-align: middle;
+  text-align: right;
+  font-family: Arial;
+  font-weight: normal;
+  font-size: 9pt;
+  width: 45px;
+}
+
+.composeFieldsTable td {
+  width: 100%;
+}
+
+.composeField {
+  font-family: Arial;
+  font-size: 9pt;
+  border: 1px solid #7F9DB9;
+  width: 95%;
+}
+
+.composeFieldControl {
+  font-family: Arial;
+  font-size: 8pt;
+  color: #0066CC;
+  margin: 2px;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.composeButtonWrapper {
+  background: url('[![action_button.gif]!]') no-repeat;
+  float: left;
+  margin: 5px;
+}
+
+.composeButton, .composeButtonFocus {
+  color: black;
+  font-family: Arial;
+  font-size: 9pt;
+  text-decoration: none;
+  text-align: center;
+  display: block;
+  width: 84px;
+  height: 24px;
+  line-height: 24px;
+}
+
+.composeButton {
+  background: url('[![action_button.gif]!]') no-repeat;
+}
+
+.composeButton:visited, .composeButtonFocus:visited {
+  color: black;
+}
+
+.composeButton:hover, .composeButtonFocus {
+  background: url('[![action_button.gif]!]') 0 -24px no-repeat;
+}
+
+/* Main frame */
+
+#header {
+  width: 100%;
+  height: 5px;
+  line-height: 5px;
+  background: url('[![dv_top.gif]!]') repeat-x;
+  position: absolute;
+  top: 0px;
+}
+
+#headerLeftCorner {
+  width: 13px;
+  height: 5px;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  background: url('[![dv_topleft.gif]!]') no-repeat;
+}
+
+#headerRightCorner {
+  width: 9px;
+  height: 5px;
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  background: url('[![dv_topright.gif]!]') no-repeat;
+}
+
+#footer {
+  width: 100%;
+  height: 9px;
+  line-height: 9px;
+  background: url('[![dv_bottom_short.gif]!]') repeat-x;
+  position: absolute;
+  bottom: 0px;
+}
+
+#footerLeftCorner {
+  width: 13px;
+  height: 9px;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  background: url('[![dv_bottomleft_short.gif]!]') no-repeat;
+}
+
+#footerRightCorner {
+  width: 9px;
+  height: 9px;
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  background: url('[![dv_bottomright_short.gif]!]') no-repeat;
+}
+
+#body {
+  height: 100%;
+}
+
+#bodyLeft {
+  width: 13px;
+  height: 100%;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  background: url('[![dv_left.gif]!]') repeat-y;
+}
+
+#bodyRight {
+  width: 9px;
+  height: 100%;
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  background: url('[![dv_right.gif]!]') repeat-y;
+}
+
+#bodyContent {
+  margin-left: 3px;
+  margin-right: 7px;
+  top: 5px;
+  height: 0px;
+  background: #D6E9F8;
+  overflow: hidden;
+}
+
+#loading {
+  position: absolute;
+  top: 0px;
+  font-family: Arial;
+  font-size: 9pt;
+  color: white;
+  background-color: #CC4444;
+  height: 16px;
+  padding: 0px 5px;
+}
+
+#debug {
+  position: absolute;
+  top: 500px;
+  width: 500px;
+  height: 300px;
+  overflow: auto;
+}
+
+#alertMessage {
+  position: absolute;
+  top: 35%;
+  left: 10%;
+  background: url('[![error_center.gif]!]') repeat-x;
+  height: 44px;
+  line-height: 44px;
+  width: 80%;
+  text-align: center;
+}
+
+#alertMessageSpan {
+  font-family: Arial;
+  font-size: 7pt;
+  font-weight: bold;
+}
+
+#alertMessageLeft {
+  background: url('[![error_left.gif]!]') repeat-x;
+  width: 7px;
+  height: 44px;
+  float: left;
+}
+
+#alertMessageRight {
+  background: url('[![error_right.gif]!]') repeat-x;
+  width: 7px;
+  height: 44px;
+  float: right;
+}
+
+.contacts {
+  background-color: #FFFFFF;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  border: 1px solid #719DB9;
+  width: 220px;
+  height: 75px;
+  left: 52px;
+  overflow: hidden;
+}
+
+.contacts div {
+  width: 100%;
+  height: 15px;
+  font-family: Arial;
+  font-size: 8pt;
+  border-bottom: 1px solid #F0F0F0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.contacts div.selected {
+  background-color: #E0ECEF;
+}
+  </style>
+  </head>
+  <body>
+    <div id="view">
+      <div id="body">
+        <div id="bodyLeft"></div>
+        <div id="bodyRight"></div>
+        <div id="bodyContent">
+        </div>
+      </div>
+      <div id="header">
+        <div id="headerLeftCorner"></div>
+        <div id="headerRightCorner"></div>
+      </div>
+      <div id="footer">
+        <div id="footerLeftCorner"></div>
+        <div id="footerRightCorner"></div>
+      </div>
+      <span id="loading"></span>
+      <div id="alertMessage">
+        <div id="alertMessageLeft"></div>
+        <div id="alertMessageRight"></div>
+        <span id="alertMessageSpan"></span>
+      </div>
+    </div>
+    <!--
+    <div id="debug">
+    </div>
+    -->
+  </body>
+</html>

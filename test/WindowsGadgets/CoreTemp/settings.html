@@ -1,0 +1,272 @@
+<html>
+<head>
+	<title>Gadget settings</title>
+    <script type="text/javascript" language="javascript" src="scripts/tabber.js"></script>
+    <script type="text/javascript" language="javascript" src="scripts/jscolor/jscolor.js"></script>
+	<script type="text/javascript" language="javascript" src="scripts/libhelper.js"></script>
+    <script type="text/javascript" language="javascript" src="scripts/settings.js"></script>
+    <link rel="stylesheet" href="tabs.css" type="text/css" media="screen" />
+    <link href="settings.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div class="tabber" id="mainDiv" style="height:280px;"">
+    <div class="tabbertab" title="Options">
+        <label>Zoom gadget </label><input id="zoom" type="text" size="3" maxlength="3" onkeypress="validateNumber(this);"/><label> % (Default = 100)</label>
+        <hr />
+        <input id="chkGraph" type="checkbox" onclick="showGraphChanged(this.checked);"/><label for="chkGraph">Display graphs</label><br />
+        <input id="chkTemps" type="checkbox" onclick="showTempsChanged(this.checked);"/><label for="chkTemps">Graphs represent temperatures</label><br />
+        <hr />
+        <table style=" width:90%" cellpadding="0" cellspacing="1" class="table">
+            <tr>
+                <td><input id="chkHideLogo" type="checkbox" onclick="hideCpuLogoChanged(this.checked);"/><label for="chkHideLogo">Display vendor logo</label></td>
+                <td><input id="chkDefaultLogo" type="checkbox" onclick="showDefaultChanged(this.checked);"/><label for="chkDefaultLogo">Default logo</label></td>
+            </tr>
+            <tr>
+                <td colspan="2"><input id="chkHideCpuName" type="checkbox" onclick="hideCpuNameChanged(this.checked);"/><label for="chkHideCpuName">Display CPU name</label></td>
+            </tr>
+            <tr>
+                <td colspan="2"><input id="chkHideFrequency" type="checkbox" onclick="hideFrequencyChanged(this.checked);"/><label for="chkHideFrequency">Display frequency</label></td>
+            </tr>
+            <tr>
+                <td colspan="2"><input id="chkHideVid" type="checkbox" onclick="hideVidChanged(this.checked);"/><label for="chkHideVid">Display VID and TjMax</label></td>
+            </tr>
+            <tr>
+                <td colspan="2"><input id="chkHideRam" type="checkbox" onclick="hideRamChanged(this.checked);"/><label for="chkHideRam">Display RAM use</label></td>
+            </tr>
+        </table>
+        <hr />
+        <input id="chkHideUpdates" type="checkbox" onclick="showUpdatesChanged(this.checked);"/><label for="chkHideUpdates">Notify when an update is available</label><br />
+    </div>
+    <div class="tabbertab" title="Colors" >
+        <input id="ColorsAuto" type="radio" name="Colors" value="0" onclick="colorSettingChanged(this.value);" /><label for="ColorsAuto">Automatically assign colors to cores.</label><br />
+        <input id="ColorsManual" type="radio" name="Colors" value="1" onclick="colorSettingChanged(this.value);" /><label for="ColorsManual">Let me choose colors for each core.</label>
+        <div id="multiColorPreview" style="padding-left:22px">
+            <select id="coreSelect" style="width:85px" onchange="coreSelected(this.selectedIndex);" >
+            </select>
+            <select id="multiColorSelect" onchange="colorSelected(this);" >
+	            <option value="#FFD800" style="color:#000000; background-color:#FFD800; border-width:1px; border-color:Black">Yellow</option>
+	            <option value="#B6FF00" style="color:#000000; background-color:#B6FF00; border-width:1px; border-color:Black">Lime</option>
+	            <option value="#4CFF00" style="color:#000000; background-color:#4CFF00; border-width:1px; border-color:Black">Green #1</option>
+	            <option value="#00FF21" style="color:#000000; background-color:#00FF21; border-width:1px; border-color:Black">Green #2</option>
+	            <option value="#00FF90" style="color:#000000; background-color:#00FF90; border-width:1px; border-color:Black">Turquoise #1</option>
+	            <option value="#00FFFF" style="color:#000000; background-color:#00FFFF; border-width:1px; border-color:Black">Turquoise #2</option>
+	            <option value="#00B2FF" style="color:#000000; background-color:#00B2FF; border-width:1px; border-color:Black">Blue #1</option>
+	            <option value="#0065FF" style="color:#FFFFFF; background-color:#0065FF; border-width:1px; border-color:Black">Blue #2</option>
+	            <option value="#6B3AFF" style="color:#FFFFFF; background-color:#6B3AFF; border-width:1px; border-color:Black">Purple #1</option>
+	            <option value="#B200FF" style="color:#FFFFFF; background-color:#B200FF; border-width:1px; border-color:Black">Purple #2</option>
+	            <option value="#FF00DC" style="color:#000000; background-color:#FF00DC; border-width:1px; border-color:Black">Pink #1</option>
+	            <option value="#FF006E" style="color:#000000; background-color:#FF006E; border-width:1px; border-color:Black">Pink #2</option>
+	            <option value="#FF0000" style="color:#000000; background-color:#FF0000; border-width:1px; border-color:Black">Red</option>
+	            <option value="#7F0000" style="color:#FFFFFF; background-color:#7F0000; border-width:1px; border-color:Black">Maroon</option>
+	            <option value="#7F3300" style="color:#FFFFFF; background-color:#7F3300; border-width:1px; border-color:Black">Brown</option>
+	            <option value="#FF6A00" style="color:#000000; background-color:#FF6A00; border-width:1px; border-color:Black">Orange</option>
+	            <option value="#FFFFFF" style="color:#000000; background-color:#FFFFFF; border-width:1px; border-color:Black">White</option>
+	            <option value="#FFFFFF" style="color:#000000; background-color:#FFFFFF; border-width:1px; border-color:Black">Custom</option>
+            </select>
+            <input id="multiColorPicker" class="color" value="FFFFFF" style="width: 65px;" onchange="customColorSelected(this);" />
+        </div>
+        <input id="ColorsSingle" type="radio" name="Colors" value="2" onclick="colorSettingChanged(this.value);" /><label for="ColorsSingle">Use a single color for all cores.</label>
+        <div id="singleColorPreview" style="padding-left:111px">
+            <select id="singleColorSelect" onchange="colorSelected(this);">
+	            <option value="#FFD800" style="color:#000000; background-color:#FFD800; border-width:2px; border-color:Black">Yellow</option>
+	            <option value="#B6FF00" style="color:#000000; background-color:#B6FF00; border-width:2px; border-color:Black">Lime</option>
+	            <option value="#4CFF00" style="color:#000000; background-color:#4CFF00; border-width:2px; border-color:Black">Green #1</option>
+	            <option value="#00FF21" style="color:#000000; background-color:#00FF21; border-width:2px; border-color:Black">Green #2</option>
+	            <option value="#00FF90" style="color:#000000; background-color:#00FF90; border-width:2px; border-color:Black">Turquoise #1</option>
+	            <option value="#00FFFF" style="color:#000000; background-color:#00FFFF; border-width:2px; border-color:Black">Turquoise #2</option>
+	            <option value="#00B2FF" style="color:#000000; background-color:#00B2FF; border-width:2px; border-color:Black">Blue #1</option>
+	            <option value="#0065FF" style="color:#FFFFFF; background-color:#0065FF; border-width:2px; border-color:Black">Blue #2</option>
+	            <option value="#6B3AFF" style="color:#FFFFFF; background-color:#6B3AFF; border-width:2px; border-color:Black">Purple #1</option>
+	            <option value="#B200FF" style="color:#FFFFFF; background-color:#B200FF; border-width:2px; border-color:Black">Purple #2</option>
+	            <option value="#FF00DC" style="color:#000000; background-color:#FF00DC; border-width:2px; border-color:Black">Pink #1</option>
+	            <option value="#FF006E" style="color:#000000; background-color:#FF006E; border-width:2px; border-color:Black">Pink #2</option>
+	            <option value="#FF0000" style="color:#000000; background-color:#FF0000; border-width:2px; border-color:Black">Red</option>
+	            <option value="#7F0000" style="color:#FFFFFF; background-color:#7F0000; border-width:2px; border-color:Black">Maroon</option>
+	            <option value="#7F3300" style="color:#FFFFFF; background-color:#7F3300; border-width:2px; border-color:Black">Brown</option>
+	            <option value="#FF6A00" style="color:#000000; background-color:#FF6A00; border-width:2px; border-color:Black">Orange</option>
+	            <option value="#FFFFFF" style="color:#000000; background-color:#FFFFFF; border-width:2px; border-color:Black">White</option>
+	            <option value="#FFFFFF" style="color:#000000; background-color:#FFFFFF; border-width:2px; border-color:Black">Custom</option>
+            </select>
+            <input id="singleColorPicker" class="color" value="FFFFFF" style="width: 65px;" onchange="customColorSelected(this);" />
+        </div>
+        <hr />        
+        <table style=" width:100%" cellpadding="0" cellspacing="0" class="table">
+            <tr>
+                <td style="width:111px;"><span>Gadget title:</span></td>
+                <td>
+                    <select id="titleColorSelect" onchange="colorSelected(this);">
+	                    <option value="#FFFFFF" style="color:#000000; background-color:#FFFFFF; border-width:2px; border-color:Black">Default</option>
+	                    <option value="#FFD800" style="color:#000000; background-color:#FFD800; border-width:2px; border-color:Black">Yellow</option>
+	                    <option value="#B6FF00" style="color:#000000; background-color:#B6FF00; border-width:2px; border-color:Black">Lime</option>
+	                    <option value="#4CFF00" style="color:#000000; background-color:#4CFF00; border-width:2px; border-color:Black">Green #1</option>
+	                    <option value="#00FF21" style="color:#000000; background-color:#00FF21; border-width:2px; border-color:Black">Green #2</option>
+	                    <option value="#00FF90" style="color:#000000; background-color:#00FF90; border-width:2px; border-color:Black">Turquoise #1</option>
+	                    <option value="#00FFFF" style="color:#000000; background-color:#00FFFF; border-width:2px; border-color:Black">Turquoise #2</option>
+	                    <option value="#00B2FF" style="color:#000000; background-color:#00B2FF; border-width:2px; border-color:Black">Blue #1</option>
+	                    <option value="#0065FF" style="color:#FFFFFF; background-color:#0065FF; border-width:2px; border-color:Black">Blue #2</option>
+	                    <option value="#6B3AFF" style="color:#FFFFFF; background-color:#6B3AFF; border-width:2px; border-color:Black">Purple #1</option>
+	                    <option value="#B200FF" style="color:#FFFFFF; background-color:#B200FF; border-width:2px; border-color:Black">Purple #2</option>
+	                    <option value="#FF00DC" style="color:#000000; background-color:#FF00DC; border-width:2px; border-color:Black">Pink #1</option>
+	                    <option value="#FF006E" style="color:#000000; background-color:#FF006E; border-width:2px; border-color:Black">Pink #2</option>
+	                    <option value="#FF0000" style="color:#000000; background-color:#FF0000; border-width:2px; border-color:Black">Red</option>
+	                    <option value="#7F0000" style="color:#FFFFFF; background-color:#7F0000; border-width:2px; border-color:Black">Maroon</option>
+	                    <option value="#7F3300" style="color:#FFFFFF; background-color:#7F3300; border-width:2px; border-color:Black">Brown</option>
+	                    <option value="#FF6A00" style="color:#000000; background-color:#FF6A00; border-width:2px; border-color:Black">Orange</option>
+	                    <option value="#FFFFFF" style="color:#000000; background-color:#FFFFFF; border-width:2px; border-color:Black">White</option>
+	                    <option value="#FFFFFF" style="color:#000000; background-color:#FFFFFF; border-width:2px; border-color:Black">Custom</option>
+                    </select>
+                    <input id="titleColorPicker" class="color" value="FFFFFF" style="width: 65px;" onchange="customColorSelected(this);" />
+                </td>
+            </tr>
+            <tr>
+                <td style="width:111px;"><span>Processor name:</span></td>
+                <td>
+                    <select id="cpuNameColorSelect" onchange="colorSelected(this);">
+	                    <option value="#7CCDFF" style="color:#000000; background-color:#7CCDFF; border-width:2px; border-color:Black">Default</option>
+	                    <option value="#FFD800" style="color:#000000; background-color:#FFD800; border-width:2px; border-color:Black">Yellow</option>
+	                    <option value="#B6FF00" style="color:#000000; background-color:#B6FF00; border-width:2px; border-color:Black">Lime</option>
+	                    <option value="#4CFF00" style="color:#000000; background-color:#4CFF00; border-width:2px; border-color:Black">Green #1</option>
+	                    <option value="#00FF21" style="color:#000000; background-color:#00FF21; border-width:2px; border-color:Black">Green #2</option>
+	                    <option value="#00FF90" style="color:#000000; background-color:#00FF90; border-width:2px; border-color:Black">Turquoise #1</option>
+	                    <option value="#00FFFF" style="color:#000000; background-color:#00FFFF; border-width:2px; border-color:Black">Turquoise #2</option>
+	                    <option value="#00B2FF" style="color:#000000; background-color:#00B2FF; border-width:2px; border-color:Black">Blue #1</option>
+	                    <option value="#0065FF" style="color:#FFFFFF; background-color:#0065FF; border-width:2px; border-color:Black">Blue #2</option>
+	                    <option value="#6B3AFF" style="color:#FFFFFF; background-color:#6B3AFF; border-width:2px; border-color:Black">Purple #1</option>
+	                    <option value="#B200FF" style="color:#FFFFFF; background-color:#B200FF; border-width:2px; border-color:Black">Purple #2</option>
+	                    <option value="#FF00DC" style="color:#000000; background-color:#FF00DC; border-width:2px; border-color:Black">Pink #1</option>
+	                    <option value="#FF006E" style="color:#000000; background-color:#FF006E; border-width:2px; border-color:Black">Pink #2</option>
+	                    <option value="#FF0000" style="color:#000000; background-color:#FF0000; border-width:2px; border-color:Black">Red</option>
+	                    <option value="#7F0000" style="color:#FFFFFF; background-color:#7F0000; border-width:2px; border-color:Black">Maroon</option>
+	                    <option value="#7F3300" style="color:#FFFFFF; background-color:#7F3300; border-width:2px; border-color:Black">Brown</option>
+	                    <option value="#FF6A00" style="color:#000000; background-color:#FF6A00; border-width:2px; border-color:Black">Orange</option>
+	                    <option value="#FFFFFF" style="color:#000000; background-color:#FFFFFF; border-width:2px; border-color:Black">White</option>
+	                    <option value="#FFFFFF" style="color:#000000; background-color:#FFFFFF; border-width:2px; border-color:Black">Custom</option>
+                    </select>
+                    <input id="cpuNameColorPicker" class="color" value="FFFFFF" style="width: 65px;" onchange="customColorSelected(this);" />
+                </td>
+            </tr>
+            <tr>
+                <td style="width:111px;"><span>Clock speed:</span></td>
+                <td>
+                    <select id="clockSpeedColorSelect" onchange="colorSelected(this);">
+	                    <option value="#7CCDFF" style="color:#000000; background-color:#7CCDFF; border-width:2px; border-color:Black">Default</option>
+	                    <option value="#FFD800" style="color:#000000; background-color:#FFD800; border-width:2px; border-color:Black">Yellow</option>
+	                    <option value="#B6FF00" style="color:#000000; background-color:#B6FF00; border-width:2px; border-color:Black">Lime</option>
+	                    <option value="#4CFF00" style="color:#000000; background-color:#4CFF00; border-width:2px; border-color:Black">Green #1</option>
+	                    <option value="#00FF21" style="color:#000000; background-color:#00FF21; border-width:2px; border-color:Black">Green #2</option>
+	                    <option value="#00FF90" style="color:#000000; background-color:#00FF90; border-width:2px; border-color:Black">Turquoise #1</option>
+	                    <option value="#00FFFF" style="color:#000000; background-color:#00FFFF; border-width:2px; border-color:Black">Turquoise #2</option>
+	                    <option value="#00B2FF" style="color:#000000; background-color:#00B2FF; border-width:2px; border-color:Black">Blue #1</option>
+	                    <option value="#0065FF" style="color:#FFFFFF; background-color:#0065FF; border-width:2px; border-color:Black">Blue #2</option>
+	                    <option value="#6B3AFF" style="color:#FFFFFF; background-color:#6B3AFF; border-width:2px; border-color:Black">Purple #1</option>
+	                    <option value="#B200FF" style="color:#FFFFFF; background-color:#B200FF; border-width:2px; border-color:Black">Purple #2</option>
+	                    <option value="#FF00DC" style="color:#000000; background-color:#FF00DC; border-width:2px; border-color:Black">Pink #1</option>
+	                    <option value="#FF006E" style="color:#000000; background-color:#FF006E; border-width:2px; border-color:Black">Pink #2</option>
+	                    <option value="#FF0000" style="color:#000000; background-color:#FF0000; border-width:2px; border-color:Black">Red</option>
+	                    <option value="#7F0000" style="color:#FFFFFF; background-color:#7F0000; border-width:2px; border-color:Black">Maroon</option>
+	                    <option value="#7F3300" style="color:#FFFFFF; background-color:#7F3300; border-width:2px; border-color:Black">Brown</option>
+	                    <option value="#FF6A00" style="color:#000000; background-color:#FF6A00; border-width:2px; border-color:Black">Orange</option>
+	                    <option value="#FFFFFF" style="color:#000000; background-color:#FFFFFF; border-width:2px; border-color:Black">White</option>
+	                    <option value="#FFFFFF" style="color:#000000; background-color:#FFFFFF; border-width:2px; border-color:Black">Custom</option>
+                    </select>
+                    <input id="clockSpeedColorPicker" class="color" value="FFFFFF" style="width: 65px;" onchange="customColorSelected(this);" />
+                </td>
+            </tr>
+            <tr>
+                <td style="width:111px;"><span>VID and TjMax:</span></td>
+                <td>
+                    <select id="vidTjmaxColorSelect" onchange="colorSelected(this);">
+	                    <option value="#7CCDFF" style="color:#000000; background-color:#7CCDFF; border-width:2px; border-color:Black">Default</option>
+	                    <option value="#FFD800" style="color:#000000; background-color:#FFD800; border-width:2px; border-color:Black">Yellow</option>
+	                    <option value="#B6FF00" style="color:#000000; background-color:#B6FF00; border-width:2px; border-color:Black">Lime</option>
+	                    <option value="#4CFF00" style="color:#000000; background-color:#4CFF00; border-width:2px; border-color:Black">Green #1</option>
+	                    <option value="#00FF21" style="color:#000000; background-color:#00FF21; border-width:2px; border-color:Black">Green #2</option>
+	                    <option value="#00FF90" style="color:#000000; background-color:#00FF90; border-width:2px; border-color:Black">Turquoise #1</option>
+	                    <option value="#00FFFF" style="color:#000000; background-color:#00FFFF; border-width:2px; border-color:Black">Turquoise #2</option>
+	                    <option value="#00B2FF" style="color:#000000; background-color:#00B2FF; border-width:2px; border-color:Black">Blue #1</option>
+	                    <option value="#0065FF" style="color:#FFFFFF; background-color:#0065FF; border-width:2px; border-color:Black">Blue #2</option>
+	                    <option value="#6B3AFF" style="color:#FFFFFF; background-color:#6B3AFF; border-width:2px; border-color:Black">Purple #1</option>
+	                    <option value="#B200FF" style="color:#FFFFFF; background-color:#B200FF; border-width:2px; border-color:Black">Purple #2</option>
+	                    <option value="#FF00DC" style="color:#000000; background-color:#FF00DC; border-width:2px; border-color:Black">Pink #1</option>
+	                    <option value="#FF006E" style="color:#000000; background-color:#FF006E; border-width:2px; border-color:Black">Pink #2</option>
+	                    <option value="#FF0000" style="color:#000000; background-color:#FF0000; border-width:2px; border-color:Black">Red</option>
+	                    <option value="#7F0000" style="color:#FFFFFF; background-color:#7F0000; border-width:2px; border-color:Black">Maroon</option>
+	                    <option value="#7F3300" style="color:#FFFFFF; background-color:#7F3300; border-width:2px; border-color:Black">Brown</option>
+	                    <option value="#FF6A00" style="color:#000000; background-color:#FF6A00; border-width:2px; border-color:Black">Orange</option>
+	                    <option value="#FFFFFF" style="color:#000000; background-color:#FFFFFF; border-width:2px; border-color:Black">White</option>
+	                    <option value="#FFFFFF" style="color:#000000; background-color:#FFFFFF; border-width:2px; border-color:Black">Custom</option>
+                    </select>
+                    <input id="vidTjmaxColorPicker" class="color" value="FFFFFF" style="width: 65px;" onchange="customColorSelected(this);" />
+                </td>
+            </tr>
+            <tr>
+                <td style="width:111px;"><span>RAM utilization:</span></td>
+                <td>
+                    <select id="ramColorSelect" onchange="colorSelected(this);">
+	                    <option value="#7CCDFF" style="color:#000000; background-color:#7CCDFF; border-width:2px; border-color:Black">Default</option>
+	                    <option value="#FFD800" style="color:#000000; background-color:#FFD800; border-width:2px; border-color:Black">Yellow</option>
+	                    <option value="#B6FF00" style="color:#000000; background-color:#B6FF00; border-width:2px; border-color:Black">Lime</option>
+	                    <option value="#4CFF00" style="color:#000000; background-color:#4CFF00; border-width:2px; border-color:Black">Green #1</option>
+	                    <option value="#00FF21" style="color:#000000; background-color:#00FF21; border-width:2px; border-color:Black">Green #2</option>
+	                    <option value="#00FF90" style="color:#000000; background-color:#00FF90; border-width:2px; border-color:Black">Turquoise #1</option>
+	                    <option value="#00FFFF" style="color:#000000; background-color:#00FFFF; border-width:2px; border-color:Black">Turquoise #2</option>
+	                    <option value="#00B2FF" style="color:#000000; background-color:#00B2FF; border-width:2px; border-color:Black">Blue #1</option>
+	                    <option value="#0065FF" style="color:#FFFFFF; background-color:#0065FF; border-width:2px; border-color:Black">Blue #2</option>
+	                    <option value="#6B3AFF" style="color:#FFFFFF; background-color:#6B3AFF; border-width:2px; border-color:Black">Purple #1</option>
+	                    <option value="#B200FF" style="color:#FFFFFF; background-color:#B200FF; border-width:2px; border-color:Black">Purple #2</option>
+	                    <option value="#FF00DC" style="color:#000000; background-color:#FF00DC; border-width:2px; border-color:Black">Pink #1</option>
+	                    <option value="#FF006E" style="color:#000000; background-color:#FF006E; border-width:2px; border-color:Black">Pink #2</option>
+	                    <option value="#FF0000" style="color:#000000; background-color:#FF0000; border-width:2px; border-color:Black">Red</option>
+	                    <option value="#7F0000" style="color:#FFFFFF; background-color:#7F0000; border-width:2px; border-color:Black">Maroon</option>
+	                    <option value="#7F3300" style="color:#FFFFFF; background-color:#7F3300; border-width:2px; border-color:Black">Brown</option>
+	                    <option value="#FF6A00" style="color:#000000; background-color:#FF6A00; border-width:2px; border-color:Black">Orange</option>
+	                    <option value="#FFFFFF" style="color:#000000; background-color:#FFFFFF; border-width:2px; border-color:Black">White</option>
+	                    <option value="#FFFFFF" style="color:#000000; background-color:#FFFFFF; border-width:2px; border-color:Black">Custom</option>
+                    </select>
+                    <input id="ramColorPicker" class="color" value="FFFFFF" style="width: 65px;" onchange="customColorSelected(this);" />
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="tabbertab" title="About" id="colorsTab">
+    <b>Information:</b><br />
+        Core Temp Gadget was developed by Arthur Liberman.<br />
+        Copyright &copy; 2010 <a href="http://www.alcpu.com/CoreTemp/">ALCPU.com</a><br />
+        All rights reserved.
+    <hr />
+    <b>Contact:</b><br />
+        Feel free to contact me for more information, questions or suggestions for new features by emailing me @
+        <a href="mailto:arthur_liberman@hotmail.com?subject=Contact: Core Temp Gadget">Arthur Liberman</a> or posting in the <a href="http://www.alcpu.com/forums/viewforum.php?f=55">Core Temp support forums</a>.
+        <!-- <iframe src="http://www.facebook.com/plugins/like.php?href=http%3A%2F%2Fwww.facebook.com%2Fpages%2FCoreTemp%2F98414141360&amp;layout=standard&amp;show_faces=false&amp;width=250&amp;action=like&amp;colorscheme=light&amp;height=35" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:265px; height:40px" allowTransparency="true"></iframe> -->
+        <div id="facebookOffline" style="vertical-align:middle; padding-top:5px;"><a href="http://www.facebook.com/pages/CoreTemp/98414141360"><img src="images/fbLikeOff.png" onmouseover="src='images/fbLikeOn.png'" onmouseout="src='images/fbLikeOff.png'" alt="Facebook Like" border="0" /></a>&nbsp; us on Facebook</div>
+    <hr />
+    <b>Credits:</b><br />
+        Options window look and feel is provided by the "Tabber" example from <a href="http://www.barelyfitz.com/projects/tabber/">BarelyFitz Designs</a>.
+    <p>
+        The custom color picker is provided by <a href="http://odvarko.cz">Jan Odvarko</a> from <a href="http://jscolor.com">jscolor</a>.
+    </p>
+    <p>
+        The original idea, basic design and some support was provided by Orbmu2k.
+    </p>
+    <p>
+        A special thanks goes out to everyone who tested beta versions of the gadget to help iron out bugs and implement new features.
+    </p>
+    </div>
+</div>
+<table>
+    <tr>
+        <td style="padding-bottom:5px;padding-top:5px;">
+            <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=Arthur_Liberman%40hotmail%2ecom&lc=IL&item_name=Core%20Temp%20Gadget&no_note=0&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHostedGuest" target="_blank">
+            <img alt="PayPal - The safer, easier way to pay online!" border="0" src="images/x-click-butcc-donate.gif"/></a></td>
+        <td style="padding-bottom:5px;">
+            <a class="donation" href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=Arthur_Liberman%40hotmail%2ecom&lc=IL&item_name=Core%20Temp%20Gadget&no_note=0&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHostedGuest" target="_blank">
+            Please help support further development by making a donation.</a></td>
+    </tr>
+    <tr>
+        <td colspan="2">
+            <p><span class="about">Core Temp Gadget v<span id="version" class="about"></span> by <a href="http://www.alcpu.com/CoreTemp/">ALCPU.com</a></span>.</p>
+        </td>
+    </tr>
+</table>
+</body>
+</html> 

@@ -1,0 +1,2 @@
+test/dom/getElementById01.html:3: [info] Abstract value: [*native HTMLInputElement]
+test/dom/getElementById01.html:4: [info] Prototype: [@native HTMLInputElement.prototype] -> [@native HTMLElement.prototype] -> [@native Element.prototype] -> [@native Node.prototype] -> [@native Object.prototype]

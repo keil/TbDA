@@ -1,0 +1,6 @@
+test/micro/test110.js:9: [maybe] TypeError, reading property of null/undefined
+test/micro/test110.js:1: [maybe] Uncaught exception, constructed at [test/micro/test110.js:9]
+test/micro/test110.js:4: [info] Abstract value: 43.0
+test/micro/test110.js:6: [info] Abstract value: 44.0
+test/micro/test110.js:8: [info] Abstract value: Null|[@Object#node3]
+test/micro/test110.js:10: [info] Abstract value: 45.0

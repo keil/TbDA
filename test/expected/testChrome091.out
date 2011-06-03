@@ -1,0 +1,38 @@
+test/chrome/091.html:136: [definite] TypeError, reading property of null/undefined
+test/chrome/091.html:150: [definite] TypeError, reading property of null/undefined
+test/chrome/091.html:136: [definite] Reading absent property: touches
+test/chrome/091.html:136: [definite] Unreachable code
+test/chrome/091.html:138: [definite] Unreachable code
+test/chrome/091.html:150: [definite] Reading absent property: touches
+test/chrome/091.html:150: [definite] Unreachable code
+test/chrome/091.html:152: [definite] Unreachable code
+test/chrome/091.html:203: [maybe] TypeError, reading property of null/undefined
+test/chrome/091.html:221: [maybe] TypeError, reading property of null/undefined
+test/chrome/091.html:223: [maybe] TypeError, reading property of null/undefined
+test/chrome/091.html:223: [maybe] TypeError, reading property of null/undefined
+test/chrome/091.html:1: [maybe] Uncaught exception, constructed at [test/chrome/091.html:136, test/chrome/091.html:150, test/chrome/091.html:203, test/chrome/091.html:221, test/chrome/091.html:223]
+test/chrome/091.html:203: [maybe] Conversion to number yields NaN
+test/chrome/091.html:203: [maybe] Reading absent property (computed name)
+test/chrome/091.html:223: [maybe] Reading absent property (computed name)
+test/chrome/091.html:223: [maybe] Reading absent property (computed name)
+test/chrome/091.html:235: [maybe] Conversion to number yields NaN
+test/chrome/091.html:235: [maybe] Conversion to number yields NaN
+test/chrome/091.html:235: [maybe] Conversion to number yields NaN
+test/chrome/091.html:235: [maybe] Conversion to number yields NaN
+test/chrome/091.html:235: [maybe] Reading absent property (computed name)
+test/chrome/091.html:235: [maybe] Reading absent property (computed name)
+test/chrome/091.html:235: [maybe] Reading absent property (computed name)
+test/chrome/091.html:235: [maybe] Reading absent property (computed name)
+test/chrome/091.html:235: [maybe] Reading absent property (computed name)
+test/chrome/091.html:268: [maybe] Reading absent property (computed name)
+test/chrome/091.html:269: [maybe] Conversion to number yields NaN
+test/chrome/091.html:269: [maybe] Reading absent property (computed name)
+test/chrome/091.html:275: [maybe] Conversion to number yields NaN
+test/chrome/091.html:275: [maybe] Reading absent property (computed name)
+test/chrome/091.html:275: [maybe] Reading absent property (computed name)
+test/chrome/091.html:275: [maybe] Reading absent property (computed name)
+test/chrome/091.html:277: [maybe] Reading absent property (computed name)
+test/chrome/091.html:278: [maybe] Conversion to number yields NaN
+test/chrome/091.html:278: [maybe] Conversion to number yields NaN
+test/chrome/091.html:279: [maybe] Conversion to number yields NaN
+test/chrome/091.html:279: [maybe] Conversion to number yields NaN

@@ -1,0 +1,86 @@
+<view width="510" height="569" resizable="false" onopen="detailsOnOpen()">
+  <script src="details.js"/>
+  <script src="utils.js"/>
+  <div name="frame" width="100%" height="100%">
+    <div name="top_left" width="12" height="32"
+      background="images/details/top_left.png" />
+    <div name="top_middle" x="12" width="482" height="32"
+      background="images/details/top.png" />
+    <div name="top_right" x="494" width="16" height="32"
+      background="images/details/top_right.png" />
+
+    <div name="middle_left" y="32" width="12" height="501"
+      background="images/details/left.png" />
+    <div name="middle_middle" x="12" y="32" width="482" height="501"
+      background="images/details/center.png" />
+    <div name="middle_right" x="494" y="32" width="16" height="501"
+      background="images/details/right.png" />
+
+    <div name="bottom_left" y="533" width="12" height="36"
+      background="images/details/bottom_left.png" />
+    <div name="bottom_middle" x="12" y="533" width="482" height="36"
+      background="images/details/bottom.png" />
+    <div name="bottom_right" x="494" y="533" width="16" height="36"
+      background="images/details/bottom_right.png" />
+  </div>
+
+  <a name="title" size="9" x="12" y="9" width="464" height="20"
+    bold="true" color="#ffffff" overColor="#ffffff" vAlign="top"
+    wordWrap="false" trimming="character-ellipsis" />
+
+  <button name="close" x="476" y="12" width="19" height="17" enabled="true"
+    image="images/details/close_default.png"
+    overImage="images/details/close_hover.png"
+    disabledImage="images/details/close_default.png"
+    downImage="images/details/close_down.png" />
+
+  <div name="player_container" x="12" y="33" width="481" height="536">
+    <object name="ytplayer" width="100%" height="396" x="0" y="0"
+      classId="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000">
+      <param name="wmode" value="transparent" />
+    </object>
+
+    <div name="ratings" width="100%" height="11" x="0" y="406">
+      <img name="rating0" x="0" y="0" src="images/details/star_empty.png" />
+      <img name="rating1" x="12" y="0" src="images/details/star_empty.png" />
+      <img name="rating2" x="24" y="0" src="images/details/star_empty.png" />
+      <img name="rating3" x="36" y="0" src="images/details/star_empty.png" />
+      <img name="rating4" x="48" y="0" src="images/details/star_empty.png" />
+
+      <label name="total" x="65" y="0" width="160" height="100%" size="7"
+        color="white" vAlign="middle" />
+      <label name="view_count" x="321" y="0" width="160" height="100%" size="7"
+        color="white" vAlign="middle" align="right" />
+    </div>
+
+    <label name="description" width="100%" height="75" x="0" y="426"
+      color="#ffffff" size="8" wordWrap="true" trimming="character-ellipsis"
+      vAlign="top" />
+    <a name="more_link" width="100%" height="30" x="0" y="506" color="#ffffff"
+      size="8" vAlign="top" overColor="#A2C5F1">&LEARN_MORE;</a>
+
+  </div>
+
+  <div name="error" visible="false" x="12" y="33" width="481" height="456">
+    <label align="center" vAlign="middle" width="100%" size="9" y="70"
+      height="40" bold="true" wordwrap="true"
+      color="#ffffff">&FLASH_REQUIRED;</label>
+    <a align="center"
+      onclick="try { var ie = new ActiveXObject('InternetExplorer.Application');
+        ie.Navigate('http://www.adobe.com/go/getflashplayer');
+        ie.Visible = true; } catch(e)
+        { framework.openUrl('http://www.adobe.com/go/getflashplayer'); }"
+      vAlign="middle" width="100%" y="110" size="9" overColor="#999999"
+      color="#ffffff" wordWrap="true" height="40">&INSTALL_FLASH;</a>
+  </div>
+
+  <div name="noEmbed" visible="false" x="12" y="33" width="481" height="456">
+    <label align="center" vAlign="middle" width="100%" size="9" y="70"
+      height="40" bold="true" wordwrap="true"
+      color="#ffffff">&NO_EMBED;</label>
+    <a name="noEmbedLink" align="center"
+      vAlign="middle" width="100%" y="110" size="9" overColor="#999999"
+      color="#ffffff">&WATCH_ON_YOUTUBE;</a>
+  </div>
+
+</view>

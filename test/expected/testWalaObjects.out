@@ -1,0 +1,5 @@
+test/wala/objects.js:46: [maybe] Assertion fails
+test/wala/objects.js:48: [info] Abstract object: {0:Undef,1:Undef,2:Undef,3:7.0,4:[@Number#node85],5:[@Object#node44],6:[@String#node89],length:7.0,[[Prototype]]=[@native Array.prototype]}
+test/wala/objects.js:49: [info] Abstract value: [@Number#node85]
+test/wala/objects.js:50: [info] Abstract value: [@String#node89]
+test/wala/objects.js:51: [info] Abstract value: "whatever"

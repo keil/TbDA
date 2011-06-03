@@ -1,0 +1,19 @@
+test/micro/test59.js:10: [maybe] Assertion fails
+test/micro/test59.js:21: [maybe] Assertion fails
+test/micro/test59.js:22: [maybe] Assertion fails
+test/micro/test59.js:23: [maybe] Assertion fails
+test/micro/test59.js:24: [maybe] Assertion fails
+test/micro/test59.js:17: [maybe] Reading absent property: dfg
+test/micro/test59.js:20: [maybe] Reading absent property: ab
+test/micro/test59.js:21: [maybe] Reading absent property: dfg
+test/micro/test59.js:24: [maybe] Reading absent property: ab
+test/micro/test59.js:18: [maybe] Reading absent property (computed name)
+test/micro/test59.js:19: [maybe] Reading absent property (computed name)
+test/micro/test59.js:22: [maybe] Reading absent property (computed name)
+test/micro/test59.js:23: [maybe] Reading absent property (computed name)
+test/micro/test59.js:9: [info] Abstract value: Str
+test/micro/test59.js:15: [info] Abstract object: {[[DefaultArray]]="hello"|absent,[[DefaultNonArray]]="hello"|absent,[[Prototype]]=[@native Object.prototype]}
+test/micro/test59.js:17: [info] Abstract value: Undef|"hello"
+test/micro/test59.js:18: [info] Abstract value: Undef|"hello"
+test/micro/test59.js:19: [info] Abstract value: Undef|"hello"
+test/micro/test59.js:20: [info] Abstract value: Undef|"hello"

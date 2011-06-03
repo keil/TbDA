@@ -1,0 +1,51 @@
+<?xml version="1.0" ?>
+<view height="110" onopen="_onOpen()" resizable="false" width="160">
+	
+  
+	<div height="90" name="forecastPane" width="160" x="0" y="0">
+		
+    
+		<label align="center" bold="true" color="#666666" font="tahoma" height="13" name="date_1" size="8" trimming="character" width="45" x="6" y="6"/>
+		
+    
+		<label align="center" bold="true" color="#666666" font="tahoma" height="13" name="date_2" size="8" trimming="character" width="45" x="57" y="6"/>
+		
+    
+		<label align="center" bold="true" color="#666666" font="tahoma" height="13" name="date_3" size="8" trimming="character" width="45" x="108" y="6"/>
+		
+    
+		<img name="weather_1" x="6" y="29"/>
+		
+    
+		<img name="weather_2" x="57" y="29"/>
+		
+    
+		<img name="weather_3" x="108" y="29"/>
+		
+    
+		<label color="#000000" font="tahoma" height="13" name="high_temp_1" size="8" width="248" x="13" y="63"/>
+		
+    
+		<label color="#000000" font="tahoma" height="13" name="high_temp_2" size="8" width="248" x="64" y="63"/>
+		
+    
+		<label color="#000000" font="tahoma" height="13" name="high_temp_3" size="8" width="248" x="115" y="63"/>
+		
+    
+		<label color="#000000" font="tahoma" height="13" name="low_temp_1" size="8" width="248" x="13" y="75"/>
+		
+    
+		<label color="#000000" font="tahoma" height="13" name="low_temp_2" size="8" width="248" x="64" y="75"/>
+		
+    
+		<label color="#000000" font="tahoma" height="13" name="low_temp_3" size="8" width="248" x="115" y="75"/>
+		
+  
+	</div>
+	
+
+  
+	<script src="0_details.xml.compiled.js"/>
+	
+
+</view>

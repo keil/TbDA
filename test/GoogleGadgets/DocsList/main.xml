@@ -1,0 +1,322 @@
+<view width="280" height="340" resizable="true" resizeBorder="10 15 15 15"
+  ondock="Main.onDock();"
+  onundock="Main.onUndock();"
+  >
+
+  <script src="auth.js" />
+  <script src="date.js" />
+  <script src="docs_feed.js" />
+  <script src="docs_ui.js" />
+  <script src="document.js" />
+  <script src="errorMessage.js" />
+  <script src="httpRequest.js" />
+  <script src="login_ui.js" />
+  <script src="menu.js" />
+  <script src="online_checker.js" />
+  <script src="scrollbar.js" />
+  <script src="search.js" />
+  <script src="sort.js" />
+  <script src="upload_file.js" />
+  <script src="upload_ui.js" />
+  <script src="upgrade_ui.js" />
+  <script src="version_checker.js" />
+  <script src="util.js" />
+  <script src="main.js" />
+
+  <div x="2" y="9" name="window" enabled="true">
+    <div name="bottomRightMainBg" width="35" height="29" background="images/base_bottomright.png" />
+    <div name="bottomCenterMainBg" x="31" height="29" background="images/base_bottom.png" />
+    <div name="bottomLeftMainBg" width="31" height="29" background="images/base_bottomleft.png" />
+    <div name="middleRightMainBg" y="25" width="35" background="images/base_right.png" />
+    <div name="middleCenterMainBg" x="31" y="25" background="images/base_fill.png" />
+    <div name="middleLeftMainBg" y="25" width="31" background="images/base_left.png" />
+    <div name="topRightMainBg" width="35" height="25" background="images/base_topright.png" />
+    <div name="topCenterMainBg" x="31" height="25" background="images/base_top.png" />
+    <div name="topLeftMainBg" width="31" height="25" enabled="true" background="images/base_topleft.png" />
+
+    <label name="username" x="35" y="6" size="10" font="helvetica" color="#0070bf" />
+
+    <div name="loginDiv" x="10" y="40" height="180" visible="true">
+      <label width="100%" height="16" font="helvetica" size="9">&LOGIN_SIGN_IN_TO_DOCLIST;</label>
+      <label width="100%" y="18" height="16" font="helvetica" size="9">&LOGIN_YOUR;</label>
+      <img x="30" y="18" width="55" height="19" src="images/google_logo.png" />
+      <label width="100%" x="88" y="18" height="16" font="helvetica" size="9" bold="true">&LOGIN_ACCOUNT;</label>
+
+      <div name="userBg" y="64" width="100%" height="19" background="#7f9db9"/>
+      <div name="passBg" y="104" width="100%" height="18" background="#7f9db9"/>
+
+      <label name="userLabel" y="48" width="100%" height="16" font="helvetica" size="9" color="#0066cc">&LOGIN_USERNAME;</label>
+      <edit name="user" x="1" y="65" height="17" font="helvetica" />
+
+      <label name="passLabel" y="88" height="16" font="helvetica" size="9" color="#0066cc">&LOGIN_PASSWORD;</label>
+      <edit name="pass" x="1" y="105" height="16" font="helvetica" passwordChar="*" />
+
+      <img name="rememberFocus" visible="false" y="127" width="22" height="22" src="images/checkbox_focus.png" />
+      <checkbox name="remember" x="3" y="130" width="100%" height="16"
+        font="helvetica" size="9" trimming="word-ellipsis"
+        caption="&LOGIN_REMEMBER_ME;" value="false" cursor="hand"
+        image="images/checkbox_default.png"
+        overImage="images/checkbox_default.png"
+        downImage="images/checkbox_default.png"
+        checkedImage="images/checkbox_checked.png"
+        checkedOverImage="images/checkbox_checked.png"
+        checkedDownImage="images/checkbox_checked.png" />
+
+      <button name="login" y="155" width="84" height="24"
+        font="helvetica" size="8" caption="&LOGIN_SIGN_IN;" cursor="hand"
+        image="images/action_default.png" downImage="images/action_down.png"
+        overImage="images/action_hover.png" />
+    </div>
+
+    <div name="mainDiv" x="7" y="26" visible="false">
+      <div name="searchStatus" y="0" height="64">
+        <div name="searchStatusLeft" width="4" height="64"
+          background="images/blue-area-left.gif" />
+        <div name="searchStatusContent" x="4" height="64"
+          background="images/blue-area-fill.gif">
+            <div name="searchArea" x="7" y="12" height="25" background="#5697de">
+              <div name="searchContainer" x="1" y="1" height="23" background="#ffffff">
+                <edit name="search" y="3" size="11" height="17" font="helvetica"
+                  background="#ffffff" color="#999999" value="&SEARCH_DOCS;" enabled="true" />
+                <div name="searchClear" y="2" width="19" height="19"
+                  background="images/textbox-close.gif" cursor="hand" visible="false" enabled="true" />
+              </div>
+            </div>
+        </div>
+        <div name="searchStatusRight" width="6" height="64"
+          background="images/blue-area-right.gif" />
+      </div>
+
+      <div name="sortOptionsArea" y="46" height="18">
+        <div name="sortOptionsName" height="18"
+          background="images/inactive-bg.gif">
+            <label x="6" y="1" font="helvetica" size="8" color="#000000">&SORT_NAME;</label>
+            <div name="sortOptionsNameArrow" y="6" width="9" height="6" background="images/name-date-arrow.gif" visible="false" />
+        </div>
+        <div name="sortOptionsNameDateDivider" width="2" height="18"
+          background="images/name-date-divider.gif" />
+        <div name="sortOptionsDateNameDivider" width="2" height="18"
+          background="images/date-name-divider.gif" visible="false" />
+        <div name="sortOptionsDate" height="18"
+          background="images/inactive-bg.gif">
+            <label x="5" y="1" font="helvetica" size="8" color="#000000">&SORT_DATE;</label>
+            <div name="sortOptionsDateArrow" y="6" width="9" height="6" background="images/date-name-arrow.gif" />
+        </div>
+      </div>
+
+      <div name="contentArea" y="64">
+        <div name="contentContainer" background="#FFFFFF" autoscroll="true">
+          <div x="4" y="0" name="doclistContent" background="#FFFFFF" />
+          <div y="3" width="14" name="scrollbar" background="#FFFFFF">
+            <div width="14" height="12" name="scrollbarUp" background="images/scroll-up.gif" enabled="true"/>
+            <div width="14" y="12" name="scrollbarTrack" background="images/scroll-track.gif" enabled="true" />
+            <div width="14" y="12" name="scrollbarBar" background="images/scroll-bar.gif" enabled="true" />
+            <div width="14" height="11" name="scrollbarDown" background="images/scroll-down.gif" enabled="true" />
+          </div>
+        </div>
+        <div name="contentShadowRight" width="2"
+          background="images/dropshadow-right.gif" />
+        <div name="contentShadowBottomLeft" width="2" height="2"
+          background="images/dropshadow-left-bottom.gif" />
+        <div name="contentShadowBottom" height="2"
+          background="images/dropshadow-bottom.gif" />
+        <div name="contentShadowBottomRight" width="2" height="2"
+          background="images/dropshadow-right-bottom.gif" />
+      </div>
+    </div>
+
+    <div name="uploadDiv" x="7" y="26">
+      <div name="status" y="0" height="64">
+        <div name="statusLeft" width="4" height="64"
+          background="images/blue-area-left.gif" />
+        <div name="statusContent" x="4" height="64"
+          background="images/blue-area-fill.gif">
+            <div name="uploadStatus" x="9" y="7" height="50">
+              <label name="uploadStatusLine1" size="11" width="100%" height="18" font="helvetica" color="#ffffff">&UPLOAD_UPLOADING;</label>
+              <label y="18" name="uploadStatusLine2" size="11" width="100%" height="18" font="helvetica" color="#ffffff">0 &UPLOAD_OF; 0</label>
+              <a y="35" name="cancelOption" size="8" font="helvetica" color="#ffffff" underline="true">&UPLOAD_CANCEL;</a>
+              <a y="35" name="doneOption" size="8" font="helvetica" color="#ffffff" underline="true" visible="false">&UPLOAD_DONE;</a>
+            </div>
+        </div>
+        <div name="statusRight" width="6" height="64"
+          background="images/blue-area-right.gif" />
+      </div>
+
+      <div name="contentArea" y="64">
+        <div name="contentContainer" background="#FFFFFF" autoscroll="true">
+          <div x="4" y="0" name="uploaderContent" background="#FFFFFF" />
+          <div y="3" width="14" name="scrollbar" background="#FFFFFF">
+            <div width="14" height="12" name="scrollbarUp" background="images/scroll-up.gif" enabled="true"/>
+            <div width="14" y="12" name="scrollbarTrack" background="images/scroll-track.gif" enabled="true" />
+            <div width="14" y="12" name="scrollbarBar" background="images/scroll-bar.gif" enabled="true" />
+            <div width="14" height="11" name="scrollbarDown" background="images/scroll-down.gif" enabled="true" />
+          </div>
+        </div>
+        <div name="contentShadowRight" width="2"
+          background="images/dropshadow-right.gif" />
+        <div name="contentShadowBottomLeft" width="2" height="2"
+          background="images/dropshadow-left-bottom.gif" />
+        <div name="contentShadowBottom" height="2"
+          background="images/dropshadow-bottom.gif" />
+        <div name="contentShadowBottomRight" width="2" height="2"
+          background="images/dropshadow-right-bottom.gif" />
+      </div>
+    </div>
+
+    <div name="autoFill" x="16" y="60" visible="false">
+      <div name="autoFillTopLeft" width="3" height="3"
+           background="images/dropdown-top-left.png" />
+      <div name="autoFillTopCenter" x="3" height="3"
+           background="images/dropdown-top.png" />
+      <div name="autoFillTopRight" width="5" height="3"
+           background="images/dropdown-top-right.png" />
+
+      <div name="autoFillMiddleLeft" y="3" width="3"
+           background="images/dropdown-left.png" />
+      <div name="autoFillMiddleRight" y="3" width="5"
+           background="images/dropdown-right.png" />
+
+      <div name="autoFillBottomLeft" width="3" height="5"
+           background="images/dropdown-bottom-left.png" />
+      <div name="autoFillBottomCenter" x="3" height="5"
+           background="images/dropdown-bottom.png" />
+      <div name="autoFillBottomRight" width="5" height="5"
+         background="images/dropdown-bottom-right.png" />
+
+      <div name="autoFillOptions" x="3" y="3" background="#ffffff" />
+    </div>
+
+    <div name="commands" height="23" x="7">
+      <a name="commandsNew" x="3" height="14" font="helvetica" size="8" color="#0065cd" underline="true">&COMMAND_NEW;</a>
+      <div name="commandsNewArrow" cursor="hand" width="7" height="4" background="images/down-arrow.gif" enabled="true" />
+      <a name="commandsShow" x="3" height="14" font="helvetica" size="8" color="#0065cd" underline="true" visible="true">&COMMAND_SHOW;</a>
+      <div name="commandsShowArrow" cursor="hand" width="7" height="4" background="images/down-arrow.gif" enabled="true" visible="true" />
+      <a name="commandsUpload" font="helvetica" size="8" color="#0065cd" underline="true">&COMMAND_UPLOAD;</a>
+      <a name="commandsSignout" font="helvetica" size="8" color="#0065cd" underline="true">&COMMAND_SIGN_OUT;</a>
+    </div>
+
+    <div name="newDocument" x="8" width="106" height="88" visible="false">
+      <div name="newDocumentTopLeft" width="3" height="3"
+           background="images/dropdown-top-left.png" />
+      <div name="newDocumentTopCenter" x="3" width="98" height="3"
+           background="images/dropdown-top.png" />
+      <div name="newDocumentTopRight" x="101" width="5" height="3"
+           background="images/dropdown-top-right.png" />
+
+      <div name="newDocumentMiddleLeft" y="3" width="3" height="80"
+           background="images/dropdown-left.png" />
+      <div name="newDocumentMiddleRight" x="101 " y="3" width="5" height="80"
+           background="images/dropdown-right.png" />
+
+      <div name="newDocumentBottomLeft" y="83" width="3" height="5"
+           background="images/dropdown-bottom-left.png" />
+      <div name="newDocumentBottomCenter" x="3" y="83" width="98" height="5"
+           background="images/dropdown-bottom.png" />
+      <div name="newDocumentBottomRight" x="101" y="83" width="5" height="5"
+         background="images/dropdown-bottom-right.png" />
+
+      <div name="newDocumentOptions" x="3" y="3" width="98" height="80" background="#ffffff">
+        <div name="newDocumentDocument" y="0" width="98" height="20" enabled="true" cursor="hand"
+          onmouseover="event.srcElement.background='#e0ecf7'"
+          onmouseout="event.srcElement.background=''">
+            <div x="6" y="2" width="16" height="16" background="images/icon-document.gif"/>
+            <label x="28" y="2" font="helvetica" size="8" color="#000000">&DOCUMENT_DOCUMENT;</label>
+        </div>
+        <div name="newDocumentPresentation" y="20" width="98" height="20" enabled="true" cursor="hand"
+          onmouseover="event.srcElement.background='#e0ecf7'"
+          onmouseout="event.srcElement.background=''">
+            <div x="6" y="2" width="16" height="16" background="images/icon-presentation.gif"/>
+            <label x="28" y="2" font="helvetica" size="8" color="#000000">&DOCUMENT_PRESENTATION;</label>
+        </div>
+        <div name="newDocumentSpreadsheet" y="40" width="98" height="20" enabled="true" cursor="hand"
+          onmouseover="event.srcElement.background='#e0ecf7'"
+          onmouseout="event.srcElement.background=''">
+            <div x="6" y="2" width="16" height="16" background="images/icon-spreadsheet.gif"/>
+            <label x="28" y="2" font="helvetica" size="8" color="#000000">&DOCUMENT_SPREADSHEET;</label>
+        </div>
+        <div name="newDocumentForm" y="60" width="98" height="20" enabled="true" cursor="hand"
+          onmouseover="event.srcElement.background='#e0ecf7'"
+          onmouseout="event.srcElement.background=''">
+            <div x="6" y="2" width="16" height="16" background="images/icon-form.gif"/>
+            <label x="28" y="2" font="helvetica" size="8" color="#000000">&DOCUMENT_FORM;</label>
+        </div>
+      </div>
+    </div>
+
+    <div name="showMenu" x="8" width="126" height="68" visible="false">
+      <div width="3" height="3"
+           background="images/dropdown-top-left.png" />
+      <div x="3" width="118" height="3"
+           background="images/dropdown-top.png" />
+      <div x="121" width="5" height="3"
+           background="images/dropdown-top-right.png" />
+
+      <div y="3" width="3" height="60"
+           background="images/dropdown-left.png" />
+      <div x="121 " y="3" width="5" height="60"
+           background="images/dropdown-right.png" />
+
+      <div y="63" width="3" height="5"
+           background="images/dropdown-bottom-left.png" />
+      <div x="3" y="63" width="118" height="5"
+           background="images/dropdown-bottom.png" />
+      <div x="121" y="63" width="5" height="5"
+         background="images/dropdown-bottom-right.png" />
+
+      <div name="items" x="3" y="3" width="118" height="60" background="#ffffff">
+        <div name="showAll" y="0" width="100%" height="20" enabled="true" cursor="hand"
+          onmouseover="event.srcElement.background='#e0ecf7'"
+          onmouseout="event.srcElement.background=''">
+            <div name="check" x="2" y="2" width="16" height="16" background="images/icon-check.gif"
+              visible="false" />
+            <div x="20" y="2" width="16" height="16" background="images/icon-all.gif"/>
+            <label x="38" y="2" font="helvetica" size="8" color="#000000">&ALL_ITEMS;</label>
+        </div>
+        <div name="showOwned" y="20" width="100%" height="20" enabled="true" cursor="hand"
+          onmouseover="event.srcElement.background='#e0ecf7'"
+          onmouseout="event.srcElement.background=''">
+            <div name="check" x="2" y="2" width="16" height="16" background="images/icon-check.gif"
+              visible="false" />
+            <div x="20" y="2" width="16" height="16" background="images/icon-pad.gif"/>
+            <label x="38" y="2" font="helvetica" size="8" color="#000000">&OWNED_BY_ME;</label>
+        </div>
+        <div name="showStarred" y="40" width="100%" height="20" enabled="true" cursor="hand"
+          onmouseover="event.srcElement.background='#e0ecf7'"
+          onmouseout="event.srcElement.background=''">
+            <div name="check" x="2" y="2" width="16" height="16" background="images/icon-check.gif"
+              visible="false" />
+            <div x="20" y="2" width="16" height="16" background="images/icon-star-big.gif"/>
+            <label x="38" y="2" font="helvetica" size="8" color="#000000">&STARRED;</label>
+        </div>
+        <!--
+        <div name="showOpened" y="40" width="100%" height="20" enabled="true" cursor="hand"
+          onmouseover="event.srcElement.background='#e0ecf7'"
+          onmouseout="event.srcElement.background=''">
+            <div name="check" x="2" y="2" width="16" height="16" background="images/icon-check.gif"
+              visible="false" />
+            <div x="20" y="2" width="16" height="16" background="images/icon-pad.gif"/>
+            <label x="38" y="2" font="helvetica" size="8" color="#000000">&OPENED_BY_ME;</label>
+        </div>
+        -->
+      </div>
+    </div>
+
+    <div name="upgradeDiv" x="10" y="40" height="180" visible="false">
+      <label name="upgradeReason" size="9" color="#000000" font="helvetica"
+        width="180" height="60" y="0" wordWrap="true" />
+      <a name="upgradeDownloadUrl" size="10" font="helvetica"
+        width="100%" height="20" y="60">&DOWNLOAD_GADGET;</a>
+      <a name="upgradeInfoUrl" size="9" font="helvetica"
+        width="100%" height="20" y="80">&MORE_INFORMATION;</a>
+    </div>
+
+    <div name="loading" background="#cc4444" y="6" height="16" visible="false" >
+      <label name="loadingLabel" font="arial" size="8" color="#ffffff">&LOADING;</label>
+    </div>
+    <div name="searching" background="#cc4444" y="6" height="16" visible="false">
+      <label name="searchingLabel" font="arial" size="8" color="#ffffff">&SEARCHING;</label>
+    </div>
+  </div>
+
+  <div width="33" height="34" background="images/logo.png" />
+</view>

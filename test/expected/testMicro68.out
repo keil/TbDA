@@ -1,0 +1,9 @@
+test/micro/test68.js:6: [definite] Reading 'this' yields the global object
+test/micro/test68.js:9: [definite] Reading 'this' yields the global object
+test/micro/test68.js:10: [definite] Unreachable function: f
+test/micro/test68.js:3: [info] Abstract object: {a:1.0,b:true,[[Prototype]]=[@native Object.prototype]}
+test/micro/test68.js:4: [info] Property attributes: (DontDelete-)(DontEnum-)(ReadOnly-)
+test/micro/test68.js:5: [info] Property attributes: 
+test/micro/test68.js:6: [info] Property attributes: (DontDelete+)(DontEnum+)(ReadOnly-)
+test/micro/test68.js:7: [info] Property attributes: (DontDelete+)(DontEnum+)(ReadOnly+)
+test/micro/test68.js:9: [info] Property attributes: (DontDelete-)(DontEnum+)(ReadOnly-)

@@ -1,0 +1,7 @@
+test/wala/simple.js:7: [definite] Unreachable code
+test/wala/simple.js:7: [definite] Unreachable function: inc
+test/wala/simple.js:17: [definite] Unreachable code
+test/wala/simple.js:81: [maybe] Assertion fails
+test/wala/simple.js:91: [info] Abstract value: [@function fib#fun6, @function stranger#fun5]
+test/wala/simple.js:94: [info] Abstract value: UInt|NotUInt
+test/wala/simple.js:96: [info] Abstract value: Num

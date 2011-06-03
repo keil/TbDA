@@ -1,0 +1,2 @@
+test/micro/test99.js:21: [definite] Unreachable code
+test/micro/test99.js:23: [info] Abstract value: true

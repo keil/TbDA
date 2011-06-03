@@ -1,0 +1,3 @@
+test/micro/test142.js:4: [maybe] TypeError, reading property of null/undefined
+test/micro/test142.js:1: [maybe] Uncaught exception, constructed at [test/micro/test142.js:4]
+test/micro/test142.js:3: [maybe] Reading absent property (computed name)

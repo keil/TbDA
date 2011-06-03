@@ -1,0 +1,37 @@
+﻿<html xmlns:v="urn:schemas-microsoft-com:vml">
+<head>
+<title>Ping Monitor</title>
+<link href="css/PingMonitor.css" rel="stylesheet" type="text/css">
+<script type="text/jscript" language="javascript" src="js/PingMonitor.js"></script>
+ <style>
+  v\:* { behavior: url(#default#VML); }
+ </style>
+</head>
+
+<body onload="Start();">
+ <g:background id="background">
+ <div id="gtitle" style="position:absolute;width:100%;text-align:center;color:#FFFFFF;font-weight:bold;">Ping Monitor</div>
+ <div id="gline" style="position:absolute;width:100%;"><hr align="center" width="60%" color="#808080"></div>
+
+ <div id="URLping" style="position:absolute;color:#FFCC00;text-overflow:ellipsis;white-space:nowrap;overflow:hidden"></div>
+ <div id="MAXping" style="position:absolute;text-align:left;color:#90EE90">MAX: <span id="MAXnum" style="font-weight:bold"></span></div>
+ <div id="CURping" style="position:absolute;text-align:left;color:#FFF62A">Current: <span id="CURnum" style="font-weight:bold"></span></div>
+
+ <div id="pinggraphbg" style="position:absolute;background-color:black;"></div> 
+ <v:shape id="pinglinesx" style="position:absolute;" filled="false" strokecolor="#2F4F4F" strokeweight="1pt" coordorigin="0 0"
+  coordsize="110 30" path=" m 5,30 l 5,0  m 15,30 l 15,0  m 25,30 l 25,0  m 35,30 l 35,0  m 45,30 l 45,0  m 55,30 l 55,0  m 65,30 l 65,0  m 75,30 l 75,0  m 85,30 l 85,0  m 95,30 l 95,0  m 105,30 l 105,0 "/>
+ <v:shape id="pinglinesy" style="position:absolute;" filled="false" strokecolor="#2F4F4F" strokeweight="1pt" coordorigin="0 0" 
+  coordsize="110 30" path=" m 0,5 l 110,5  m 0,10 l 110,10  m 0,15 l 110,15  m 0,20 l 110,20  m 0,25 l 110,25"/>
+ <v:shape id="pingborder" style="position:absolute;" filled="false" strokecolor="#778899" strokeweight="1pt" coordorigin="0 0" 
+  coordsize="110 30" path="m 0,30 l 110,30 l 110,0 l 0,0 l 0,30" />
+ <v:shape id="PINGgraph" style="position:absolute;" filled="false" strokecolor="#FFF62A" strokeweight="1pt" coordorigin="0 0" coordsize="110 30" />
+ <v:rect id="hidepinggraph" style="position:absolute;visibility:visible" fillcolor="black" />
+
+ <div id="pingerror" style="position:absolute;text-align:center;font-weight:bold;width:100%;color:#FF0000">PING ERROR</div>
+  
+ <div id="advertis" style="position:absolute;width:100%;">
+ <a class="ads" href="http://www.myfavoritegadgets.info/" target="_blank">© 2010 by Igogo</a></div>
+ <div id="versionnumber" style="position:absolute;left:0px;text-align:right;color:#C0C0C0;">v1.0</div>
+ </g:background>
+</body>
+</html>

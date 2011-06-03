@@ -1,0 +1,29 @@
+test/chrome/076.html:80: [maybe] TypeError, call to non-function
+test/chrome/076.html:100: [maybe] TypeError, reading property of null/undefined
+test/chrome/076.html:102: [maybe] TypeError, reading property of null/undefined
+test/chrome/076.html:102: [maybe] TypeError, reading property of null/undefined
+test/chrome/076.html:102: [maybe] TypeError, reading property of null/undefined
+test/chrome/076.html:102: [maybe] TypeError, reading property of null/undefined
+test/chrome/076.html:102: [maybe] TypeError, reading property of null/undefined
+test/chrome/076.html:102: [maybe] TypeError, reading property of null/undefined
+test/chrome/076.html:102: [maybe] TypeError, reading property of null/undefined
+test/chrome/076.html:102: [maybe] TypeError, reading property of null/undefined
+test/chrome/076.html:127: [maybe] TypeError, reading property of null/undefined
+test/chrome/076.html:127: [maybe] TypeError, writing property of null/undefined
+test/chrome/076.html:128: [maybe] TypeError, reading property of null/undefined
+test/chrome/076.html:128: [maybe] TypeError, writing property of null/undefined
+test/chrome/076.html:80: [maybe] Reading absent property: getContext
+test/chrome/076.html:1: [maybe] Uncaught exception, constructed at [test/chrome/076.html:80, test/chrome/076.html:100, test/chrome/076.html:102, test/chrome/076.html:127, test/chrome/076.html:128]
+test/chrome/076.html:100: [maybe] Reading absent property (computed name)
+test/chrome/076.html:102: [maybe] Reading absent property (computed name)
+test/chrome/076.html:102: [maybe] Reading absent property (computed name)
+test/chrome/076.html:102: [maybe] Reading absent property (computed name)
+test/chrome/076.html:102: [maybe] Reading absent property (computed name)
+test/chrome/076.html:102: [maybe] Reading absent property (computed name)
+test/chrome/076.html:102: [maybe] Reading absent property (computed name)
+test/chrome/076.html:102: [maybe] Reading absent property (computed name)
+test/chrome/076.html:102: [maybe] Reading absent property (computed name)
+test/chrome/076.html:127: [maybe] Reading absent property (computed name)
+test/chrome/076.html:127: [maybe] Reading absent property (computed name)
+test/chrome/076.html:128: [maybe] Reading absent property (computed name)
+test/chrome/076.html:128: [maybe] Reading absent property (computed name)

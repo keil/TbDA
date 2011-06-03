@@ -1,0 +1,78 @@
+﻿<view height="320" resizable="false" width="356" onopen="view_onopen()"
+  onsizing="view_onsizing()">
+  <div height="100%" name="divBg" width="100%" x="0" y="0" background="images/event_add_bg.png">
+    <div height="265" name="inputContent" width="334" x="10" y="42" background="#F0F1FA">
+      <label height="18" name="labelTitle" width="70" x="5" y="10" bold="true"
+        font="arial" size="8" valign="middle">&ADD_EVENT_WHAT;
+      </label>
+      <label height="18" name="labelWhen" width="70" x="5" y="35" bold="true"
+        font="arial" size="8" valign="middle">&ADD_EVENT_WHEN;
+      </label>
+      <label height="18" name="labelLocation" width="70" x="5" y="85" bold="true"
+        font="arial" size="8" valign="middle">&ADD_EVENT_WHERE;
+      </label>
+      <label height="16" name="labelCalendar" width="70" x="5" y="112" bold="true"
+        font="arial" size="8">&ADD_EVENT_CALENDAR;
+      </label>
+      <label height="18" name="labelDescription" width="70" x="5" y="135"
+        bold="true" font="arial" size="8" valign="middle"
+       >&ADD_EVENT_DESCRIPTION;
+      </label>
+      <div height="20" name="titleBg" width="252" x="75" y="10" background="#668CD9">
+        <edit height="18" name="eventTitle" width="250" x="1" y="1" font="Arial"
+         />
+      </div>
+      <div height="20" name="startdateBg" width="72" x="75" y="35" background="#668CD9">
+        <edit height="18" name="eventStartDate" width="70" x="1" y="1" font="arial"
+         />
+      </div>
+      <div height="20" name="starttimeBg" width="72" x="75" y="60" background="#668CD9">
+        <edit height="18" name="eventStartTime" width="70" x="1" y="1" font="arial"
+         />
+      </div>
+      <div height="20" name="enddateBg" width="72" x="175" y="35" background="#668CD9">
+        <edit height="18" name="eventEndDate" width="70" x="1" y="1" font="arial"
+         />
+      </div>
+      <div height="20" name="endtimeBg" width="72" x="175" y="60" background="#668CD9">
+        <edit height="18" name="eventEndTime" width="70" x="1" y="1" font="arial"
+         />
+      </div>
+      <div height="20" name="locationBg" width="252" x="75" y="85" background="#668CD9">
+        <edit height="18" name="eventLocation" width="250" x="1" y="1" font="arial"
+         />
+      </div>
+      <div height="23" name="calendarBg" width="252" x="75" y="110" background="#668CD9"/>
+      <div height="92" name="descriptionBg" width="252" x="75" y="135"
+        background="#668CD9">
+        <edit height="90" name="eventDescription" width="250" x="1" y="1"
+          font="arial" wordwrap="true" multiline="true"/>
+      </div>
+      <combobox height="100" name="eventCalendar" width="250" x="76" y="111"
+        background="#3D4AD9" itemSeparatorColor="#3D4AD9" itemHeight="21"
+        itemOverColor="#3541C0" type="droplist"/>
+      <label height="18" name="labelTo" width="25" x="149" y="35" align="center"
+        valign="middle">&ADD_EVENT_TO;
+      </label>
+      <checkbox height="16" name="eventAllDay" width="81" x="255" y="39" downImage="images/checkbox_default.png"
+        image="images/checkbox_default.png" overImage="images/checkbox_default.png"
+        caption="&ADD_EVENT_ALLDAY;" checkedDownImage="images/checkbox_checked.png"
+        checkedImage="images/checkbox_checked.png" checkedOverImage="images/checkbox_checked.png"
+        value="false"/>
+      <button height="22" name="btnSave" width="64" x="75" y="235" downImage="images\action_down.png"
+        image="images\action_default.png" overImage="images\action_hover.png"
+        caption="&ADD_EVENT_SAVE;"/>
+    </div>
+    <label height="21" name="inputTitle" width="300" x="15" y="10" bold="true"
+      color="#FFFFFF" font="arial" size="12">&ADD_EVENT;
+    </label>
+    <img cursor="hand" enabled="true" hitTest="htclient" name="imgClose"
+      x="328" y="11" onclick="imgClose_onclick()" src="images\closeBtn.png"
+     />
+  </div>
+  <script src="addevent.js" />
+  <script src="errorMessage.js" />
+  <script src="constants.js" />
+  <script src="utils.js" />
+  <script src="calendarevent.js" />
+</view>

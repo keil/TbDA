@@ -1,0 +1,3 @@
+test/micro/test106.js:3: [maybe] Conversion to number yields NaN
+test/micro/test106.js:20: [info] Abstract object: {dept:"food",name:"feta",value:5.0,[[Prototype]]=[@Object#node32]}
+test/micro/test106.js:21: [info] Abstract object: {dept:"auto",name:"honda",value:999.0,[[Prototype]]=[@Object#node32]}

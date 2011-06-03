@@ -1,0 +1,21 @@
+test/micro/test141.js:7: [info] Abstract value: 8.0
+test/micro/test141.js:8: [info] Abstract state:
+Abstract state:
+  Execution context: [[ScopeChain=[@native <the global object>], VariableObject=@native <the global object>, this=@native <the global object>]]
+  Summarized: maybe=[@function <anonymous>#fun1, @Object#node17, @function <anonymous>#fun2, @Object#node15, @activation#node3, @arguments#node3, @Object#node21, @activation#node6, @arguments#node6], definitely=[@function <anonymous>#fun1, @Object#node17, @function <anonymous>#fun2, @Object#node15, @activation#node3, @arguments#node3, @Object#node21, @activation#node6, @arguments#node6]
+  Store (excluding basis and unknown objects): 
+    @native <the global object> (<initial state>): {C:[@function <anonymous>#fun1],dumpState:[@native dumpState],dumpValue:[@native dumpValue],x:[@Object#node21],[[DefaultArray]]=?,[[DefaultNonArray]]=?,[[Prototype]]=?,[[Value]]=?,[[Scope]]=?}
+    @native Object.prototype (<initial state>): {[[DefaultArray]]=?,[[DefaultNonArray]]=?,[[Prototype]]=Null,[[Value]]=?,[[Scope]]=?}
+    @Object#node17 (test/micro/test141.js:1): {constructor:[@function <anonymous>#fun1],[[Prototype]]=[@native Object.prototype],[[Value]]=NaN}
+    @activation#node3 (test/micro/test141.js:1): {arguments:[@arguments#node3],v:8.0}
+    @arguments#node3 (test/micro/test141.js:1): {0:7.0,callee:[@function <anonymous>#fun1],length:1.0,[[Prototype]]=[@native Object.prototype]}
+    @function <anonymous>#fun1 (test/micro/test141.js:1): {length:1.0,prototype:[@Object#node17],[[Prototype]]=[@native Function.prototype],[[Scope]]=[[@native <the global object>]]}
+    @Object#node15 (test/micro/test141.js:2): {constructor:[@function <anonymous>#fun2],[[Prototype]]=[@native Object.prototype],[[Value]]=NaN}
+    @activation#node6 (test/micro/test141.js:2): {arguments:[@arguments#node6]}
+    @arguments#node6 (test/micro/test141.js:2): {callee:[@function <anonymous>#fun2],length:0.0,[[Prototype]]=[@native Object.prototype]}
+    @function <anonymous>#fun2 (test/micro/test141.js:2): {length:0.0,prototype:[@Object#node15],[[Prototype]]=[@native Function.prototype],[[Scope]]=[[@activation#node3,@native <the global object>]]}
+    @Object#node21 (test/micro/test141.js:5): {inc:[@function <anonymous>#fun2],[[Prototype]]=[@Object#node17]}
+  Temporaries: 
+    v1=Undef
+    v19=[@native dumpState]
+    v20=[@native <the global object>]

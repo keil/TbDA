@@ -1,0 +1,2 @@
+test/dom/core/DOMComment01.html:4: [info] Abstract value: [*native Comment]
+test/dom/core/DOMComment01.html:5: [info] Prototype: [@native Comment.prototype] -> [@native CharacterData.prototype] -> [@native Node.prototype] -> [@native Object.prototype]

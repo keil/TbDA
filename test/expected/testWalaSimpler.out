@@ -1,0 +1,9 @@
+test/wala/simpler.js:7: [definite] Unreachable code
+test/wala/simpler.js:17: [definite] Unreachable code
+test/wala/simpler.js:50: [definite] Unreachable function: fib
+test/wala/simpler.js:51: [definite] Unreachable code
+test/wala/simpler.js:62: [definite] Unreachable code
+test/wala/simpler.js:68: [definite] Unreachable code
+test/wala/simpler.js:83: [maybe] Assertion fails
+test/wala/simpler.js:87: [maybe] Assertion fails
+test/wala/simpler.js:88: [info] Abstract value: Num

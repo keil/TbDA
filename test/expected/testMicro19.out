@@ -1,0 +1,5 @@
+test/micro/test19.js:7: [info] Abstract value: [@native Object, @native Boolean]
+test/micro/test19.js:8: [info] Abstract value: [@Object#node12, @Boolean#node12]
+test/micro/test19.js:9: [info] Abstract value: [@native Object]
+test/micro/test19.js:10: [info] Abstract value: [@Object#node25]
+test/micro/test19.js:12: [info] Abstract object: {foo:42.0|absent,[[Prototype]]=[@native Boolean.prototype],[[Value]]=false}, {foo:42.0|absent,[[Prototype]]=[@native Object.prototype]}

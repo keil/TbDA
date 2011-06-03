@@ -1,0 +1,4 @@
+test/micro/test89.js:12: [maybe] Assertion fails
+test/micro/test89.js:11: [info] Abstract value: 87.0|"foo"
+test/micro/test89.js:13: [info] Abstract value: [*Object#node6]
+test/micro/test89.js:14: [info] Abstract object: {a:87.0|"foo",[[Prototype]]=[@native Object.prototype]}

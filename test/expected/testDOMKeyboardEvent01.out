@@ -1,0 +1,19 @@
+test/dom/events/DOMKeyboardEvent01.html:3: [info] Abstract value: [*native KeyboardEvent]
+test/dom/events/DOMKeyboardEvent01.html:4: [info] Prototype: [@native KeyboardEvent.prototype] -> [@native UIEvent.prototype] -> [@native event.prototype] -> [@native Object.prototype]
+test/dom/events/DOMKeyboardEvent01.html:6: [info] Abstract value: 0.0
+test/dom/events/DOMKeyboardEvent01.html:7: [info] Abstract value: 1.0
+test/dom/events/DOMKeyboardEvent01.html:8: [info] Abstract value: 2.0
+test/dom/events/DOMKeyboardEvent01.html:9: [info] Abstract value: 3.0
+test/dom/events/DOMKeyboardEvent01.html:10: [info] Abstract value: 4.0
+test/dom/events/DOMKeyboardEvent01.html:11: [info] Abstract value: 5.0
+test/dom/events/DOMKeyboardEvent01.html:13: [info] Abstract value: Str
+test/dom/events/DOMKeyboardEvent01.html:14: [info] Abstract value: UInt
+test/dom/events/DOMKeyboardEvent01.html:15: [info] Abstract value: Bool
+test/dom/events/DOMKeyboardEvent01.html:16: [info] Abstract value: Bool
+test/dom/events/DOMKeyboardEvent01.html:17: [info] Abstract value: Bool
+test/dom/events/DOMKeyboardEvent01.html:18: [info] Abstract value: Bool
+test/dom/events/DOMKeyboardEvent01.html:19: [info] Abstract value: Bool
+test/dom/events/DOMKeyboardEvent01.html:21: [info] Abstract value: UInt
+test/dom/events/DOMKeyboardEvent01.html:22: [info] Abstract value: [@native KeyboardEvent.getModifierState]
+test/dom/events/DOMKeyboardEvent01.html:23: [info] Abstract value: [@native KeyboardEvent.initKeyboardEvent]
+test/dom/events/DOMKeyboardEvent01.html:24: [info] Abstract value: [@native KeyboardEvent.initKeyboardEventNS]

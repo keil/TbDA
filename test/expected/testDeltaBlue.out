@@ -1,0 +1,252 @@
+test/google/delta-blue.js:18: [definite] ReferenceError, reading absent variable: document
+test/google/delta-blue.js:83: [maybe] TypeError, reading property of null/undefined
+test/google/delta-blue.js:83: [maybe] TypeError, reading property of null/undefined
+test/google/delta-blue.js:87: [maybe] TypeError, reading property of null/undefined
+test/google/delta-blue.js:87: [maybe] TypeError, reading property of null/undefined
+test/google/delta-blue.js:137: [maybe] TypeError, call to non-function
+test/google/delta-blue.js:149: [maybe] TypeError, call to non-function
+test/google/delta-blue.js:150: [maybe] TypeError, call to non-function
+test/google/delta-blue.js:155: [maybe] TypeError, call to non-function
+test/google/delta-blue.js:156: [maybe] TypeError, call to non-function
+test/google/delta-blue.js:157: [maybe] TypeError, reading property of null/undefined
+test/google/delta-blue.js:158: [maybe] TypeError, call to non-function
+test/google/delta-blue.js:162: [maybe] ReferenceError, reading absent variable: out
+test/google/delta-blue.js:162: [maybe] TypeError, writing property of null/undefined
+test/google/delta-blue.js:163: [maybe] ReferenceError, reading absent variable: overridden
+test/google/delta-blue.js:167: [maybe] TypeError, call to non-function
+test/google/delta-blue.js:168: [maybe] TypeError, call to non-function
+test/google/delta-blue.js:201: [maybe] TypeError, reading property of null/undefined
+test/google/delta-blue.js:210: [maybe] TypeError, reading property of null/undefined
+test/google/delta-blue.js:210: [maybe] TypeError, reading property of null/undefined
+test/google/delta-blue.js:238: [maybe] TypeError, writing property of null/undefined
+test/google/delta-blue.js:239: [maybe] TypeError, call to non-function
+test/google/delta-blue.js:239: [maybe] TypeError, writing property of null/undefined
+test/google/delta-blue.js:240: [maybe] TypeError, call to non-function
+test/google/delta-blue.js:240: [maybe] TypeError, reading property of null/undefined
+test/google/delta-blue.js:255: [maybe] TypeError, reading property of null/undefined
+test/google/delta-blue.js:333: [maybe] TypeError, reading property of null/undefined
+test/google/delta-blue.js:334: [maybe] TypeError, reading property of null/undefined
+test/google/delta-blue.js:334: [maybe] TypeError, reading property of null/undefined
+test/google/delta-blue.js:338: [maybe] TypeError, reading property of null/undefined
+test/google/delta-blue.js:339: [maybe] TypeError, reading property of null/undefined
+test/google/delta-blue.js:339: [maybe] TypeError, reading property of null/undefined
+test/google/delta-blue.js:343: [maybe] TypeError, reading property of null/undefined
+test/google/delta-blue.js:343: [maybe] TypeError, reading property of null/undefined
+test/google/delta-blue.js:344: [maybe] TypeError, reading property of null/undefined
+test/google/delta-blue.js:348: [maybe] TypeError, reading property of null/undefined
+test/google/delta-blue.js:358: [maybe] TypeError, reading property of null/undefined
+test/google/delta-blue.js:374: [maybe] TypeError, call to non-function
+test/google/delta-blue.js:374: [maybe] TypeError, writing property of null/undefined
+test/google/delta-blue.js:397: [maybe] TypeError, call to non-function
+test/google/delta-blue.js:397: [maybe] TypeError, call to non-function
+test/google/delta-blue.js:398: [maybe] TypeError, reading property of null/undefined
+test/google/delta-blue.js:398: [maybe] TypeError, writing property of null/undefined
+test/google/delta-blue.js:400: [maybe] TypeError, call to non-function
+test/google/delta-blue.js:411: [maybe] TypeError, call to non-function
+test/google/delta-blue.js:412: [maybe] TypeError, reading property of null/undefined
+test/google/delta-blue.js:416: [maybe] TypeError, reading property of null/undefined
+test/google/delta-blue.js:417: [maybe] TypeError, reading property of null/undefined
+test/google/delta-blue.js:444: [maybe] TypeError, reading property of null/undefined
+test/google/delta-blue.js:445: [maybe] TypeError, reading property of null/undefined
+test/google/delta-blue.js:450: [maybe] TypeError, reading property of null/undefined
+test/google/delta-blue.js:451: [maybe] TypeError, reading property of null/undefined
+test/google/delta-blue.js:452: [maybe] TypeError, reading property of null/undefined
+test/google/delta-blue.js:456: [maybe] TypeError, reading property of null/undefined
+test/google/delta-blue.js:457: [maybe] TypeError, writing property of null/undefined
+test/google/delta-blue.js:457: [maybe] TypeError, writing property of null/undefined
+test/google/delta-blue.js:465: [maybe] TypeError, reading property of null/undefined
+test/google/delta-blue.js:465: [maybe] TypeError, reading property of null/undefined
+test/google/delta-blue.js:465: [maybe] TypeError, reading property of null/undefined
+test/google/delta-blue.js:465: [maybe] TypeError, writing property of null/undefined
+test/google/delta-blue.js:467: [maybe] TypeError, reading property of null/undefined
+test/google/delta-blue.js:467: [maybe] TypeError, reading property of null/undefined
+test/google/delta-blue.js:467: [maybe] TypeError, reading property of null/undefined
+test/google/delta-blue.js:467: [maybe] TypeError, writing property of null/undefined
+test/google/delta-blue.js:477: [maybe] TypeError, call to non-function
+test/google/delta-blue.js:477: [maybe] TypeError, call to non-function
+test/google/delta-blue.js:478: [maybe] TypeError, reading property of null/undefined
+test/google/delta-blue.js:478: [maybe] TypeError, writing property of null/undefined
+test/google/delta-blue.js:479: [maybe] TypeError, reading property of null/undefined
+test/google/delta-blue.js:479: [maybe] TypeError, reading property of null/undefined
+test/google/delta-blue.js:480: [maybe] TypeError, call to non-function
+test/google/delta-blue.js:500: [maybe] TypeError, call to non-function
+test/google/delta-blue.js:500: [maybe] TypeError, call to non-function
+test/google/delta-blue.js:500: [maybe] TypeError, reading property of null/undefined
+test/google/delta-blue.js:500: [maybe] TypeError, writing property of null/undefined
+test/google/delta-blue.js:566: [maybe] TypeError, call to non-function
+test/google/delta-blue.js:566: [maybe] TypeError, reading property of null/undefined
+test/google/delta-blue.js:567: [maybe] ReferenceError, reading absent variable: overridden
+test/google/delta-blue.js:568: [maybe] ReferenceError, reading absent variable: mark
+test/google/delta-blue.js:568: [maybe] ReferenceError, reading absent variable: overridden
+test/google/delta-blue.js:568: [maybe] TypeError, call to non-function
+test/google/delta-blue.js:568: [maybe] TypeError, reading property of null/undefined
+test/google/delta-blue.js:583: [maybe] TypeError, call to non-function
+test/google/delta-blue.js:584: [maybe] TypeError, call to non-function
+test/google/delta-blue.js:585: [maybe] TypeError, call to non-function
+test/google/delta-blue.js:588: [maybe] ReferenceError, reading absent variable: strength
+test/google/delta-blue.js:589: [maybe] ReferenceError, reading absent variable: i
+test/google/delta-blue.js:589: [maybe] ReferenceError, reading absent variable: i
+test/google/delta-blue.js:589: [maybe] ReferenceError, reading absent variable: unsatisfied
+test/google/delta-blue.js:590: [maybe] ReferenceError, reading absent variable: i
+test/google/delta-blue.js:590: [maybe] ReferenceError, reading absent variable: unsatisfied
+test/google/delta-blue.js:591: [maybe] ReferenceError, reading absent variable: strength
+test/google/delta-blue.js:591: [maybe] ReferenceError, reading absent variable: u
+test/google/delta-blue.js:591: [maybe] TypeError, reading property of null/undefined
+test/google/delta-blue.js:592: [maybe] ReferenceError, reading absent variable: u
+test/google/delta-blue.js:594: [maybe] ReferenceError, reading absent variable: strength
+test/google/delta-blue.js:594: [maybe] TypeError, reading property of null/undefined
+test/google/delta-blue.js:630: [maybe] TypeError, call to non-function
+test/google/delta-blue.js:630: [maybe] TypeError, call to non-function
+test/google/delta-blue.js:630: [maybe] TypeError, reading property of null/undefined
+test/google/delta-blue.js:630: [maybe] TypeError, reading property of null/undefined
+test/google/delta-blue.js:630: [maybe] TypeError, reading property of null/undefined
+test/google/delta-blue.js:632: [maybe] TypeError, call to non-function
+test/google/delta-blue.js:632: [maybe] TypeError, reading property of null/undefined
+test/google/delta-blue.js:632: [maybe] TypeError, writing property of null/undefined
+test/google/delta-blue.js:633: [maybe] TypeError, call to non-function
+test/google/delta-blue.js:633: [maybe] TypeError, reading property of null/undefined
+test/google/delta-blue.js:647: [maybe] TypeError, call to non-function
+test/google/delta-blue.js:647: [maybe] TypeError, call to non-function
+test/google/delta-blue.js:647: [maybe] TypeError, reading property of null/undefined
+test/google/delta-blue.js:647: [maybe] TypeError, reading property of null/undefined
+test/google/delta-blue.js:672: [maybe] TypeError, call to non-function
+test/google/delta-blue.js:672: [maybe] TypeError, reading property of null/undefined
+test/google/delta-blue.js:672: [maybe] TypeError, reading property of null/undefined
+test/google/delta-blue.js:676: [maybe] TypeError, call to non-function
+test/google/delta-blue.js:676: [maybe] TypeError, reading property of null/undefined
+test/google/delta-blue.js:677: [maybe] TypeError, call to non-function
+test/google/delta-blue.js:677: [maybe] TypeError, reading property of null/undefined
+test/google/delta-blue.js:689: [maybe] TypeError, writing property of null/undefined
+test/google/delta-blue.js:697: [maybe] TypeError, reading property of null/undefined
+test/google/delta-blue.js:699: [maybe] TypeError, call to non-function
+test/google/delta-blue.js:699: [maybe] TypeError, reading property of null/undefined
+test/google/delta-blue.js:705: [maybe] TypeError, call to non-function
+test/google/delta-blue.js:705: [maybe] TypeError, reading property of null/undefined
+test/google/delta-blue.js:706: [maybe] TypeError, call to non-function
+test/google/delta-blue.js:706: [maybe] TypeError, reading property of null/undefined
+test/google/delta-blue.js:707: [maybe] TypeError, call to non-function
+test/google/delta-blue.js:707: [maybe] TypeError, reading property of null/undefined
+test/google/delta-blue.js:715: [maybe] TypeError, reading property of null/undefined
+test/google/delta-blue.js:719: [maybe] TypeError, call to non-function
+test/google/delta-blue.js:719: [maybe] TypeError, reading property of null/undefined
+test/google/delta-blue.js:752: [maybe] TypeError, call to non-function
+test/google/delta-blue.js:752: [maybe] TypeError, reading property of null/undefined
+test/google/delta-blue.js:794: [maybe] TypeError, writing property of null/undefined
+test/google/delta-blue.js:796: [maybe] TypeError, reading property of null/undefined
+test/google/delta-blue.js:823: [maybe] TypeError, reading property of null/undefined
+test/google/delta-blue.js:825: [maybe] TypeError, reading property of null/undefined
+test/google/delta-blue.js:828: [maybe] TypeError, reading property of null/undefined
+test/google/delta-blue.js:833: [maybe] TypeError, reading property of null/undefined
+test/google/delta-blue.js:844: [maybe] TypeError, writing property of null/undefined
+test/google/delta-blue.js:41: [maybe] Reading absent property (computed name)
+test/google/delta-blue.js:55: [maybe] Reading absent property (computed name)
+test/google/delta-blue.js:137: [maybe] Reading absent property: addToGraph
+test/google/delta-blue.js:149: [maybe] Reading absent property: chooseMethod
+test/google/delta-blue.js:150: [maybe] Reading absent property: isSatisfied
+test/google/delta-blue.js:151: [maybe] Reading absent property: strength
+test/google/delta-blue.js:155: [maybe] Reading absent property: markInputs
+test/google/delta-blue.js:156: [maybe] Reading absent property: output
+test/google/delta-blue.js:158: [maybe] Reading absent property: markUnsatisfied
+test/google/delta-blue.js:167: [maybe] Reading absent property: isSatisfied
+test/google/delta-blue.js:168: [maybe] Reading absent property: removeFromGraph
+test/google/delta-blue.js:201: [maybe] Reading absent property: myOutput
+test/google/delta-blue.js:210: [maybe] Reading absent property: myOutput
+test/google/delta-blue.js:210: [maybe] Reading absent property: myOutput
+test/google/delta-blue.js:210: [maybe] Reading absent property: strength
+test/google/delta-blue.js:218: [maybe] Reading absent property: satisfied
+test/google/delta-blue.js:229: [maybe] Reading absent property: myOutput
+test/google/delta-blue.js:238: [maybe] Reading absent property: myOutput
+test/google/delta-blue.js:238: [maybe] Reading absent property: strength
+test/google/delta-blue.js:239: [maybe] Reading absent property: isInput
+test/google/delta-blue.js:239: [maybe] Reading absent property: myOutput
+test/google/delta-blue.js:240: [maybe] Reading absent property: execute
+test/google/delta-blue.js:240: [maybe] Reading absent property: myOutput
+test/google/delta-blue.js:255: [maybe] Reading absent property: myOutput
+test/google/delta-blue.js:255: [maybe] Reading absent property: myOutput
+test/google/delta-blue.js:333: [maybe] Reading absent property: v1
+test/google/delta-blue.js:334: [maybe] Reading absent property: strength
+test/google/delta-blue.js:334: [maybe] Reading absent property: v1
+test/google/delta-blue.js:334: [maybe] Reading absent property: v2
+test/google/delta-blue.js:338: [maybe] Reading absent property: v2
+test/google/delta-blue.js:339: [maybe] Reading absent property: strength
+test/google/delta-blue.js:339: [maybe] Reading absent property: v1
+test/google/delta-blue.js:339: [maybe] Reading absent property: v1
+test/google/delta-blue.js:343: [maybe] Reading absent property: v1
+test/google/delta-blue.js:343: [maybe] Reading absent property: v2
+test/google/delta-blue.js:344: [maybe] Reading absent property: strength
+test/google/delta-blue.js:344: [maybe] Reading absent property: v1
+test/google/delta-blue.js:348: [maybe] Reading absent property: strength
+test/google/delta-blue.js:348: [maybe] Reading absent property: v2
+test/google/delta-blue.js:358: [maybe] Reading absent property: v1
+test/google/delta-blue.js:367: [maybe] Reading absent property: direction
+test/google/delta-blue.js:374: [maybe] Reading absent property: input
+test/google/delta-blue.js:381: [maybe] Reading absent property: direction
+test/google/delta-blue.js:381: [maybe] Reading absent property: v1
+test/google/delta-blue.js:381: [maybe] Reading absent property: v2
+test/google/delta-blue.js:388: [maybe] Reading absent property: direction
+test/google/delta-blue.js:388: [maybe] Reading absent property: v1
+test/google/delta-blue.js:388: [maybe] Reading absent property: v2
+test/google/delta-blue.js:397: [maybe] Reading absent property: input
+test/google/delta-blue.js:397: [maybe] Reading absent property: output
+test/google/delta-blue.js:398: [maybe] Reading absent property: strength
+test/google/delta-blue.js:400: [maybe] Reading absent property: execute
+test/google/delta-blue.js:411: [maybe] Reading absent property: input
+test/google/delta-blue.js:416: [maybe] Reading absent property: v1
+test/google/delta-blue.js:416: [maybe] Reading absent property: v1
+test/google/delta-blue.js:417: [maybe] Reading absent property: v2
+test/google/delta-blue.js:417: [maybe] Reading absent property: v2
+test/google/delta-blue.js:444: [maybe] Reading absent property: addToGraph
+test/google/delta-blue.js:445: [maybe] Reading absent property: scale
+test/google/delta-blue.js:450: [maybe] Reading absent property: removeFromGraph
+test/google/delta-blue.js:451: [maybe] Reading absent property: scale
+test/google/delta-blue.js:451: [maybe] Reading absent property: scale
+test/google/delta-blue.js:452: [maybe] Reading absent property: offset
+test/google/delta-blue.js:452: [maybe] Reading absent property: offset
+test/google/delta-blue.js:456: [maybe] Reading absent property: markInputs
+test/google/delta-blue.js:457: [maybe] Reading absent property: offset
+test/google/delta-blue.js:457: [maybe] Reading absent property: scale
+test/google/delta-blue.js:464: [maybe] Reading absent property: direction
+test/google/delta-blue.js:465: [maybe] Reading absent property: offset
+test/google/delta-blue.js:465: [maybe] Reading absent property: scale
+test/google/delta-blue.js:465: [maybe] Reading absent property: v1
+test/google/delta-blue.js:465: [maybe] Reading absent property: v2
+test/google/delta-blue.js:467: [maybe] Reading absent property: offset
+test/google/delta-blue.js:467: [maybe] Reading absent property: scale
+test/google/delta-blue.js:467: [maybe] Reading absent property: v1
+test/google/delta-blue.js:467: [maybe] Reading absent property: v2
+test/google/delta-blue.js:477: [maybe] Reading absent property: input
+test/google/delta-blue.js:477: [maybe] Reading absent property: output
+test/google/delta-blue.js:478: [maybe] Reading absent property: strength
+test/google/delta-blue.js:479: [maybe] Reading absent property: offset
+test/google/delta-blue.js:479: [maybe] Reading absent property: scale
+test/google/delta-blue.js:480: [maybe] Reading absent property: execute
+test/google/delta-blue.js:500: [maybe] Reading absent property: input
+test/google/delta-blue.js:500: [maybe] Reading absent property: output
+test/google/delta-blue.js:566: [maybe] Reading absent property: satisfy
+test/google/delta-blue.js:568: [maybe] Reading absent property: satisfy
+test/google/delta-blue.js:583: [maybe] Reading absent property: output
+test/google/delta-blue.js:584: [maybe] Reading absent property: markUnsatisfied
+test/google/delta-blue.js:585: [maybe] Reading absent property: removeFromGraph
+test/google/delta-blue.js:591: [maybe] Reading absent property: strength
+test/google/delta-blue.js:630: [maybe] Reading absent property: inputsKnown
+test/google/delta-blue.js:630: [maybe] Reading absent property: output
+test/google/delta-blue.js:632: [maybe] Reading absent property: output
+test/google/delta-blue.js:633: [maybe] Reading absent property: output
+test/google/delta-blue.js:647: [maybe] Reading absent property: isInput
+test/google/delta-blue.js:647: [maybe] Reading absent property: isSatisfied
+test/google/delta-blue.js:672: [maybe] Reading absent property: output
+test/google/delta-blue.js:676: [maybe] Reading absent property: recalculate
+test/google/delta-blue.js:677: [maybe] Reading absent property: output
+test/google/delta-blue.js:699: [maybe] Reading absent property: isSatisfied
+test/google/delta-blue.js:705: [maybe] Reading absent property: isSatisfied
+test/google/delta-blue.js:706: [maybe] Reading absent property: recalculate
+test/google/delta-blue.js:707: [maybe] Reading absent property: output
+test/google/delta-blue.js:719: [maybe] Reading absent property: isSatisfied
+test/google/delta-blue.js:752: [maybe] Reading absent property: execute
+test/google/delta-blue.js:828: [maybe] Reading absent property: value
+test/google/delta-blue.js:833: [maybe] Reading absent property: value
+test/google/delta-blue.js:1: [definite] Uncaught exception, constructed at [test/google/delta-blue.js:83, test/google/delta-blue.js:87, test/google/delta-blue.js:137, test/google/delta-blue.js:149, test/google/delta-blue.js:150, test/google/delta-blue.js:155, test/google/delta-blue.js:156, test/google/delta-blue.js:157, test/google/delta-blue.js:158, test/google/delta-blue.js:162, test/google/delta-blue.js:163, test/google/delta-blue.js:167, test/google/delta-blue.js:168, test/google/delta-blue.js:201, test/google/delta-blue.js:210, test/google/delta-blue.js:238, test/google/delta-blue.js:239, test/google/delta-blue.js:240, test/google/delta-blue.js:255, test/google/delta-blue.js:333, test/google/delta-blue.js:334, test/google/delta-blue.js:338, test/google/delta-blue.js:339, test/google/delta-blue.js:343, test/google/delta-blue.js:344, test/google/delta-blue.js:348, test/google/delta-blue.js:358, test/google/delta-blue.js:374, test/google/delta-blue.js:397, test/google/delta-blue.js:398, test/google/delta-blue.js:400, test/google/delta-blue.js:411, test/google/delta-blue.js:412, test/google/delta-blue.js:416, test/google/delta-blue.js:417, test/google/delta-blue.js:444, test/google/delta-blue.js:445, test/google/delta-blue.js:450, test/google/delta-blue.js:451, test/google/delta-blue.js:452, test/google/delta-blue.js:456, test/google/delta-blue.js:457, test/google/delta-blue.js:465, test/google/delta-blue.js:467, test/google/delta-blue.js:477, test/google/delta-blue.js:478, test/google/delta-blue.js:479, test/google/delta-blue.js:480, test/google/delta-blue.js:500, test/google/delta-blue.js:566, test/google/delta-blue.js:567, test/google/delta-blue.js:568, test/google/delta-blue.js:583, test/google/delta-blue.js:584, test/google/delta-blue.js:585, test/google/delta-blue.js:588, test/google/delta-blue.js:589, test/google/delta-blue.js:590, test/google/delta-blue.js:591, test/google/delta-blue.js:592, test/google/delta-blue.js:594, test/google/delta-blue.js:630, test/google/delta-blue.js:632, test/google/delta-blue.js:633, test/google/delta-blue.js:647, test/google/delta-blue.js:672, test/google/delta-blue.js:676, test/google/delta-blue.js:677, test/google/delta-blue.js:689, test/google/delta-blue.js:697, test/google/delta-blue.js:699, test/google/delta-blue.js:705, test/google/delta-blue.js:706, test/google/delta-blue.js:707, test/google/delta-blue.js:715, test/google/delta-blue.js:719, test/google/delta-blue.js:752, test/google/delta-blue.js:794, test/google/delta-blue.js:796, test/google/delta-blue.js:823, test/google/delta-blue.js:825, test/google/delta-blue.js:828, test/google/delta-blue.js:833, test/google/delta-blue.js:844]
+test/google/delta-blue.js:94: [definite] Unreachable function
+test/google/delta-blue.js:95: [definite] Unreachable code
+test/google/delta-blue.js:589: [maybe] Conversion to number yields NaN
+test/google/delta-blue.js:589: [maybe] Conversion to number yields NaN

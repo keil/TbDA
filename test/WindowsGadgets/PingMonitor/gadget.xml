@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<gadget>
+  <name>Ping Monitor</name>
+  <namespace>myfavoritegadgets.info</namespace>
+  <version>1.0</version>
+  <author name="Igor M. Bushin">
+    <info url="myfavoritegadgets.info" text="myfavoritegadgets.info" />
+    <logo src="images/logo.gif" />
+  </author>
+  <copyright>© 2010 by Igor 'Igogo' Bushin</copyright>
+  <description>Just monitor ping to desired site.</description>
+  <icons>
+   <icon src="images/icon.png"/>
+  </icons>
+  <hosts>
+    <host name="sidebar">
+      <base type="HTML" apiVersion="1.0.0.0" src="PingMonitor.html" />
+      <permissions>Full</permissions>
+      <platform minPlatformVersion="1.0" />
+      <defaultImage src="images/icon.png"/>
+    </host>
+  </hosts>
+</gadget>

@@ -1,0 +1,5 @@
+test/micro/test136.js:17: [maybe] Reading absent property: next
+test/micro/test136.js:17: [maybe] Converting primitive number to object
+test/micro/test136.js:15: [info] Abstract value: [@Object#node14]
+test/micro/test136.js:16: [info] Abstract value: 42.0|[*Object#node14]
+test/micro/test136.js:17: [info] Abstract value: Undef|42.0|[*Object#node14]

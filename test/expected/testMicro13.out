@@ -1,0 +1,6 @@
+test/micro/test13.js:30: [info] Abstract value: "example glossary"
+test/micro/test13.js:31: [info] Abstract value: "example glossaryhat"
+test/micro/test13.js:32: [info] Abstract object: {glossary:[@Object#node4],[[Prototype]]=[@native Object.prototype]}
+test/micro/test13.js:33: [info] Abstract object: {GlossDiv:[@Object#node8],title:"example glossary",[[Prototype]]=[@native Object.prototype]}
+test/micro/test13.js:34: [info] Abstract object: {GlossDiv:[@Object#node8],title:"example glossary",[[Prototype]]=[@native Object.prototype]}
+test/micro/test13.js:35: [info] Abstract object: {GlossList:[@Object#node12],title:"S",[[Prototype]]=[@native Object.prototype]}

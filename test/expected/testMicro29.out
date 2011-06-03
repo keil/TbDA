@@ -1,0 +1,2 @@
+test/micro/test29.js:4: [definite] TypeError, reading property of null/undefined
+test/micro/test29.js:4: [definite] Variable is null/undefined: x

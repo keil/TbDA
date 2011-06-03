@@ -1,0 +1,13 @@
+test/dom/events/DOMMouseEvent01.html:3: [info] Abstract value: [*native MouseEvent]
+test/dom/events/DOMMouseEvent01.html:4: [info] Prototype: [@native MouseEvent.prototype] -> [@native UIEvent.prototype] -> [@native event.prototype] -> [@native Object.prototype]
+test/dom/events/DOMMouseEvent01.html:6: [info] Abstract value: Num
+test/dom/events/DOMMouseEvent01.html:7: [info] Abstract value: Num
+test/dom/events/DOMMouseEvent01.html:8: [info] Abstract value: Num
+test/dom/events/DOMMouseEvent01.html:9: [info] Abstract value: Num
+test/dom/events/DOMMouseEvent01.html:10: [info] Abstract value: Bool
+test/dom/events/DOMMouseEvent01.html:11: [info] Abstract value: Bool
+test/dom/events/DOMMouseEvent01.html:12: [info] Abstract value: Bool
+test/dom/events/DOMMouseEvent01.html:13: [info] Abstract value: Bool
+test/dom/events/DOMMouseEvent01.html:14: [info] Abstract value: UInt
+test/dom/events/DOMMouseEvent01.html:15: [info] Abstract value: [*native HTMLAnchorElement, *native HTMLAppletElement, *native HTMLAreaElement, *native HTMLBaseElement, *native HTMLBaseFontElement, *native HTMLBodyElement, *native HTMLBRElement, *native HTMLButtonElement, *native HTMLCollection, *native HTMLDirectoryElement, *native HTMLDivElement, *native HTMLDListElement, *native HTMLDocument, *native HTMLElement, *native HTMLFieldsetElement, *native HTMLFontElement, *native HTMLFormElement, *native HTMLFrameElement, *native HTMLFramesetElement, @native HTMLHeadElement.prototype, *native HTMLHeadingElement, *native HTMLHRElement, *native HTMLHtmlElement, *native HTMLIFrameElement, *native HTMLImageElement, *native HTMLInputElement, *native HTMLListIndexElement, *native HTMLLabelElement, *native HTMLLegendElement, *native HTMLLIElement, *native HTMLLinkElement, *native HTMLMapElement, *native HTMLMenuElement, *native HTMLMetaElement, *native HTMLModeElement, *native HTMLObjectElement, *native HTMLOListElement, *native HTMLOptGroupElement, *native HTMLOptionElement, *native HTMLOptionsCollection, *native HTMLParagraphElement, *native HTMLParamElement, *native HTMLPreElement, *native HTMLQuoteElement, *native HTMLScriptElement, *native HTMLSelectElement, *native HTMLStyleElement, *native HTMLTableCaptionElement, *native HTMLTableCellElement, *native HTMLTableColElement, *native HTMLTableElement, *native HTMLTableRowElement, *native HTMLTableSectionElement, *native HTMLTextAreaElement, *native HTMLTitleElement, *native HTMLUListElement]
+test/dom/events/DOMMouseEvent01.html:17: [info] Abstract value: [@native MouseEvent.initMouseEvent]

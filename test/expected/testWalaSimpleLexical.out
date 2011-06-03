@@ -1,0 +1,2 @@
+test/wala/simple-lexical.js:15: [definite] Unreachable code
+test/wala/simple-lexical.js:74: [maybe] Assertion fails

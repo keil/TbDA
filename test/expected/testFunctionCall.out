@@ -1,0 +1,20 @@
+test/micro/testFunctionCall.js:24: [definite] Converting primitive string to object
+test/micro/testFunctionCall.js:28: [definite] Converting primitive string to object
+test/micro/testFunctionCall.js:28: [definite] Converting primitive string to object
+test/micro/testFunctionCall.js:31: [definite] Converting primitive string to object
+test/micro/testFunctionCall.js:34: [definite] Converting primitive string to object
+test/micro/testFunctionCall.js:37: [definite] Converting primitive string to object
+test/micro/testFunctionCall.js:12: [maybe] No object present
+test/micro/testFunctionCall.js:24: [maybe] Converting primitive string to object
+test/micro/testFunctionCall.js:28: [maybe] Converting primitive string to object
+test/micro/testFunctionCall.js:31: [maybe] Converting primitive string to object
+test/micro/testFunctionCall.js:34: [maybe] Converting primitive string to object
+test/micro/testFunctionCall.js:37: [maybe] Converting primitive string to object
+test/micro/testFunctionCall.js:6: [info] Abstract value: 21.0
+test/micro/testFunctionCall.js:13: [info] Abstract value: 100.0
+test/micro/testFunctionCall.js:20: [info] Abstract value: "hoohoo"
+test/micro/testFunctionCall.js:25: [info] Abstract value: Str
+test/micro/testFunctionCall.js:29: [info] Abstract value: Str
+test/micro/testFunctionCall.js:32: [info] Abstract value: Str
+test/micro/testFunctionCall.js:35: [info] Abstract value: Str
+test/micro/testFunctionCall.js:38: [info] Abstract value: Str

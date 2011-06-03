@@ -1,0 +1,10 @@
+test/dom/events/DOMWheelEvent01.html:3: [info] Prototype: [@native WheelEvent.prototype] -> [@native MouseEvent.prototype] -> [@native UIEvent.prototype] -> [@native event.prototype] -> [@native Object.prototype]
+test/dom/events/DOMWheelEvent01.html:5: [info] Abstract value: 0.0
+test/dom/events/DOMWheelEvent01.html:6: [info] Abstract value: 1.0
+test/dom/events/DOMWheelEvent01.html:7: [info] Abstract value: 2.0
+test/dom/events/DOMWheelEvent01.html:8: [info] Abstract value: Num
+test/dom/events/DOMWheelEvent01.html:9: [info] Abstract value: Num
+test/dom/events/DOMWheelEvent01.html:10: [info] Abstract value: Num
+test/dom/events/DOMWheelEvent01.html:11: [info] Abstract value: UInt
+test/dom/events/DOMWheelEvent01.html:12: [info] Abstract value: [@native WheelEvent.initWheelEvent]
+test/dom/events/DOMWheelEvent01.html:13: [info] Abstract value: [@native WheelEvent.initWheelEventNS]

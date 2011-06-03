@@ -1,0 +1,5 @@
+test/micro/test115.js:3: [definite] Reading 'this' yields the global object
+test/micro/test115.js:14: [definite] Reading absent property: a
+test/micro/test115.js:6: [maybe] TypeError, call to non-function
+test/micro/test115.js:14: [maybe] TypeError, reading property of null/undefined
+test/micro/test115.js:1: [maybe] Uncaught exception, constructed at [test/micro/test115.js:6, test/micro/test115.js:14]

@@ -1,0 +1,11 @@
+test/dom/html/HTMLElement01.html:4: [info] Abstract value: [*native HTMLElement]
+test/dom/html/HTMLElement01.html:6: [info] Abstract value: Str
+test/dom/html/HTMLElement01.html:7: [info] Abstract value: Str
+test/dom/html/HTMLElement01.html:8: [info] Abstract value: Str
+test/dom/html/HTMLElement01.html:9: [info] Abstract value: Str
+test/dom/html/HTMLElement01.html:11: [info] Abstract value: UInt
+test/dom/html/HTMLElement01.html:12: [info] Abstract value: UInt
+test/dom/html/HTMLElement01.html:13: [info] Abstract value: UInt
+test/dom/html/HTMLElement01.html:14: [info] Abstract value: UInt
+test/dom/html/HTMLElement01.html:15: [info] Abstract value: UInt
+test/dom/html/HTMLElement01.html:17: [info] Abstract value: [*native CSSStyleDeclaration]

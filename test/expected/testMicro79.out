@@ -1,0 +1,4 @@
+test/micro/test79.js:12: [info] Abstract value: 30.0
+test/micro/test79.js:17: [info] Abstract value: "30"|[@Object#node32]
+test/micro/test79.js:18: [info] Abstract object: {ex:"yes",[[Prototype]]=[@native Object.prototype]}
+test/micro/test79.js:21: [info] Abstract value: 42.0|"42"

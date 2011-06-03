@@ -1,0 +1,4 @@
+test/resig/ejohn33.js:10: [maybe] Assertion fails
+test/resig/ejohn33.js:14: [maybe] Assertion fails
+test/resig/ejohn33.js:11: [info] Abstract value: NotUIntStr
+test/resig/ejohn33.js:15: [info] Abstract value: NotUIntStr

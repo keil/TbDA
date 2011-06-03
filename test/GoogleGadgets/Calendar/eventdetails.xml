@@ -1,0 +1,72 @@
+﻿<view height="490" width="410" onopen="view_onopen()">
+  <div enabled="true" height="100%" hitTest="htclient" name="divBg"
+    width="100%" x="0" y="0">
+    <img name="imgBackground" x="0" y="0" src="images\detailsview_bg.png"
+     />
+    <img name="imgContent" x="0" y="38" src="images\detailsview_content.png"
+     />
+    <div height="405" name="inputContent" width="380" x="15" y="38">
+      <label height="35" name="eventWhen" width="220" x="10" y="10" bold="true"
+        font="Arial" size="11" trimming="character-ellipsis"
+        wordwrap="true"/>
+      <label height="35" name="eventLocation" width="220" x="10" y="55" bold="true"
+        font="Arial" size="11" trimming="character-ellipsis"
+        valign="bottom" wordwrap="true"/>
+      <div height="77" name="mapsDiv" width="127" x="240" y="10" background="#A32929">
+        <img cursor="hand" enabled="true" height="75" hitTest="htclient"
+          name="eventMapImg" tooltip="&OPEN_MAP;" width="125"
+          x="1" y="1"/>
+      </div>
+      <a height="16" name="locationDirections" width="127" x="240" y="90"
+        color="#000000" overColor="#D0D0D0">&GET_DIRECTIONS;
+      </a>
+      <label height="16" name="eventCreator" width="220" x="10" y="90" font="Arial"
+        size="10" trimming="character-ellipsis">&CREATED_BY;
+      </label>
+      <label height="18" name="labelGuests" width="360" x="10" y="265" bold="true"
+        color="#707070" font="Arial" size="11" trimming="character-ellipsis"
+       >&GUESTS;
+      </label>
+      <div height="32" name="eventDescriptionBg" width="32" x="13" y="152"
+        background="#E0E0E0"/>
+      <edit height="105" name="eventDescription" width="360" x="10" y="155"
+        font="Arial" wordwrap="true" background="#F0F1FA" multiline="true"
+        readonly="true"/>
+      <label height="18" name="labelDescription" width="170" x="10" y="135"
+        bold="true" color="#707070" font="Arial" size="11"
+        trimming="character-ellipsis">&DESCRIPTION;
+      </label>
+      <div height="32" name="eventGuestsBg" width="32" x="13" y="282" background="#E0E0E0"/>
+      <listbox height="105" name="guestList" width="360" x="10" y="290" background="#F0F1FA"
+        itemHeight="18" itemOverColor="#F0F1FA" autoscroll="true"
+        itemSelectedColor="#F0F1FA"/>
+      <div height="20" name="eventRSVPDiv" width="102" x="84" y="109" background="#D00000"/>
+      <label height="18" name="labelGoing" width="70" x="10" y="110" font="Arial"
+        size="10" trimming="character-ellipsis" valign="middle"
+       >&GOING;
+      </label>
+      <combobox height="100" name="eventRSVP" width="100" x="85" y="110" background="#D00000"
+        itemSeparatorColor="#C0C0C0" itemWidth="100" itemHeight="18"
+        itemOverColor="#D00000" type="droplist"/>
+    </div>
+    <img cursor="hand" enabled="true" hitTest="htclient" name="imgClose"
+      x="381" y="13" src="images\closeBtn.png"/>
+    <img height="45" name="imgFooter" opacity="240" visible="false" x="0"
+      y="445" src="images\detailsview_footer.png"/>
+    <a height="21" name="eventTitle" width="360" x="15" y="10" bold="true"
+      color="#FFFFFF" font="Arial" size="12" trimming="character-ellipsis"
+      underline="false" valign="bottom" overColor="#D0D0D0"
+     />
+    <a height="21" name="linkEdit" width="380" x="15" y="455" color="#0065CD"
+      font="Arial" size="10" valign="middle" href="http://www.google.com">&LINK_EDIT;
+    </a>
+  </div>
+  <script src="calendarevent.js" />
+  <script src="constants.js" />
+  <script src="eventdetails.js" />
+  <script src="geocode.js" />
+  <script src="json_sans_eval.js" />
+  <script src="utils.js" />
+  <script src="auth.js" />
+  <script src="errorMessage.js" />
+</view>

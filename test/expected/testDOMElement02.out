@@ -1,0 +1,15 @@
+test/dom/core/DOMElement02.html:5: [info] Abstract value: Str
+test/dom/core/DOMElement02.html:6: [info] Abstract value: Str
+test/dom/core/DOMElement02.html:7: [info] Abstract value: [*native Attr]
+test/dom/core/DOMElement02.html:8: [info] Abstract value: [*native Attr]
+test/dom/core/DOMElement02.html:9: [info] Abstract value: [*native NodeList]
+test/dom/core/DOMElement02.html:10: [info] Abstract value: [*native NodeList]
+test/dom/core/DOMElement02.html:11: [info] Abstract value: Bool
+test/dom/core/DOMElement02.html:12: [info] Abstract value: Bool
+test/dom/core/DOMElement02.html:13: [info] Abstract value: Undef
+test/dom/core/DOMElement02.html:14: [info] Abstract value: Undef
+test/dom/core/DOMElement02.html:15: [info] Abstract value: [*native Attr]
+test/dom/core/DOMElement02.html:16: [info] Abstract value: Undef
+test/dom/core/DOMElement02.html:17: [info] Abstract value: Undef
+test/dom/core/DOMElement02.html:18: [info] Abstract value: Null|[*native Attr]
+test/dom/core/DOMElement02.html:19: [info] Abstract value: Null|[*native Attr]

@@ -1,0 +1,2961 @@
+New flow at each function for each context:
+function sieve() at test/google/benchpress.js:139:
+  this=[@Object#node563, @Object#node836, @Object#node759, @Object#node349, @Object#node1405, @Object#node1074, @Object#node444, @Object#node788, @Object#node1199, @Object#node170, @Object#node1361, @Object#node1525, @Object#node119] state diffs: 7
+    state diff:
+      changed object@activation#node14 at test/google/benchpress.js:15: 
+        changed property: n: NotUInt
+      changed object@native <the global object> at <initial state>: 
+        changed property: randomSeed: UInt
+      new object: *Date#node28 at test/google/benchpress.js:20
+    state diff:
+      changed object@native <the global object> at <initial state>: 
+        changed property: permuteCount: UInt|NotUInt
+    state diff:
+      changed object@native <the global object> at <initial state>: 
+        changed property: randomSeed: NotUInt|NaN
+    state diff:
+      new object: *Object#node302 at test/google/benchpress.js:108
+      new object: @Array#node321 at test/google/benchpress.js:113
+      new object: @Object#node302 at test/google/benchpress.js:108
+      changed object@native <the global object> at <initial state>: 
+        changed property: towersMovesDone: UInt|NotUInt
+        changed property: towersPiles: {@Array#node321}
+    state diff:
+      new object: *Array#node321 at test/google/benchpress.js:113
+      changed object@native <the global object> at <initial state>: 
+        changed property: towersPiles: {*Array#node321}
+    state diff:
+      changed object*Array#node321 at test/google/benchpress.js:113: 
+        changed property: 2: Undef|{}
+        changed property: 1: Undef|{}
+      changed default_array_property: Undef|Null|{}
+      changed object@Array#node321 at test/google/benchpress.js:113: 
+        changed property: 2: Undef|{}
+        changed property: 1: Undef|{}
+      changed default_array_property: Undef|Null|{}
+function() at test/google/benchpress.js:238:
+  this=[@Object#node563, @Object#node759, @Object#node836, @Object#node349, @Object#node1405, @Object#node1074, @Object#node788, @Object#node444, @Object#node1199, @Object#node170, @Object#node1525, @Object#node1361, @Object#node119] state diffs: 7
+    state diff:
+      changed object@activation#node14 at test/google/benchpress.js:15: 
+        changed property: n: NotUInt
+      changed object@native <the global object> at <initial state>: 
+        changed property: randomSeed: UInt
+      new object: *Date#node28 at test/google/benchpress.js:20
+    state diff:
+      changed object@native <the global object> at <initial state>: 
+        changed property: permuteCount: UInt|NotUInt
+    state diff:
+      changed object@native <the global object> at <initial state>: 
+        changed property: randomSeed: NotUInt|NaN
+    state diff:
+      new object: *Object#node302 at test/google/benchpress.js:108
+      new object: @Array#node321 at test/google/benchpress.js:113
+      new object: @Object#node302 at test/google/benchpress.js:108
+      changed object@native <the global object> at <initial state>: 
+        changed property: towersMovesDone: UInt|NotUInt
+        changed property: towersPiles: {@Array#node321}
+    state diff:
+      new object: *Array#node321 at test/google/benchpress.js:113
+      changed object@native <the global object> at <initial state>: 
+        changed property: towersPiles: {*Array#node321}
+    state diff:
+      changed object*Array#node321 at test/google/benchpress.js:113: 
+        changed property: 2: Undef|{}
+        changed property: 1: Undef|{}
+      changed default_array_property: Undef|Null|{}
+      changed object@Array#node321 at test/google/benchpress.js:113: 
+        changed property: 2: Undef|{}
+        changed property: 1: Undef|{}
+      changed default_array_property: Undef|Null|{}
+function doSieve(flags,size) at test/google/benchpress.js:127:
+  this={@native <the global object>} state diffs: 5
+    state diff:
+      changed object@native <the global object> at <initial state>: 
+        changed property: randomSeed: NotUInt|NaN
+        changed property: permuteCount: UInt|NotUInt
+    state diff:
+      new object: *Object#node302 at test/google/benchpress.js:108
+      new object: @Array#node321 at test/google/benchpress.js:113
+      new object: @Object#node302 at test/google/benchpress.js:108
+      changed object@native <the global object> at <initial state>: 
+        changed property: towersMovesDone: UInt|NotUInt
+        changed property: towersPiles: {@Array#node321}
+    state diff:
+      new object: *Array#node321 at test/google/benchpress.js:113
+      changed object@native <the global object> at <initial state>: 
+        changed property: towersPiles: {*Array#node321}
+    state diff:
+      changed object*Array#node321 at test/google/benchpress.js:113: 
+        changed property: 1: Undef|{}
+        changed property: 2: Undef|{}
+      changed default_array_property: Undef|Null|{}
+      changed object@Array#node321 at test/google/benchpress.js:113: 
+        changed property: 1: Undef|{}
+        changed property: 2: Undef|{}
+      changed default_array_property: Undef|Null|{}
+function bubblesort() at test/google/benchpress.js:313:
+  this=[@Object#node563, @Object#node759, @Object#node836, @Object#node349, @Object#node1405, @Object#node1074, @Object#node788, @Object#node444, @Object#node1199, @Object#node170, @Object#node1361, @Object#node1525, @Object#node119] state diffs: 7
+    state diff:
+      changed object@activation#node14 at test/google/benchpress.js:15: 
+        changed property: n: NotUInt
+      changed object@native <the global object> at <initial state>: 
+        changed property: randomSeed: UInt
+      new object: *Date#node28 at test/google/benchpress.js:20
+    state diff:
+      changed object@native <the global object> at <initial state>: 
+        changed property: permuteCount: UInt|NotUInt
+    state diff:
+      changed object@native <the global object> at <initial state>: 
+        changed property: randomSeed: NotUInt|NaN
+    state diff:
+      new object: *Object#node302 at test/google/benchpress.js:108
+      new object: @Array#node321 at test/google/benchpress.js:113
+      new object: @Object#node302 at test/google/benchpress.js:108
+      changed object@native <the global object> at <initial state>: 
+        changed property: towersMovesDone: UInt|NotUInt
+        changed property: towersPiles: {@Array#node321}
+    state diff:
+      new object: *Array#node321 at test/google/benchpress.js:113
+      changed object@native <the global object> at <initial state>: 
+        changed property: towersPiles: {*Array#node321}
+    state diff:
+      changed object*Array#node321 at test/google/benchpress.js:113: 
+        changed property: 2: Undef|{}
+        changed property: 1: Undef|{}
+      changed default_array_property: Undef|Null|{}
+      changed object@Array#node321 at test/google/benchpress.js:113: 
+        changed property: 2: Undef|{}
+        changed property: 1: Undef|{}
+      changed default_array_property: Undef|Null|{}
+function doSum(start,end) at test/google/benchpress.js:244:
+  this={@native <the global object>} state diffs: 5
+    state diff:
+      changed object@native <the global object> at <initial state>: 
+        changed property: randomSeed: NotUInt|NaN
+        changed property: permuteCount: UInt|NotUInt
+    state diff:
+      new object: *Object#node302 at test/google/benchpress.js:108
+      new object: @Array#node321 at test/google/benchpress.js:113
+      new object: @Object#node302 at test/google/benchpress.js:108
+      changed object@native <the global object> at <initial state>: 
+        changed property: towersMovesDone: UInt|NotUInt
+        changed property: towersPiles: {@Array#node321}
+    state diff:
+      new object: *Array#node321 at test/google/benchpress.js:113
+      changed object@native <the global object> at <initial state>: 
+        changed property: towersPiles: {*Array#node321}
+    state diff:
+      changed object*Array#node321 at test/google/benchpress.js:113: 
+        changed property: 1: Undef|{}
+        changed property: 2: Undef|{}
+      changed default_array_property: Undef|Null|{}
+      changed object@Array#node321 at test/google/benchpress.js:113: 
+        changed property: 1: Undef|{}
+        changed property: 2: Undef|{}
+      changed default_array_property: Undef|Null|{}
+function TreeNode(value) at test/google/benchpress.js:356:
+  this={@Object#node1228} state diffs: 14
+    state diff:
+      new object: @Object#node1243 at test/google/benchpress.js:367
+      changed object@activation#node1200 at test/google/benchpress.js:356: 
+        changed property: value: 22896.0
+      changed object@activation#node1212 at test/google/benchpress.js:362: 
+        changed property: n: 22896.0
+      changed object@arguments#node1200 at test/google/benchpress.js:356: 
+        changed property: 0: 22896.0
+      changed object@arguments#node1212 at test/google/benchpress.js:362: 
+        changed property: 0: 22896.0
+      changed object@activation#node1292 at test/google/benchpress.js:378: 
+        changed property: i: UInt
+      changed object@Object#node1312 at test/google/benchpress.js:382: 
+        changed property: right: {@Object#node1243}
+    state diff:
+      new object: *arguments#node1212 at test/google/benchpress.js:362
+      new object: *activation#node1212 at test/google/benchpress.js:362
+      new stacked object labels: [@Object#node1243, *activation#node1212]
+    state diff:
+      changed object@Object#node1243 at test/google/benchpress.js:367: 
+        changed property: value: 22896.0
+        changed property: right: {*Object#node1243, @Object#node1243}
+      new object: *Object#node1228 at test/google/benchpress.js:364
+      new object: *Object#node1243 at test/google/benchpress.js:367
+      changed object@activation#node1292 at test/google/benchpress.js:378: 
+        changed property: i: NotUInt
+      changed object@Object#node1312 at test/google/benchpress.js:382: 
+        changed property: left: {*Object#node1228}
+        changed property: right: {*Object#node1243}
+      new maybe-summarized: {@Object#node1228}
+      new stacked object labels: [*Object#node1228]
+    state diff:
+      new stacked object labels: [*Object#node1243]
+    state diff:
+      changed object@Object#node1243 at test/google/benchpress.js:367: 
+        changed property: left: {*Object#node1228}
+      changed object*Object#node1228 at test/google/benchpress.js:364: 
+        changed property: left: {*Object#node1228}
+        changed property: value: 22896.0
+      changed object*Object#node1243 at test/google/benchpress.js:367: 
+        changed property: left: {*Object#node1228}
+    state diff:
+      changed object*Object#node1228 at test/google/benchpress.js:364: 
+        changed property: right: {*Object#node1243, @Object#node1243}
+    state diff:
+      changed object@activation#node14 at test/google/benchpress.js:15: 
+        changed property: n: NotUInt
+      changed object@native <the global object> at <initial state>: 
+        changed property: permuteCount: UInt|NotUInt
+    state diff:
+      changed object@activation#node1200 at test/google/benchpress.js:356: 
+        changed property: value: UInt|NotUInt|NaN
+      changed object@activation#node1212 at test/google/benchpress.js:362: 
+        changed property: n: UInt|NotUInt|NaN
+      changed object@arguments#node1200 at test/google/benchpress.js:356: 
+        changed property: 0: UInt|NotUInt|NaN
+      changed object@arguments#node1212 at test/google/benchpress.js:362: 
+        changed property: 0: UInt|NotUInt|NaN
+      changed object@Object#node1312 at test/google/benchpress.js:382: 
+        changed property: value: UInt|NotUInt|NaN
+      changed object@native <the global object> at <initial state>: 
+        changed property: randomSeed: NotUInt|NaN
+      changed object@Object#node1297 at test/google/benchpress.js:379: 
+        changed property: min: UInt|NotUInt|NaN
+        changed property: max: UInt|NotUInt|NaN
+      changed object@Array#node856 at test/google/benchpress.js:270: 
+        changed property: 0: UInt|NotUInt|NaN
+      changed default_array_property: UInt|NotUInt|NaN
+    state diff:
+      changed object*arguments#node1212 at test/google/benchpress.js:362: 
+        changed property: 0: UInt|NotUInt|NaN
+      changed object*activation#node1212 at test/google/benchpress.js:362: 
+        changed property: n: UInt|NotUInt|NaN
+    state diff:
+      changed object@Object#node1243 at test/google/benchpress.js:367: 
+        changed property: value: UInt|NotUInt|NaN
+      changed object*Object#node1228 at test/google/benchpress.js:364: 
+        changed property: value: UInt|NotUInt|NaN
+      changed object*Object#node1243 at test/google/benchpress.js:367: 
+        changed property: value: UInt|NotUInt|NaN
+    state diff:
+      new object: *Object#node302 at test/google/benchpress.js:108
+      new object: @Array#node321 at test/google/benchpress.js:113
+      new object: @Object#node302 at test/google/benchpress.js:108
+      changed object@native <the global object> at <initial state>: 
+        changed property: towersMovesDone: UInt|NotUInt
+        changed property: towersPiles: {@Array#node321}
+    state diff:
+      new object: *Array#node321 at test/google/benchpress.js:113
+      changed object@native <the global object> at <initial state>: 
+        changed property: towersPiles: {*Array#node321}
+    state diff:
+      changed object*Array#node321 at test/google/benchpress.js:113: 
+        changed property: 1: Undef|{}
+        changed property: 2: Undef|{}
+      changed default_array_property: Undef|Null|{}
+      changed object@Array#node321 at test/google/benchpress.js:113: 
+        changed property: 1: Undef|{}
+        changed property: 2: Undef|{}
+      changed default_array_property: Undef|Null|{}
+  this={@Object#node1243} state diffs: 15
+    state diff:
+      changed object@activation#node1200 at test/google/benchpress.js:356: 
+        changed property: value: 22896.0
+      changed object@activation#node1212 at test/google/benchpress.js:362: 
+        changed property: n: 22896.0
+      changed object@arguments#node1200 at test/google/benchpress.js:356: 
+        changed property: 0: 22896.0
+      changed object@arguments#node1212 at test/google/benchpress.js:362: 
+        changed property: 0: 22896.0
+      new object: *Object#node1243 at test/google/benchpress.js:367
+      changed object@activation#node1292 at test/google/benchpress.js:378: 
+        changed property: i: UInt
+      changed object@Object#node1312 at test/google/benchpress.js:382: 
+        changed property: right: {*Object#node1243}
+      new maybe-summarized: {@Object#node1243}
+      new stacked object labels: [*Object#node1243]
+    state diff:
+      new object: *arguments#node1212 at test/google/benchpress.js:362
+      new object: *activation#node1212 at test/google/benchpress.js:362
+      new stacked object labels: [*activation#node1212]
+    state diff:
+      new object: @Object#node1228 at test/google/benchpress.js:364
+      changed object*Object#node1243 at test/google/benchpress.js:367: 
+        changed property: value: 22896.0
+        changed property: right: {*Object#node1243}
+      changed object@activation#node1292 at test/google/benchpress.js:378: 
+        changed property: i: NotUInt
+      changed object@Object#node1312 at test/google/benchpress.js:382: 
+        changed property: left: {@Object#node1228}
+    state diff:
+      new stacked object labels: [@Object#node1228]
+    state diff:
+      changed object@Object#node1228 at test/google/benchpress.js:364: 
+        changed property: left: {*Object#node1228, @Object#node1228}
+        changed property: value: 22896.0
+      new object: *Object#node1228 at test/google/benchpress.js:364
+      changed object*Object#node1243 at test/google/benchpress.js:367: 
+        changed property: left: {*Object#node1228, @Object#node1228}
+      changed object@Object#node1312 at test/google/benchpress.js:382: 
+        changed property: left: {*Object#node1228}
+    state diff:
+      new stacked object labels: [*Object#node1228]
+    state diff:
+      changed object@Object#node1228 at test/google/benchpress.js:364: 
+        changed property: right: {*Object#node1243}
+      changed object*Object#node1228 at test/google/benchpress.js:364: 
+        changed property: right: {*Object#node1243}
+    state diff:
+      changed object@activation#node14 at test/google/benchpress.js:15: 
+        changed property: n: NotUInt
+      changed object@native <the global object> at <initial state>: 
+        changed property: permuteCount: UInt|NotUInt
+    state diff:
+      changed object@activation#node1200 at test/google/benchpress.js:356: 
+        changed property: value: UInt|NotUInt|NaN
+      changed object@activation#node1212 at test/google/benchpress.js:362: 
+        changed property: n: UInt|NotUInt|NaN
+      changed object@arguments#node1200 at test/google/benchpress.js:356: 
+        changed property: 0: UInt|NotUInt|NaN
+      changed object@arguments#node1212 at test/google/benchpress.js:362: 
+        changed property: 0: UInt|NotUInt|NaN
+      changed object@Object#node1312 at test/google/benchpress.js:382: 
+        changed property: value: UInt|NotUInt|NaN
+      changed object@native <the global object> at <initial state>: 
+        changed property: randomSeed: NotUInt|NaN
+      changed object@Object#node1297 at test/google/benchpress.js:379: 
+        changed property: min: UInt|NotUInt|NaN
+        changed property: max: UInt|NotUInt|NaN
+      changed object@Array#node856 at test/google/benchpress.js:270: 
+        changed property: 0: UInt|NotUInt|NaN
+      changed default_array_property: UInt|NotUInt|NaN
+    state diff:
+      changed object*arguments#node1212 at test/google/benchpress.js:362: 
+        changed property: 0: UInt|NotUInt|NaN
+      changed object*activation#node1212 at test/google/benchpress.js:362: 
+        changed property: n: UInt|NotUInt|NaN
+    state diff:
+      changed object@Object#node1228 at test/google/benchpress.js:364: 
+        changed property: value: UInt|NotUInt|NaN
+      changed object*Object#node1228 at test/google/benchpress.js:364: 
+        changed property: value: UInt|NotUInt|NaN
+      changed object*Object#node1243 at test/google/benchpress.js:367: 
+        changed property: value: UInt|NotUInt|NaN
+    state diff:
+      new object: *Object#node302 at test/google/benchpress.js:108
+      new object: @Array#node321 at test/google/benchpress.js:113
+      new object: @Object#node302 at test/google/benchpress.js:108
+      changed object@native <the global object> at <initial state>: 
+        changed property: towersMovesDone: UInt|NotUInt
+        changed property: towersPiles: {@Array#node321}
+    state diff:
+      new object: *Array#node321 at test/google/benchpress.js:113
+      changed object@native <the global object> at <initial state>: 
+        changed property: towersPiles: {*Array#node321}
+    state diff:
+      changed object*Array#node321 at test/google/benchpress.js:113: 
+        changed property: 1: Undef|{}
+        changed property: 2: Undef|{}
+      changed default_array_property: Undef|Null|{}
+      changed object@Array#node321 at test/google/benchpress.js:113: 
+        changed property: 1: Undef|{}
+        changed property: 2: Undef|{}
+      changed default_array_property: Undef|Null|{}
+  this={@Object#node1312} state diffs: 6
+    state diff:
+      changed object@activation#node14 at test/google/benchpress.js:15: 
+        changed property: n: NotUInt
+      changed object@native <the global object> at <initial state>: 
+        changed property: permuteCount: UInt|NotUInt
+    state diff:
+      changed object@activation#node1200 at test/google/benchpress.js:356: 
+        changed property: value: UInt|NotUInt|NaN
+      changed object@arguments#node1200 at test/google/benchpress.js:356: 
+        changed property: 0: UInt|NotUInt|NaN
+      changed object@native <the global object> at <initial state>: 
+        changed property: randomSeed: NotUInt|NaN
+      changed object@Object#node1297 at test/google/benchpress.js:379: 
+        changed property: min: UInt|NotUInt|NaN
+        changed property: max: UInt|NotUInt|NaN
+      changed object@Array#node856 at test/google/benchpress.js:270: 
+        changed property: 0: UInt|NotUInt|NaN
+      changed default_array_property: UInt|NotUInt|NaN
+    state diff:
+      new object: *Object#node302 at test/google/benchpress.js:108
+      new object: @Array#node321 at test/google/benchpress.js:113
+      new object: @Object#node302 at test/google/benchpress.js:108
+      changed object@native <the global object> at <initial state>: 
+        changed property: towersMovesDone: UInt|NotUInt
+        changed property: towersPiles: {@Array#node321}
+    state diff:
+      new object: *Array#node321 at test/google/benchpress.js:113
+      changed object@native <the global object> at <initial state>: 
+        changed property: towersPiles: {*Array#node321}
+    state diff:
+      changed object*Array#node321 at test/google/benchpress.js:113: 
+        changed property: 1: Undef|{}
+        changed property: 2: Undef|{}
+      changed default_array_property: Undef|Null|{}
+      changed object@Array#node321 at test/google/benchpress.js:113: 
+        changed property: 1: Undef|{}
+        changed property: 2: Undef|{}
+      changed default_array_property: Undef|Null|{}
+function Benchmark(string,run) at test/google/benchpress.js:9:
+  this={@Object#node563} state diffs: 1
+  this={@Object#node836} state diffs: 1
+  this={@Object#node759} state diffs: 1
+  this={@Object#node349} state diffs: 1
+  this={@Object#node1405} state diffs: 1
+  this={@Object#node1074} state diffs: 1
+  this={@Object#node788} state diffs: 1
+  this={@Object#node444} state diffs: 1
+  this={@Object#node1199} state diffs: 1
+  this={@Object#node170} state diffs: 1
+  this={@Object#node1361} state diffs: 1
+  this={@Object#node1525} state diffs: 1
+  this={@Object#node119} state diffs: 1
+function tak(x,y,z) at test/google/benchpress.js:393:
+  this={@native <the global object>} state diffs: 13
+    state diff:
+      new object: *activation#node1362 at test/google/benchpress.js:393
+      changed object@arguments#node1362 at test/google/benchpress.js:393: 
+        changed property: 0: UInt
+      new object: *arguments#node1362 at test/google/benchpress.js:393
+      changed object@activation#node1362 at test/google/benchpress.js:393: 
+        changed property: x: UInt
+      new maybe-summarized: {@arguments#node1362, @activation#node1362}
+      new stacked object labels: [*activation#node1362]
+    state diff:
+      changed object@arguments#node1362 at test/google/benchpress.js:393: 
+        changed property: 2: UInt
+        changed property: 1: UInt
+      changed object*arguments#node1362 at test/google/benchpress.js:393: 
+        changed property: 0: UInt
+      changed object@activation#node1362 at test/google/benchpress.js:393: 
+        changed property: z: UInt
+        changed property: y: UInt
+    state diff:
+      changed object*activation#node1362 at test/google/benchpress.js:393: 
+        changed property: x: UInt
+      changed object@arguments#node1362 at test/google/benchpress.js:393: 
+        changed property: 0: NotUInt
+      changed object@activation#node1362 at test/google/benchpress.js:393: 
+        changed property: x: NotUInt
+    state diff:
+      changed object@native <the global object> at <initial state>: 
+        changed property: permuteCount: UInt|NotUInt
+    state diff:
+      changed object@native <the global object> at <initial state>: 
+        changed property: randomSeed: NotUInt|NaN
+    state diff:
+      new object: *Object#node302 at test/google/benchpress.js:108
+      new object: @Array#node321 at test/google/benchpress.js:113
+      new object: @Object#node302 at test/google/benchpress.js:108
+      changed object@native <the global object> at <initial state>: 
+        changed property: towersMovesDone: UInt|NotUInt
+        changed property: towersPiles: {@Array#node321}
+    state diff:
+      new object: *Array#node321 at test/google/benchpress.js:113
+      changed object@native <the global object> at <initial state>: 
+        changed property: towersPiles: {*Array#node321}
+    state diff:
+      changed object*Array#node321 at test/google/benchpress.js:113: 
+        changed property: 1: Undef|{}
+        changed property: 2: Undef|{}
+      changed default_array_property: Undef|Null|{}
+      changed object@Array#node321 at test/google/benchpress.js:113: 
+        changed property: 1: Undef|{}
+        changed property: 2: Undef|{}
+      changed default_array_property: Undef|Null|{}
+    state diff:
+      changed object*activation#node1362 at test/google/benchpress.js:393: 
+        changed property: z: UInt
+        changed property: y: UInt
+        changed property: x: NotUInt
+      changed object*arguments#node1362 at test/google/benchpress.js:393: 
+        changed property: 2: UInt
+        changed property: 1: UInt
+        changed property: 0: NotUInt
+    state diff:
+      changed object@arguments#node1362 at test/google/benchpress.js:393: 
+        changed property: 2: NotUInt
+      changed object@activation#node1362 at test/google/benchpress.js:393: 
+        changed property: z: NotUInt
+    state diff:
+      changed object@arguments#node1362 at test/google/benchpress.js:393: 
+        changed property: 1: NotUInt
+      changed object@activation#node1362 at test/google/benchpress.js:393: 
+        changed property: y: NotUInt
+    state diff:
+      changed object*activation#node1362 at test/google/benchpress.js:393: 
+        changed property: y: NotUInt
+        changed property: z: NotUInt
+      changed object*arguments#node1362 at test/google/benchpress.js:393: 
+        changed property: 1: NotUInt
+        changed property: 2: NotUInt
+function towersPush(pile,disk) at test/google/benchpress.js:74:
+  this={@native <the global object>} state diffs: 8
+    state diff:
+      new object: @arguments#node241 at test/google/benchpress.js:90
+      changed object@arguments#node180 at test/google/benchpress.js:74: 
+        changed property: 0: UInt
+      new object: @activation#node255 at test/google/benchpress.js:95
+      new object: *arguments#node255 at test/google/benchpress.js:95
+      changed object@Array#node321 at test/google/benchpress.js:113: 
+        changed property: length: UInt
+      changed object@activation#node180 at test/google/benchpress.js:74: 
+        changed property: pile: UInt
+      new object: @activation#node241 at test/google/benchpress.js:90
+      new object: *activation#node255 at test/google/benchpress.js:95
+      changed object@native <the global object> at <initial state>: 
+        changed property: towersMovesDone: 0.0
+      new object: @arguments#node255 at test/google/benchpress.js:95
+      new stacked object labels: [@activation#node241, *activation#node255, @activation#node255]
+    state diff:
+      new object: *Object#node302 at test/google/benchpress.js:108
+      changed object@arguments#node180 at test/google/benchpress.js:74: 
+        changed property: 1: {*Object#node302}
+      changed object@activation#node291 at test/google/benchpress.js:106: 
+        changed property: i: UInt
+      changed object@Array#node321 at test/google/benchpress.js:113: 
+        changed property: 2: {@Object#node302}
+        changed property: 1: {@Object#node302}
+        changed property: 0: {@Object#node302}
+      changed default_array_property: {@Object#node302}
+      changed object@activation#node180 at test/google/benchpress.js:74: 
+        changed property: disk: {*Object#node302}
+      changed object@Object#node302 at test/google/benchpress.js:108: 
+        changed property: size: UInt
+        changed property: next: Undef
+      new stacked object labels: [*Object#node302]
+    state diff:
+      changed object@arguments#node241 at test/google/benchpress.js:90: 
+        changed property: 1: NotUInt
+      changed object*Object#node302 at test/google/benchpress.js:108: 
+        changed property: next: {*Object#node302, @Object#node302}
+      changed object@arguments#node180 at test/google/benchpress.js:74: 
+        changed property: 0: NotUInt
+      changed object@activation#node255 at test/google/benchpress.js:95: 
+        changed property: disks: NotUInt
+        changed property: to: NotUInt
+      changed object*arguments#node255 at test/google/benchpress.js:95: 
+        changed property: 1: UInt
+        changed property: 2: UInt
+      changed object@Array#node321 at test/google/benchpress.js:113: 
+        changed property: 2: {*Object#node302}
+        changed property: 1: {*Object#node302}
+        changed property: 0: Undef|{*Object#node302}
+      changed default_array_property: {*Object#node302}
+      changed object@activation#node180 at test/google/benchpress.js:74: 
+        changed property: pile: NotUInt
+      changed object@activation#node241 at test/google/benchpress.js:90: 
+        changed property: to: NotUInt
+      changed object@Object#node302 at test/google/benchpress.js:108: 
+        changed property: next: {*Object#node302, @Object#node302}
+      changed object*activation#node255 at test/google/benchpress.js:95: 
+        changed property: other: UInt|NotUInt
+        changed property: to: UInt
+        changed property: disks: UInt
+      changed object@arguments#node255 at test/google/benchpress.js:95: 
+        changed property: 2: NotUInt
+        changed property: 1: NotUInt
+    state diff:
+      changed object*arguments#node255 at test/google/benchpress.js:95: 
+        changed property: 2: NotUInt
+        changed property: 1: NotUInt
+      changed object*activation#node255 at test/google/benchpress.js:95: 
+        changed property: disks: NotUInt
+        changed property: to: NotUInt
+    state diff:
+      changed object*Object#node302 at test/google/benchpress.js:108: 
+        changed property: size: NotUInt
+      changed object@activation#node291 at test/google/benchpress.js:106: 
+        changed property: i: NotUInt
+      changed object@Object#node302 at test/google/benchpress.js:108: 
+        changed property: size: NotUInt
+    state diff:
+      changed object@activation#node255 at test/google/benchpress.js:95: 
+        changed property: other: UInt|NotUInt
+      changed object@native <the global object> at <initial state>: 
+        changed property: randomSeed: NotUInt|NaN
+        changed property: towersMovesDone: UInt
+        changed property: permuteCount: UInt|NotUInt
+    state diff:
+      changed object@arguments#node241 at test/google/benchpress.js:90: 
+        changed property: 0: UInt|NotUInt
+      changed object@activation#node255 at test/google/benchpress.js:95: 
+        changed property: from: UInt|NotUInt
+      changed object*arguments#node255 at test/google/benchpress.js:95: 
+        changed property: 0: UInt|NotUInt
+      changed object@Array#node321 at test/google/benchpress.js:113: 
+        changed property: 2: Undef|{}
+        changed property: 1: Undef|{}
+      changed default_array_property: Undef|Null|{}
+      changed object@activation#node241 at test/google/benchpress.js:90: 
+        changed property: from: UInt|NotUInt
+      changed object*activation#node255 at test/google/benchpress.js:95: 
+        changed property: from: UInt|NotUInt
+      changed object@native <the global object> at <initial state>: 
+        changed property: towersMovesDone: NotUInt
+      changed object@arguments#node255 at test/google/benchpress.js:95: 
+        changed property: 0: UInt|NotUInt
+function TowersDisk(size) at test/google/benchpress.js:69:
+  this={@Object#node302} state diffs: 10
+    state diff:
+      new object: *Object#node302 at test/google/benchpress.js:108
+      changed object@arguments#node171 at test/google/benchpress.js:69: 
+        changed property: 0: UInt
+      changed object@activation#node291 at test/google/benchpress.js:106: 
+        changed property: i: UInt
+      changed object@Array#node321 at test/google/benchpress.js:113: 
+        changed property: length: UInt
+        changed property: 0: {*Object#node302}
+      changed object@activation#node171 at test/google/benchpress.js:69: 
+        changed property: size: UInt
+      new maybe-summarized: {@Object#node302}
+      new stacked object labels: [*Object#node302]
+    state diff:
+      changed object*Object#node302 at test/google/benchpress.js:108: 
+        changed property: next: Undef
+      changed object@Array#node321 at test/google/benchpress.js:113: 
+        changed property: 1: {*Object#node302}
+        changed property: 2: {*Object#node302}
+      changed default_array_property: {*Object#node302}
+    state diff:
+      changed object*Object#node302 at test/google/benchpress.js:108: 
+        changed property: size: UInt
+        changed property: next: {*Object#node302}
+      changed object@arguments#node171 at test/google/benchpress.js:69: 
+        changed property: 0: NotUInt
+      changed object@activation#node291 at test/google/benchpress.js:106: 
+        changed property: i: NotUInt
+      changed object@activation#node171 at test/google/benchpress.js:69: 
+        changed property: size: NotUInt
+    state diff:
+      changed object@Array#node321 at test/google/benchpress.js:113: 
+        changed property: 0: Undef|{}
+    state diff:
+      changed object*Object#node302 at test/google/benchpress.js:108: 
+        changed property: size: NotUInt
+    state diff:
+      changed object@native <the global object> at <initial state>: 
+        changed property: randomSeed: NotUInt|NaN
+        changed property: permuteCount: UInt|NotUInt
+    state diff:
+      new object: *Array#node321 at test/google/benchpress.js:113
+      changed object@native <the global object> at <initial state>: 
+        changed property: towersMovesDone: UInt|NotUInt
+    state diff:
+      changed object@Array#node321 at test/google/benchpress.js:113: 
+        changed property: 1: Undef|{}
+        changed property: 2: Undef|{}
+      changed default_array_property: Undef|Null|{}
+    state diff:
+      changed object*Array#node321 at test/google/benchpress.js:113: 
+        changed property: 2: Undef|{}
+        changed property: 1: Undef|{}
+      changed default_array_property: Undef|Null|{}
+function tryQueens(i,a,b,c,x) at test/google/benchpress.js:186:
+  this={@native <the global object>} state diffs: 11
+    state diff:
+      changed object@Array#node680 at test/google/benchpress.js:212: 
+        changed property: length: UInt
+      changed default_property: true
+      changed object@Array#node684 at test/google/benchpress.js:213: 
+        changed property: length: UInt
+      changed default_property: true
+      changed object@Array#node688 at test/google/benchpress.js:214: 
+      changed default_array_property: true
+      changed object@activation#node675 at test/google/benchpress.js:211: 
+        changed property: i: UInt
+    state diff:
+      changed object@Array#node680 at test/google/benchpress.js:212: 
+      changed default_array_property: true
+      changed object@Array#node684 at test/google/benchpress.js:213: 
+      changed default_array_property: true
+    state diff:
+      changed object@activation#node564 at test/google/benchpress.js:186: 
+        changed property: i: UInt
+      changed object@Array#node680 at test/google/benchpress.js:212: 
+        new property: 1
+      new object: *arguments#node564 at test/google/benchpress.js:186
+      changed object@Array#node692 at test/google/benchpress.js:215: 
+        new property: 1
+        changed property: length: UInt
+      changed object@Array#node684 at test/google/benchpress.js:213: 
+        new property: 2
+      changed object@Array#node688 at test/google/benchpress.js:214: 
+        new property: 7
+      new object: *activation#node564 at test/google/benchpress.js:186
+      changed object@arguments#node564 at test/google/benchpress.js:186: 
+        changed property: 0: UInt
+      new maybe-summarized: {@arguments#node564, @activation#node564}
+      new stacked object labels: [*activation#node564]
+    state diff:
+      changed object@Array#node680 at test/google/benchpress.js:212: 
+      changed default_array_property: false
+      changed object@Array#node692 at test/google/benchpress.js:215: 
+        changed property: 1: UInt|NotUInt
+      changed object@Array#node684 at test/google/benchpress.js:213: 
+      changed default_array_property: false
+      changed object@Array#node688 at test/google/benchpress.js:214: 
+        changed property: 0: false
+      changed default_array_property: false
+      changed object*activation#node564 at test/google/benchpress.js:186: 
+        changed property: j: UInt|NotUInt
+    state diff:
+      changed object@activation#node564 at test/google/benchpress.js:186: 
+        changed property: i: NotUInt
+      changed object*arguments#node564 at test/google/benchpress.js:186: 
+        changed property: 0: UInt
+      changed object@Array#node692 at test/google/benchpress.js:215: 
+      changed default_array_property: UInt|NotUInt
+      changed object*activation#node564 at test/google/benchpress.js:186: 
+        changed property: i: UInt
+      changed object@arguments#node564 at test/google/benchpress.js:186: 
+        changed property: 0: NotUInt
+    state diff:
+      changed object*arguments#node564 at test/google/benchpress.js:186: 
+        changed property: 0: NotUInt
+      changed object*activation#node564 at test/google/benchpress.js:186: 
+        changed property: i: NotUInt
+    state diff:
+      changed object@native <the global object> at <initial state>: 
+        changed property: randomSeed: NotUInt|NaN
+        changed property: permuteCount: UInt|NotUInt
+    state diff:
+      new object: *Object#node302 at test/google/benchpress.js:108
+      new object: @Array#node321 at test/google/benchpress.js:113
+      new object: @Object#node302 at test/google/benchpress.js:108
+      changed object@native <the global object> at <initial state>: 
+        changed property: towersMovesDone: UInt|NotUInt
+        changed property: towersPiles: {@Array#node321}
+    state diff:
+      new object: *Array#node321 at test/google/benchpress.js:113
+      changed object@native <the global object> at <initial state>: 
+        changed property: towersPiles: {*Array#node321}
+    state diff:
+      changed object*Array#node321 at test/google/benchpress.js:113: 
+        changed property: 1: Undef|{}
+        changed property: 2: Undef|{}
+      changed default_array_property: Undef|Null|{}
+      changed object@Array#node321 at test/google/benchpress.js:113: 
+        changed property: 1: Undef|{}
+        changed property: 2: Undef|{}
+      changed default_array_property: Undef|Null|{}
+function doPermute(n,array) at test/google/benchpress.js:160:
+  this={@native <the global object>} state diffs: 11
+    state diff:
+      changed object@Array#node520 at test/google/benchpress.js:173: 
+        changed property: 1: UInt|NotUInt
+      changed default_array_property: UInt|NotUInt
+      changed object@activation#node515 at test/google/benchpress.js:172: 
+        changed property: i: NotUInt
+    state diff:
+      new object: *activation#node467 at test/google/benchpress.js:160
+      changed object@arguments#node467 at test/google/benchpress.js:160: 
+        changed property: 0: UInt
+      changed object@activation#node467 at test/google/benchpress.js:160: 
+        changed property: n: UInt
+      new object: *arguments#node467 at test/google/benchpress.js:160
+      changed object@native <the global object> at <initial state>: 
+        changed property: permuteCount: UInt
+      new maybe-summarized: {@arguments#node467, @activation#node467}
+      new stacked object labels: [*activation#node467]
+    state diff:
+      changed object*activation#node467 at test/google/benchpress.js:160: 
+        changed property: n: UInt
+      changed object@arguments#node467 at test/google/benchpress.js:160: 
+        changed property: 0: NotUInt
+      changed object@activation#node467 at test/google/benchpress.js:160: 
+        changed property: n: NotUInt
+      changed object*arguments#node467 at test/google/benchpress.js:160: 
+        changed property: 0: UInt
+      changed object@native <the global object> at <initial state>: 
+        changed property: permuteCount: NotUInt
+    state diff:
+      changed object*activation#node467 at test/google/benchpress.js:160: 
+        changed property: k: 6.0
+      changed object@Array#node520 at test/google/benchpress.js:173: 
+        new property: 6
+        new property: 7
+    state diff:
+      changed object*activation#node467 at test/google/benchpress.js:160: 
+        changed property: n: NotUInt
+      changed object*arguments#node467 at test/google/benchpress.js:160: 
+        changed property: 0: NotUInt
+    state diff:
+      changed object@native <the global object> at <initial state>: 
+        changed property: randomSeed: NotUInt|NaN
+    state diff:
+      new object: *Object#node302 at test/google/benchpress.js:108
+      new object: @Array#node321 at test/google/benchpress.js:113
+      new object: @Object#node302 at test/google/benchpress.js:108
+      changed object@native <the global object> at <initial state>: 
+        changed property: towersMovesDone: UInt|NotUInt
+        changed property: towersPiles: {@Array#node321}
+    state diff:
+      new object: *Array#node321 at test/google/benchpress.js:113
+      changed object@native <the global object> at <initial state>: 
+        changed property: towersPiles: {*Array#node321}
+    state diff:
+      changed object*Array#node321 at test/google/benchpress.js:113: 
+        changed property: 1: Undef|{}
+        changed property: 2: Undef|{}
+      changed default_array_property: Undef|Null|{}
+      changed object@Array#node321 at test/google/benchpress.js:113: 
+        changed property: 1: Undef|{}
+        changed property: 2: Undef|{}
+      changed default_array_property: Undef|Null|{}
+    state diff:
+      changed object*activation#node467 at test/google/benchpress.js:160: 
+        changed property: k: UInt|NotUInt
+      changed object@Array#node520 at test/google/benchpress.js:173: 
+        changed property: 1: Undef
+      changed default_array_property: Undef
+function error(string) at test/google/benchpress.js:27:
+  this={@native <the global object>} state diffs: 40
+    state diff:
+      changed object@activation#node71 at test/google/benchpress.js:27: 
+        changed property: string: Str
+      changed object@activation#node96 at test/google/benchpress.js:40: 
+        changed property: result: UInt
+      changed object@arguments#node71 at test/google/benchpress.js:27: 
+        changed property: 0: Str
+    state diff:
+      changed object@activation#node96 at test/google/benchpress.js:40: 
+        changed property: result: NotUInt
+    state diff:
+      new object: @Object#node1243 at test/google/benchpress.js:367
+      new object: @arguments#node1292 at test/google/benchpress.js:378
+      changed object@activation#node14 at test/google/benchpress.js:15: 
+        changed property: benchmark: [@Object#node563, @Object#node836, @Object#node759, @Object#node349, @Object#node1405, @Object#node1074, @Object#node444, @Object#node788, @Object#node1199, @Object#node170, @Object#node1525, @Object#node1361]
+        changed property: n: UInt
+        changed property: elapsed: UInt
+      new object: @Date#node28 at test/google/benchpress.js:20
+      changed object@Array#node4 at test/google/benchpress.js:3: 
+        changed property: length: UInt
+      changed default_array_property: Num
+      new object: @activation#node1292 at test/google/benchpress.js:378
+      changed object@arguments#node14 at test/google/benchpress.js:15: 
+        changed property: 0: [@Object#node563, @Object#node836, @Object#node759, @Object#node349, @Object#node1405, @Object#node1074, @Object#node444, @Object#node788, @Object#node1199, @Object#node170, @Object#node1525, @Object#node1361]
+      new object: @Object#node1312 at test/google/benchpress.js:382
+      changed object@native <the global object> at <initial state>: 
+        changed property: randomSeed: UInt
+      new object: @Object#node1297 at test/google/benchpress.js:379
+      new object: @Array#node856 at test/google/benchpress.js:270
+      new stacked object labels: [@activation#node1292, @Object#node1312, @Date#node28, @Object#node1297, @Array#node856]
+    state diff:
+      new object: @arguments#node812 at test/google/benchpress.js:250
+      changed object@activation#node14 at test/google/benchpress.js:15: 
+        changed property: n: NotUInt
+      new object: @activation#node812 at test/google/benchpress.js:250
+      new stacked object labels: [@activation#node812]
+    state diff:
+      new object: @Array#node680 at test/google/benchpress.js:212
+      new object: @Array#node692 at test/google/benchpress.js:215
+      new object: @Array#node684 at test/google/benchpress.js:213
+      new object: @Array#node688 at test/google/benchpress.js:214
+      new object: @arguments#node675 at test/google/benchpress.js:211
+      new object: @activation#node675 at test/google/benchpress.js:211
+      new stacked object labels: [@activation#node675, @Array#node680, @Array#node692, @Array#node684, @Array#node688]
+    state diff:
+      new object: @Array#node420 at test/google/benchpress.js:140
+      new object: @arguments#node415 at test/google/benchpress.js:139
+      new object: @activation#node415 at test/google/benchpress.js:139
+      new stacked object labels: [@Array#node420, @activation#node415]
+    state diff:
+      changed object@Array#node420 at test/google/benchpress.js:140: 
+        changed property: 1: false
+      changed default_array_property: Bool
+      changed object@activation#node415 at test/google/benchpress.js:139: 
+        changed property: result: UInt|NotUInt
+    state diff:
+      new object: @arguments#node120 at test/google/benchpress.js:51
+      new object: @activation#node120 at test/google/benchpress.js:51
+      new object: *Date#node28 at test/google/benchpress.js:20
+      new stacked object labels: [@activation#node120]
+    state diff:
+      changed object@activation#node120 at test/google/benchpress.js:51: 
+        changed property: sum: NotUInt
+        changed property: i: NotUInt
+        changed property: j: NotUInt
+    state diff:
+      changed object@Array#node680 at test/google/benchpress.js:212: 
+        new property: 1
+      changed object@Array#node692 at test/google/benchpress.js:215: 
+        new property: 1
+      changed object@Array#node684 at test/google/benchpress.js:213: 
+        new property: 2
+      changed object@Array#node688 at test/google/benchpress.js:214: 
+        new property: 7
+    state diff:
+      changed object@Array#node680 at test/google/benchpress.js:212: 
+        changed property: 1: false
+      changed default_array_property: false
+      changed object@Array#node692 at test/google/benchpress.js:215: 
+        changed property: length: UInt
+        changed property: 1: UInt|NotUInt
+      changed default_array_property: UInt|NotUInt
+      changed object@Array#node684 at test/google/benchpress.js:213: 
+        changed property: 2: false
+      changed default_array_property: false
+      changed object@Array#node688 at test/google/benchpress.js:214: 
+        changed property: 0: false
+        changed property: 7: false
+      changed default_array_property: false
+    state diff:
+      new object: @arguments#node241 at test/google/benchpress.js:90
+      new object: @activation#node314 at test/google/benchpress.js:112
+      new object: @arguments#node213 at test/google/benchpress.js:82
+      new object: @activation#node255 at test/google/benchpress.js:95
+      new object: *arguments#node255 at test/google/benchpress.js:95
+      new object: @Array#node321 at test/google/benchpress.js:113
+      new object: @activation#node241 at test/google/benchpress.js:90
+      new object: @Object#node302 at test/google/benchpress.js:108
+      new object: @activation#node213 at test/google/benchpress.js:82
+      new object: *activation#node255 at test/google/benchpress.js:95
+      new object: @arguments#node314 at test/google/benchpress.js:112
+      changed object@native <the global object> at <initial state>: 
+        changed property: towersMovesDone: 0.0
+        changed property: towersPiles: {@Array#node321}
+      new object: @arguments#node255 at test/google/benchpress.js:95
+      new stacked object labels: [@Array#node321, @activation#node241, @activation#node314, @Object#node302, @activation#node213, *activation#node255, @activation#node255]
+    state diff:
+      changed object@Array#node321 at test/google/benchpress.js:113: 
+        changed property: 2: {@Object#node302}
+        changed property: 1: {@Object#node302}
+      changed default_array_property: {@Object#node302}
+      changed object@Object#node302 at test/google/benchpress.js:108: 
+        changed property: next: Undef
+      changed object@native <the global object> at <initial state>: 
+        changed property: towersMovesDone: UInt
+    state diff:
+      new object: @Array#node520 at test/google/benchpress.js:173
+      new object: @activation#node515 at test/google/benchpress.js:172
+      changed object@native <the global object> at <initial state>: 
+        changed property: permuteCount: UInt|NotUInt
+      new object: @arguments#node515 at test/google/benchpress.js:172
+      new stacked object labels: [@Array#node520, @activation#node515]
+    state diff:
+      new object: @activation#node1490 at test/google/benchpress.js:434
+      new object: @Object#node1430 at test/google/benchpress.js:411
+      new object: @arguments#node1490 at test/google/benchpress.js:434
+      new stacked object labels: [@activation#node1490, @Object#node1430]
+    state diff:
+      changed object@Object#node1243 at test/google/benchpress.js:367: 
+        changed property: value: 22896.0
+        changed property: right: {*Object#node1243, @Object#node1243}
+      new object: @Object#node1228 at test/google/benchpress.js:364
+      new object: *Object#node1243 at test/google/benchpress.js:367
+      changed object@activation#node1292 at test/google/benchpress.js:378: 
+        changed property: i: NotUInt
+      changed object@Object#node1312 at test/google/benchpress.js:382: 
+        changed property: left: {@Object#node1228}
+        changed property: right: {*Object#node1243}
+    state diff:
+      changed object@Object#node1243 at test/google/benchpress.js:367: 
+        changed property: left: {*Object#node1228, @Object#node1228}
+      changed object@Object#node1228 at test/google/benchpress.js:364: 
+        changed property: left: {*Object#node1228, @Object#node1228}
+        changed property: value: 22896.0
+      new object: *Object#node1228 at test/google/benchpress.js:364
+      changed object*Object#node1243 at test/google/benchpress.js:367: 
+        changed property: left: {*Object#node1228, @Object#node1228}
+      changed object@Object#node1312 at test/google/benchpress.js:382: 
+        changed property: left: {*Object#node1228}
+    state diff:
+      new object: *Object#node302 at test/google/benchpress.js:108
+      new object: @arguments#node180 at test/google/benchpress.js:74
+      new object: @activation#node291 at test/google/benchpress.js:106
+      new object: @activation#node180 at test/google/benchpress.js:74
+      changed object@Object#node302 at test/google/benchpress.js:108: 
+        changed property: size: UInt
+      new object: @arguments#node291 at test/google/benchpress.js:106
+      new stacked object labels: [@activation#node180, *Object#node302, @activation#node291]
+    state diff:
+      changed object@arguments#node241 at test/google/benchpress.js:90: 
+        changed property: 1: NotUInt
+      changed object*Object#node302 at test/google/benchpress.js:108: 
+        changed property: next: {*Object#node302, @Object#node302}
+      changed object@activation#node255 at test/google/benchpress.js:95: 
+        changed property: to: NotUInt
+        changed property: disks: NotUInt
+      changed object*arguments#node255 at test/google/benchpress.js:95: 
+        changed property: 2: UInt
+        changed property: 1: UInt
+      changed object@Array#node321 at test/google/benchpress.js:113: 
+        changed property: 0: {*Object#node302}
+        changed property: 1: {*Object#node302}
+        changed property: 2: {*Object#node302}
+      changed default_array_property: {*Object#node302}
+      changed object@activation#node241 at test/google/benchpress.js:90: 
+        changed property: to: NotUInt
+      changed object@Object#node302 at test/google/benchpress.js:108: 
+        changed property: next: {*Object#node302, @Object#node302}
+      changed object@activation#node213 at test/google/benchpress.js:82: 
+        changed property: top: {*Object#node302}
+      changed object*activation#node255 at test/google/benchpress.js:95: 
+        changed property: disks: UInt
+        changed property: to: UInt
+        changed property: other: UInt|NotUInt
+      changed object@arguments#node255 at test/google/benchpress.js:95: 
+        changed property: 1: NotUInt
+        changed property: 2: NotUInt
+    state diff:
+      changed object@arguments#node180 at test/google/benchpress.js:74: 
+        changed property: 0: NotUInt
+      changed object@Array#node321 at test/google/benchpress.js:113: 
+        changed property: 0: Undef|{}
+      changed object@activation#node180 at test/google/benchpress.js:74: 
+        changed property: top: {*Object#node302}
+        changed property: pile: NotUInt
+    state diff:
+      changed object@Object#node1228 at test/google/benchpress.js:364: 
+        changed property: right: {*Object#node1243, @Object#node1243}
+      changed object*Object#node1228 at test/google/benchpress.js:364: 
+        changed property: right: {*Object#node1243, @Object#node1243}
+    state diff:
+      changed object*arguments#node255 at test/google/benchpress.js:95: 
+        changed property: 1: NotUInt
+        changed property: 2: NotUInt
+      changed object@activation#node213 at test/google/benchpress.js:82: 
+        changed property: top: Undef|{}
+      changed object*activation#node255 at test/google/benchpress.js:95: 
+        changed property: to: NotUInt
+        changed property: disks: NotUInt
+    state diff:
+      changed object@Array#node520 at test/google/benchpress.js:173: 
+        new property: 6
+        new property: 7
+    state diff:
+      changed object@Array#node520 at test/google/benchpress.js:173: 
+        changed property: 7: Undef
+        changed property: 6: Undef
+    state diff:
+      changed object*Object#node302 at test/google/benchpress.js:108: 
+        changed property: size: NotUInt
+      changed object@activation#node291 at test/google/benchpress.js:106: 
+        changed property: i: NotUInt
+      changed object@Object#node302 at test/google/benchpress.js:108: 
+        changed property: size: NotUInt
+    state diff:
+      changed object@activation#node1490 at test/google/benchpress.js:434: 
+        changed property: result: {*Object#node1430}
+      changed object@Object#node1430 at test/google/benchpress.js:411: 
+        changed property: length: UInt|NotUInt
+        changed property: next: {@Object#node1430, *Object#node1430}
+      new object: *Object#node1430 at test/google/benchpress.js:411
+      new stacked object labels: [*Object#node1430]
+    state diff:
+      new object: @activation#node1173 at test/google/benchpress.js:344
+      new object: @activation#node927 at test/google/benchpress.js:287
+      new object: @Object#node1178 at test/google/benchpress.js:345
+      new object: @arguments#node927 at test/google/benchpress.js:287
+      new object: @arguments#node1173 at test/google/benchpress.js:344
+      changed object@native <the global object> at <initial state>: 
+        changed property: randomSeed: NotUInt|NaN
+      changed object@Array#node856 at test/google/benchpress.js:270: 
+        new property: 799
+        changed property: 0: Undef|UInt|NotUInt|NaN
+      changed default_array_property: Undef|UInt|NotUInt|NaN
+      new stacked object labels: [@activation#node1173, @activation#node927, @Object#node1178]
+    state diff:
+      changed object@activation#node927 at test/google/benchpress.js:287: 
+        changed property: i: Undef|1.0
+    state diff:
+      changed object@activation#node927 at test/google/benchpress.js:287: 
+        changed property: i: UInt
+    state diff:
+      changed object@activation#node927 at test/google/benchpress.js:287: 
+        changed property: i: NotUInt
+    state diff:
+      new object: @arguments#node1049 at test/google/benchpress.js:313
+      changed object@activation#node927 at test/google/benchpress.js:287: 
+        changed property: len: UInt
+        changed property: data: {@Object#node1054}
+      changed object@arguments#node927 at test/google/benchpress.js:287: 
+        changed property: 0: {@Object#node1054}
+      new object: @activation#node1049 at test/google/benchpress.js:313
+      new object: @Object#node1054 at test/google/benchpress.js:314
+      changed object@Array#node856 at test/google/benchpress.js:270: 
+        new property: 1
+      new stacked object labels: [@activation#node1049, @Object#node1054]
+    state diff:
+      changed object@Object#node1243 at test/google/benchpress.js:367: 
+        changed property: value: UInt|NotUInt|NaN
+      changed object@Object#node1228 at test/google/benchpress.js:364: 
+        changed property: value: UInt|NotUInt|NaN
+      changed object*Object#node1228 at test/google/benchpress.js:364: 
+        changed property: value: UInt|NotUInt|NaN
+      changed object*Object#node1243 at test/google/benchpress.js:367: 
+        changed property: value: UInt|NotUInt|NaN
+      changed object@Object#node1312 at test/google/benchpress.js:382: 
+        changed property: value: UInt|NotUInt|NaN
+      changed object@Object#node1297 at test/google/benchpress.js:379: 
+        changed property: max: UInt|NotUInt|NaN
+        changed property: min: UInt|NotUInt|NaN
+    state diff:
+      changed object@activation#node255 at test/google/benchpress.js:95: 
+        changed property: other: UInt|NotUInt
+    state diff:
+      changed object@native <the global object> at <initial state>: 
+        changed property: towersMovesDone: NotUInt
+    state diff:
+      new object: *Array#node321 at test/google/benchpress.js:113
+      changed object@native <the global object> at <initial state>: 
+        changed property: towersPiles: {*Array#node321}
+    state diff:
+      changed object@arguments#node241 at test/google/benchpress.js:90: 
+        changed property: 0: UInt|NotUInt
+      changed object@arguments#node213 at test/google/benchpress.js:82: 
+        changed property: 0: UInt|NotUInt
+      changed object@activation#node255 at test/google/benchpress.js:95: 
+        changed property: from: UInt|NotUInt
+      changed object*arguments#node255 at test/google/benchpress.js:95: 
+        changed property: 0: UInt|NotUInt
+      changed object@activation#node241 at test/google/benchpress.js:90: 
+        changed property: from: UInt|NotUInt
+      changed object@activation#node213 at test/google/benchpress.js:82: 
+        changed property: pile: UInt|NotUInt
+      changed object*activation#node255 at test/google/benchpress.js:95: 
+        changed property: from: UInt|NotUInt
+      changed object@arguments#node255 at test/google/benchpress.js:95: 
+        changed property: 0: UInt|NotUInt
+    state diff:
+      changed object@Array#node321 at test/google/benchpress.js:113: 
+        changed property: 1: Undef|{}
+        changed property: 2: Undef|{}
+      changed default_array_property: Undef|Null|{}
+    state diff:
+      changed object*Array#node321 at test/google/benchpress.js:113: 
+        changed property: 2: Undef|{}
+        changed property: 1: Undef|{}
+      changed default_array_property: Undef|Null|{}
+    state diff:
+      changed object@Array#node520 at test/google/benchpress.js:173: 
+        changed property: 1: Undef
+      changed default_array_property: Undef
+function(n) at test/google/benchpress.js:362:
+  this={@Object#node1228, *Object#node1228} state diffs: 9
+    state diff:
+      new stacked object labels: [@Object#node1243, *Object#node1243]
+    state diff:
+      changed object@Object#node1228 at test/google/benchpress.js:364: 
+        changed property: right: {*Object#node1243, @Object#node1243}
+      changed object*Object#node1228 at test/google/benchpress.js:364: 
+        changed property: right: {*Object#node1243, @Object#node1243}
+    state diff:
+      changed object@activation#node14 at test/google/benchpress.js:15: 
+        changed property: n: NotUInt
+      changed object@native <the global object> at <initial state>: 
+        changed property: permuteCount: UInt|NotUInt
+    state diff:
+      changed object@activation#node1212 at test/google/benchpress.js:362: 
+        changed property: n: UInt|NotUInt|NaN
+      changed object*arguments#node1212 at test/google/benchpress.js:362: 
+        changed property: 0: UInt|NotUInt|NaN
+      changed object@arguments#node1212 at test/google/benchpress.js:362: 
+        changed property: 0: UInt|NotUInt|NaN
+      changed object*activation#node1212 at test/google/benchpress.js:362: 
+        changed property: n: UInt|NotUInt|NaN
+      changed object@Object#node1312 at test/google/benchpress.js:382: 
+        changed property: value: UInt|NotUInt|NaN
+      changed object@native <the global object> at <initial state>: 
+        changed property: randomSeed: NotUInt|NaN
+      changed object@Object#node1297 at test/google/benchpress.js:379: 
+        changed property: max: UInt|NotUInt|NaN
+        changed property: min: UInt|NotUInt|NaN
+      changed object@Array#node856 at test/google/benchpress.js:270: 
+        changed property: 0: UInt|NotUInt|NaN
+      changed default_array_property: UInt|NotUInt|NaN
+    state diff:
+      changed object@Object#node1243 at test/google/benchpress.js:367: 
+        changed property: value: UInt|NotUInt|NaN
+      changed object@Object#node1228 at test/google/benchpress.js:364: 
+        changed property: value: UInt|NotUInt|NaN
+      changed object*Object#node1228 at test/google/benchpress.js:364: 
+        changed property: value: UInt|NotUInt|NaN
+      changed object*Object#node1243 at test/google/benchpress.js:367: 
+        changed property: value: UInt|NotUInt|NaN
+    state diff:
+      new object: *Object#node302 at test/google/benchpress.js:108
+      new object: @Array#node321 at test/google/benchpress.js:113
+      new object: @Object#node302 at test/google/benchpress.js:108
+      changed object@native <the global object> at <initial state>: 
+        changed property: towersMovesDone: UInt|NotUInt
+        changed property: towersPiles: {@Array#node321}
+    state diff:
+      new object: *Array#node321 at test/google/benchpress.js:113
+      changed object@native <the global object> at <initial state>: 
+        changed property: towersPiles: {*Array#node321}
+    state diff:
+      changed object*Array#node321 at test/google/benchpress.js:113: 
+        changed property: 2: Undef|{}
+        changed property: 1: Undef|{}
+      changed default_array_property: Undef|Null|{}
+      changed object@Array#node321 at test/google/benchpress.js:113: 
+        changed property: 2: Undef|{}
+        changed property: 1: Undef|{}
+      changed default_array_property: Undef|Null|{}
+  this={@Object#node1228} state diffs: 1
+  this={@Object#node1243, *Object#node1243} state diffs: 10
+    state diff:
+      changed object@Object#node1243 at test/google/benchpress.js:367: 
+        changed property: left: {*Object#node1228, @Object#node1228}
+      changed object@Object#node1228 at test/google/benchpress.js:364: 
+        changed property: value: 22896.0
+        changed property: left: {*Object#node1228, @Object#node1228}
+      new object: *Object#node1228 at test/google/benchpress.js:364
+      changed object*Object#node1243 at test/google/benchpress.js:367: 
+        changed property: left: {*Object#node1228, @Object#node1228}
+      changed object@Object#node1312 at test/google/benchpress.js:382: 
+        changed property: left: {*Object#node1228}
+    state diff:
+      changed object@Object#node1228 at test/google/benchpress.js:364: 
+        changed property: right: {*Object#node1243, @Object#node1243}
+      changed object*Object#node1228 at test/google/benchpress.js:364: 
+        changed property: right: {*Object#node1243, @Object#node1243}
+    state diff:
+      changed object@activation#node14 at test/google/benchpress.js:15: 
+        changed property: n: NotUInt
+      changed object@native <the global object> at <initial state>: 
+        changed property: permuteCount: UInt|NotUInt
+    state diff:
+      changed object@activation#node1212 at test/google/benchpress.js:362: 
+        changed property: n: UInt|NotUInt|NaN
+      changed object*arguments#node1212 at test/google/benchpress.js:362: 
+        changed property: 0: UInt|NotUInt|NaN
+      changed object@arguments#node1212 at test/google/benchpress.js:362: 
+        changed property: 0: UInt|NotUInt|NaN
+      changed object*activation#node1212 at test/google/benchpress.js:362: 
+        changed property: n: UInt|NotUInt|NaN
+      changed object@Object#node1312 at test/google/benchpress.js:382: 
+        changed property: value: UInt|NotUInt|NaN
+      changed object@native <the global object> at <initial state>: 
+        changed property: randomSeed: NotUInt|NaN
+      changed object@Object#node1297 at test/google/benchpress.js:379: 
+        changed property: max: UInt|NotUInt|NaN
+        changed property: min: UInt|NotUInt|NaN
+      changed object@Array#node856 at test/google/benchpress.js:270: 
+        changed property: 0: UInt|NotUInt|NaN
+      changed default_array_property: UInt|NotUInt|NaN
+    state diff:
+      changed object@Object#node1243 at test/google/benchpress.js:367: 
+        changed property: value: UInt|NotUInt|NaN
+      changed object@Object#node1228 at test/google/benchpress.js:364: 
+        changed property: value: UInt|NotUInt|NaN
+      changed object*Object#node1228 at test/google/benchpress.js:364: 
+        changed property: value: UInt|NotUInt|NaN
+      changed object*Object#node1243 at test/google/benchpress.js:367: 
+        changed property: value: UInt|NotUInt|NaN
+    state diff:
+      new object: *Object#node302 at test/google/benchpress.js:108
+      new object: @Array#node321 at test/google/benchpress.js:113
+      new object: @Object#node302 at test/google/benchpress.js:108
+      changed object@native <the global object> at <initial state>: 
+        changed property: towersMovesDone: UInt|NotUInt
+        changed property: towersPiles: {@Array#node321}
+    state diff:
+      new object: *Array#node321 at test/google/benchpress.js:113
+      changed object@native <the global object> at <initial state>: 
+        changed property: towersPiles: {*Array#node321}
+    state diff:
+      changed object*Array#node321 at test/google/benchpress.js:113: 
+        changed property: 2: Undef|{}
+        changed property: 1: Undef|{}
+      changed default_array_property: Undef|Null|{}
+      changed object@Array#node321 at test/google/benchpress.js:113: 
+        changed property: 2: Undef|{}
+        changed property: 1: Undef|{}
+      changed default_array_property: Undef|Null|{}
+    state diff:
+      new stacked object labels: [*Object#node1228, @Object#node1228]
+  this={@Object#node1243} state diffs: 1
+  this={@Object#node1312} state diffs: 12
+    state diff:
+      new object: @Object#node1243 at test/google/benchpress.js:367
+      changed object@activation#node1212 at test/google/benchpress.js:362: 
+        changed property: n: 22896.0
+      changed object@arguments#node1212 at test/google/benchpress.js:362: 
+        changed property: 0: 22896.0
+      changed object@activation#node1292 at test/google/benchpress.js:378: 
+        changed property: i: UInt
+      changed object@Object#node1312 at test/google/benchpress.js:382: 
+        changed property: right: {@Object#node1243}
+    state diff:
+      changed object@Object#node1243 at test/google/benchpress.js:367: 
+        changed property: value: 22896.0
+        changed property: right: {*Object#node1243, @Object#node1243}
+      new object: @Object#node1228 at test/google/benchpress.js:364
+      new object: *Object#node1243 at test/google/benchpress.js:367
+      changed object@activation#node1292 at test/google/benchpress.js:378: 
+        changed property: i: NotUInt
+      changed object@Object#node1312 at test/google/benchpress.js:382: 
+        changed property: left: {@Object#node1228}
+        changed property: right: {*Object#node1243}
+    state diff:
+      changed object@Object#node1243 at test/google/benchpress.js:367: 
+        changed property: left: {*Object#node1228, @Object#node1228}
+      changed object@Object#node1228 at test/google/benchpress.js:364: 
+        changed property: left: {*Object#node1228, @Object#node1228}
+        changed property: value: 22896.0
+      new object: *Object#node1228 at test/google/benchpress.js:364
+      changed object*Object#node1243 at test/google/benchpress.js:367: 
+        changed property: left: {*Object#node1228, @Object#node1228}
+      changed object@Object#node1312 at test/google/benchpress.js:382: 
+        changed property: left: {*Object#node1228}
+    state diff:
+      changed object@Object#node1228 at test/google/benchpress.js:364: 
+        changed property: right: {*Object#node1243, @Object#node1243}
+      changed object*Object#node1228 at test/google/benchpress.js:364: 
+        changed property: right: {*Object#node1243, @Object#node1243}
+    state diff:
+      changed object@activation#node14 at test/google/benchpress.js:15: 
+        changed property: n: NotUInt
+      changed object@native <the global object> at <initial state>: 
+        changed property: permuteCount: UInt|NotUInt
+    state diff:
+      changed object@activation#node1212 at test/google/benchpress.js:362: 
+        changed property: n: UInt|NotUInt|NaN
+      changed object@arguments#node1212 at test/google/benchpress.js:362: 
+        changed property: 0: UInt|NotUInt|NaN
+      changed object@Object#node1312 at test/google/benchpress.js:382: 
+        changed property: value: UInt|NotUInt|NaN
+      changed object@native <the global object> at <initial state>: 
+        changed property: randomSeed: NotUInt|NaN
+      changed object@Object#node1297 at test/google/benchpress.js:379: 
+        changed property: min: UInt|NotUInt|NaN
+        changed property: max: UInt|NotUInt|NaN
+      changed object@Array#node856 at test/google/benchpress.js:270: 
+        changed property: 0: UInt|NotUInt|NaN
+      changed default_array_property: UInt|NotUInt|NaN
+    state diff:
+      changed object@Object#node1243 at test/google/benchpress.js:367: 
+        changed property: value: UInt|NotUInt|NaN
+      changed object*Object#node1243 at test/google/benchpress.js:367: 
+        changed property: value: UInt|NotUInt|NaN
+    state diff:
+      changed object@Object#node1228 at test/google/benchpress.js:364: 
+        changed property: value: UInt|NotUInt|NaN
+      changed object*Object#node1228 at test/google/benchpress.js:364: 
+        changed property: value: UInt|NotUInt|NaN
+    state diff:
+      new object: *Object#node302 at test/google/benchpress.js:108
+      new object: @Array#node321 at test/google/benchpress.js:113
+      new object: @Object#node302 at test/google/benchpress.js:108
+      changed object@native <the global object> at <initial state>: 
+        changed property: towersMovesDone: UInt|NotUInt
+        changed property: towersPiles: {@Array#node321}
+    state diff:
+      new object: *Array#node321 at test/google/benchpress.js:113
+      changed object@native <the global object> at <initial state>: 
+        changed property: towersPiles: {*Array#node321}
+    state diff:
+      changed object*Array#node321 at test/google/benchpress.js:113: 
+        changed property: 1: Undef|{}
+        changed property: 2: Undef|{}
+      changed default_array_property: Undef|Null|{}
+      changed object@Array#node321 at test/google/benchpress.js:113: 
+        changed property: 1: Undef|{}
+        changed property: 2: Undef|{}
+      changed default_array_property: Undef|Null|{}
+function check(data) at test/google/benchpress.js:287:
+  this={@native <the global object>} state diffs: 6
+    state diff:
+      changed object@Array#node856 at test/google/benchpress.js:270: 
+      changed default_array_property: Undef|UInt|NotUInt|NaN
+    state diff:
+      new object: @arguments#node1049 at test/google/benchpress.js:313
+      changed object@activation#node927 at test/google/benchpress.js:287: 
+        changed property: data: {@Object#node1054}
+      changed object@arguments#node927 at test/google/benchpress.js:287: 
+        changed property: 0: {@Object#node1054}
+      new object: @activation#node1049 at test/google/benchpress.js:313
+      new object: @Object#node1054 at test/google/benchpress.js:314
+      changed object@Array#node856 at test/google/benchpress.js:270: 
+        new property: 1
+      new stacked object labels: [@activation#node1049, @Object#node1054]
+    state diff:
+      new object: *Object#node302 at test/google/benchpress.js:108
+      new object: @Array#node321 at test/google/benchpress.js:113
+      new object: @Object#node302 at test/google/benchpress.js:108
+      changed object@native <the global object> at <initial state>: 
+        changed property: towersMovesDone: UInt|NotUInt
+        changed property: towersPiles: {@Array#node321}
+    state diff:
+      new object: *Array#node321 at test/google/benchpress.js:113
+      changed object@native <the global object> at <initial state>: 
+        changed property: towersPiles: {*Array#node321}
+    state diff:
+      changed object*Array#node321 at test/google/benchpress.js:113: 
+        changed property: 1: Undef|{}
+        changed property: 2: Undef|{}
+      changed default_array_property: Undef|Null|{}
+      changed object@Array#node321 at test/google/benchpress.js:113: 
+        changed property: 1: Undef|{}
+        changed property: 2: Undef|{}
+      changed default_array_property: Undef|Null|{}
+function time(benchmark) at test/google/benchpress.js:15:
+  this={@native <the global object>} state diffs: 19
+    state diff:
+      changed object@activation#node14 at test/google/benchpress.js:15: 
+        changed property: benchmark: {@Object#node170}
+      changed object@Array#node4 at test/google/benchpress.js:3: 
+        changed property: length: UInt
+      changed default_array_property: Num
+      changed object@arguments#node14 at test/google/benchpress.js:15: 
+        changed property: 0: {@Object#node170}
+    state diff:
+      changed object@activation#node14 at test/google/benchpress.js:15: 
+        changed property: benchmark: {@Object#node349}
+      changed object@arguments#node14 at test/google/benchpress.js:15: 
+        changed property: 0: {@Object#node349}
+    state diff:
+      changed object@activation#node14 at test/google/benchpress.js:15: 
+        changed property: benchmark: {@Object#node444}
+      changed object@arguments#node14 at test/google/benchpress.js:15: 
+        changed property: 0: {@Object#node444}
+    state diff:
+      changed object@activation#node14 at test/google/benchpress.js:15: 
+        changed property: benchmark: {@Object#node563}
+      changed object@arguments#node14 at test/google/benchpress.js:15: 
+        changed property: 0: {@Object#node563}
+    state diff:
+      changed object@activation#node14 at test/google/benchpress.js:15: 
+        changed property: benchmark: {@Object#node759}
+      changed object@arguments#node14 at test/google/benchpress.js:15: 
+        changed property: 0: {@Object#node759}
+    state diff:
+      changed object@activation#node14 at test/google/benchpress.js:15: 
+        changed property: benchmark: {@Object#node788}
+      changed object@arguments#node14 at test/google/benchpress.js:15: 
+        changed property: 0: {@Object#node788}
+    state diff:
+      changed object@activation#node14 at test/google/benchpress.js:15: 
+        changed property: benchmark: {@Object#node836}
+      changed object@arguments#node14 at test/google/benchpress.js:15: 
+        changed property: 0: {@Object#node836}
+    state diff:
+      changed object@activation#node14 at test/google/benchpress.js:15: 
+        changed property: benchmark: [@Object#node1074]
+      changed object@arguments#node14 at test/google/benchpress.js:15: 
+        changed property: 0: [@Object#node1074]
+    state diff:
+      changed object@activation#node14 at test/google/benchpress.js:15: 
+        changed property: benchmark: [@Object#node1199]
+      changed object@arguments#node14 at test/google/benchpress.js:15: 
+        changed property: 0: [@Object#node1199]
+    state diff:
+      changed object@activation#node14 at test/google/benchpress.js:15: 
+        changed property: benchmark: [@Object#node1361]
+      changed object@arguments#node14 at test/google/benchpress.js:15: 
+        changed property: 0: [@Object#node1361]
+    state diff:
+      changed object@activation#node14 at test/google/benchpress.js:15: 
+        changed property: benchmark: [@Object#node1405]
+      changed object@arguments#node14 at test/google/benchpress.js:15: 
+        changed property: 0: [@Object#node1405]
+    state diff:
+      changed object@activation#node14 at test/google/benchpress.js:15: 
+        changed property: benchmark: [@Object#node1525]
+      changed object@arguments#node14 at test/google/benchpress.js:15: 
+        changed property: 0: [@Object#node1525]
+    state diff:
+      changed object@native <the global object> at <initial state>: 
+        changed property: randomSeed: UInt
+    state diff:
+      changed object@native <the global object> at <initial state>: 
+        changed property: permuteCount: UInt|NotUInt
+    state diff:
+      changed object@native <the global object> at <initial state>: 
+        changed property: randomSeed: NotUInt|NaN
+    state diff:
+      new object: *Object#node302 at test/google/benchpress.js:108
+      new object: @Array#node321 at test/google/benchpress.js:113
+      new object: @Object#node302 at test/google/benchpress.js:108
+      changed object@native <the global object> at <initial state>: 
+        changed property: towersMovesDone: UInt|NotUInt
+        changed property: towersPiles: {@Array#node321}
+    state diff:
+      new object: *Array#node321 at test/google/benchpress.js:113
+      changed object@native <the global object> at <initial state>: 
+        changed property: towersPiles: {*Array#node321}
+    state diff:
+      changed object*Array#node321 at test/google/benchpress.js:113: 
+        changed property: 2: Undef|{}
+        changed property: 1: Undef|{}
+      changed default_array_property: Undef|Null|{}
+      changed object@Array#node321 at test/google/benchpress.js:113: 
+        changed property: 2: Undef|{}
+        changed property: 1: Undef|{}
+      changed default_array_property: Undef|Null|{}
+function towersMoveTop(from,to) at test/google/benchpress.js:90:
+  this={@native <the global object>} state diffs: 9
+    state diff:
+      changed object@arguments#node241 at test/google/benchpress.js:90: 
+        changed property: 1: NotUInt
+      new object: *Object#node302 at test/google/benchpress.js:108
+      changed object@activation#node255 at test/google/benchpress.js:95: 
+        changed property: to: NotUInt
+        changed property: disks: NotUInt
+      changed object*arguments#node255 at test/google/benchpress.js:95: 
+        changed property: 2: UInt
+        changed property: 1: UInt
+      changed object@Array#node321 at test/google/benchpress.js:113: 
+        changed property: 0: {*Object#node302}
+        changed property: 1: {*Object#node302, @Object#node302}
+        changed property: 2: {*Object#node302, @Object#node302}
+      changed default_array_property: {*Object#node302, @Object#node302}
+      changed object@activation#node241 at test/google/benchpress.js:90: 
+        changed property: to: NotUInt
+      changed object@Object#node302 at test/google/benchpress.js:108: 
+        changed property: size: UInt
+        changed property: next: Undef|{*Object#node302, @Object#node302}
+      changed object*activation#node255 at test/google/benchpress.js:95: 
+        changed property: disks: UInt
+        changed property: to: UInt
+        changed property: other: UInt|NotUInt
+      changed object@arguments#node255 at test/google/benchpress.js:95: 
+        changed property: 1: NotUInt
+        changed property: 2: NotUInt
+    state diff:
+      changed object*arguments#node255 at test/google/benchpress.js:95: 
+        changed property: 1: NotUInt
+        changed property: 2: NotUInt
+      changed object@Array#node321 at test/google/benchpress.js:113: 
+        changed property: 0: Undef|{}
+      changed object*activation#node255 at test/google/benchpress.js:95: 
+        changed property: to: NotUInt
+        changed property: disks: NotUInt
+    state diff:
+      changed object@activation#node255 at test/google/benchpress.js:95: 
+        changed property: other: UInt|NotUInt
+      changed object@native <the global object> at <initial state>: 
+        changed property: towersMovesDone: UInt
+    state diff:
+      changed object*Object#node302 at test/google/benchpress.js:108: 
+        changed property: size: NotUInt
+      changed object@Object#node302 at test/google/benchpress.js:108: 
+        changed property: size: NotUInt
+      changed object@native <the global object> at <initial state>: 
+        changed property: randomSeed: NotUInt|NaN
+        changed property: permuteCount: UInt|NotUInt
+    state diff:
+      changed object@native <the global object> at <initial state>: 
+        changed property: towersMovesDone: NotUInt
+    state diff:
+      changed object@arguments#node241 at test/google/benchpress.js:90: 
+        changed property: 0: UInt|NotUInt
+      changed object@activation#node255 at test/google/benchpress.js:95: 
+        changed property: from: UInt|NotUInt
+      changed object@activation#node241 at test/google/benchpress.js:90: 
+        changed property: from: UInt|NotUInt
+      changed object@arguments#node255 at test/google/benchpress.js:95: 
+        changed property: 0: UInt|NotUInt
+    state diff:
+      changed object*arguments#node255 at test/google/benchpress.js:95: 
+        changed property: 0: UInt|NotUInt
+      changed object*activation#node255 at test/google/benchpress.js:95: 
+        changed property: from: UInt|NotUInt
+    state diff:
+      changed object@Array#node321 at test/google/benchpress.js:113: 
+        changed property: 2: Undef|{}
+        changed property: 1: Undef|{}
+      changed default_array_property: Undef|Null|{}
+function doFib(n) at test/google/benchpress.js:35:
+  this={@native <the global object>} state diffs: 9
+    state diff:
+      changed object@activation#node77 at test/google/benchpress.js:35: 
+        changed property: n: UInt
+      new object: *arguments#node77 at test/google/benchpress.js:35
+      changed object@arguments#node77 at test/google/benchpress.js:35: 
+        changed property: 0: UInt
+      new object: *activation#node77 at test/google/benchpress.js:35
+      new maybe-summarized: {@arguments#node77, @activation#node77}
+      new stacked object labels: [*activation#node77]
+    state diff:
+      changed object*arguments#node77 at test/google/benchpress.js:35: 
+        changed property: 0: UInt
+    state diff:
+      changed object@activation#node77 at test/google/benchpress.js:35: 
+        changed property: n: NotUInt
+      changed object@arguments#node77 at test/google/benchpress.js:35: 
+        changed property: 0: NotUInt
+      changed object*activation#node77 at test/google/benchpress.js:35: 
+        changed property: n: UInt
+    state diff:
+      changed object@activation#node14 at test/google/benchpress.js:15: 
+        changed property: n: UInt
+        changed property: elapsed: UInt
+      new object: @Date#node28 at test/google/benchpress.js:20
+      new stacked object labels: [@Date#node28]
+    state diff:
+      changed object@activation#node14 at test/google/benchpress.js:15: 
+        changed property: n: NotUInt
+        changed property: benchmark: [@Object#node563, @Object#node836, @Object#node759, @Object#node349, @Object#node1405, @Object#node1074, @Object#node444, @Object#node788, @Object#node1199, @Object#node170, @Object#node1525, @Object#node1361]
+      changed object@Array#node4 at test/google/benchpress.js:3: 
+        changed property: length: UInt
+      changed default_array_property: Num
+      changed object@arguments#node14 at test/google/benchpress.js:15: 
+        changed property: 0: [@Object#node563, @Object#node836, @Object#node759, @Object#node349, @Object#node1405, @Object#node1074, @Object#node444, @Object#node788, @Object#node1199, @Object#node170, @Object#node1525, @Object#node1361]
+      changed object@native <the global object> at <initial state>: 
+        changed property: randomSeed: UInt
+      new object: *Date#node28 at test/google/benchpress.js:20
+    state diff:
+      new object: *Array#node321 at test/google/benchpress.js:113
+      new object: *Object#node302 at test/google/benchpress.js:108
+      new object: @Array#node321 at test/google/benchpress.js:113
+      new object: @Object#node302 at test/google/benchpress.js:108
+      changed object@native <the global object> at <initial state>: 
+        changed property: randomSeed: NotUInt|NaN
+        changed property: towersMovesDone: UInt|NotUInt
+        changed property: permuteCount: UInt|NotUInt
+        changed property: towersPiles: {@Array#node321, *Array#node321}
+    state diff:
+      changed object*Array#node321 at test/google/benchpress.js:113: 
+        changed property: 1: Undef|{}
+        changed property: 2: Undef|{}
+      changed default_array_property: Undef|Null|{}
+      changed object@Array#node321 at test/google/benchpress.js:113: 
+        changed property: 1: Undef|{}
+        changed property: 2: Undef|{}
+      changed default_array_property: Undef|Null|{}
+    state diff:
+      changed object*arguments#node77 at test/google/benchpress.js:35: 
+        changed property: 0: NotUInt
+      changed object*activation#node77 at test/google/benchpress.js:35: 
+        changed property: n: NotUInt
+function() at test/google/benchpress.js:372:
+  this={@Object#node1228, *Object#node1228} state diffs: 8
+    state diff:
+      changed object*activation#node1250 at test/google/benchpress.js:372: 
+        changed property: left: Null|{}
+    state diff:
+      changed object@Object#node1228 at test/google/benchpress.js:364: 
+        changed property: right: {*Object#node1243, @Object#node1243}
+      changed object*Object#node1228 at test/google/benchpress.js:364: 
+        changed property: right: {*Object#node1243, @Object#node1243}
+    state diff:
+      changed object@activation#node14 at test/google/benchpress.js:15: 
+        changed property: n: NotUInt
+      changed object@native <the global object> at <initial state>: 
+        changed property: permuteCount: UInt|NotUInt
+    state diff:
+      changed object@Object#node1243 at test/google/benchpress.js:367: 
+        changed property: value: UInt|NotUInt|NaN
+      changed object@Object#node1228 at test/google/benchpress.js:364: 
+        changed property: value: UInt|NotUInt|NaN
+      changed object*Object#node1228 at test/google/benchpress.js:364: 
+        changed property: value: UInt|NotUInt|NaN
+      changed object*Object#node1243 at test/google/benchpress.js:367: 
+        changed property: value: UInt|NotUInt|NaN
+      changed object@Object#node1312 at test/google/benchpress.js:382: 
+        changed property: value: UInt|NotUInt|NaN
+      changed object@native <the global object> at <initial state>: 
+        changed property: randomSeed: NotUInt|NaN
+      changed object@Object#node1297 at test/google/benchpress.js:379: 
+        changed property: min: UInt|NotUInt|NaN
+        changed property: max: UInt|NotUInt|NaN
+      changed object*activation#node1250 at test/google/benchpress.js:372: 
+        changed property: value: UInt|NotUInt|NaN
+      changed object@Array#node856 at test/google/benchpress.js:270: 
+        changed property: 0: UInt|NotUInt|NaN
+      changed default_array_property: UInt|NotUInt|NaN
+    state diff:
+      new object: *Object#node302 at test/google/benchpress.js:108
+      new object: @Array#node321 at test/google/benchpress.js:113
+      new object: @Object#node302 at test/google/benchpress.js:108
+      changed object@native <the global object> at <initial state>: 
+        changed property: towersMovesDone: UInt|NotUInt
+        changed property: towersPiles: {@Array#node321}
+    state diff:
+      new object: *Array#node321 at test/google/benchpress.js:113
+      changed object@native <the global object> at <initial state>: 
+        changed property: towersPiles: {*Array#node321}
+    state diff:
+      changed object*Array#node321 at test/google/benchpress.js:113: 
+        changed property: 2: Undef|{}
+        changed property: 1: Undef|{}
+      changed default_array_property: Undef|Null|{}
+      changed object@Array#node321 at test/google/benchpress.js:113: 
+        changed property: 2: Undef|{}
+        changed property: 1: Undef|{}
+      changed default_array_property: Undef|Null|{}
+  this={@Object#node1243, *Object#node1243} state diffs: 9
+    state diff:
+      changed object@Object#node1243 at test/google/benchpress.js:367: 
+        changed property: left: {*Object#node1228, @Object#node1228}
+      changed object@Object#node1228 at test/google/benchpress.js:364: 
+        changed property: value: 22896.0
+        changed property: left: {*Object#node1228, @Object#node1228}
+      new object: *Object#node1228 at test/google/benchpress.js:364
+      changed object*Object#node1243 at test/google/benchpress.js:367: 
+        changed property: left: {*Object#node1228, @Object#node1228}
+      changed object@Object#node1312 at test/google/benchpress.js:382: 
+        changed property: left: {*Object#node1228}
+      changed object*activation#node1250 at test/google/benchpress.js:372: 
+        changed property: left: {*Object#node1228}
+      new stacked object labels: [*Object#node1228]
+    state diff:
+      changed object@Object#node1228 at test/google/benchpress.js:364: 
+        changed property: right: {*Object#node1243, @Object#node1243}
+      changed object*Object#node1228 at test/google/benchpress.js:364: 
+        changed property: right: {*Object#node1243, @Object#node1243}
+    state diff:
+      changed object@activation#node14 at test/google/benchpress.js:15: 
+        changed property: n: NotUInt
+      changed object@native <the global object> at <initial state>: 
+        changed property: permuteCount: UInt|NotUInt
+    state diff:
+      changed object@Object#node1243 at test/google/benchpress.js:367: 
+        changed property: value: UInt|NotUInt|NaN
+      changed object@Object#node1228 at test/google/benchpress.js:364: 
+        changed property: value: UInt|NotUInt|NaN
+      changed object*Object#node1228 at test/google/benchpress.js:364: 
+        changed property: value: UInt|NotUInt|NaN
+      changed object*Object#node1243 at test/google/benchpress.js:367: 
+        changed property: value: UInt|NotUInt|NaN
+      changed object@Object#node1312 at test/google/benchpress.js:382: 
+        changed property: value: UInt|NotUInt|NaN
+      changed object@native <the global object> at <initial state>: 
+        changed property: randomSeed: NotUInt|NaN
+      changed object@Object#node1297 at test/google/benchpress.js:379: 
+        changed property: min: UInt|NotUInt|NaN
+        changed property: max: UInt|NotUInt|NaN
+      changed object*activation#node1250 at test/google/benchpress.js:372: 
+        changed property: value: UInt|NotUInt|NaN
+      changed object@Array#node856 at test/google/benchpress.js:270: 
+        changed property: 0: UInt|NotUInt|NaN
+      changed default_array_property: UInt|NotUInt|NaN
+    state diff:
+      new object: *Object#node302 at test/google/benchpress.js:108
+      new object: @Array#node321 at test/google/benchpress.js:113
+      new object: @Object#node302 at test/google/benchpress.js:108
+      changed object@native <the global object> at <initial state>: 
+        changed property: towersMovesDone: UInt|NotUInt
+        changed property: towersPiles: {@Array#node321}
+    state diff:
+      new object: *Array#node321 at test/google/benchpress.js:113
+      changed object@native <the global object> at <initial state>: 
+        changed property: towersPiles: {*Array#node321}
+    state diff:
+      changed object*activation#node1250 at test/google/benchpress.js:372: 
+        changed property: right: Null|{}
+    state diff:
+      changed object*Array#node321 at test/google/benchpress.js:113: 
+        changed property: 2: Undef|{}
+        changed property: 1: Undef|{}
+      changed default_array_property: Undef|Null|{}
+      changed object@Array#node321 at test/google/benchpress.js:113: 
+        changed property: 2: Undef|{}
+        changed property: 1: Undef|{}
+      changed default_array_property: Undef|Null|{}
+  this={@Object#node1228} state diffs: 1
+  this={@Object#node1243} state diffs: 1
+  this={@Object#node1312} state diffs: 11
+    state diff:
+      changed object@Object#node1243 at test/google/benchpress.js:367: 
+        changed property: value: 22896.0
+        changed property: right: {*Object#node1243, @Object#node1243}
+      new object: @Object#node1228 at test/google/benchpress.js:364
+      new object: *Object#node1243 at test/google/benchpress.js:367
+      changed object@activation#node1292 at test/google/benchpress.js:378: 
+        changed property: i: NotUInt
+      changed object@Object#node1312 at test/google/benchpress.js:382: 
+        changed property: left: {@Object#node1228}
+        changed property: right: {*Object#node1243}
+    state diff:
+      changed object@Object#node1243 at test/google/benchpress.js:367: 
+        changed property: left: {*Object#node1228, @Object#node1228}
+      changed object@Object#node1228 at test/google/benchpress.js:364: 
+        changed property: left: {*Object#node1228, @Object#node1228}
+        changed property: value: 22896.0
+      new object: *Object#node1228 at test/google/benchpress.js:364
+      changed object*Object#node1243 at test/google/benchpress.js:367: 
+        changed property: left: {*Object#node1228, @Object#node1228}
+      changed object@Object#node1312 at test/google/benchpress.js:382: 
+        changed property: left: {*Object#node1228}
+    state diff:
+      changed object@Object#node1228 at test/google/benchpress.js:364: 
+        changed property: right: {*Object#node1243, @Object#node1243}
+      changed object*Object#node1228 at test/google/benchpress.js:364: 
+        changed property: right: {*Object#node1243, @Object#node1243}
+    state diff:
+      changed object@activation#node14 at test/google/benchpress.js:15: 
+        changed property: n: NotUInt
+      changed object@native <the global object> at <initial state>: 
+        changed property: permuteCount: UInt|NotUInt
+    state diff:
+      changed object@Object#node1312 at test/google/benchpress.js:382: 
+        changed property: value: UInt|NotUInt|NaN
+      changed object@native <the global object> at <initial state>: 
+        changed property: randomSeed: NotUInt|NaN
+      changed object@Object#node1297 at test/google/benchpress.js:379: 
+        changed property: min: UInt|NotUInt|NaN
+        changed property: max: UInt|NotUInt|NaN
+      changed object@Array#node856 at test/google/benchpress.js:270: 
+        changed property: 0: UInt|NotUInt|NaN
+      changed default_array_property: UInt|NotUInt|NaN
+    state diff:
+      changed object@Object#node1243 at test/google/benchpress.js:367: 
+        changed property: value: UInt|NotUInt|NaN
+      changed object*Object#node1243 at test/google/benchpress.js:367: 
+        changed property: value: UInt|NotUInt|NaN
+    state diff:
+      changed object@Object#node1228 at test/google/benchpress.js:364: 
+        changed property: value: UInt|NotUInt|NaN
+      changed object*Object#node1228 at test/google/benchpress.js:364: 
+        changed property: value: UInt|NotUInt|NaN
+    state diff:
+      new object: *Object#node302 at test/google/benchpress.js:108
+      new object: @Array#node321 at test/google/benchpress.js:113
+      new object: @Object#node302 at test/google/benchpress.js:108
+      changed object@native <the global object> at <initial state>: 
+        changed property: towersMovesDone: UInt|NotUInt
+        changed property: towersPiles: {@Array#node321}
+    state diff:
+      new object: *Array#node321 at test/google/benchpress.js:113
+      changed object@native <the global object> at <initial state>: 
+        changed property: towersPiles: {*Array#node321}
+    state diff:
+      changed object*Array#node321 at test/google/benchpress.js:113: 
+        changed property: 1: Undef|{}
+        changed property: 2: Undef|{}
+      changed default_array_property: Undef|Null|{}
+      changed object@Array#node321 at test/google/benchpress.js:113: 
+        changed property: 1: Undef|{}
+        changed property: 2: Undef|{}
+      changed default_array_property: Undef|Null|{}
+function towers() at test/google/benchpress.js:112:
+  this=[@Object#node563, @Object#node836, @Object#node759, @Object#node349, @Object#node1405, @Object#node1074, @Object#node444, @Object#node788, @Object#node1199, @Object#node170, @Object#node1361, @Object#node1525, @Object#node119] state diffs: 7
+    state diff:
+      changed object@activation#node14 at test/google/benchpress.js:15: 
+        changed property: n: NotUInt
+      changed object@native <the global object> at <initial state>: 
+        changed property: randomSeed: UInt
+      new object: *Date#node28 at test/google/benchpress.js:20
+    state diff:
+      changed object@native <the global object> at <initial state>: 
+        changed property: permuteCount: UInt|NotUInt
+    state diff:
+      changed object@native <the global object> at <initial state>: 
+        changed property: randomSeed: NotUInt|NaN
+    state diff:
+      new object: *Object#node302 at test/google/benchpress.js:108
+      new object: @Array#node321 at test/google/benchpress.js:113
+      new object: @Object#node302 at test/google/benchpress.js:108
+      changed object@native <the global object> at <initial state>: 
+        changed property: towersMovesDone: UInt|NotUInt
+        changed property: towersPiles: {@Array#node321}
+    state diff:
+      new object: *Array#node321 at test/google/benchpress.js:113
+      changed object@native <the global object> at <initial state>: 
+        changed property: towersPiles: {*Array#node321}
+    state diff:
+      changed object*Array#node321 at test/google/benchpress.js:113: 
+        changed property: 2: Undef|{}
+        changed property: 1: Undef|{}
+      changed default_array_property: Undef|Null|{}
+      changed object@Array#node321 at test/google/benchpress.js:113: 
+        changed property: 2: Undef|{}
+        changed property: 1: Undef|{}
+      changed default_array_property: Undef|Null|{}
+function permute() at test/google/benchpress.js:172:
+  this=[@Object#node563, @Object#node759, @Object#node836, @Object#node349, @Object#node1405, @Object#node1074, @Object#node444, @Object#node788, @Object#node1199, @Object#node170, @Object#node1361, @Object#node1525, @Object#node119] state diffs: 7
+    state diff:
+      changed object@activation#node14 at test/google/benchpress.js:15: 
+        changed property: n: NotUInt
+      changed object@native <the global object> at <initial state>: 
+        changed property: randomSeed: UInt
+      new object: *Date#node28 at test/google/benchpress.js:20
+    state diff:
+      changed object@native <the global object> at <initial state>: 
+        changed property: permuteCount: UInt|NotUInt
+    state diff:
+      changed object@native <the global object> at <initial state>: 
+        changed property: randomSeed: NotUInt|NaN
+    state diff:
+      new object: *Object#node302 at test/google/benchpress.js:108
+      new object: @Array#node321 at test/google/benchpress.js:113
+      new object: @Object#node302 at test/google/benchpress.js:108
+      changed object@native <the global object> at <initial state>: 
+        changed property: towersMovesDone: UInt|NotUInt
+        changed property: towersPiles: {@Array#node321}
+    state diff:
+      new object: *Array#node321 at test/google/benchpress.js:113
+      changed object@native <the global object> at <initial state>: 
+        changed property: towersPiles: {*Array#node321}
+    state diff:
+      changed object*Array#node321 at test/google/benchpress.js:113: 
+        changed property: 2: Undef|{}
+        changed property: 1: Undef|{}
+      changed default_array_property: Undef|Null|{}
+      changed object@Array#node321 at test/google/benchpress.js:113: 
+        changed property: 2: Undef|{}
+        changed property: 1: Undef|{}
+      changed default_array_property: Undef|Null|{}
+function quicksort() at test/google/benchpress.js:344:
+  this=[@Object#node563, @Object#node759, @Object#node836, @Object#node349, @Object#node1405, @Object#node1074, @Object#node444, @Object#node788, @Object#node1199, @Object#node170, @Object#node1361, @Object#node1525, @Object#node119] state diffs: 7
+    state diff:
+      changed object@activation#node14 at test/google/benchpress.js:15: 
+        changed property: n: NotUInt
+      changed object@native <the global object> at <initial state>: 
+        changed property: randomSeed: UInt
+      new object: *Date#node28 at test/google/benchpress.js:20
+    state diff:
+      changed object@native <the global object> at <initial state>: 
+        changed property: permuteCount: UInt|NotUInt
+    state diff:
+      changed object@native <the global object> at <initial state>: 
+        changed property: randomSeed: NotUInt|NaN
+    state diff:
+      new object: *Object#node302 at test/google/benchpress.js:108
+      new object: @Array#node321 at test/google/benchpress.js:113
+      new object: @Object#node302 at test/google/benchpress.js:108
+      changed object@native <the global object> at <initial state>: 
+        changed property: towersMovesDone: UInt|NotUInt
+        changed property: towersPiles: {@Array#node321}
+    state diff:
+      new object: *Array#node321 at test/google/benchpress.js:113
+      changed object@native <the global object> at <initial state>: 
+        changed property: towersPiles: {*Array#node321}
+    state diff:
+      changed object*Array#node321 at test/google/benchpress.js:113: 
+        changed property: 2: Undef|{}
+        changed property: 1: Undef|{}
+      changed default_array_property: Undef|Null|{}
+      changed object@Array#node321 at test/google/benchpress.js:113: 
+        changed property: 2: Undef|{}
+        changed property: 1: Undef|{}
+      changed default_array_property: Undef|Null|{}
+function recurse(n) at test/google/benchpress.js:232:
+  this={@native <the global object>} state diffs: 9
+    state diff:
+      new object: *arguments#node760 at test/google/benchpress.js:232
+      changed object@activation#node760 at test/google/benchpress.js:232: 
+        changed property: n: UInt
+      changed object@arguments#node760 at test/google/benchpress.js:232: 
+        changed property: 0: UInt
+      new object: *activation#node760 at test/google/benchpress.js:232
+      new maybe-summarized: {@arguments#node760, @activation#node760}
+      new stacked object labels: [*activation#node760]
+    state diff:
+      changed object*arguments#node760 at test/google/benchpress.js:232: 
+        changed property: 0: UInt
+    state diff:
+      changed object@activation#node760 at test/google/benchpress.js:232: 
+        changed property: n: NotUInt
+      changed object@arguments#node760 at test/google/benchpress.js:232: 
+        changed property: 0: NotUInt
+      changed object*activation#node760 at test/google/benchpress.js:232: 
+        changed property: n: UInt
+    state diff:
+      changed object@native <the global object> at <initial state>: 
+        changed property: randomSeed: NotUInt|NaN
+        changed property: permuteCount: UInt|NotUInt
+    state diff:
+      new object: *Object#node302 at test/google/benchpress.js:108
+      new object: @Array#node321 at test/google/benchpress.js:113
+      new object: @Object#node302 at test/google/benchpress.js:108
+      changed object@native <the global object> at <initial state>: 
+        changed property: towersMovesDone: UInt|NotUInt
+        changed property: towersPiles: {@Array#node321}
+    state diff:
+      new object: *Array#node321 at test/google/benchpress.js:113
+      changed object@native <the global object> at <initial state>: 
+        changed property: towersPiles: {*Array#node321}
+    state diff:
+      changed object*Array#node321 at test/google/benchpress.js:113: 
+        changed property: 1: Undef|{}
+        changed property: 2: Undef|{}
+      changed default_array_property: Undef|Null|{}
+      changed object@Array#node321 at test/google/benchpress.js:113: 
+        changed property: 1: Undef|{}
+        changed property: 2: Undef|{}
+      changed default_array_property: Undef|Null|{}
+    state diff:
+      changed object*arguments#node760 at test/google/benchpress.js:232: 
+        changed property: 0: NotUInt
+      changed object*activation#node760 at test/google/benchpress.js:232: 
+        changed property: n: NotUInt
+function doTakl(x,y,z) at test/google/benchpress.js:424:
+  this={@native <the global object>} state diffs: 14
+    state diff:
+      changed object@activation#node1458 at test/google/benchpress.js:424: 
+        changed property: z: {@Object#node1430}
+      new object: @Object#node1430 at test/google/benchpress.js:411
+      changed object@arguments#node1458 at test/google/benchpress.js:424: 
+        changed property: 2: {@Object#node1430}
+      new stacked object labels: [@Object#node1430]
+    state diff:
+      changed object@activation#node1458 at test/google/benchpress.js:424: 
+        changed property: y: {@Object#node1430}
+      changed object@arguments#node1458 at test/google/benchpress.js:424: 
+        changed property: 1: {@Object#node1430}
+    state diff:
+      changed object@activation#node1458 at test/google/benchpress.js:424: 
+        changed property: x: {@Object#node1430}
+      changed object@arguments#node1458 at test/google/benchpress.js:424: 
+        changed property: 0: {@Object#node1430}
+    state diff:
+      changed object@activation#node14 at test/google/benchpress.js:15: 
+        changed property: n: NotUInt
+      changed object@native <the global object> at <initial state>: 
+        changed property: randomSeed: UInt
+        changed property: permuteCount: UInt|NotUInt
+    state diff:
+      new object: *arguments#node1458 at test/google/benchpress.js:424
+      new object: *activation#node1458 at test/google/benchpress.js:424
+      new maybe-summarized: {@arguments#node1458, @activation#node1458}
+      new stacked object labels: [*activation#node1458]
+    state diff:
+      changed object@activation#node1458 at test/google/benchpress.js:424: 
+        changed property: z: {*Object#node1430}
+      changed object@Object#node1430 at test/google/benchpress.js:411: 
+        changed property: length: UInt|NotUInt
+        changed property: next: {@Object#node1430, *Object#node1430}
+      changed object@arguments#node1458 at test/google/benchpress.js:424: 
+        changed property: 2: {*Object#node1430}
+      new object: *Object#node1430 at test/google/benchpress.js:411
+      new stacked object labels: [*Object#node1430]
+    state diff:
+      changed object@activation#node1458 at test/google/benchpress.js:424: 
+        changed property: y: {*Object#node1430}
+      changed object@arguments#node1458 at test/google/benchpress.js:424: 
+        changed property: 1: {*Object#node1430}
+    state diff:
+      changed object@activation#node1458 at test/google/benchpress.js:424: 
+        changed property: x: {*Object#node1430}
+      changed object@arguments#node1458 at test/google/benchpress.js:424: 
+        changed property: 0: {*Object#node1430}
+    state diff:
+      changed object*arguments#node1458 at test/google/benchpress.js:424: 
+        changed property: 0: {*Object#node1430}
+        changed property: 1: {*Object#node1430}
+        changed property: 2: {*Object#node1430}
+      changed object*activation#node1458 at test/google/benchpress.js:424: 
+        changed property: x: {*Object#node1430}
+        changed property: y: {*Object#node1430}
+        changed property: z: {*Object#node1430}
+    state diff:
+      changed object@native <the global object> at <initial state>: 
+        changed property: randomSeed: NotUInt|NaN
+    state diff:
+      new object: *Object#node302 at test/google/benchpress.js:108
+      new object: @Array#node321 at test/google/benchpress.js:113
+      new object: @Object#node302 at test/google/benchpress.js:108
+      changed object@native <the global object> at <initial state>: 
+        changed property: towersMovesDone: UInt|NotUInt
+        changed property: towersPiles: {@Array#node321}
+    state diff:
+      new object: *Array#node321 at test/google/benchpress.js:113
+      changed object@native <the global object> at <initial state>: 
+        changed property: towersPiles: {*Array#node321}
+    state diff:
+      changed object*Array#node321 at test/google/benchpress.js:113: 
+        changed property: 2: Undef|{}
+        changed property: 1: Undef|{}
+      changed default_array_property: Undef|Null|{}
+      changed object@Array#node321 at test/google/benchpress.js:113: 
+        changed property: 2: Undef|{}
+        changed property: 1: Undef|{}
+      changed default_array_property: Undef|Null|{}
+function towersBuild(pile,disks) at test/google/benchpress.js:106:
+  this={@native <the global object>} state diffs: 4
+    state diff:
+      changed object@native <the global object> at <initial state>: 
+        changed property: randomSeed: NotUInt|NaN
+        changed property: permuteCount: UInt|NotUInt
+    state diff:
+      new object: *Array#node321 at test/google/benchpress.js:113
+      new object: *Object#node302 at test/google/benchpress.js:108
+      new object: @Object#node302 at test/google/benchpress.js:108
+      changed object@native <the global object> at <initial state>: 
+        changed property: towersMovesDone: UInt|NotUInt
+    state diff:
+      changed object*Array#node321 at test/google/benchpress.js:113: 
+        changed property: 2: Undef|{}
+        changed property: 1: Undef|{}
+      changed default_array_property: Undef|Null|{}
+function takl() at test/google/benchpress.js:434:
+  this=[@Object#node563, @Object#node836, @Object#node759, @Object#node349, @Object#node1405, @Object#node1074, @Object#node444, @Object#node788, @Object#node1199, @Object#node170, @Object#node1361, @Object#node1525, @Object#node119] state diffs: 7
+    state diff:
+      changed object@activation#node14 at test/google/benchpress.js:15: 
+        changed property: n: NotUInt
+      changed object@native <the global object> at <initial state>: 
+        changed property: randomSeed: UInt
+      new object: *Date#node28 at test/google/benchpress.js:20
+    state diff:
+      changed object@native <the global object> at <initial state>: 
+        changed property: permuteCount: UInt|NotUInt
+    state diff:
+      changed object@native <the global object> at <initial state>: 
+        changed property: randomSeed: NotUInt|NaN
+    state diff:
+      new object: *Object#node302 at test/google/benchpress.js:108
+      new object: @Array#node321 at test/google/benchpress.js:113
+      new object: @Object#node302 at test/google/benchpress.js:108
+      changed object@native <the global object> at <initial state>: 
+        changed property: towersMovesDone: UInt|NotUInt
+        changed property: towersPiles: {@Array#node321}
+    state diff:
+      new object: *Array#node321 at test/google/benchpress.js:113
+      changed object@native <the global object> at <initial state>: 
+        changed property: towersPiles: {*Array#node321}
+    state diff:
+      changed object*Array#node321 at test/google/benchpress.js:113: 
+        changed property: 2: Undef|{}
+        changed property: 1: Undef|{}
+      changed default_array_property: Undef|Null|{}
+      changed object@Array#node321 at test/google/benchpress.js:113: 
+        changed property: 2: Undef|{}
+        changed property: 1: Undef|{}
+      changed default_array_property: Undef|Null|{}
+function() at test/google/benchpress.js:398:
+  this=[@Object#node563, @Object#node836, @Object#node759, @Object#node349, @Object#node1405, @Object#node1074, @Object#node444, @Object#node788, @Object#node1199, @Object#node170, @Object#node1361, @Object#node1525, @Object#node119] state diffs: 7
+    state diff:
+      changed object@activation#node14 at test/google/benchpress.js:15: 
+        changed property: n: NotUInt
+      changed object@native <the global object> at <initial state>: 
+        changed property: randomSeed: UInt
+      new object: *Date#node28 at test/google/benchpress.js:20
+    state diff:
+      changed object@native <the global object> at <initial state>: 
+        changed property: permuteCount: UInt|NotUInt
+    state diff:
+      changed object@native <the global object> at <initial state>: 
+        changed property: randomSeed: NotUInt|NaN
+    state diff:
+      new object: *Object#node302 at test/google/benchpress.js:108
+      new object: @Array#node321 at test/google/benchpress.js:113
+      new object: @Object#node302 at test/google/benchpress.js:108
+      changed object@native <the global object> at <initial state>: 
+        changed property: towersMovesDone: UInt|NotUInt
+        changed property: towersPiles: {@Array#node321}
+    state diff:
+      new object: *Array#node321 at test/google/benchpress.js:113
+      changed object@native <the global object> at <initial state>: 
+        changed property: towersPiles: {*Array#node321}
+    state diff:
+      changed object*Array#node321 at test/google/benchpress.js:113: 
+        changed property: 2: Undef|{}
+        changed property: 1: Undef|{}
+      changed default_array_property: Undef|Null|{}
+      changed object@Array#node321 at test/google/benchpress.js:113: 
+        changed property: 2: Undef|{}
+        changed property: 1: Undef|{}
+      changed default_array_property: Undef|Null|{}
+function towersMove(from,to,disks) at test/google/benchpress.js:95:
+  this={@native <the global object>} state diffs: 12
+    state diff:
+      changed object@activation#node255 at test/google/benchpress.js:95: 
+        changed property: disks: UInt
+        changed property: to: UInt
+      new object: *arguments#node255 at test/google/benchpress.js:95
+      new object: *activation#node255 at test/google/benchpress.js:95
+      changed object@arguments#node255 at test/google/benchpress.js:95: 
+        changed property: 2: UInt
+        changed property: 1: UInt
+      new maybe-summarized: {@arguments#node255, @activation#node255}
+      new stacked object labels: [*activation#node255]
+    state diff:
+      changed object@activation#node255 at test/google/benchpress.js:95: 
+        changed property: disks: NotUInt
+        changed property: to: NotUInt
+      changed object*arguments#node255 at test/google/benchpress.js:95: 
+        changed property: 1: UInt
+        changed property: 2: UInt
+      changed object*activation#node255 at test/google/benchpress.js:95: 
+        changed property: other: UInt|NotUInt
+        changed property: to: UInt
+        changed property: disks: UInt
+      changed object@arguments#node255 at test/google/benchpress.js:95: 
+        changed property: 2: NotUInt
+        changed property: 1: NotUInt
+    state diff:
+      changed object@Array#node321 at test/google/benchpress.js:113: 
+        changed property: 1: {@Object#node302}
+        changed property: 2: {@Object#node302}
+      changed default_array_property: {@Object#node302}
+      changed object@Object#node302 at test/google/benchpress.js:108: 
+        changed property: next: Undef
+    state diff:
+      new object: *Object#node302 at test/google/benchpress.js:108
+      changed object@Array#node321 at test/google/benchpress.js:113: 
+        changed property: 2: {*Object#node302}
+        changed property: 1: {*Object#node302}
+        changed property: 0: {*Object#node302}
+      changed default_array_property: {*Object#node302}
+      changed object@Object#node302 at test/google/benchpress.js:108: 
+        changed property: next: {*Object#node302, @Object#node302}
+        changed property: size: UInt
+    state diff:
+      changed object*arguments#node255 at test/google/benchpress.js:95: 
+        changed property: 2: NotUInt
+        changed property: 1: NotUInt
+      changed object*activation#node255 at test/google/benchpress.js:95: 
+        changed property: disks: NotUInt
+        changed property: to: NotUInt
+    state diff:
+      changed object@Array#node321 at test/google/benchpress.js:113: 
+        changed property: 0: Undef|{}
+    state diff:
+      changed object*Object#node302 at test/google/benchpress.js:108: 
+        changed property: size: NotUInt
+      changed object@Object#node302 at test/google/benchpress.js:108: 
+        changed property: size: NotUInt
+    state diff:
+      changed object@native <the global object> at <initial state>: 
+        changed property: randomSeed: NotUInt|NaN
+        changed property: permuteCount: UInt|NotUInt
+    state diff:
+      changed object@activation#node255 at test/google/benchpress.js:95: 
+        changed property: from: UInt|NotUInt
+      changed object@native <the global object> at <initial state>: 
+        changed property: towersMovesDone: UInt|NotUInt
+      changed object@arguments#node255 at test/google/benchpress.js:95: 
+        changed property: 0: UInt|NotUInt
+    state diff:
+      changed object*arguments#node255 at test/google/benchpress.js:95: 
+        changed property: 0: UInt|NotUInt
+      changed object*activation#node255 at test/google/benchpress.js:95: 
+        changed property: from: UInt|NotUInt
+    state diff:
+      changed object@Array#node321 at test/google/benchpress.js:113: 
+        changed property: 2: Undef|{}
+        changed property: 1: Undef|{}
+      changed default_array_property: Undef|Null|{}
+function SortData(length) at test/google/benchpress.js:268:
+  this={@Object#node1054} state diffs: 6
+    state diff:
+      changed object@native <the global object> at <initial state>: 
+        changed property: permuteCount: UInt|NotUInt
+    state diff:
+      changed object@native <the global object> at <initial state>: 
+        changed property: randomSeed: NotUInt|NaN
+    state diff:
+      new object: *Object#node302 at test/google/benchpress.js:108
+      new object: @Array#node321 at test/google/benchpress.js:113
+      new object: @Object#node302 at test/google/benchpress.js:108
+      changed object@native <the global object> at <initial state>: 
+        changed property: towersMovesDone: UInt|NotUInt
+        changed property: towersPiles: {@Array#node321}
+    state diff:
+      new object: *Array#node321 at test/google/benchpress.js:113
+      changed object@native <the global object> at <initial state>: 
+        changed property: towersPiles: {*Array#node321}
+    state diff:
+      changed object*Array#node321 at test/google/benchpress.js:113: 
+        changed property: 1: Undef|{}
+        changed property: 2: Undef|{}
+      changed default_array_property: Undef|Null|{}
+      changed object@Array#node321 at test/google/benchpress.js:113: 
+        changed property: 1: Undef|{}
+        changed property: 2: Undef|{}
+      changed default_array_property: Undef|Null|{}
+  this={@Object#node1178} state diffs: 6
+    state diff:
+      changed object@native <the global object> at <initial state>: 
+        changed property: permuteCount: UInt|NotUInt
+    state diff:
+      changed object@native <the global object> at <initial state>: 
+        changed property: randomSeed: NotUInt|NaN
+    state diff:
+      new object: *Object#node302 at test/google/benchpress.js:108
+      new object: @Array#node321 at test/google/benchpress.js:113
+      new object: @Object#node302 at test/google/benchpress.js:108
+      changed object@native <the global object> at <initial state>: 
+        changed property: towersMovesDone: UInt|NotUInt
+        changed property: towersPiles: {@Array#node321}
+    state diff:
+      new object: *Array#node321 at test/google/benchpress.js:113
+      changed object@native <the global object> at <initial state>: 
+        changed property: towersPiles: {*Array#node321}
+    state diff:
+      changed object*Array#node321 at test/google/benchpress.js:113: 
+        changed property: 1: Undef|{}
+        changed property: 2: Undef|{}
+      changed default_array_property: Undef|Null|{}
+      changed object@Array#node321 at test/google/benchpress.js:113: 
+        changed property: 1: Undef|{}
+        changed property: 2: Undef|{}
+      changed default_array_property: Undef|Null|{}
+  this={@Object#node1297} state diffs: 6
+    state diff:
+      changed object@activation#node14 at test/google/benchpress.js:15: 
+        changed property: n: NotUInt
+      changed object@native <the global object> at <initial state>: 
+        changed property: randomSeed: UInt
+        changed property: permuteCount: UInt|NotUInt
+      new object: *Date#node28 at test/google/benchpress.js:20
+    state diff:
+      changed object@native <the global object> at <initial state>: 
+        changed property: randomSeed: NotUInt|NaN
+    state diff:
+      new object: *Object#node302 at test/google/benchpress.js:108
+      new object: @Array#node321 at test/google/benchpress.js:113
+      new object: @Object#node302 at test/google/benchpress.js:108
+      changed object@native <the global object> at <initial state>: 
+        changed property: towersMovesDone: UInt|NotUInt
+        changed property: towersPiles: {@Array#node321}
+    state diff:
+      new object: *Array#node321 at test/google/benchpress.js:113
+      changed object@native <the global object> at <initial state>: 
+        changed property: towersPiles: {*Array#node321}
+    state diff:
+      changed object*Array#node321 at test/google/benchpress.js:113: 
+        changed property: 1: Undef|{}
+        changed property: 2: Undef|{}
+      changed default_array_property: Undef|Null|{}
+      changed object@Array#node321 at test/google/benchpress.js:113: 
+        changed property: 1: Undef|{}
+        changed property: 2: Undef|{}
+      changed default_array_property: Undef|Null|{}
+function swap(n,k,array) at test/google/benchpress.js:154:
+  this={@native <the global object>} state diffs: 9
+    state diff:
+      changed object@arguments#node467 at test/google/benchpress.js:160: 
+        changed property: 0: NotUInt
+      changed object@Array#node520 at test/google/benchpress.js:173: 
+        new property: 6
+        new property: 7
+    state diff:
+      changed object@arguments#node445 at test/google/benchpress.js:154: 
+        changed property: 1: UInt
+      changed object@activation#node467 at test/google/benchpress.js:160: 
+        changed property: k: UInt
+      changed object@activation#node445 at test/google/benchpress.js:154: 
+        changed property: k: UInt
+    state diff:
+      new object: *activation#node467 at test/google/benchpress.js:160
+      changed object@arguments#node445 at test/google/benchpress.js:154: 
+        changed property: 1: NotUInt
+        changed property: 0: UInt|NotUInt
+      changed object@activation#node467 at test/google/benchpress.js:160: 
+        changed property: n: UInt|NotUInt
+        changed property: k: NotUInt
+      changed object@activation#node445 at test/google/benchpress.js:154: 
+        changed property: k: NotUInt
+        changed property: n: UInt|NotUInt
+      new object: *arguments#node467 at test/google/benchpress.js:160
+      changed object@native <the global object> at <initial state>: 
+        changed property: randomSeed: NotUInt|NaN
+      new stacked object labels: [*activation#node467]
+    state diff:
+      new object: *Object#node302 at test/google/benchpress.js:108
+      new object: @Array#node321 at test/google/benchpress.js:113
+      new object: @Object#node302 at test/google/benchpress.js:108
+      changed object@native <the global object> at <initial state>: 
+        changed property: towersMovesDone: UInt|NotUInt
+        changed property: towersPiles: {@Array#node321}
+    state diff:
+      new object: *Array#node321 at test/google/benchpress.js:113
+      changed object@native <the global object> at <initial state>: 
+        changed property: towersPiles: {*Array#node321}
+    state diff:
+      changed object*Array#node321 at test/google/benchpress.js:113: 
+        changed property: 1: Undef|{}
+        changed property: 2: Undef|{}
+      changed default_array_property: Undef|Null|{}
+      changed object@Array#node321 at test/google/benchpress.js:113: 
+        changed property: 1: Undef|{}
+        changed property: 2: Undef|{}
+      changed default_array_property: Undef|Null|{}
+    state diff:
+      changed object@Array#node520 at test/google/benchpress.js:173: 
+        changed property: 1: Undef
+      changed default_array_property: Undef
+    state diff:
+      changed object*activation#node467 at test/google/benchpress.js:160: 
+        changed property: k: UInt|NotUInt
+function fib() at test/google/benchpress.js:40:
+  this=[@Object#node563, @Object#node836, @Object#node759, @Object#node349, @Object#node1405, @Object#node1074, @Object#node788, @Object#node444, @Object#node1199, @Object#node170, @Object#node1525, @Object#node1361, @Object#node119] state diffs: 7
+    state diff:
+      changed object@activation#node14 at test/google/benchpress.js:15: 
+        changed property: n: NotUInt
+      changed object@native <the global object> at <initial state>: 
+        changed property: randomSeed: UInt
+      new object: *Date#node28 at test/google/benchpress.js:20
+    state diff:
+      changed object@native <the global object> at <initial state>: 
+        changed property: permuteCount: UInt|NotUInt
+    state diff:
+      changed object@native <the global object> at <initial state>: 
+        changed property: randomSeed: NotUInt|NaN
+    state diff:
+      new object: *Object#node302 at test/google/benchpress.js:108
+      new object: @Array#node321 at test/google/benchpress.js:113
+      new object: @Object#node302 at test/google/benchpress.js:108
+      changed object@native <the global object> at <initial state>: 
+        changed property: towersMovesDone: UInt|NotUInt
+        changed property: towersPiles: {@Array#node321}
+    state diff:
+      new object: *Array#node321 at test/google/benchpress.js:113
+      changed object@native <the global object> at <initial state>: 
+        changed property: towersPiles: {*Array#node321}
+    state diff:
+      changed object*Array#node321 at test/google/benchpress.js:113: 
+        changed property: 2: Undef|{}
+        changed property: 1: Undef|{}
+      changed default_array_property: Undef|Null|{}
+      changed object@Array#node321 at test/google/benchpress.js:113: 
+        changed property: 2: Undef|{}
+        changed property: 1: Undef|{}
+      changed default_array_property: Undef|Null|{}
+  this={@Object#node119} state diffs: 2
+    state diff:
+      changed object@activation#node14 at test/google/benchpress.js:15: 
+        changed property: elapsed: UInt
+        changed property: n: UInt
+      new object: @Date#node28 at test/google/benchpress.js:20
+      new stacked object labels: [@Date#node28]
+function makeList(length) at test/google/benchpress.js:409:
+  this={@native <the global object>} state diffs: 11
+    state diff:
+      changed object@activation#node1415 at test/google/benchpress.js:409: 
+        changed property: length: UInt
+      new object: *arguments#node1415 at test/google/benchpress.js:409
+      new object: *activation#node1415 at test/google/benchpress.js:409
+      changed object@arguments#node1415 at test/google/benchpress.js:409: 
+        changed property: 0: UInt
+      new maybe-summarized: {@arguments#node1415, @activation#node1415}
+      new stacked object labels: [*activation#node1415]
+    state diff:
+      changed object@activation#node1415 at test/google/benchpress.js:409: 
+        changed property: length: NotUInt
+      changed object*arguments#node1415 at test/google/benchpress.js:409: 
+        changed property: 0: UInt
+      changed object*activation#node1415 at test/google/benchpress.js:409: 
+        changed property: length: UInt
+      changed object@arguments#node1415 at test/google/benchpress.js:409: 
+        changed property: 0: NotUInt
+    state diff:
+      new object: @Object#node1430 at test/google/benchpress.js:411
+      new stacked object labels: [@Object#node1430]
+    state diff:
+      changed object@activation#node14 at test/google/benchpress.js:15: 
+        changed property: n: NotUInt
+      changed object@native <the global object> at <initial state>: 
+        changed property: randomSeed: UInt
+        changed property: permuteCount: UInt|NotUInt
+      new object: *Date#node28 at test/google/benchpress.js:20
+    state diff:
+      changed object*arguments#node1415 at test/google/benchpress.js:409: 
+        changed property: 0: NotUInt
+      changed object*activation#node1415 at test/google/benchpress.js:409: 
+        changed property: length: NotUInt
+    state diff:
+      changed object@Object#node1430 at test/google/benchpress.js:411: 
+        changed property: length: UInt|NotUInt
+        changed property: next: {@Object#node1430, *Object#node1430}
+      new object: *Object#node1430 at test/google/benchpress.js:411
+      new stacked object labels: [*Object#node1430]
+    state diff:
+      changed object@native <the global object> at <initial state>: 
+        changed property: randomSeed: NotUInt|NaN
+    state diff:
+      new object: *Object#node302 at test/google/benchpress.js:108
+      new object: @Array#node321 at test/google/benchpress.js:113
+      new object: @Object#node302 at test/google/benchpress.js:108
+      changed object@native <the global object> at <initial state>: 
+        changed property: towersMovesDone: UInt|NotUInt
+        changed property: towersPiles: {@Array#node321}
+    state diff:
+      new object: *Array#node321 at test/google/benchpress.js:113
+      changed object@native <the global object> at <initial state>: 
+        changed property: towersPiles: {*Array#node321}
+    state diff:
+      changed object*Array#node321 at test/google/benchpress.js:113: 
+        changed property: 1: Undef|{}
+        changed property: 2: Undef|{}
+      changed default_array_property: Undef|Null|{}
+      changed object@Array#node321 at test/google/benchpress.js:113: 
+        changed property: 1: Undef|{}
+        changed property: 2: Undef|{}
+      changed default_array_property: Undef|Null|{}
+function isShorter(x,y) at test/google/benchpress.js:414:
+  this={@native <the global object>} state diffs: 9
+    state diff:
+      changed object@activation#node1458 at test/google/benchpress.js:424: 
+        changed property: x: {@Object#node1430}
+        changed property: y: {@Object#node1430}
+      changed object@activation#node1431 at test/google/benchpress.js:414: 
+        changed property: y: {@Object#node1430}
+        changed property: x: {@Object#node1430}
+      changed object@activation#node14 at test/google/benchpress.js:15: 
+        changed property: n: NotUInt
+      changed object@arguments#node1458 at test/google/benchpress.js:424: 
+        changed property: 0: {@Object#node1430}
+        changed property: 1: {@Object#node1430}
+      changed object@arguments#node1431 at test/google/benchpress.js:414: 
+        changed property: 1: {@Object#node1430}
+        changed property: 0: {@Object#node1430}
+      changed object@native <the global object> at <initial state>: 
+        changed property: randomSeed: UInt
+        changed property: permuteCount: UInt|NotUInt
+    state diff:
+      new object: *arguments#node1458 at test/google/benchpress.js:424
+      new object: *activation#node1458 at test/google/benchpress.js:424
+      new stacked object labels: [*activation#node1458]
+    state diff:
+      changed object@activation#node1458 at test/google/benchpress.js:424: 
+        changed property: x: {*Object#node1430}
+        changed property: y: {*Object#node1430}
+        changed property: z: {*Object#node1430}
+      changed object@activation#node1431 at test/google/benchpress.js:414: 
+        changed property: y: {*Object#node1430}
+        changed property: x: {*Object#node1430}
+      changed object@Object#node1430 at test/google/benchpress.js:411: 
+        changed property: next: {@Object#node1430, *Object#node1430}
+        changed property: length: UInt|NotUInt
+      changed object@arguments#node1458 at test/google/benchpress.js:424: 
+        changed property: 0: {*Object#node1430}
+        changed property: 1: {*Object#node1430}
+        changed property: 2: {*Object#node1430}
+      changed object@arguments#node1431 at test/google/benchpress.js:414: 
+        changed property: 1: {*Object#node1430}
+        changed property: 0: {*Object#node1430}
+      new object: *Object#node1430 at test/google/benchpress.js:411
+      new stacked object labels: [*Object#node1430]
+    state diff:
+      changed object*arguments#node1458 at test/google/benchpress.js:424: 
+        changed property: 2: {*Object#node1430}
+        changed property: 1: {*Object#node1430}
+        changed property: 0: {*Object#node1430}
+      changed object*activation#node1458 at test/google/benchpress.js:424: 
+        changed property: z: {*Object#node1430}
+        changed property: y: {*Object#node1430}
+        changed property: x: {*Object#node1430}
+    state diff:
+      changed object@native <the global object> at <initial state>: 
+        changed property: randomSeed: NotUInt|NaN
+    state diff:
+      new object: *Object#node302 at test/google/benchpress.js:108
+      new object: @Array#node321 at test/google/benchpress.js:113
+      new object: @Object#node302 at test/google/benchpress.js:108
+      changed object@native <the global object> at <initial state>: 
+        changed property: towersMovesDone: UInt|NotUInt
+        changed property: towersPiles: {@Array#node321}
+    state diff:
+      new object: *Array#node321 at test/google/benchpress.js:113
+      changed object@native <the global object> at <initial state>: 
+        changed property: towersPiles: {*Array#node321}
+    state diff:
+      changed object*Array#node321 at test/google/benchpress.js:113: 
+        changed property: 1: Undef|{}
+        changed property: 2: Undef|{}
+      changed default_array_property: Undef|Null|{}
+      changed object@Array#node321 at test/google/benchpress.js:113: 
+        changed property: 1: Undef|{}
+        changed property: 2: Undef|{}
+      changed default_array_property: Undef|Null|{}
+function towersPop(pile) at test/google/benchpress.js:82:
+  this={@native <the global object>} state diffs: 6
+    state diff:
+      changed object@arguments#node241 at test/google/benchpress.js:90: 
+        changed property: 1: NotUInt
+      new object: *Object#node302 at test/google/benchpress.js:108
+      changed object@activation#node255 at test/google/benchpress.js:95: 
+        changed property: disks: NotUInt
+        changed property: to: NotUInt
+      changed object*arguments#node255 at test/google/benchpress.js:95: 
+        changed property: 1: UInt
+        changed property: 2: UInt
+      changed object@Array#node321 at test/google/benchpress.js:113: 
+        changed property: 2: {*Object#node302, @Object#node302}
+        changed property: 1: {*Object#node302, @Object#node302}
+        changed property: 0: {*Object#node302}
+      changed default_array_property: {*Object#node302, @Object#node302}
+      changed object@activation#node241 at test/google/benchpress.js:90: 
+        changed property: to: NotUInt
+      changed object@Object#node302 at test/google/benchpress.js:108: 
+        changed property: next: Undef|{*Object#node302, @Object#node302}
+        changed property: size: UInt
+      changed object*activation#node255 at test/google/benchpress.js:95: 
+        changed property: other: UInt|NotUInt
+        changed property: to: UInt
+        changed property: disks: UInt
+      changed object@arguments#node255 at test/google/benchpress.js:95: 
+        changed property: 2: NotUInt
+        changed property: 1: NotUInt
+    state diff:
+      changed object*arguments#node255 at test/google/benchpress.js:95: 
+        changed property: 2: NotUInt
+        changed property: 1: NotUInt
+      changed object@Array#node321 at test/google/benchpress.js:113: 
+        changed property: 0: Undef|{}
+      changed object*activation#node255 at test/google/benchpress.js:95: 
+        changed property: disks: NotUInt
+        changed property: to: NotUInt
+    state diff:
+      changed object*Object#node302 at test/google/benchpress.js:108: 
+        changed property: size: NotUInt
+      changed object@activation#node255 at test/google/benchpress.js:95: 
+        changed property: other: UInt|NotUInt
+      changed object@Object#node302 at test/google/benchpress.js:108: 
+        changed property: size: NotUInt
+      changed object@native <the global object> at <initial state>: 
+        changed property: randomSeed: NotUInt|NaN
+        changed property: towersMovesDone: UInt
+        changed property: permuteCount: UInt|NotUInt
+    state diff:
+      changed object@arguments#node241 at test/google/benchpress.js:90: 
+        changed property: 0: UInt|NotUInt
+      changed object@arguments#node213 at test/google/benchpress.js:82: 
+        changed property: 0: UInt|NotUInt
+      changed object@activation#node255 at test/google/benchpress.js:95: 
+        changed property: from: UInt|NotUInt
+      changed object*arguments#node255 at test/google/benchpress.js:95: 
+        changed property: 0: UInt|NotUInt
+      changed object@activation#node241 at test/google/benchpress.js:90: 
+        changed property: from: UInt|NotUInt
+      changed object@activation#node213 at test/google/benchpress.js:82: 
+        changed property: pile: UInt|NotUInt
+      changed object*activation#node255 at test/google/benchpress.js:95: 
+        changed property: from: UInt|NotUInt
+      changed object@native <the global object> at <initial state>: 
+        changed property: towersMovesDone: NotUInt
+      changed object@arguments#node255 at test/google/benchpress.js:95: 
+        changed property: 0: UInt|NotUInt
+    state diff:
+      changed object@Array#node321 at test/google/benchpress.js:113: 
+        changed property: 1: Undef|{}
+        changed property: 2: Undef|{}
+      changed default_array_property: Undef|Null|{}
+function loop() at test/google/benchpress.js:51:
+  this=[@Object#node563, @Object#node759, @Object#node836, @Object#node349, @Object#node1405, @Object#node1074, @Object#node444, @Object#node788, @Object#node1199, @Object#node170, @Object#node1525, @Object#node1361, @Object#node119] state diffs: 7
+    state diff:
+      changed object@activation#node14 at test/google/benchpress.js:15: 
+        changed property: n: NotUInt
+      changed object@native <the global object> at <initial state>: 
+        changed property: randomSeed: UInt
+      new object: *Date#node28 at test/google/benchpress.js:20
+    state diff:
+      changed object@native <the global object> at <initial state>: 
+        changed property: permuteCount: UInt|NotUInt
+    state diff:
+      changed object@native <the global object> at <initial state>: 
+        changed property: randomSeed: NotUInt|NaN
+    state diff:
+      new object: *Object#node302 at test/google/benchpress.js:108
+      new object: @Array#node321 at test/google/benchpress.js:113
+      new object: @Object#node302 at test/google/benchpress.js:108
+      changed object@native <the global object> at <initial state>: 
+        changed property: towersMovesDone: UInt|NotUInt
+        changed property: towersPiles: {@Array#node321}
+    state diff:
+      new object: *Array#node321 at test/google/benchpress.js:113
+      changed object@native <the global object> at <initial state>: 
+        changed property: towersPiles: {*Array#node321}
+    state diff:
+      changed object*Array#node321 at test/google/benchpress.js:113: 
+        changed property: 2: Undef|{}
+        changed property: 1: Undef|{}
+      changed default_array_property: Undef|Null|{}
+      changed object@Array#node321 at test/google/benchpress.js:113: 
+        changed property: 2: Undef|{}
+        changed property: 1: Undef|{}
+      changed default_array_property: Undef|Null|{}
+function random() at test/google/benchpress.js:263:
+  this={@native <the global object>} state diffs: 10
+    state diff:
+      changed object@activation#node849 at test/google/benchpress.js:268: 
+        changed property: i: UInt
+      changed object@native <the global object> at <initial state>: 
+        changed property: randomSeed: UInt
+      changed object@Array#node856 at test/google/benchpress.js:270: 
+        new property: 0
+        changed property: length: UInt
+    state diff:
+      new object: @activation#node1173 at test/google/benchpress.js:344
+      changed object@activation#node14 at test/google/benchpress.js:15: 
+        changed property: n: NotUInt
+      new object: @Object#node1178 at test/google/benchpress.js:345
+      changed object@arguments#node849 at test/google/benchpress.js:268: 
+        changed property: 0: UInt
+      new object: @arguments#node1173 at test/google/benchpress.js:344
+      changed object@activation#node849 at test/google/benchpress.js:268: 
+        changed property: length: UInt
+      new object: *Date#node28 at test/google/benchpress.js:20
+      new stacked object labels: [@activation#node1173, @Object#node1178]
+    state diff:
+      new object: @arguments#node1049 at test/google/benchpress.js:313
+      new object: @activation#node1049 at test/google/benchpress.js:313
+      new object: @Object#node1054 at test/google/benchpress.js:314
+      new stacked object labels: [@activation#node1049, @Object#node1054]
+    state diff:
+      changed object@native <the global object> at <initial state>: 
+        changed property: permuteCount: UInt|NotUInt
+    state diff:
+      changed object@native <the global object> at <initial state>: 
+        changed property: randomSeed: NotUInt|NaN
+      changed object@Array#node856 at test/google/benchpress.js:270: 
+        changed property: 0: UInt|NotUInt|NaN
+    state diff:
+      changed object@activation#node849 at test/google/benchpress.js:268: 
+        changed property: i: NotUInt
+      changed object@Array#node856 at test/google/benchpress.js:270: 
+      changed default_array_property: UInt|NotUInt|NaN
+    state diff:
+      new object: *Object#node302 at test/google/benchpress.js:108
+      new object: @Array#node321 at test/google/benchpress.js:113
+      new object: @Object#node302 at test/google/benchpress.js:108
+      changed object@native <the global object> at <initial state>: 
+        changed property: towersMovesDone: UInt|NotUInt
+        changed property: towersPiles: {@Array#node321}
+    state diff:
+      new object: *Array#node321 at test/google/benchpress.js:113
+      changed object@native <the global object> at <initial state>: 
+        changed property: towersPiles: {*Array#node321}
+    state diff:
+      changed object*Array#node321 at test/google/benchpress.js:113: 
+        changed property: 2: Undef|{}
+        changed property: 1: Undef|{}
+      changed default_array_property: Undef|Null|{}
+      changed object@Array#node321 at test/google/benchpress.js:113: 
+        changed property: 2: Undef|{}
+        changed property: 1: Undef|{}
+      changed default_array_property: Undef|Null|{}
+function doQuicksort(a,low,high) at test/google/benchpress.js:325:
+  this={@native <the global object>} state diffs: 9
+    state diff:
+      changed object@arguments#node1075 at test/google/benchpress.js:325: 
+        changed property: 1: UInt
+      new object: *activation#node1075 at test/google/benchpress.js:325
+      new object: *arguments#node1075 at test/google/benchpress.js:325
+      changed object@activation#node1075 at test/google/benchpress.js:325: 
+        changed property: low: UInt
+      changed object@Array#node856 at test/google/benchpress.js:270: 
+        new property: 799
+        changed property: 0: Undef
+      new maybe-summarized: {@arguments#node1075, @activation#node1075}
+      new stacked object labels: [*activation#node1075]
+    state diff:
+      changed object@arguments#node1075 at test/google/benchpress.js:325: 
+        changed property: 2: UInt
+      changed object@activation#node1075 at test/google/benchpress.js:325: 
+        changed property: high: UInt
+    state diff:
+      changed object@arguments#node1075 at test/google/benchpress.js:325: 
+        changed property: 1: NotUInt
+      changed object*activation#node1075 at test/google/benchpress.js:325: 
+        changed property: j: NotUInt
+        changed property: i: NotUInt
+      changed object@activation#node1075 at test/google/benchpress.js:325: 
+        changed property: low: NotUInt
+      changed object@Array#node856 at test/google/benchpress.js:270: 
+      changed default_array_property: Undef|UInt|NotUInt|NaN
+    state diff:
+      changed object@arguments#node1075 at test/google/benchpress.js:325: 
+        changed property: 2: NotUInt
+      changed object@activation#node1075 at test/google/benchpress.js:325: 
+        changed property: high: NotUInt
+    state diff:
+      changed object*activation#node1075 at test/google/benchpress.js:325: 
+        changed property: pivot: UInt|NotUInt|NaN
+        changed property: high: UInt|NotUInt
+        changed property: low: UInt|NotUInt
+      changed object*arguments#node1075 at test/google/benchpress.js:325: 
+        changed property: 1: UInt|NotUInt
+        changed property: 2: UInt|NotUInt
+    state diff:
+      new object: *Object#node302 at test/google/benchpress.js:108
+      new object: @Array#node321 at test/google/benchpress.js:113
+      new object: @Object#node302 at test/google/benchpress.js:108
+      changed object@native <the global object> at <initial state>: 
+        changed property: towersMovesDone: UInt|NotUInt
+        changed property: towersPiles: {@Array#node321}
+    state diff:
+      new object: *Array#node321 at test/google/benchpress.js:113
+      changed object@native <the global object> at <initial state>: 
+        changed property: towersPiles: {*Array#node321}
+    state diff:
+      changed object*Array#node321 at test/google/benchpress.js:113: 
+        changed property: 1: Undef|{}
+        changed property: 2: Undef|{}
+      changed default_array_property: Undef|Null|{}
+      changed object@Array#node321 at test/google/benchpress.js:113: 
+        changed property: 1: Undef|{}
+        changed property: 2: Undef|{}
+      changed default_array_property: Undef|Null|{}
+function treesort() at test/google/benchpress.js:378:
+  this=[@Object#node563, @Object#node759, @Object#node836, @Object#node349, @Object#node1405, @Object#node1074, @Object#node444, @Object#node788, @Object#node1199, @Object#node170, @Object#node1361, @Object#node1525, @Object#node119] state diffs: 7
+    state diff:
+      changed object@activation#node14 at test/google/benchpress.js:15: 
+        changed property: n: NotUInt
+      changed object@native <the global object> at <initial state>: 
+        changed property: randomSeed: UInt
+      new object: *Date#node28 at test/google/benchpress.js:20
+    state diff:
+      changed object@native <the global object> at <initial state>: 
+        changed property: permuteCount: UInt|NotUInt
+    state diff:
+      changed object@native <the global object> at <initial state>: 
+        changed property: randomSeed: NotUInt|NaN
+    state diff:
+      new object: *Object#node302 at test/google/benchpress.js:108
+      new object: @Array#node321 at test/google/benchpress.js:113
+      new object: @Object#node302 at test/google/benchpress.js:108
+      changed object@native <the global object> at <initial state>: 
+        changed property: towersMovesDone: UInt|NotUInt
+        changed property: towersPiles: {@Array#node321}
+    state diff:
+      new object: *Array#node321 at test/google/benchpress.js:113
+      changed object@native <the global object> at <initial state>: 
+        changed property: towersPiles: {*Array#node321}
+    state diff:
+      changed object*Array#node321 at test/google/benchpress.js:113: 
+        changed property: 2: Undef|{}
+        changed property: 1: Undef|{}
+      changed default_array_property: Undef|Null|{}
+      changed object@Array#node321 at test/google/benchpress.js:113: 
+        changed property: 2: Undef|{}
+        changed property: 1: Undef|{}
+      changed default_array_property: Undef|Null|{}
+function doBubblesort(a,len) at test/google/benchpress.js:301:
+  this={@native <the global object>} state diffs: 5
+    state diff:
+      changed object@Array#node856 at test/google/benchpress.js:270: 
+        changed property: 0: <no value>
+      changed default_array_property: UInt|NotUInt|NaN
+    state diff:
+      new object: *Object#node302 at test/google/benchpress.js:108
+      new object: @Array#node321 at test/google/benchpress.js:113
+      new object: @Object#node302 at test/google/benchpress.js:108
+      changed object@native <the global object> at <initial state>: 
+        changed property: towersMovesDone: UInt|NotUInt
+        changed property: towersPiles: {@Array#node321}
+    state diff:
+      new object: *Array#node321 at test/google/benchpress.js:113
+      changed object@native <the global object> at <initial state>: 
+        changed property: towersPiles: {*Array#node321}
+    state diff:
+      changed object*Array#node321 at test/google/benchpress.js:113: 
+        changed property: 1: Undef|{}
+        changed property: 2: Undef|{}
+      changed default_array_property: Undef|Null|{}
+      changed object@Array#node321 at test/google/benchpress.js:113: 
+        changed property: 1: Undef|{}
+        changed property: 2: Undef|{}
+      changed default_array_property: Undef|Null|{}
+function queens() at test/google/benchpress.js:211:
+  this=[@Object#node563, @Object#node759, @Object#node836, @Object#node349, @Object#node1405, @Object#node1074, @Object#node788, @Object#node444, @Object#node1199, @Object#node170, @Object#node1361, @Object#node1525, @Object#node119] state diffs: 7
+    state diff:
+      changed object@activation#node14 at test/google/benchpress.js:15: 
+        changed property: n: NotUInt
+      changed object@native <the global object> at <initial state>: 
+        changed property: randomSeed: UInt
+      new object: *Date#node28 at test/google/benchpress.js:20
+    state diff:
+      changed object@native <the global object> at <initial state>: 
+        changed property: permuteCount: UInt|NotUInt
+    state diff:
+      changed object@native <the global object> at <initial state>: 
+        changed property: randomSeed: NotUInt|NaN
+    state diff:
+      new object: *Object#node302 at test/google/benchpress.js:108
+      new object: @Array#node321 at test/google/benchpress.js:113
+      new object: @Object#node302 at test/google/benchpress.js:108
+      changed object@native <the global object> at <initial state>: 
+        changed property: towersMovesDone: UInt|NotUInt
+        changed property: towersPiles: {@Array#node321}
+    state diff:
+      new object: *Array#node321 at test/google/benchpress.js:113
+      changed object@native <the global object> at <initial state>: 
+        changed property: towersPiles: {*Array#node321}
+    state diff:
+      changed object*Array#node321 at test/google/benchpress.js:113: 
+        changed property: 2: Undef|{}
+        changed property: 1: Undef|{}
+      changed default_array_property: Undef|Null|{}
+      changed object@Array#node321 at test/google/benchpress.js:113: 
+        changed property: 2: Undef|{}
+        changed property: 1: Undef|{}
+      changed default_array_property: Undef|Null|{}
+function sum() at test/google/benchpress.js:250:
+  this=[@Object#node563, @Object#node836, @Object#node759, @Object#node349, @Object#node1405, @Object#node1074, @Object#node788, @Object#node444, @Object#node1199, @Object#node170, @Object#node1525, @Object#node1361, @Object#node119] state diffs: 7
+    state diff:
+      changed object@activation#node14 at test/google/benchpress.js:15: 
+        changed property: n: NotUInt
+      changed object@native <the global object> at <initial state>: 
+        changed property: randomSeed: UInt
+      new object: *Date#node28 at test/google/benchpress.js:20
+    state diff:
+      changed object@native <the global object> at <initial state>: 
+        changed property: permuteCount: UInt|NotUInt
+    state diff:
+      changed object@native <the global object> at <initial state>: 
+        changed property: randomSeed: NotUInt|NaN
+    state diff:
+      new object: *Object#node302 at test/google/benchpress.js:108
+      new object: @Array#node321 at test/google/benchpress.js:113
+      new object: @Object#node302 at test/google/benchpress.js:108
+      changed object@native <the global object> at <initial state>: 
+        changed property: towersMovesDone: UInt|NotUInt
+        changed property: towersPiles: {@Array#node321}
+    state diff:
+      new object: *Array#node321 at test/google/benchpress.js:113
+      changed object@native <the global object> at <initial state>: 
+        changed property: towersPiles: {*Array#node321}
+    state diff:
+      changed object*Array#node321 at test/google/benchpress.js:113: 
+        changed property: 2: Undef|{}
+        changed property: 1: Undef|{}
+      changed default_array_property: Undef|Null|{}
+      changed object@Array#node321 at test/google/benchpress.js:113: 
+        changed property: 2: Undef|{}
+        changed property: 1: Undef|{}
+      changed default_array_property: Undef|Null|{}
+function ListElement(length,next) at test/google/benchpress.js:404:
+  this={@Object#node1430} state diffs: 7
+    state diff:
+      changed object@activation#node1415 at test/google/benchpress.js:409: 
+        changed property: length: UInt|NotUInt
+      new object: *arguments#node1415 at test/google/benchpress.js:409
+      changed object@activation#node1406 at test/google/benchpress.js:404: 
+        changed property: next: {@Object#node1430}
+        changed property: length: UInt|NotUInt
+      changed object@activation#node14 at test/google/benchpress.js:15: 
+        changed property: n: NotUInt
+      changed object@arguments#node1406 at test/google/benchpress.js:404: 
+        changed property: 1: {@Object#node1430}
+        changed property: 0: UInt|NotUInt
+      new object: *activation#node1415 at test/google/benchpress.js:409
+      changed object@arguments#node1415 at test/google/benchpress.js:409: 
+        changed property: 0: NotUInt
+      new object: *Object#node1430 at test/google/benchpress.js:411
+      changed object@native <the global object> at <initial state>: 
+        changed property: randomSeed: UInt
+        changed property: permuteCount: UInt|NotUInt
+      new maybe-summarized: {@Object#node1430}
+      new stacked object labels: [*activation#node1415, *Object#node1430]
+    state diff:
+      changed object@activation#node1406 at test/google/benchpress.js:404: 
+        changed property: next: {*Object#node1430}
+      changed object@arguments#node1406 at test/google/benchpress.js:404: 
+        changed property: 1: {*Object#node1430}
+      changed object*Object#node1430 at test/google/benchpress.js:411: 
+        changed property: next: {*Object#node1430}
+        changed property: length: UInt|NotUInt
+    state diff:
+      changed object@native <the global object> at <initial state>: 
+        changed property: randomSeed: NotUInt|NaN
+    state diff:
+      new object: *Object#node302 at test/google/benchpress.js:108
+      new object: @Array#node321 at test/google/benchpress.js:113
+      new object: @Object#node302 at test/google/benchpress.js:108
+      changed object@native <the global object> at <initial state>: 
+        changed property: towersMovesDone: UInt|NotUInt
+        changed property: towersPiles: {@Array#node321}
+    state diff:
+      new object: *Array#node321 at test/google/benchpress.js:113
+      changed object@native <the global object> at <initial state>: 
+        changed property: towersPiles: {*Array#node321}
+    state diff:
+      changed object*Array#node321 at test/google/benchpress.js:113: 
+        changed property: 1: Undef|{}
+        changed property: 2: Undef|{}
+      changed default_array_property: Undef|Null|{}
+      changed object@Array#node321 at test/google/benchpress.js:113: 
+        changed property: 1: Undef|{}
+        changed property: 2: Undef|{}
+      changed default_array_property: Undef|Null|{}

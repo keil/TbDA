@@ -1,0 +1,125 @@
+<view resizable="true" width="200" height="300" onopen="_onOpen();"
+  onclose="_onClose();" onsize="_onSize();" onsizing="_onSizing();"
+  onmouseover="_onMouseOver();" onmouseout="_onMouseOut();" ondock="_onDock();"
+  onundock="_onUndock();" onpopout="_onPopout();" onpopin="_onPopin();" >
+
+  <script src="utils.js" />
+  <script src="simple_http_request.js" />
+  <script src="profile.js" />
+  <script src="constants.js" />
+  <script src="options.js" />
+  <script src="version_checker.js" />
+  <script src="youtube.js" />
+  <script src="main.js" />
+
+  <div name="frame" width="100%" height="100%" x="0" y="0">
+    <div name="top_left" width="12" height="99"
+      background="images/main/top_left.png" />
+    <div name="top_middle" x="12" width="172" height="99"
+      background="images/main/top.png" />
+    <div name="top_right" x="184" width="16" height="99"
+      background="images/main/top_right.png" />
+
+    <div name="middle_left" y="99" width="12" height="148"
+      background="images/main/left.png" />
+    <div name="middle_middle" x="12" y="99" width="172" height="148"
+         background="#000000" />
+    <div name="middle_right" x="184" y="99" width="16" height="148"
+      background="images/main/right.png" />
+
+    <div name="bottom_left" y="247" width="12" height="53"
+      background="images/main/bottom_left.png" />
+    <div name="bottom_middle" x="12" y="247" width="172" height="53"
+      background="images/main/bottom.png" />
+    <div name="bottom_right" x="184" y="247" width="16" height="53"
+      background="images/main/bottom_right.png" />
+
+    <div name="searchbox" height="20" x="7" onclick="_search_activate();">
+      <div name="searchfield_left" x="0" y="0" width="31" height="100%"
+        background="images/main/search_left.png" />
+      <div name="searchfield_middle" x="31" y="0" height="100%"
+        background="images/main/search_middle.png" />
+      <div name="searchfield_right" y="0" height="100%" width="31"
+        background="images/main/search_right.png" />
+      <button name="search_close" width="10" height="10" y="3" enabled="true"
+        image="images/main/search_close.png"
+        overImage="images/main/search_close_hover.png"
+        disabledImage="images/main/search_close.png"
+        downImage="images/main/search_close_hover.png"
+        visible="false"
+        onclick="_search_reset();" />
+      <edit name="searchfield" color="black" multiline="false" readonly="false"
+        x="0" y="2" height="16" onkeydown="_search_onKeydown();"
+        onfocusin="_search_activate();" onfocusout="_search_onfocusout();" />
+    </div>
+
+    <button name="logo" x="10" y="9" width="44" height="18" cursor="hand"
+      image="images/main/logo.png" onclick="_logo_onclick();" />
+    <label name="description" x="60" y="9" height="19" color="#cccccc" size="8"
+        enabled="true" cursor="hand" onclick="_toggleSelect();" />
+    <div name="drop_arrow_container" x="60" y="9" width="123" height="15">
+      <img name="drop_arrow" x="112" y="5" width="11" height="9" cursor="hand"
+          enabled="true" src="images/main/drop_arrow.png" onclick="_toggleSelect();" />
+    </div>
+    <label name="status" x="60" y="9" width="100" height="50" color="#cccccc"
+           visible="true" opacity="0" size="8"></label>
+    <listbox name="content" x="10" y="30" width="225" height="340"
+      itemwidth="100%" itemheight="37" autoscroll="true" itemOverColor="#2a2a2a"
+      itemSelectedColor="#666666" itemSeparator="false" multiSelect="false" />
+    <listbox name="searchresults" x="10" y="30" width="225" height="340"
+      itemwidth="100%" itemheight="37" autoscroll="true" itemOverColor="#2a2a2a"
+      itemSelectedColor="#666666" itemSeparator="false" multiSelect="false"
+      visible="false" />
+    <div name="messageDiv" x="10" y="30" width="225" height="360"
+      background="#000000" enabled="true" visible="false">
+      <label name="messageLabel" size="8" color="#FFFFFF"
+        width="100%" height="360" y="5" wordWrap="true" />
+      <a name="messageRefreshLink" size="8" color="#FFFFFF" overColor="#FFFFFF" visible="false"
+        width="100%" height="20" y="25" onclick="getFreshVideos(true);">&TRY_AGAIN;</a>
+    </div>
+    <div name="feed_select" x="60" y="27" width="126" height="86" visible="false">
+      <div x="0" y="0" width="122" height="82"
+        background="#595959" />
+      <div x="122" y="0" width="4" height="100%"
+        background="images/main/dropdown_right.png" />
+      <div x="0" y="82" width="100%" height="4"
+        background="images/main/dropdown_bottom.png" />
+      <div x="1" y="1" width="120" height="80" background="#000000">
+        <div x="0" y="0" width="100%" height="20"
+          enabled="true"
+          onmouseover="_onSelectOver();" onmouseout="_onSelectOut();"
+          onclick="_onSelectClick(strings.FEATURED);">
+          <label size="8" color="#CCCCCC">&FEATURED;</label>
+        </div>
+        <div x="0" y="20" width="100%" height="20"
+          enabled="true"
+          onmouseover="_onSelectOver();" onmouseout="_onSelectOut();"
+          onclick="_onSelectClick(strings.MOST_VIEWED);">
+          <label size="8" color="#CCCCCC">&MOST_VIEWED;</label>
+        </div>
+        <div x="0" y="40" width="100%" height="20"
+          enabled="true"
+          onmouseover="_onSelectOver();" onmouseout="_onSelectOut();"
+          onclick="_onSelectClick(strings.MOST_DISCUSSED);">
+          <label size="8" color="#CCCCCC">&MOST_DISCUSSED;</label>
+        </div>
+        <div x="0" y="60" width="100%" height="20"
+          enabled="true"
+          onmouseover="_onSelectOver();" onmouseout="_onSelectOut();"
+          onclick="_onSelectClick(strings.TOP_FAVORITED);">
+          <label size="8" color="#CCCCCC">&TOP_FAVORITED;</label>
+        </div>
+      </div>
+    </div>
+    <div name="upgradeDiv" x="10" y="30" width="225" height="360"
+      background="#000000" enabled="true" visible="false">
+      <label name="upgradeReason" size="8" color="#CCCCCC"
+        width="180" height="60" y="5" wordWrap="true" />
+      <a name="upgradeDownloadUrl" size="9" color="#FFFFFF" overColor="#FFFFFF"
+        width="100%" height="22" y="65">&DOWNLOAD_GADGET;</a>
+      <a name="upgradeInfoUrl" size="8" color="#FFFFFF" overColor="#FFFFFF"
+        width="100%" height="20" y="87">&MORE_INFORMATION;</a>
+    </div>
+  </div>
+  <edit name="descriptionSizer" height="19" color="#cccccc" size="8" visible="false" />
+</view>

@@ -1,0 +1,229 @@
+test/chrome/032.html:833: [definite] TypeError, argument is not of expected type.
+test/chrome/032.html:275: [definite] Variable is null/undefined: Y
+test/chrome/032.html:279: [definite] Property is null/undefined
+test/chrome/032.html:6: [definite] Unreachable function: N
+test/chrome/032.html:10: [definite] Unreachable function: k
+test/chrome/032.html:14: [definite] Unreachable function: O
+test/chrome/032.html:18: [definite] Unreachable function: P
+test/chrome/032.html:22: [definite] Unreachable function: D
+test/chrome/032.html:26: [definite] Unreachable function: E
+test/chrome/032.html:32: [definite] Unreachable function: R
+test/chrome/032.html:39: [definite] Unreachable function: v
+test/chrome/032.html:43: [definite] Unreachable function: V
+test/chrome/032.html:47: [definite] Unreachable function: G
+test/chrome/032.html:53: [definite] Unreachable function: d
+test/chrome/032.html:60: [definite] Unreachable function: e
+test/chrome/032.html:64: [definite] Unreachable function: K
+test/chrome/032.html:68: [definite] Unreachable function: a
+test/chrome/032.html:69: [definite] Unreachable code
+test/chrome/032.html:73: [definite] Unreachable function: J
+test/chrome/032.html:74: [definite] Unreachable code
+test/chrome/032.html:78: [definite] Unreachable function: H
+test/chrome/032.html:79: [definite] Unreachable code
+test/chrome/032.html:82: [definite] Unreachable function: w
+test/chrome/032.html:83: [definite] Unreachable code
+test/chrome/032.html:86: [definite] Unreachable function: x
+test/chrome/032.html:90: [definite] Unreachable function: F
+test/chrome/032.html:147: [definite] Unreachable function: h
+test/chrome/032.html:151: [definite] Unreachable function: y
+test/chrome/032.html:152: [definite] Unreachable code
+test/chrome/032.html:166: [definite] Unreachable function: p
+test/chrome/032.html:167: [definite] Unreachable code
+test/chrome/032.html:168: [definite] Unreachable code
+test/chrome/032.html:169: [definite] Unreachable code
+test/chrome/032.html:174: [definite] Unreachable code
+test/chrome/032.html:181: [definite] Unreachable function: n
+test/chrome/032.html:182: [definite] Unreachable code
+test/chrome/032.html:184: [definite] Unreachable code
+test/chrome/032.html:209: [definite] Unreachable function
+test/chrome/032.html:210: [definite] Unreachable code
+test/chrome/032.html:212: [definite] Unreachable function
+test/chrome/032.html:213: [definite] Unreachable code
+test/chrome/032.html:215: [definite] Unreachable function
+test/chrome/032.html:216: [definite] Unreachable code
+test/chrome/032.html:218: [definite] Unreachable function
+test/chrome/032.html:231: [definite] Unreachable function
+test/chrome/032.html:234: [definite] Unreachable function
+test/chrome/032.html:239: [definite] Unreachable function
+test/chrome/032.html:242: [definite] Unreachable function: B
+test/chrome/032.html:252: [definite] Unreachable function
+test/chrome/032.html:255: [definite] Unreachable function
+test/chrome/032.html:261: [definite] Unreachable function
+test/chrome/032.html:267: [definite] Unreachable function: j
+test/chrome/032.html:268: [definite] Unreachable code
+test/chrome/032.html:269: [definite] Unreachable code
+test/chrome/032.html:281: [definite] Unreachable function
+test/chrome/032.html:286: [definite] Unreachable function
+test/chrome/032.html:302: [definite] Unreachable function: i
+test/chrome/032.html:332: [definite] Reading absent property: setStrokeColor
+test/chrome/032.html:338: [definite] Reading absent property: setFillColor
+test/chrome/032.html:363: [definite] Unreachable function
+test/chrome/032.html:364: [definite] Unreachable code
+test/chrome/032.html:365: [definite] Unreachable code
+test/chrome/032.html:366: [definite] Unreachable code
+test/chrome/032.html:367: [definite] Unreachable code
+test/chrome/032.html:368: [definite] Unreachable code
+test/chrome/032.html:370: [definite] Unreachable code
+test/chrome/032.html:372: [definite] Unreachable function: S
+test/chrome/032.html:373: [definite] Unreachable code
+test/chrome/032.html:374: [definite] Unreachable code
+test/chrome/032.html:375: [definite] Unreachable code
+test/chrome/032.html:376: [definite] Unreachable code
+test/chrome/032.html:377: [definite] Unreachable code
+test/chrome/032.html:378: [definite] Unreachable code
+test/chrome/032.html:379: [definite] Unreachable code
+test/chrome/032.html:380: [definite] Unreachable code
+test/chrome/032.html:388: [definite] Unreachable code
+test/chrome/032.html:389: [definite] Unreachable code
+test/chrome/032.html:393: [definite] Unreachable function: L
+test/chrome/032.html:394: [definite] Unreachable code
+test/chrome/032.html:396: [definite] Unreachable code
+test/chrome/032.html:397: [definite] Unreachable code
+test/chrome/032.html:398: [definite] Unreachable code
+test/chrome/032.html:400: [definite] Unreachable code
+test/chrome/032.html:401: [definite] Unreachable code
+test/chrome/032.html:402: [definite] Unreachable code
+test/chrome/032.html:405: [definite] Unreachable code
+test/chrome/032.html:409: [definite] Unreachable code
+test/chrome/032.html:410: [definite] Unreachable code
+test/chrome/032.html:411: [definite] Unreachable code
+test/chrome/032.html:414: [definite] Unreachable code
+test/chrome/032.html:416: [definite] Unreachable code
+test/chrome/032.html:419: [definite] Unreachable code
+test/chrome/032.html:420: [definite] Unreachable code
+test/chrome/032.html:422: [definite] Unreachable code
+test/chrome/032.html:424: [definite] Unreachable code
+test/chrome/032.html:431: [definite] Unreachable function: W
+test/chrome/032.html:438: [definite] Unreachable function
+test/chrome/032.html:441: [definite] Unreachable function: l
+test/chrome/032.html:442: [definite] Unreachable code
+test/chrome/032.html:446: [definite] Unreachable code
+test/chrome/032.html:448: [definite] Unreachable code
+test/chrome/032.html:449: [definite] Unreachable code
+test/chrome/032.html:452: [definite] Unreachable code
+test/chrome/032.html:454: [definite] Unreachable code
+test/chrome/032.html:455: [definite] Unreachable code
+test/chrome/032.html:456: [definite] Unreachable code
+test/chrome/032.html:457: [definite] Unreachable code
+test/chrome/032.html:459: [definite] Unreachable code
+test/chrome/032.html:460: [definite] Unreachable code
+test/chrome/032.html:463: [definite] Unreachable code
+test/chrome/032.html:464: [definite] Unreachable code
+test/chrome/032.html:465: [definite] Unreachable code
+test/chrome/032.html:466: [definite] Unreachable code
+test/chrome/032.html:467: [definite] Unreachable code
+test/chrome/032.html:468: [definite] Unreachable code
+test/chrome/032.html:470: [definite] Unreachable code
+test/chrome/032.html:472: [definite] Unreachable code
+test/chrome/032.html:474: [definite] Unreachable code
+test/chrome/032.html:476: [definite] Unreachable code
+test/chrome/032.html:478: [definite] Unreachable code
+test/chrome/032.html:479: [definite] Unreachable code
+test/chrome/032.html:480: [definite] Unreachable code
+test/chrome/032.html:483: [definite] Unreachable code
+test/chrome/032.html:485: [definite] Unreachable code
+test/chrome/032.html:486: [definite] Unreachable code
+test/chrome/032.html:487: [definite] Unreachable code
+test/chrome/032.html:489: [definite] Unreachable code
+test/chrome/032.html:492: [definite] Unreachable code
+test/chrome/032.html:493: [definite] Unreachable code
+test/chrome/032.html:494: [definite] Unreachable code
+test/chrome/032.html:496: [definite] Unreachable code
+test/chrome/032.html:497: [definite] Unreachable code
+test/chrome/032.html:498: [definite] Unreachable code
+test/chrome/032.html:500: [definite] Unreachable code
+test/chrome/032.html:501: [definite] Unreachable code
+test/chrome/032.html:502: [definite] Unreachable code
+test/chrome/032.html:503: [definite] Unreachable code
+test/chrome/032.html:505: [definite] Unreachable code
+test/chrome/032.html:506: [definite] Unreachable code
+test/chrome/032.html:507: [definite] Unreachable code
+test/chrome/032.html:510: [definite] Unreachable code
+test/chrome/032.html:516: [definite] Unreachable code
+test/chrome/032.html:527: [definite] Unreachable code
+test/chrome/032.html:538: [definite] Unreachable function: b
+test/chrome/032.html:539: [definite] Unreachable code
+test/chrome/032.html:540: [definite] Unreachable code
+test/chrome/032.html:541: [definite] Unreachable code
+test/chrome/032.html:549: [definite] Unreachable code
+test/chrome/032.html:553: [definite] Unreachable function: a
+test/chrome/032.html:554: [definite] Unreachable code
+test/chrome/032.html:555: [definite] Unreachable code
+test/chrome/032.html:556: [definite] Unreachable code
+test/chrome/032.html:559: [definite] Unreachable code
+test/chrome/032.html:560: [definite] Unreachable code
+test/chrome/032.html:561: [definite] Unreachable code
+test/chrome/032.html:563: [definite] Unreachable code
+test/chrome/032.html:564: [definite] Unreachable code
+test/chrome/032.html:565: [definite] Unreachable code
+test/chrome/032.html:567: [definite] Unreachable code
+test/chrome/032.html:568: [definite] Unreachable code
+test/chrome/032.html:569: [definite] Unreachable code
+test/chrome/032.html:570: [definite] Unreachable code
+test/chrome/032.html:572: [definite] Unreachable code
+test/chrome/032.html:603: [definite] Unreachable function: f
+test/chrome/032.html:611: [definite] Unreachable function
+test/chrome/032.html:614: [definite] Unreachable function
+test/chrome/032.html:615: [definite] Unreachable code
+test/chrome/032.html:618: [definite] Unreachable code
+test/chrome/032.html:619: [definite] Unreachable code
+test/chrome/032.html:619: [definite] Unreachable function
+test/chrome/032.html:620: [definite] Unreachable code
+test/chrome/032.html:622: [definite] Unreachable code
+test/chrome/032.html:625: [definite] Unreachable function
+test/chrome/032.html:626: [definite] Unreachable code
+test/chrome/032.html:629: [definite] Unreachable code
+test/chrome/032.html:630: [definite] Unreachable code
+test/chrome/032.html:632: [definite] Unreachable function
+test/chrome/032.html:635: [definite] Unreachable function
+test/chrome/032.html:638: [definite] Unreachable function
+test/chrome/032.html:645: [definite] Reading absent property: offsetX
+test/chrome/032.html:646: [definite] Unreachable code
+test/chrome/032.html:652: [definite] Reading absent property: offsetLeft
+test/chrome/032.html:653: [definite] Reading absent property: offsetTop
+test/chrome/032.html:655: [definite] Reading absent property: layerX
+test/chrome/032.html:655: [definite] Reading absent property: layerY
+test/chrome/032.html:729: [definite] Unreachable function: e
+test/chrome/032.html:730: [definite] Unreachable code
+test/chrome/032.html:733: [definite] Unreachable function
+test/chrome/032.html:736: [definite] Unreachable function
+test/chrome/032.html:737: [definite] Unreachable code
+test/chrome/032.html:738: [definite] Unreachable code
+test/chrome/032.html:739: [definite] Unreachable code
+test/chrome/032.html:743: [definite] Unreachable code
+test/chrome/032.html:745: [definite] Unreachable code
+test/chrome/032.html:748: [definite] Unreachable code
+test/chrome/032.html:750: [definite] Unreachable code
+test/chrome/032.html:751: [definite] Unreachable code
+test/chrome/032.html:752: [definite] Unreachable code
+test/chrome/032.html:753: [definite] Unreachable code
+test/chrome/032.html:756: [definite] Unreachable function
+test/chrome/032.html:757: [definite] Unreachable code
+test/chrome/032.html:759: [definite] Unreachable code
+test/chrome/032.html:833: [definite] Reading absent property: firstChild
+test/chrome/032.html:652: [definite] Converting primitive number to object
+test/chrome/032.html:653: [definite] Converting primitive number to object
+test/chrome/032.html:110: [maybe] TypeError, reading property of null/undefined
+test/chrome/032.html:350: [maybe] TypeError, reading property of null/undefined
+test/chrome/032.html:518: [maybe] TypeError, reading property of null/undefined
+test/chrome/032.html:522: [maybe] TypeError, reading property of null/undefined
+test/chrome/032.html:525: [maybe] TypeError, reading property of null/undefined
+test/chrome/032.html:525: [maybe] TypeError, reading property of null/undefined
+test/chrome/032.html:652: [maybe] TypeError, reading property of null/undefined
+test/chrome/032.html:825: [maybe] TypeError, reading property of null/undefined
+test/chrome/032.html:830: [maybe] TypeError, reading property of null/undefined
+test/chrome/032.html:650: [maybe] Reading absent property: offsetParent
+test/chrome/032.html:652: [maybe] Reading absent property: offsetLeft
+test/chrome/032.html:653: [maybe] Reading absent property: offsetTop
+test/chrome/032.html:1: [maybe] Uncaught exception, constructed at [test/chrome/032.html:110, test/chrome/032.html:350, test/chrome/032.html:518, test/chrome/032.html:522, test/chrome/032.html:525, test/chrome/032.html:652, test/chrome/032.html:825, test/chrome/032.html:830]
+test/chrome/032.html:161: [maybe] Reading absent property (computed name)
+test/chrome/032.html:359: [maybe] Reading absent property (computed name)
+test/chrome/032.html:516: [maybe] Reading absent property (computed name)
+test/chrome/032.html:521: [maybe] Reading absent property (computed name)
+test/chrome/032.html:523: [maybe] Reading absent property (computed name)
+test/chrome/032.html:524: [maybe] Reading absent property (computed name)
+test/chrome/032.html:652: [maybe] Conversion to number yields NaN
+test/chrome/032.html:653: [maybe] Conversion to number yields NaN
+test/chrome/032.html:655: [maybe] Conversion to number yields NaN
+test/chrome/032.html:655: [maybe] Conversion to number yields NaN
+test/chrome/032.html:820: [maybe] Reading absent property (computed name)

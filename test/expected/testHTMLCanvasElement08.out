@@ -1,0 +1,5 @@
+test/dom/canvas/Canvas08.html:4: [definite] TypeError, argument is not of expected type.
+test/dom/canvas/Canvas08.html:4: [definite] TypeError, inf or NaN as arguments to CanvasRenderingContext2D.putImageData
+test/dom/canvas/Canvas08.html:4: [maybe] Conversion from string to number yields NaN
+test/dom/canvas/Canvas08.html:3: [info] Prototype: [@native CanvasRenderingContext2D.prototype] -> [@native Object.prototype]
+test/dom/canvas/Canvas08.html:4: [info] Abstract value: Undef

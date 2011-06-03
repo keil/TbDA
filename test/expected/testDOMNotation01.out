@@ -1,0 +1,4 @@
+test/dom/core/DOMNotation01.html:4: [info] Abstract value: [*native Notation]
+test/dom/core/DOMNotation01.html:5: [info] Prototype: [@native Notation.prototype] -> [@native Node.prototype] -> [@native Object.prototype]
+test/dom/core/DOMNotation01.html:7: [info] Abstract value: Null|Str
+test/dom/core/DOMNotation01.html:8: [info] Abstract value: Null|Str

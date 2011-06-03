@@ -1,0 +1,6 @@
+test/resig/ejohn80.js:1: [definite] Reading absent property: forEach
+test/resig/ejohn80.js:10: [maybe] Assertion fails
+test/resig/ejohn80.js:4: [maybe] Reading absent property (computed name)
+test/resig/ejohn80.js:11: [info] Abstract value: Undef|NotUIntStr
+test/resig/ejohn80.js:12: [info] Abstract value: UInt|NotUInt
+test/resig/ejohn80.js:13: [info] Abstract value: 3.0

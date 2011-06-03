@@ -1,0 +1,3 @@
+test/dom/html/HTMLMapElement01.html:4: [info] Abstract value: [*native HTMLMapElement]
+test/dom/html/HTMLMapElement01.html:5: [info] Abstract value: [*native HTMLCollection]
+test/dom/html/HTMLMapElement01.html:6: [info] Abstract value: Str

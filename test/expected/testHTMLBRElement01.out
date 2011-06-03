@@ -1,0 +1,3 @@
+test/dom/html/HTMLBRElement01.html:4: [info] Abstract value: [*native HTMLBRElement]
+test/dom/html/HTMLBRElement01.html:5: [info] Prototype: [@native HTMLBRElement.prototype] -> [@native HTMLElement.prototype] -> [@native Element.prototype] -> [@native Node.prototype] -> [@native Object.prototype]
+test/dom/html/HTMLBRElement01.html:7: [info] Abstract value: Str

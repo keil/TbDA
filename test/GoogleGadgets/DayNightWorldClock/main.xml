@@ -1,0 +1,60 @@
+<view width="145" height="170"
+   onopen="view_onopen()"
+   onoptionchanged="view_onoptionchanged()"
+   onminimize="view_onminimize()"
+   onrestore="view_onrestore()">
+<div name="clock" width="145" height="170" opacity="255">
+
+ <script src="load.js"/>
+ <script src="main.js"/>
+ <!-- Shadow Pane -->
+ <img name="clock_shadow" width="140" height="140" y="1" src="FrameShadow.png"/>
+ 
+ <!-- Clock Background -->
+ <div name="background_div" width="128" height="128" x="6" y="6" mask="mask_clock.png">
+   <img name="day_world" width="1920" height="768" src="Day.jpg" opacity="255"/>
+   <img name="night_world" width="1920" height="768" src="Night.jpg" opacity="100"/>
+ </div>
+
+ <!-- Overlay -->
+ <div name="overlay_div" width="128" height="128" x="6" y="6">
+   <img name="clock_overlay_day" width="128" height="128" src="OverlayDay.png" opacity="255"/>
+   <img name="clock_overlay_night" width="128" height="128" src="OverlayNight.png" opacity="0"/>
+   <img name="clock_hour_hand" x="63" y="63" pinX="5" pinY="34" src="Hours.png"/>
+   <img name="clock_minute_hand" x="63" y="63" pinX="5" pinY="48" src="Minutes.png"/>
+   <img name="clock_second_hand" x="63" y="63" pinX="3" pinY="49" src="Seconds.png"/>
+   <img name="clock_center" x="64" y="64" pinX="7" pinY="7" src="center.png"/>
+   <img name="clock_glass" width="128" height="128" src="Clock_Glass.png" opacity="255"/>
+   <img name="clock_frame_day" width="128" height="128" src="FrameDay.png" opacity="255"/>
+   <img name="clock_frame_night" width="128" height="128" src="FrameNight.png" opacity="0"/>
+ </div>
+  
+ <!-- Progress bar -->
+ <div name="progress_div" width="140" height="12" y="63">
+  <progressBar name="search_progress" width="140" emptyImage="progress_empty.png" fullImage="progress_full.png" min="0" max="100" orientation="horizontal" value="0"/>
+ </div>
+
+ <!-- Info Label --> 
+ <div name="info_div" width="145" height="20" x="3" y="135" opacity="0">
+   <img name="info_top" width="145" height="134" src="info_top.png" opacity="255"/>
+   <label name="info_label" y="4" width="120" height="20" font="verdana" size="10" align="center" trimming="character-ellipsis"></label>
+   <button name="collapse_extend_button" width="16" height="16" x="110" y="4" image="extend_normal.png" overImage="extend_over.png" downImage="extend_down.png" onclick="collapse_extend_button_clicked()"/> 
+   <!-- Info Plate -->
+   <div name="info_plate" x="6" y="25" width="136" height="110">
+     <label name="info_state" width="115" height="15" font="verdana" size="10" bold="true" align="center" trimming="character-ellipsis"></label>
+     <label name="info_lon_label" width="80" height="15" y="18" font="verdana" size="7" bold="true" trimming="character-ellipsis" tooltip="&LONGITUDE;" enabled="true">&LONGITUDE;</label>
+     <label name="info_lat_label" width="80" height="15" y="36" font="verdana" size="7" bold="true" trimming="character-ellipsis" tooltip="&LATITUDE;" enabled="true">&LATITUDE;</label>
+     <label name="info_sunr_label" width="80" height="15" y="54" font="verdana" size="7" bold="true" trimming="character-ellipsis" tooltip="&SUNRISE;" enabled="true">&SUNRISE;</label>
+     <label name="info_suns_label" width="80" height="15" y="72" font="verdana" size="7" bold="true" trimming="character-ellipsis" tooltip="&SUNSET;" enabled="true">&SUNSET;</label>
+     <label name="info_zone_label" width="75" height="15" y="90" font="verdana" size="7" bold="true" trimming="character-ellipsis" tooltip="&ZONE;" enabled="true">&ZONE;</label>
+     
+     <label name="info_lon" width="55" height="15" x="70" y="18" font="verdana" size="7" align="right"></label>
+     <label name="info_lat" width="55" height="15" x="70" y="36" font="verdana" size="7" align="right"></label>
+     <label name="info_sunr" width="55" height="15" x="70" y="54" font="verdana" size="7" align="right"></label>
+     <label name="info_suns" width="55" height="15" x="70" y="72" font="verdana" size="7" align="right"></label>
+     <label name="info_zone" width="70" height="15" x="55" y="90" font="verdana" size="7" align="right"></label>
+   </div>
+ </div>
+ <img name="info_bottom" width="145" height="16" x="3" y="155" src="info_bottom.png" opacity="0"/>
+</div>
+</view>

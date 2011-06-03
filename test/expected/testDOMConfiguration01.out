@@ -1,0 +1,6 @@
+test/dom/core/DOMConfiguration01.html:4: [info] Abstract value: [*native DOMConfiguration]
+test/dom/core/DOMConfiguration01.html:5: [info] Prototype: [@native DOMConfiguration.prototype] -> [@native Object.prototype]
+test/dom/core/DOMConfiguration01.html:7: [info] Abstract value: [*native StringList.prototype]
+test/dom/core/DOMConfiguration01.html:8: [info] Abstract value: [@native DOMConfiguration.canSetParameter]
+test/dom/core/DOMConfiguration01.html:9: [info] Abstract value: [@native DOMConfiguration.setParameter]
+test/dom/core/DOMConfiguration01.html:10: [info] Abstract value: [@native DOMConfiguration.getParameter]

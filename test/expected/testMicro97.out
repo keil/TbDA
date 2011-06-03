@@ -1,0 +1,5 @@
+test/micro/test97.js:5: [definite] Unreachable code
+test/micro/test97.js:11: [definite] Unreachable code
+test/micro/test97.js:9: [info] Abstract value: "HERE1"
+test/micro/test97.js:13: [info] Abstract value: "HERE3"
+test/micro/test97.js:15: [info] Abstract value: "foo"
