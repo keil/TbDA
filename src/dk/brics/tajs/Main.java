@@ -15,6 +15,7 @@ import dk.brics.tajs.analysis.TypeCollector;
 import dk.brics.tajs.analysis.dom.HTMLParser;
 import dk.brics.tajs.analysis.dom.HTMLParserImpl;
 import dk.brics.tajs.dependency.DependencyAnalyzer;
+import dk.brics.tajs.dependency.graph.visitor.DotVisitor;
 import dk.brics.tajs.flowgraph.FlowGraph;
 import dk.brics.tajs.flowgraph.Function;
 import dk.brics.tajs.js2flowgraph.RhinoAST2Flowgraph;
@@ -189,7 +190,7 @@ public class Main {
 			System.out.println("Analysis finished in "
 					+ (System.currentTimeMillis() - time) + "ms");
 
-// FIXME scanning messages
+		// FIXME scanning messages
 		enterPhase("Scanning for messages");
 		a.getSolver().scan();
 		if (Options.isDebugEnabled())
@@ -248,14 +249,43 @@ public class Main {
 			System.out.println(DependencyAnalyzer.printValues());
 
 			// print extended dependencies
-			if(Options.isExtendedDependency()) {
+			if (Options.isExtendedDependency()) {
 				System.out.println(DependencyAnalyzer.printDependencyNodes());
 				System.out.println(DependencyAnalyzer.printReferences());
 			}
 
 			// print dependency graph
-			if(Options.isDependencyGraph())
+			if (Options.isDependencyGraph()) {
 				System.out.println(DependencyAnalyzer.printGraph(g));
+			}
+
+			// print dependency graph
+			if (Options.isToDot()) {
+				DotVisitor visitor = new DotVisitor();
+				g.getDependencyGraph().accept(visitor);
+
+				for (String string : files) {
+					try {
+						File f = new File(string);
+
+						String filename = f.getName().substring(0,
+								f.getName().indexOf("."))
+								+ ".dot";
+						String path = "output/"
+								+ f.getPath().substring(0,
+										f.getPath().indexOf(f.getName()));
+
+						File dotFile = new File(path + filename);
+						File dotDir = new File(path);
+						dotDir.mkdirs();
+
+						visitor.flush(dotFile);
+					} catch (IOException e) {
+						System.out.println("Unable to print dependency graph "
+								+ e.getMessage());
+					}
+				}
+			}
 		}
 	}
 

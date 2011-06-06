@@ -34,6 +34,7 @@ public class Options {
 	private static boolean dependency;
 	private static boolean extended_dependency;
 	private static boolean dependencygraph;
+	private static boolean todot;
 	private static boolean traceall;
 	private static boolean exit_on_error;
 	private static boolean include_initialstate;
@@ -77,6 +78,7 @@ public class Options {
 				+ "  -dependency                 Show value dependencies\n"
 				+ "  -extended_dependency        Show extended value dependencies\n"
 				+ "  -dependencygraph            Show dependency graph\n"
+				+ "  -todot                      Write dependency graph to dot\n"
 				+ "  -traceall                   Trace all Values\n"
 				+ "  -include_initialstate       Include InitialState dependencies\n"
 				+ "  -show_all_states            Show all states\n";
@@ -148,6 +150,8 @@ public class Options {
 			extended_dependency = true;
 		else if (option.equals("-dependencygraph"))
 			dependencygraph = true;
+		else if (option.equals("-todot"))
+			todot = true;
 		else if (option.equals("-traceall"))
 			traceall = true;
 		else if (option.equals("-include_initialstate"))
@@ -193,6 +197,7 @@ public class Options {
 		dependency = false;
 		extended_dependency = false;
 		dependencygraph = false;
+		todot = false;
 		traceall = false;
 		include_initialstate = false;
 		show_all_states = false;
@@ -240,8 +245,11 @@ public class Options {
 					.println("  no-unreachable:            " + no_unreachable);
 			System.out.println("  exit_on_error:             " + exit_on_error);
 			System.out.println("  dependency:                " + dependency);
-			System.out.println("  extended_dependency:       " + extended_dependency);
-			System.out.println("  dependencygraph:           " + dependencygraph);
+			System.out.println("  extended_dependency:       "
+					+ extended_dependency);
+			System.out.println("  dependencygraph:           "
+					+ dependencygraph);
+			System.out.println("  todot:                     " + todot);
 			System.out.println("  tarceall:                  " + traceall);
 			System.out.println("  include_initialstate:      "
 					+ include_initialstate);
@@ -467,6 +475,13 @@ public class Options {
 	 */
 	public static boolean isDependencyGraph() {
 		return dependencygraph;
+	}
+
+	/**
+	 * If set, prints dependency graph to dot
+	 */
+	public static boolean isToDot() {
+		return todot;
 	}
 
 	/**

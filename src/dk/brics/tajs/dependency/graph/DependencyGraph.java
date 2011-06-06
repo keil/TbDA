@@ -1,7 +1,7 @@
 package dk.brics.tajs.dependency.graph;
 
+import dk.brics.tajs.dependency.graph.interfaces.IDependencyGraphVisitor;
 import dk.brics.tajs.dependency.graph.nodes.DependencyRootNode;
-import dk.brics.tajs.dependency.graph.visitor.GraphVisitor;
 
 public class DependencyGraph {
 
@@ -38,7 +38,7 @@ public class DependencyGraph {
 	/**
 	 * @param visitor
 	 */
-	public void accept(GraphVisitor visitor) {
+	public void accept(IDependencyGraphVisitor visitor) {
 		mRoot.accept(visitor);
 	}
 }
