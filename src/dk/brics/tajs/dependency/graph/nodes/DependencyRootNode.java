@@ -14,9 +14,20 @@ public class DependencyRootNode extends DependencyNode {
 	}
 
 	@Override
+	public String getIdentifier() {
+		StringBuffer buffer = new StringBuffer();
+
+		buffer.append("[");
+		buffer.append("ROOT");
+		buffer.append("]");
+
+		return buffer.toString();
+	}
+
+	@Override
 	public String toString() {
 		StringBuffer buffer = new StringBuffer();
-		buffer.append("{}");
+		buffer.append("{ROOT}");
 		return buffer.toString();
 	}
 

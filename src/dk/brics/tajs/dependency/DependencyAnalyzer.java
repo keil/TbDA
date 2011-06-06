@@ -5,8 +5,10 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 
 import dk.brics.tajs.dependency.graph.DependencyGraphReference;
+import dk.brics.tajs.dependency.graph.DependencyNode;
 import dk.brics.tajs.dependency.graph.visitor.GraphVisitor;
 import dk.brics.tajs.flowgraph.FlowGraph;
 import dk.brics.tajs.flowgraph.SourceLocation;
@@ -34,6 +36,11 @@ public class DependencyAnalyzer {
 	 * store the state analysis
 	 */
 	public static List<List<HashMap<String, DependencyGraphReference>>> references = new ArrayList<List<HashMap<String, DependencyGraphReference>>>();
+
+	/**
+	 * store all dependency nodes
+	 */
+	public static HashSet<DependencyNode> dependencyNodes = new HashSet<DependencyNode>();
 
 	/**
 	 * print the initial state
@@ -228,6 +235,43 @@ public class DependencyAnalyzer {
 		return b.toString();
 	}
 
+	/**
+	 * print dependency nodes
+	 */
+	public static String printDependencyNodes() {
+		StringBuilder b = new StringBuilder();
+		b.append(makeSpace());
+		b.append(makeHeader("Dependency Nodes"));
+
+		Map<String, DependencyNode> nodes = new HashMap<String, DependencyNode>();
+		for (DependencyNode node : dependencyNodes) {
+			nodes.put(node.getIdentifier(), node);
+		}
+
+		List<String> list = new ArrayList<String>(nodes.keySet());
+		Collections.sort(list);
+
+		int length = calculateMaxLengthOfDepenencyNode(list);
+		int width = (length > 10) ? length : 10;
+
+		for (String key : list) {
+
+			DependencyNode node = nodes.get(key);
+
+			String space_string = " ";
+			String key_string = leftPadding(node.getIdentifier(), width);
+			String equals_string = " = ";
+			String dependecy_string = node.toString();
+
+			b.append(space_string + key_string + equals_string
+					+ dependecy_string);
+			b.append("\n");
+		}
+
+		b.append(makeSeperator());
+		return b.toString();
+	}
+
 	/*
 	 * ##################################################
 	 * HELPERS
@@ -315,6 +359,20 @@ public class DependencyAnalyzer {
 		int max = 0;
 		for (DependencyObject dependencyObject : list) {
 			max = Math.max(max, dependencyObject.getTrace().length());
+		}
+		return max;
+	}
+
+	/**
+	 * calculates the max - length of the given DependencyNodes
+	 * 
+	 * @param list
+	 * @return int
+	 */
+	public static int calculateMaxLengthOfDepenencyNode(List<String> list) {
+		int max = 0;
+		for (String identifier : list) {
+			max = Math.max(max, identifier.length());
 		}
 		return max;
 	}

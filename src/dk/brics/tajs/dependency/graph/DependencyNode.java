@@ -1,14 +1,34 @@
 package dk.brics.tajs.dependency.graph;
 
+import java.util.HashMap;
 import java.util.LinkedHashSet;
+import java.util.Map;
 import java.util.Set;
 
 import dk.brics.tajs.dependency.Dependency;
+import dk.brics.tajs.dependency.DependencyAnalyzer;
 import dk.brics.tajs.dependency.graph.interfaces.IDependencyGraphVisitor;
 import dk.brics.tajs.dependency.graph.visitor.DependencyVisitor;
 
 public abstract class DependencyNode {
 
+	private static Map<Label, Integer> i = new HashMap<Label, Integer>();
+
+	/**
+	 * Returns and increments the label counter
+	 * 
+	 * @return next label number
+	 */
+	protected static int nextNumber(Label label) {
+		if (i.containsKey(label)) {
+			i.put(label, i.get(label) + 1);
+		} else {
+			i.put(label, 0);
+			return 0;
+		}
+		return i.get(label);
+	}
+	
 	/**
 	 * child nodes
 	 */
@@ -24,6 +44,9 @@ public abstract class DependencyNode {
 	protected DependencyNode() {
 		this.mChildNodes = new LinkedHashSet<DependencyNode>();
 		this.mParentNodes = new LinkedHashSet<DependencyNode>();
+
+		// add to analyser
+		DependencyAnalyzer.dependencyNodes.add(this);
 	}
 
 	/**
@@ -84,11 +107,16 @@ public abstract class DependencyNode {
 		accept(visitor);
 		return visitor.getDependency();
 	}
-	
+
 	/**
 	 * @param visitor
 	 */
 	public abstract void accept(IDependencyGraphVisitor visitor);
+
+	/**
+	 * @return identifier
+	 */
+	public abstract String getIdentifier();
 
 	/*
 	 * (non-Javadoc)

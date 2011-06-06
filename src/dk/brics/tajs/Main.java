@@ -248,8 +248,10 @@ public class Main {
 			System.out.println(DependencyAnalyzer.printValues());
 
 			// print extended dependencies
-			if(Options.isExtendedDependency())
+			if(Options.isExtendedDependency()) {
+				System.out.println(DependencyAnalyzer.printDependencyNodes());
 				System.out.println(DependencyAnalyzer.printReferences());
+			}
 
 			// print dependency graph
 			if(Options.isDependencyGraph())

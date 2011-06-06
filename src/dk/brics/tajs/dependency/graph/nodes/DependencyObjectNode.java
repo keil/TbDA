@@ -3,17 +3,16 @@ package dk.brics.tajs.dependency.graph.nodes;
 import dk.brics.tajs.dependency.DependencyObject;
 import dk.brics.tajs.dependency.graph.DependencyNode;
 import dk.brics.tajs.dependency.graph.interfaces.IDependencyGraphVisitor;
-import dk.brics.tajs.dependency.graph.visitor.HashCodeVisitor;
 import dk.brics.tajs.flowgraph.SourceLocation;
 
 public class DependencyObjectNode extends DependencyNode {
 
 	private DependencyObject mDependency;
-	
+
 	public DependencyObjectNode(DependencyObject dependency) {
 		this.mDependency = dependency;
 	}
-	
+
 	public DependencyObjectNode(DependencyObject dependency,
 			DependencyRootNode root) {
 		this.mDependency = dependency;
@@ -35,16 +34,34 @@ public class DependencyObjectNode extends DependencyNode {
 	}
 
 	@Override
+	public String getIdentifier() {
+		StringBuffer buffer = new StringBuffer();
+
+		buffer.append("D");
+		buffer.append("[");
+		buffer.append(mDependency.getTrace());
+		buffer.append("]");
+
+		return buffer.toString();
+	}
+
+	@Override
+	public String toString() {
+		StringBuffer buffer = new StringBuffer();
+
+		buffer.append("{");
+		buffer.append(this.mDependency);
+		buffer.append("}");
+
+		return buffer.toString();
+	}
+
+	@Override
 	public int hashCode() {
-//		HashCodeVisitor visitor = new HashCodeVisitor();
-//		accept(visitor);
-//		int parent = visitor.getHashCode();
-		
 		final int prime = 31;
 		int result = 1;
 		result = prime * result
 				+ ((mDependency == null) ? 0 : mDependency.hashCode());
-//		result = prime * result + parent;
 		return result;
 	}
 
@@ -63,16 +80,5 @@ public class DependencyObjectNode extends DependencyNode {
 		} else if (!mDependency.equals(other.mDependency))
 			return false;
 		return true;
-	}
-
-	@Override
-	public String toString() {
-		StringBuffer buffer = new StringBuffer();
-
-		buffer.append("{");
-		buffer.append(this.mDependency);
-		buffer.append("}");
-
-		return buffer.toString();
 	}
 }
