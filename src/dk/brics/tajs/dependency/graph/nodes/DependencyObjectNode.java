@@ -7,12 +7,22 @@ import dk.brics.tajs.flowgraph.SourceLocation;
 
 public class DependencyObjectNode extends DependencyNode {
 
+	/**
+	 * referenced Dependency
+	 */
 	private DependencyObject mDependency;
 
+	/**
+	 * @param dependency
+	 */
 	public DependencyObjectNode(DependencyObject dependency) {
 		this.mDependency = dependency;
 	}
 
+	/**
+	 * @param dependency
+	 * @param root
+	 */
 	public DependencyObjectNode(DependencyObject dependency,
 			DependencyRootNode root) {
 		this.mDependency = dependency;
@@ -20,19 +30,37 @@ public class DependencyObjectNode extends DependencyNode {
 		addParentNode(root);
 	}
 
+	/**
+	 * @return DependencyObject
+	 */
 	public DependencyObject getDependencyObject() {
 		return mDependency;
 	}
 
+	/**
+	 * @return SourceLocation
+	 */
 	public SourceLocation getSourceLocation() {
 		return mDependency.getSourceLocation();
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * dk.brics.tajs.dependency.graph.DependencyNode#accept(dk.brics.tajs.dependency
+	 * .graph.interfaces.IDependencyGraphVisitor)
+	 */
 	@Override
 	public void accept(IDependencyGraphVisitor visitor) {
 		visitor.visit(this);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see dk.brics.tajs.dependency.graph.DependencyNode#getIdentifier()
+	 */
 	@Override
 	public String getIdentifier() {
 		StringBuffer buffer = new StringBuffer();
@@ -45,6 +73,11 @@ public class DependencyObjectNode extends DependencyNode {
 		return buffer.toString();
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see dk.brics.tajs.dependency.graph.DependencyNode#toString()
+	 */
 	@Override
 	public String toString() {
 		StringBuffer buffer = new StringBuffer();
@@ -56,6 +89,11 @@ public class DependencyObjectNode extends DependencyNode {
 		return buffer.toString();
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see dk.brics.tajs.dependency.graph.DependencyNode#hashCode()
+	 */
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -65,6 +103,12 @@ public class DependencyObjectNode extends DependencyNode {
 		return result;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * dk.brics.tajs.dependency.graph.DependencyNode#equals(java.lang.Object)
+	 */
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)

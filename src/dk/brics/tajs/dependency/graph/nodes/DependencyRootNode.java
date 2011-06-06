@@ -8,11 +8,17 @@ public class DependencyRootNode extends DependencyNode {
 	public DependencyRootNode() {
 	}
 
+	/* (non-Javadoc)
+	 * @see dk.brics.tajs.dependency.graph.DependencyNode#accept(dk.brics.tajs.dependency.graph.interfaces.IDependencyGraphVisitor)
+	 */
 	@Override
 	public void accept(IDependencyGraphVisitor visitor) {
 		visitor.visit(this);
 	}
 
+	/* (non-Javadoc)
+	 * @see dk.brics.tajs.dependency.graph.DependencyNode#getIdentifier()
+	 */
 	@Override
 	public String getIdentifier() {
 		StringBuffer buffer = new StringBuffer();
@@ -24,6 +30,9 @@ public class DependencyRootNode extends DependencyNode {
 		return buffer.toString();
 	}
 
+	/* (non-Javadoc)
+	 * @see dk.brics.tajs.dependency.graph.DependencyNode#toString()
+	 */
 	@Override
 	public String toString() {
 		StringBuffer buffer = new StringBuffer();
@@ -31,6 +40,9 @@ public class DependencyRootNode extends DependencyNode {
 		return buffer.toString();
 	}
 
+	/* (non-Javadoc)
+	 * @see dk.brics.tajs.dependency.graph.DependencyNode#hashCode()
+	 */
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -39,6 +51,9 @@ public class DependencyRootNode extends DependencyNode {
 		return result;
 	}
 
+	/* (non-Javadoc)
+	 * @see dk.brics.tajs.dependency.graph.DependencyNode#equals(java.lang.Object)
+	 */
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -56,11 +71,17 @@ public class DependencyRootNode extends DependencyNode {
 		return true;
 	}
 
+	/* (non-Javadoc)
+	 * @see dk.brics.tajs.dependency.graph.DependencyNode#clone()
+	 */
 	@Override
 	protected Object clone() throws CloneNotSupportedException {
 		return null;
 	}
 
+	/* (non-Javadoc)
+	 * @see dk.brics.tajs.dependency.graph.DependencyNode#finalize()
+	 */
 	@Override
 	protected void finalize() throws Throwable {
 	}

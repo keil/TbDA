@@ -28,7 +28,7 @@ public abstract class DependencyNode {
 		}
 		return i.get(label);
 	}
-	
+
 	/**
 	 * child nodes
 	 */
@@ -65,14 +65,14 @@ public abstract class DependencyNode {
 	}
 
 	/**
-	 * @return
+	 * @return Child Nodes
 	 */
 	public Set<DependencyNode> getChildNodes() {
 		return new LinkedHashSet<DependencyNode>(this.mChildNodes);
 	}
 
 	/**
-	 * @return
+	 * @return Parent Nodes
 	 */
 	public Set<DependencyNode> getParentNodes() {
 		return new LinkedHashSet<DependencyNode>(this.mParentNodes);
@@ -96,12 +96,15 @@ public abstract class DependencyNode {
 	}
 
 	/**
-	 * @return
+	 * @return DependencyGraphReference
 	 */
 	public DependencyGraphReference getReference() {
 		return new DependencyGraphReference(this);
 	}
 
+	/**
+	 * @return DependencyVisitor
+	 */
 	public Dependency getDependency() {
 		DependencyVisitor visitor = new DependencyVisitor();
 		accept(visitor);

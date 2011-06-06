@@ -9,7 +9,7 @@ public class DependencyGraphReference implements Cloneable,
 		Iterable<DependencyNode> {
 
 	/**
-	 * 
+	 * list of referenced nodes
 	 */
 	private LinkedHashSet<DependencyNode> mReference;
 

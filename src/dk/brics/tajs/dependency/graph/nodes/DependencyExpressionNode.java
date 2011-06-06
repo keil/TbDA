@@ -11,35 +11,68 @@ import dk.brics.tajs.flowgraph.SourceLocation;
 
 public class DependencyExpressionNode extends DependencyNode {
 
+	/**
+	 * DependencyLabel
+	 */
 	private DependencyLabel mLabel;
+	/**
+	 * identifier
+	 */
 	private int id;
 
+	/**
+	 * @param label
+	 */
 	public DependencyExpressionNode(DependencyLabel label) {
 		this.mLabel = label;
 		this.id = DependencyNode.nextNumber(label.getLabel());
 	}
 
+	/**
+	 * @return Label
+	 */
 	public Label getLabel() {
 		return mLabel.getLabel();
 	}
 
+	/**
+	 * @return SourceLocation
+	 */
 	public SourceLocation getSourceLocation() {
 		return mLabel.getSourceLocation();
 	}
 
+	/**
+	 * @return Node
+	 */
 	public Node getNode() {
 		return mLabel.getNode();
 	}
 
+	/**
+	 * @return DependencyLabel
+	 */
 	public DependencyLabel getDependencyLabel() {
 		return mLabel;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * dk.brics.tajs.dependency.graph.DependencyNode#accept(dk.brics.tajs.dependency
+	 * .graph.interfaces.IDependencyGraphVisitor)
+	 */
 	@Override
 	public void accept(IDependencyGraphVisitor visitor) {
 		visitor.visit(this);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see dk.brics.tajs.dependency.graph.DependencyNode#getIdentifier()
+	 */
 	@Override
 	public String getIdentifier() {
 		StringBuffer buffer = new StringBuffer();
@@ -47,20 +80,25 @@ public class DependencyExpressionNode extends DependencyNode {
 		buffer.append("D");
 		buffer.append("[");
 		buffer.append(mLabel);
-		buffer.append("@");
+		buffer.append("'");
 		buffer.append(this.id);
 		buffer.append("]");
 
 		return buffer.toString();
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see dk.brics.tajs.dependency.graph.DependencyNode#toString()
+	 */
 	@Override
 	public String toString() {
 		StringBuffer buffer = new StringBuffer();
 
 		buffer.append("{");
 		buffer.append(mLabel);
-		buffer.append("@");
+		buffer.append("'");
 		buffer.append(this.id);
 		buffer.append(" ");
 
@@ -78,6 +116,11 @@ public class DependencyExpressionNode extends DependencyNode {
 		return buffer.toString();
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see dk.brics.tajs.dependency.graph.DependencyNode#hashCode()
+	 */
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -87,6 +130,12 @@ public class DependencyExpressionNode extends DependencyNode {
 		return result;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * dk.brics.tajs.dependency.graph.DependencyNode#equals(java.lang.Object)
+	 */
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
