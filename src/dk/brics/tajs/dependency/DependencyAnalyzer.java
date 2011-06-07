@@ -7,10 +7,10 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
+import dk.brics.tajs.dependency.graph.DependencyGraph;
 import dk.brics.tajs.dependency.graph.DependencyGraphReference;
 import dk.brics.tajs.dependency.graph.DependencyNode;
 import dk.brics.tajs.dependency.graph.visitor.GraphVisitor;
-import dk.brics.tajs.flowgraph.FlowGraph;
 import dk.brics.tajs.flowgraph.SourceLocation;
 import dk.brics.tajs.options.Options;
 
@@ -222,13 +222,13 @@ public class DependencyAnalyzer {
 	/**
 	 * print dependency graph
 	 */
-	public static String printGraph(FlowGraph g) {
+	public static String printGraph(DependencyGraph d) {
 		StringBuilder b = new StringBuilder();
 		b.append(makeSpace());
 		b.append(makeHeader("Dependency Graph"));
 
 		GraphVisitor visitor = new GraphVisitor();
-		g.getDependencyGraph().getRoot().accept(visitor);
+		d.getRoot().accept(visitor);
 		b.append(visitor.toString());
 
 		b.append(makeSeperator());
@@ -273,8 +273,7 @@ public class DependencyAnalyzer {
 	}
 
 	/*
-	 * ##################################################
-	 * HELPERS
+	 * ################################################## HELPERS
 	 * ##################################################
 	 */
 

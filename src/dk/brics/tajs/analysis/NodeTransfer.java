@@ -11,6 +11,7 @@ import dk.brics.tajs.analysis.dom.DOMEvents;
 import dk.brics.tajs.analysis.dom.DOMWindow;
 import dk.brics.tajs.dependency.Dependency;
 import dk.brics.tajs.dependency.DependencyObject;
+import dk.brics.tajs.dependency.graph.DependencyGraph;
 import dk.brics.tajs.dependency.graph.DependencyLabel;
 import dk.brics.tajs.dependency.graph.Label;
 import dk.brics.tajs.dependency.graph.interfaces.IDependencyGraphReference;
@@ -68,23 +69,21 @@ public class NodeTransfer implements INodeTransfer<State, CallContext> {
 
 	private Solver.SolverInterface c;
 
+	private DependencyGraph mDependencyGraph;
+
 	/**
 	 * stack for handling context specific DependencyExpressionNode
 	 */
-	//private Stack<Map<Node, DependencyExpressionNode>> mDependencyScope;
-	
-	//private LinkedList<Map<Node, DependencyExpressionNode>> mDependencyScopeX;
-	
-	//private Map<Integer, Map<Node, DependencyExpressionNode>> mDependencyScope2;
-	
-	
-	
-	
+	// private Stack<Map<Node, DependencyExpressionNode>> mDependencyScope;
+
+	// private LinkedList<Map<Node, DependencyExpressionNode>>
+	// mDependencyScopeX;
+
+	// private Map<Integer, Map<Node, DependencyExpressionNode>>
+	// mDependencyScope2;
+
 	private Map<Integer, Map<Node, DependencyExpressionNode>> mDependencyScopeReferences;
 	private Stack<Map<Node, DependencyExpressionNode>> mDependencyScope;
-	
-	
-	
 
 	/**
 	 * Constructs a new TransferFunctions object.
@@ -93,11 +92,12 @@ public class NodeTransfer implements INodeTransfer<State, CallContext> {
 		mDependencyScope = new Stack<Map<Node, DependencyExpressionNode>>();
 		mDependencyScope.push(new HashMap<Node, DependencyExpressionNode>());
 
-		mDependencyScopeReferences = new HashMap<Integer, Map<Node,DependencyExpressionNode>>();
-		
-//		mDependencyScopeX = new LinkedList<Map<Node, DependencyExpressionNode>>();
-//		mDependencyScopeX.add(new HashMap<Node, DependencyExpressionNode>());
-		
+		mDependencyScopeReferences = new HashMap<Integer, Map<Node, DependencyExpressionNode>>();
+
+		// mDependencyScopeX = new LinkedList<Map<Node,
+		// DependencyExpressionNode>>();
+		// mDependencyScopeX.add(new HashMap<Node, DependencyExpressionNode>());
+
 	}
 
 	/**
@@ -105,6 +105,7 @@ public class NodeTransfer implements INodeTransfer<State, CallContext> {
 	 */
 	public void setSolverInterface(Solver.SolverInterface c) {
 		this.c = c;
+		this.mDependencyGraph = c.getDependencyGraph();
 	}
 
 	@Override
@@ -151,7 +152,7 @@ public class NodeTransfer implements INodeTransfer<State, CallContext> {
 		n.setDependencyGraphReference(mDependencyScope.lastElement().get(n)
 				.getReference());
 		return mDependencyScope.lastElement().get(n);
-		
+
 		// TODO
 		// return new DependencyExpressionNode(new DependencyLabel(label, n));
 	}
@@ -238,8 +239,7 @@ public class NodeTransfer implements INodeTransfer<State, CallContext> {
 
 			// ==================================================
 			DependencyObjectNode node = new DependencyObjectNode(
-					dependencyObject, c.getFlowGraph().getDependencyGraph()
-							.getRoot());
+					dependencyObject, mDependencyGraph.getRoot());
 			v = v.setDependencyGraphReference(node.getReference());
 			// ==================================================
 		}
@@ -271,8 +271,7 @@ public class NodeTransfer implements INodeTransfer<State, CallContext> {
 
 			// ==================================================
 			DependencyObjectNode node = new DependencyObjectNode(
-					dependencyObject, c.getFlowGraph().getDependencyGraph()
-							.getRoot());
+					dependencyObject, mDependencyGraph.getRoot());
 			prototype = prototype.setDependencyGraphReference(node
 					.getReference());
 			v = v.setDependencyGraphReference(node.getReference());
@@ -606,12 +605,12 @@ public class NodeTransfer implements INodeTransfer<State, CallContext> {
 
 		// FIXME, baseval can be null
 		// ==================================================
-		if(baseval != null)
-		v = v.setDependencyGraphReference(link(Label.READ, n, v, baseval, state)
-				.getReference());
+		if (baseval != null)
+			v = v.setDependencyGraphReference(link(Label.READ, n, v, baseval,
+					state).getReference());
 		else
 			v = v.setDependencyGraphReference(link(Label.READ, n, v, state)
-					.getReference());	
+					.getReference());
 		// ==================================================
 
 		state.writeTemporary(n.getResultVar(), v.restrictToNonAbsent()
@@ -1209,7 +1208,7 @@ public class NodeTransfer implements INodeTransfer<State, CallContext> {
 			v = Value.makeUndef(dependency);
 
 		// ##################################################
-		//dependency.join(v.getDependency());
+		// dependency.join(v.getDependency());
 		// ##################################################
 
 		// ==================================================
@@ -1736,21 +1735,23 @@ public class NodeTransfer implements INodeTransfer<State, CallContext> {
 		 * ############################################################
 		 */
 
-//		// FIXME
-//		Map<Node, DependencyExpressionNode> map = new HashMap<Node, DependencyExpressionNode>();
-//		mDependencyScope.push(map);
+		// // FIXME
+		// Map<Node, DependencyExpressionNode> map = new HashMap<Node,
+		// DependencyExpressionNode>();
+		// mDependencyScope.push(map);
 
 		// TODO
-		if(!mDependencyScopeReferences.containsKey(n.getID())) {
+		if (!mDependencyScopeReferences.containsKey(n.getID())) {
 			Map<Node, DependencyExpressionNode> map = new HashMap<Node, DependencyExpressionNode>();
 			mDependencyScopeReferences.put(n.getID(), map);
 			mDependencyScope.push(map);
-			//System.out.println("%%%%% add new map for context #" + n. getID());
-			
+			// System.out.println("%%%%% add new map for context #" + n.
+			// getID());
+
 		}
 
 		// FIXME
-		//mDependencyScope.push(new HashMap<Node, DependencyExpressionNode>());
+		// mDependencyScope.push(new HashMap<Node, DependencyExpressionNode>());
 		//
 		// ##################################################
 		n.setContextDependency(state.getDependency());
@@ -1768,16 +1769,14 @@ public class NodeTransfer implements INodeTransfer<State, CallContext> {
 		 */
 
 		// FIXME
-		//mDependencyScope.pop();
+		// mDependencyScope.pop();
 		//
-		if(mDependencyScope.lastElement().equals(mDependencyScopeReferences.get(n.getID()))) {
+		if (mDependencyScope.lastElement().equals(
+				mDependencyScopeReferences.get(n.getID()))) {
 			mDependencyScope.pop();
 			mDependencyScopeReferences.remove(n.getID());
-			//System.out.println("%%%%% remove map for context #" + n.getID());
+			// System.out.println("%%%%% remove map for context #" + n.getID());
 		}
-		
-		
-		
 
 		// ##################################################
 		state.setDependency(n.getContextDependency());

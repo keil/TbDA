@@ -223,8 +223,7 @@ public class JSGlobal {
 
 			// ==================================================
 			DependencyObjectNode node = new DependencyObjectNode(
-					dependencyObject, c.getFlowGraph().getDependencyGraph()
-							.getRoot());
+					dependencyObject, c.getDependencyGraph().getRoot());
 			value = value.setDependencyGraphReference(node.getReference());
 			// ==================================================
 

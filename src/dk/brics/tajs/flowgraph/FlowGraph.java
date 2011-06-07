@@ -9,36 +9,31 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
 
-import dk.brics.tajs.dependency.graph.DependencyGraph;
 import dk.brics.tajs.flowgraph.ObjectLabel.Kind;
 import dk.brics.tajs.util.Collections;
 
 /**
- * Flow graph.
- * A flow graph is divided into functions, one of them representing the main program.
- * Each function contains blocks of nodes.
- * Nodes represent primitive instructions, edges represent control flow.
+ * Flow graph. A flow graph is divided into functions, one of them representing
+ * the main program. Each function contains blocks of nodes. Nodes represent
+ * primitive instructions, edges represent control flow.
  */
 public class FlowGraph {
-
-
-	/**
-	 * corresponding dependency graph
-	 */
-	private DependencyGraph mDependencyGraph; 
-	
-	
 	private Collection<Function> functions;
 
-    private Collection<Function> load_event_handlers;       // always a subset of functions
-    private Collection<Function> unload_event_handlers;     // always a subset of functions
-    private Collection<Function> keyboard_event_handlers;   // always a subset of functions
-    private Collection<Function> mouse_event_handlers;      // always a subset of functions
-    private Collection<Function> unknown_event_handlers;    // always a subset of functions
+	private Collection<Function> load_event_handlers; // always a subset of
+														// functions
+	private Collection<Function> unload_event_handlers; // always a subset of
+														// functions
+	private Collection<Function> keyboard_event_handlers; // always a subset of
+															// functions
+	private Collection<Function> mouse_event_handlers; // always a subset of
+														// functions
+	private Collection<Function> unknown_event_handlers; // always a subset of
+															// functions
 
 	private Function main;
 
-	private Map<ObjectLabel,Function> objlabel2function;
+	private Map<ObjectLabel, Function> objlabel2function;
 
 	private int number_of_blocks;
 
@@ -53,13 +48,12 @@ public class FlowGraph {
 	 */
 	public FlowGraph() {
 		functions = newList();
-        load_event_handlers = newList();
-        unload_event_handlers = newList();
+		load_event_handlers = newList();
+		unload_event_handlers = newList();
 		keyboard_event_handlers = newList();
-        mouse_event_handlers = newList();
-        unknown_event_handlers = newList();
+		mouse_event_handlers = newList();
+		unknown_event_handlers = newList();
 		ignorable_nodes = newSet();
-		mDependencyGraph = new DependencyGraph(); 
 	}
 
 	/**
@@ -73,8 +67,8 @@ public class FlowGraph {
 	}
 
 	/**
-	 * Adds a block to this flow graph.
-	 * Also sets the block index and the node index for each node in the block.
+	 * Adds a block to this flow graph. Also sets the block index and the node
+	 * index for each node in the block.
 	 */
 	public void addBlock(BasicBlock b, Function f) {
 		if (b == null || f == null)
@@ -100,7 +94,8 @@ public class FlowGraph {
 	}
 
 	/**
-	 * Returns the number of functions in this flow graph, including the main function.
+	 * Returns the number of functions in this flow graph, including the main
+	 * function.
 	 */
 	public int getNumberOfFunctions() {
 		return functions.size();
@@ -124,8 +119,7 @@ public class FlowGraph {
 	}
 
 	/**
-	 * Adds the given event handler.
-	 * Must also be added as a function.
+	 * Adds the given event handler. Must also be added as a function.
 	 */
 	public void addLoadEventHandler(Function f) {
 		if (f == null)
@@ -134,8 +128,7 @@ public class FlowGraph {
 	}
 
 	/**
-	 * Adds the given event handler.
-	 * Must also be added as a function.
+	 * Adds the given event handler. Must also be added as a function.
 	 */
 	public void addUnloadEventHandler(Function f) {
 		if (f == null)
@@ -144,8 +137,7 @@ public class FlowGraph {
 	}
 
 	/**
-	 * Adds the given event handler.
-	 * Must also be added as a function.
+	 * Adds the given event handler. Must also be added as a function.
 	 */
 	public void addKeyboardEventHandler(Function f) {
 		if (f == null)
@@ -153,9 +145,8 @@ public class FlowGraph {
 		keyboard_event_handlers.add(f);
 	}
 
-    /**
-	 * Adds the given event handler.
-	 * Must also be added as a function.
+	/**
+	 * Adds the given event handler. Must also be added as a function.
 	 */
 	public void addMouseEventHandler(Function f) {
 		if (f == null)
@@ -163,9 +154,8 @@ public class FlowGraph {
 		mouse_event_handlers.add(f);
 	}
 
-    /**
-	 * Adds the given event handler.
-	 * Must also be added as a function.
+	/**
+	 * Adds the given event handler. Must also be added as a function.
 	 */
 	public void addUnknownEventHandler(Function f) {
 		if (f == null)
@@ -173,34 +163,35 @@ public class FlowGraph {
 		unknown_event_handlers.add(f);
 	}
 
-    /**
-     * Returns the function with the given name.
-     */
-    public Function getFunction(String name) {
-        if (name == null || name.trim().length() == 0) {
-            throw new IllegalArgumentException();
-        }
-        Set<Function> result = Collections.newSet();
-        for (Function function : functions) {
-            if (name.equals(function.getName())) {
-                result.add(function);
-            }
-        }
-        if (result.size() == 0) {
-            return null;
-        } else if (result.size() == 1) {
-            return result.iterator().next();
-        } else {
-            throw new IllegalStateException();
-        }
-    }
+	/**
+	 * Returns the function with the given name.
+	 */
+	public Function getFunction(String name) {
+		if (name == null || name.trim().length() == 0) {
+			throw new IllegalArgumentException();
+		}
+		Set<Function> result = Collections.newSet();
+		for (Function function : functions) {
+			if (name.equals(function.getName())) {
+				result.add(function);
+			}
+		}
+		if (result.size() == 0) {
+			return null;
+		} else if (result.size() == 1) {
+			return result.iterator().next();
+		} else {
+			throw new IllegalStateException();
+		}
+	}
 
 	/**
 	 * Returns the function for the given function object label.
 	 */
 	public Function getFunction(ObjectLabel objlabel) {
 		if (objlabel.getKind() != Kind.FUNCTION)
-			throw new IllegalArgumentException("Non-Function object label: " + objlabel);
+			throw new IllegalArgumentException("Non-Function object label: "
+					+ objlabel);
 		Function f = objlabel2function.get(objlabel.makeSingleton());
 		if (f == null)
 			throw new IllegalArgumentException("No such function: " + objlabel);
@@ -222,15 +213,16 @@ public class FlowGraph {
 	}
 
 	/**
-	 * Marks the given node as ignorable, meaning that it does not correspond directly to the give source code.
+	 * Marks the given node as ignorable, meaning that it does not correspond
+	 * directly to the give source code.
 	 */
 	public void addIgnorableNode(Node n) {
 		ignorable_nodes.add(n);
 	}
 
 	/**
-	 * Sets the main function.
-	 * The main function must be included in the collection of all functions.
+	 * Sets the main function. The main function must be included in the
+	 * collection of all functions.
 	 */
 	public void setMain(Function main) {
 		if (main == null)
@@ -259,7 +251,8 @@ public class FlowGraph {
 				b.append('\n');
 				for (Node n : k.getNodes())
 					b.append("    node ").append(n.getIndex()).append(": ")
-					.append(n).append(" (").append(n.getSourceLocation()).append(")\n");
+							.append(n).append(" (")
+							.append(n.getSourceLocation()).append(")\n");
 				b.append("    ->[");
 				boolean first = true;
 				for (BasicBlock s : k.getSuccessors()) {
@@ -284,7 +277,7 @@ public class FlowGraph {
 		for (Function f : functions)
 			f.toDot(pw, false, f == main);
 		pw.println("}");
-		pw.close();	// TODO: nice to close here?
+		pw.close(); // TODO: nice to close here?
 	}
 
 	/**
@@ -302,7 +295,7 @@ public class FlowGraph {
 		return load_event_handlers;
 	}
 
-   /**
+	/**
 	 * Returns the collection of unload event handlers.
 	 */
 	public Collection<Function> getUnloadEventHandlers() {
@@ -328,9 +321,5 @@ public class FlowGraph {
 	 */
 	public Collection<Function> getUnknownEventHandlers() {
 		return unknown_event_handlers;
-	}
-	
-	public DependencyGraph getDependencyGraph() {
-		return mDependencyGraph;
 	}
 }

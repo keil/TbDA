@@ -15,6 +15,7 @@ import dk.brics.tajs.analysis.TypeCollector;
 import dk.brics.tajs.analysis.dom.HTMLParser;
 import dk.brics.tajs.analysis.dom.HTMLParserImpl;
 import dk.brics.tajs.dependency.DependencyAnalyzer;
+import dk.brics.tajs.dependency.graph.DependencyGraph;
 import dk.brics.tajs.dependency.graph.visitor.DotVisitor;
 import dk.brics.tajs.flowgraph.FlowGraph;
 import dk.brics.tajs.flowgraph.Function;
@@ -76,6 +77,7 @@ public class Main {
 		Options.dump();
 
 		FlowGraph g = null;
+		DependencyGraph d = new DependencyGraph();
 		HTMLParser p;
 		Document document = null;
 		Analysis a = new Analysis();
@@ -149,7 +151,7 @@ public class Main {
 		Value.reset();
 		ScopeChain.reset();
 
-		a.getSolver().init(g);
+		a.getSolver().init(g, d);
 
 		a.getInitialStateBuilder().addDOMSpecificState(document);
 
@@ -256,13 +258,13 @@ public class Main {
 
 			// print dependency graph
 			if (Options.isDependencyGraph()) {
-				System.out.println(DependencyAnalyzer.printGraph(g));
+				System.out.println(DependencyAnalyzer.printGraph(d));
 			}
 
 			// print dependency graph
 			if (Options.isToDot()) {
 				DotVisitor visitor = new DotVisitor();
-				g.getDependencyGraph().accept(visitor);
+				d.accept(visitor);
 
 				for (String string : files) {
 					try {
