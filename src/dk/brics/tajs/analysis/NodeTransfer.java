@@ -302,18 +302,23 @@ public class NodeTransfer implements INodeTransfer<State, CallContext> {
 		// ##################################################
 
 		Value v;
+		Label label = Label.OPERATION;
 		switch (n.getOperator()) {
 		case COMPLEMENT:
 			v = Operators.complement(arg, c);
+			label = Label.COMPLEMENT;
 			break;
 		case MINUS:
 			v = Operators.uminus(arg, c);
+			label = Label.MINUS;
 			break;
 		case NOT:
 			v = Operators.not(arg, c);
+			label = Label.NOT;
 			break;
 		case PLUS:
 			v = Operators.uplus(arg, c);
+			label = Label.PLUS;
 			break;
 		default:
 			throw new RuntimeException();
@@ -324,23 +329,6 @@ public class NodeTransfer implements INodeTransfer<State, CallContext> {
 		}
 
 		// ==================================================
-		Label label;
-		switch (n.getOperator()) {
-		case COMPLEMENT:
-			label = Label.COMPLEMENT;
-			break;
-		case MINUS:
-			label = Label.MINUS;
-			break;
-		case NOT:
-			label = Label.NOT;
-			break;
-		case PLUS:
-			label = Label.PLUS;
-			break;
-		default:
-			label = Label.OPERATION;
-		}
 		v = v.setDependencyGraphReference(link(label, n, arg, state)
 				.getReference());
 		// ==================================================
@@ -367,72 +355,95 @@ public class NodeTransfer implements INodeTransfer<State, CallContext> {
 		// ##################################################
 
 		Value v;
+		Label label = Label.OPERATION;
 		switch (n.getOperator()) {
 		case ADD:
 			v = Operators.add(arg1, arg2, c); // FIXME: test07.js could improve
 												// messages if keeping
 												// conversions of the two args
 												// separate
+			label = Label.ADD;
 			break;
 		case AND:
 			v = Operators.and(arg1, arg2, c);
+
+			label = Label.AND;
 			break;
 		case DIV:
 			v = Operators.div(arg1, arg2, c);
+			label = Label.DIV;
 			break;
 		case EQ:
 			v = Operators.eq(arg1, arg2, c);
+			label = Label.EQ;
 			break;
 		case GE:
 			v = Operators.ge(arg1, arg2, c);
+			label = Label.GE;
 			break;
 		case GT:
 			v = Operators.gt(arg1, arg2, c);
+			label = Label.GT;
 			break;
 		case IN:
 			v = Operators.in(state, arg1, arg2, c);
+			label = Label.IN;
 			break;
 		case INSTANCEOF:
 			v = Operators.instof(state, arg1, arg2, c);
+			label = Label.INSTANCEOF;
 			break;
 		case LE:
 			v = Operators.le(arg1, arg2, c);
+			label = Label.LE;
 			break;
 		case LT:
 			v = Operators.lt(arg1, arg2, c);
+			label = Label.LT;
 			break;
 		case MUL:
 			v = Operators.mul(arg1, arg2, c);
+			label = Label.MUL;
 			break;
 		case NE:
 			v = Operators.neq(arg1, arg2, c);
+			label = Label.NE;
 			break;
 		case OR:
 			v = Operators.or(arg1, arg2, c);
+			label = Label.OR;
 			break;
 		case REM:
 			v = Operators.rem(arg1, arg2, c);
+			label = Label.REM;
 			break;
 		case SEQ:
 			v = Operators.stricteq(arg1, arg2, c);
+			label = Label.SEQ;
 			break;
 		case SHL:
 			v = Operators.shl(arg1, arg2, c);
+			label = Label.SHL;
 			break;
 		case SHR:
 			v = Operators.shr(arg1, arg2, c);
+			label = Label.SHR;
 			break;
 		case SNE:
 			v = Operators.strictneq(arg1, arg2, c);
+			label = Label.SNE;
 			break;
 		case SUB:
 			v = Operators.sub(arg1, arg2, c);
+			label = Label.SUB;
 			break;
 		case USHR:
 			v = Operators.ushr(arg1, arg2, c);
+			label = Label.USHR;
 			break;
 		case XOR:
 			v = Operators.xor(arg1, arg2, c);
+			label = Label.XOR;
 			break;
 		default:
 			throw new RuntimeException();
@@ -443,74 +454,6 @@ public class NodeTransfer implements INodeTransfer<State, CallContext> {
 		}
 
 		// ==================================================
-		Label label;
-		switch (n.getOperator()) {
-		case ADD:
-			label = Label.ADD;
-			break;
-		case AND:
-			label = Label.AND;
-			break;
-		case DIV:
-			label = Label.DIV;
-			break;
-		case EQ:
-			label = Label.EQ;
-			break;
-		case GE:
-			label = Label.GE;
-			break;
-		case GT:
-			label = Label.GT;
-			break;
-		case IN:
-			label = Label.IN;
-			break;
-		case INSTANCEOF:
-			label = Label.INSTANCEOF;
-			break;
-		case LE:
-			label = Label.LE;
-			break;
-		case LT:
-			label = Label.LT;
-			break;
-		case MUL:
-			label = Label.MUL;
-			break;
-		case NE:
-			label = Label.NE;
-			break;
-		case OR:
-			label = Label.OR;
-			break;
-		case REM:
-			label = Label.REM;
-			break;
-		case SEQ:
-			label = Label.SEQ;
-			break;
-		case SHL:
-			label = Label.SHL;
-			break;
-		case SHR:
-			label = Label.SHR;
-			break;
-		case SNE:
-			label = Label.SNE;
-			break;
-		case SUB:
-			label = Label.SUB;
-			break;
-		case USHR:
-			label = Label.USHR;
-			break;
-		case XOR:
-			label = Label.XOR;
-			break;
-		default:
-			label = Label.OPERATION;
-		}
 		v = v.setDependencyGraphReference(link(label, n, arg1, arg2, state)
 				.getReference());
 		// ==================================================
