@@ -9,12 +9,11 @@ import java.util.TreeSet;
 
 import dk.brics.tajs.analysis.dom.html.HTMLBuilder;
 import dk.brics.tajs.dependency.Dependency;
-import dk.brics.tajs.dependency.graph.DependencyLabel;
 import dk.brics.tajs.flowgraph.Function;
 import dk.brics.tajs.flowgraph.Node;
 import dk.brics.tajs.flowgraph.ObjectLabel;
-import dk.brics.tajs.flowgraph.SourceLocation;
 import dk.brics.tajs.flowgraph.ObjectLabel.Kind;
+import dk.brics.tajs.flowgraph.SourceLocation;
 import dk.brics.tajs.flowgraph.nodes.CallNode;
 import dk.brics.tajs.flowgraph.nodes.EventDispatcherNode;
 import dk.brics.tajs.lattice.ExecutionContext;
@@ -23,9 +22,9 @@ import dk.brics.tajs.lattice.Summarized;
 import dk.brics.tajs.lattice.Value;
 import dk.brics.tajs.options.Options;
 import dk.brics.tajs.solver.GenericSolver;
-import dk.brics.tajs.solver.NodeAndContext;
 import dk.brics.tajs.solver.Message.Severity;
 import dk.brics.tajs.solver.Message.Status;
+import dk.brics.tajs.solver.NodeAndContext;
 
 /**
  * Models function calls.
@@ -177,13 +176,13 @@ public class FunctionCalls {
 		Dependency dependency = new Dependency();
 		dependency.join(caller_state.getDependency());
 		// ##################################################
-		
+
 		Value funval = call.getFunction();
-		
+
 		// ##################################################
 		dependency.join(funval.getDependency());
 		// ##################################################
-		
+
 		boolean maybe_non_function = funval.isMaybePrimitive();
 		boolean maybe_function = false;
 		for (ObjectLabel objlabel : funval.getObjectLabels()) {
@@ -202,7 +201,12 @@ public class FunctionCalls {
 					State ts = c.getCurrentState();
 					c.setCurrentState(newstate);
 					Value res = NativeFunctions.evaluate(
-							objlabel.getNativeObjectID(), call, newstate, c);				
+							objlabel.getNativeObjectID(), call, newstate, c);
+
+					// ##################################################
+					res = res.joinDependency(dependency);
+					// ##################################################
+
 					c.setCurrentState(ts);
 					if ((!res.isBottom() && !newstate.isEmpty())
 							|| Options.isPropagateDeadFlow()) {
@@ -224,7 +228,8 @@ public class FunctionCalls {
 		if (funval.getObjectLabels().isEmpty() && Options.isPropagateDeadFlow()) {
 			State newstate = caller_state.clone();
 			if (call.getResultVar() != CallNode.NO_VALUE)
-				newstate.writeTemporary(call.getResultVar(), Value.makeBottom(dependency));
+				newstate.writeTemporary(call.getResultVar(),
+						Value.makeBottom(dependency));
 			c.joinBlockEntry(newstate, call.getSourceNode().getBlock()
 					.getSingleSuccessor(), c.getCurrentContext());
 		}
@@ -243,12 +248,12 @@ public class FunctionCalls {
 	 */
 	public static void enterUserFunction(ObjectLabel obj_f, CallInfo call,
 			State caller_state, Solver.SolverInterface c) {
-		
+
 		// ##################################################
 		Dependency dependency = new Dependency();
 		dependency.join(caller_state.getDependency());
 		// ##################################################
-		
+
 		Function f = c.getFlowGraph().getFunction(obj_f);
 		Node n = call.getSourceNode();
 
@@ -276,11 +281,11 @@ public class FunctionCalls {
 			// 13.2.2.3-5 provide [[Prototype]]
 			Value prototype = caller_state.readPropertyDirect(
 					Collections.singleton(obj_f), "prototype");
-			
+
 			// ##################################################
 			dependency.join(prototype.getDependency());
 			// ##################################################
-			
+
 			if (prototype.isMaybePrimitive())
 				prototype = prototype.restrictToObject().joinObject(
 						InitialStateBuilder.OBJECT_PROTOTYPE);
@@ -306,19 +311,22 @@ public class FunctionCalls {
 				this_objs));
 		callee_state.declareAndWriteVariable("arguments",
 				Value.makeObject(argobj, dependency));
-		callee_state.writeInternalPrototype(argobj,
-				Value.makeObject(InitialStateBuilder.OBJECT_PROTOTYPE, dependency));
-		callee_state.writeSpecialProperty(argobj, "callee",
-				Value.makeObject(obj_f, dependency).setAttributes(true, false, false));
+		callee_state.writeInternalPrototype(argobj, Value.makeObject(
+				InitialStateBuilder.OBJECT_PROTOTYPE, dependency));
+		callee_state.writeSpecialProperty(
+				argobj,
+				"callee",
+				Value.makeObject(obj_f, dependency).setAttributes(true, false,
+						false));
 		int num_formals = f.getParameterNames().size();
 		int num_actuals = call.getNumberOfArgs();
 		boolean num_actuals_unknown = call.isUnknownNumberOfArgs();
 		callee_state.writeSpecialProperty(
 				argobj,
 				"length",
-				(num_actuals_unknown ? Value.makeAnyNumUInt(dependency) : Value.makeNum(
-						num_actuals, new Dependency())).setAttributes(true,
-						false, false));
+				(num_actuals_unknown ? Value.makeAnyNumUInt(dependency) : Value
+						.makeNum(num_actuals, new Dependency())).setAttributes(
+						true, false, false));
 		if (num_actuals_unknown)
 			callee_state.writeSpecialUnknownArrayProperty(argobj, call
 					.getUnknownArg().setAttributes(true, false, false));
@@ -477,12 +485,12 @@ public class FunctionCalls {
 	private static void leaveUserFunction(NodeAndContext<CallContext> p,
 			Value returnval, boolean exceptional, Function f, State state,
 			Value thisval, Solver.SolverInterface c) {
-		
+
 		// ##################################################
 		Dependency dependency = new Dependency();
 		dependency.join(state.getDependency());
 		// ##################################################
-		
+
 		Node node = p.getNode();
 		CallContext caller_context = p.getContext();
 		boolean isConstructor;
@@ -538,11 +546,13 @@ public class FunctionCalls {
 			 * Dependency: join function call dependency to return value
 			 * ############################################################
 			 */
-			
+
 			// ##################################################
 			if (node instanceof CallNode) {
 				CallNode call_node = (CallNode) node;
-				dependency.join(state.readTemporary(call_node.getFunctionVar()).getDependency());
+				dependency.join(state.readTemporary(call_node.getFunctionVar())
+						.getDependency());
+				returnval.joinDependency(dependency);
 			}
 			// ##################################################
 
