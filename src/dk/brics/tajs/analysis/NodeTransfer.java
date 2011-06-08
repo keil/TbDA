@@ -5,7 +5,6 @@ import static dk.brics.tajs.util.Collections.newSet;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
-import java.util.Stack;
 
 import dk.brics.tajs.analysis.dom.DOMEvents;
 import dk.brics.tajs.analysis.dom.DOMWindow;
@@ -69,35 +68,21 @@ public class NodeTransfer implements INodeTransfer<State, CallContext> {
 
 	private Solver.SolverInterface c;
 
+	/**
+	 * dependency graph
+	 */
 	private DependencyGraph mDependencyGraph;
 
 	/**
-	 * stack for handling context specific DependencyExpressionNode
+	 * scope for handling context specific DependencyExpressionNode
 	 */
-	// private Stack<Map<Node, DependencyExpressionNode>> mDependencyScope;
-
-	// private LinkedList<Map<Node, DependencyExpressionNode>>
-	// mDependencyScopeX;
-
-	// private Map<Integer, Map<Node, DependencyExpressionNode>>
-	// mDependencyScope2;
-
-	private Map<Integer, Map<Node, DependencyExpressionNode>> mDependencyScopeReferences;
-	private Stack<Map<Node, DependencyExpressionNode>> mDependencyScope;
+	Map<Node, DependencyExpressionNode> mScope;
 
 	/**
 	 * Constructs a new TransferFunctions object.
 	 */
 	public NodeTransfer() {
-		mDependencyScope = new Stack<Map<Node, DependencyExpressionNode>>();
-		mDependencyScope.push(new HashMap<Node, DependencyExpressionNode>());
-
-		mDependencyScopeReferences = new HashMap<Integer, Map<Node, DependencyExpressionNode>>();
-
-		// mDependencyScopeX = new LinkedList<Map<Node,
-		// DependencyExpressionNode>>();
-		// mDependencyScopeX.add(new HashMap<Node, DependencyExpressionNode>());
-
+		mScope = new HashMap<Node, DependencyExpressionNode>();
 	}
 
 	/**
@@ -108,30 +93,37 @@ public class NodeTransfer implements INodeTransfer<State, CallContext> {
 		this.mDependencyGraph = c.getDependencyGraph();
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * dk.brics.tajs.solver.INodeTransfer#transfer(dk.brics.tajs.flowgraph.Node,
+	 * dk.brics.tajs.solver.IBlockState)
+	 */
 	@Override
 	public void transfer(Node n, State state) {
 		n.visitBy(this, state);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * dk.brics.tajs.solver.INodeTransfer#transferReturn(dk.brics.tajs.flowgraph
+	 * .Node, dk.brics.tajs.flowgraph.Function,
+	 * dk.brics.tajs.solver.ICallContext, dk.brics.tajs.solver.ICallContext)
+	 */
 	@Override
-	public void transferReturn(Node call_node, Function callee,
-			CallContext caller_context, CallContext callee_context) {
-
+	public void transferReturn(Node call_node, Function callee, CallContext caller_context, CallContext callee_context) {
 		BasicBlock ordinary_exit = callee.getOrdinaryExit();
 		BasicBlock exceptional_exit = callee.getExceptionalExit();
-		State ordinary_exit_state = c.getAnalysisLatticeElement().getState(
-				ordinary_exit, callee_context);
-		State exceptional_exit_state = c.getAnalysisLatticeElement().getState(
-				exceptional_exit, callee_context);
-		NodeAndContext<CallContext> caller = new NodeAndContext<CallContext>(
-				call_node, caller_context);
+		State ordinary_exit_state = c.getAnalysisLatticeElement().getState(ordinary_exit, callee_context);
+		State exceptional_exit_state = c.getAnalysisLatticeElement().getState(exceptional_exit, callee_context);
+		NodeAndContext<CallContext> caller = new NodeAndContext<CallContext>(call_node, caller_context);
 		if (ordinary_exit_state != null)
-			transferReturn((ReturnNode) ordinary_exit.getFirstNode(),
-					ordinary_exit_state.clone(), caller);
+			transferReturn((ReturnNode) ordinary_exit.getFirstNode(), ordinary_exit_state.clone(), caller);
 		if (exceptional_exit_state != null)
-			transferExceptionalReturn(
-					(ExceptionalReturnNode) exceptional_exit.getFirstNode(),
-					exceptional_exit_state.clone(), caller);
+			transferExceptionalReturn((ExceptionalReturnNode) exceptional_exit.getFirstNode(), exceptional_exit_state.clone(), caller);
 	}
 
 	/**
@@ -143,18 +135,12 @@ public class NodeTransfer implements INodeTransfer<State, CallContext> {
 	 *            evaluated node
 	 * @return corresponding DependencyExpressionNode
 	 */
-	private DependencyExpressionNode link(Label label, Node n) {
-		if (!mDependencyScope.lastElement().containsKey(n)) {
-			DependencyExpressionNode node = new DependencyExpressionNode(
-					new DependencyLabel(label, n));
-			mDependencyScope.lastElement().put(n, node);
+	private DependencyExpressionNode link(Label label, Node node) {
+		if (!mScope.containsKey(node)) {
+			DependencyExpressionNode dependencyExpressionNode = new DependencyExpressionNode(new DependencyLabel(label, node));
+			mScope.put(node, dependencyExpressionNode);
 		}
-		n.setDependencyGraphReference(mDependencyScope.lastElement().get(n)
-				.getReference());
-		return mDependencyScope.lastElement().get(n);
-
-		// TODO
-		// return new DependencyExpressionNode(new DependencyLabel(label, n));
+		return mScope.get(node);
 	}
 
 	/**
@@ -168,8 +154,7 @@ public class NodeTransfer implements INodeTransfer<State, CallContext> {
 	 *            dependency references
 	 * @return corresponding DependencyExpressionNode
 	 */
-	private DependencyExpressionNode link(Label label, Node n,
-			IDependencyGraphReference<?>... references) {
+	private DependencyExpressionNode link(Label label, Node n, IDependencyGraphReference<?>... references) {
 		DependencyExpressionNode node = link(label, n);
 		for (IDependencyGraphReference<?> reference : references) {
 			node.addParent(reference.getDependencyGraphReference());
@@ -195,8 +180,7 @@ public class NodeTransfer implements INodeTransfer<State, CallContext> {
 		dependency.join(state.getDependency());
 		// ##################################################
 
-		state.declareAndWriteVariable(n.getVarName(),
-				Value.makeUndef(dependency));
+		state.declareAndWriteVariable(n.getVarName(), Value.makeUndef(dependency));
 	}
 
 	/**
@@ -233,13 +217,11 @@ public class NodeTransfer implements INodeTransfer<State, CallContext> {
 
 		// ##################################################
 		if (Options.isTraceAll()) {
-			DependencyObject dependencyObject = DependencyObject
-					.getDependencyObject(n.getSourceLocation());
+			DependencyObject dependencyObject = DependencyObject.getDependencyObject(n.getSourceLocation());
 			dependency.join(dependencyObject);
 
 			// ==================================================
-			DependencyObjectNode node = new DependencyObjectNode(
-					dependencyObject, mDependencyGraph.getRoot());
+			DependencyObjectNode node = new DependencyObjectNode(dependencyObject, mDependencyGraph.getRoot());
 			v = v.setDependencyGraphReference(node.getReference());
 			// ==================================================
 		}
@@ -259,29 +241,29 @@ public class NodeTransfer implements INodeTransfer<State, CallContext> {
 		// ##################################################
 
 		ObjectLabel objlabel = new ObjectLabel(n, Kind.OBJECT);
-		Value prototype = Value.makeObject(
-				InitialStateBuilder.OBJECT_PROTOTYPE, dependency);
+		Value prototype = Value.makeObject(InitialStateBuilder.OBJECT_PROTOTYPE, dependency);
 		Value v = Value.makeObject(objlabel, dependency);
 
 		// ##################################################
+		dependency.join(prototype.getDependency());
+		dependency.join(v.getDependency());
+		// ##################################################
+
+		// ##################################################
 		if (Options.isTraceAll()) {
-			DependencyObject dependencyObject = DependencyObject
-					.getDependencyObject(n.getSourceLocation());
+			DependencyObject dependencyObject = DependencyObject.getDependencyObject(n.getSourceLocation());
 			dependency.join(dependencyObject);
 
 			// ==================================================
-			DependencyObjectNode node = new DependencyObjectNode(
-					dependencyObject, mDependencyGraph.getRoot());
-			prototype = prototype.setDependencyGraphReference(node
-					.getReference());
+			DependencyObjectNode node = new DependencyObjectNode(dependencyObject, mDependencyGraph.getRoot());
+			prototype = prototype.setDependencyGraphReference(node.getReference());
 			v = v.setDependencyGraphReference(node.getReference());
 			// ==================================================
 		}
 		// ##################################################
 
 		state.newObject(objlabel);
-		state.writeInternalPrototype(objlabel,
-				prototype.joinDependency(dependency));
+		state.writeInternalPrototype(objlabel, prototype.joinDependency(dependency));
 		state.writeTemporary(n.getResultVar(), v.joinDependency(dependency));
 	}
 
@@ -329,8 +311,7 @@ public class NodeTransfer implements INodeTransfer<State, CallContext> {
 		}
 
 		// ==================================================
-		v = v.setDependencyGraphReference(link(label, n, arg, state)
-				.getReference());
+		v = v.setDependencyGraphReference(link(label, n, arg, state).getReference());
 		// ==================================================
 
 		state.writeTemporary(n.getResultVar(), v.joinDependency(dependency));
@@ -454,8 +435,7 @@ public class NodeTransfer implements INodeTransfer<State, CallContext> {
 		}
 
 		// ==================================================
-		v = v.setDependencyGraphReference(link(label, n, arg1, arg2, state)
-				.getReference());
+		v = v.setDependencyGraphReference(link(label, n, arg1, arg2, state).getReference());
 		// ==================================================
 
 		state.writeTemporary(n.getResultVar(), v.joinDependency(dependency));
@@ -489,11 +469,9 @@ public class NodeTransfer implements INodeTransfer<State, CallContext> {
 					s = Status.MAYBE;
 			} else
 				s = Status.NONE;
-			c.addMessage(s, Severity.MEDIUM,
-					"Reading 'this' yields the global object");
+			c.addMessage(s, Severity.MEDIUM, "Reading 'this' yields the global object");
 			if (n.getResultBaseVar() != Node.NO_VALUE)
-				throw new RuntimeException(
-						"ReadVariableNode for 'this' should not have a result base var");
+				throw new RuntimeException("ReadVariableNode for 'this' should not have a result base var");
 		} else {
 			v = state.readVariable(varname);
 
@@ -512,8 +490,7 @@ public class NodeTransfer implements INodeTransfer<State, CallContext> {
 				s = Status.MAYBE;
 			else
 				s = Status.NONE;
-			c.addMessage(s, Severity.HIGH,
-					"ReferenceError, reading absent variable: " + varname);
+			c.addMessage(s, Severity.HIGH, "ReferenceError, reading absent variable: " + varname);
 			if (s != Status.NONE) {
 				Exceptions.throwReferenceError(state, c);
 				if (c.isScanning())
@@ -542,22 +519,17 @@ public class NodeTransfer implements INodeTransfer<State, CallContext> {
 				s = Status.MAYBE;
 			else
 				s = Status.NONE;
-			c.addMessage(s, Severity.MEDIUM_IF_CERTAIN_NONE_OTHERWISE,
-					"Variable is null/undefined: " + varname);
+			c.addMessage(s, Severity.MEDIUM_IF_CERTAIN_NONE_OTHERWISE, "Variable is null/undefined: " + varname);
 		}
 
-		// FIXME, baseval can be null
 		// ==================================================
 		if (baseval != null)
-			v = v.setDependencyGraphReference(link(Label.READ, n, v, baseval,
-					state).getReference());
+			v = v.setDependencyGraphReference(link(Label.READ, n, v, baseval, state).getReference());
 		else
-			v = v.setDependencyGraphReference(link(Label.READ, n, v, state)
-					.getReference());
+			v = v.setDependencyGraphReference(link(Label.READ, n, v, state).getReference());
 		// ==================================================
 
-		state.writeTemporary(n.getResultVar(), v.restrictToNonAbsent()
-				.joinDependency(dependency));
+		state.writeTemporary(n.getResultVar(), v.restrictToNonAbsent().joinDependency(dependency));
 	}
 
 	/**
@@ -571,15 +543,14 @@ public class NodeTransfer implements INodeTransfer<State, CallContext> {
 		// ##################################################
 
 		Value v = state.readTemporary(n.getValueVar());
-
 		// ##################################################
 		dependency.join(v.getDependency());
 		// ##################################################
 
 		// ==================================================
-		v = v.setDependencyGraphReference(link(Label.WRITE, n, v, state)
-				.getReference());
+		v = v.setDependencyGraphReference(link(Label.WRITE, n, v, state).getReference());
 		// ==================================================
+
 		state.writeVariable(n.getVarName(), v.joinDependency(dependency));
 	}
 
@@ -602,8 +573,7 @@ public class NodeTransfer implements INodeTransfer<State, CallContext> {
 			s = Status.MAYBE;
 		else
 			s = Status.NONE;
-		c.addMessage(s, Severity.HIGH,
-				"TypeError, reading property of null/undefined");
+		c.addMessage(s, Severity.HIGH, "TypeError, reading property of null/undefined");
 		if (s != Status.NONE) {
 			Exceptions.throwTypeError(state, c);
 			if (c.isScanning())
@@ -622,12 +592,10 @@ public class NodeTransfer implements INodeTransfer<State, CallContext> {
 		// an
 		// exception would have
 		// been thrown
-		Set<ObjectLabel> objlabels = Conversion.toObjectLabels(state, n,
-				baseval, c);
+		Set<ObjectLabel> objlabels = Conversion.toObjectLabels(state, n, baseval, c);
 		Value propertyval;
 		if (n.isPropertyFixed())
-			propertyval = Value.makeStr(n.getPropertyStr(),
-					baseval.getDependency());
+			propertyval = Value.makeStr(n.getPropertyStr(), baseval.getDependency());
 		else
 			propertyval = state.readTemporary(n.getPropertyVar());
 		boolean maybe_undef = propertyval.isMaybeUndef();
@@ -641,26 +609,20 @@ public class NodeTransfer implements INodeTransfer<State, CallContext> {
 															// preceding
 															// statement)
 															// (Peter)
-		propertyval = propertyval.restrictToNotNullNotUndef()
-				.restrictToNotNaN();
+		propertyval = propertyval.restrictToNotNullNotUndef().restrictToNotNaN();
 		Str propertystr = Conversion.toString(propertyval, c);
 		Value v;
 		boolean read_all = false;
 		if (propertystr.isMaybeSingleStr()) {
 			String propertyname = propertystr.getStr();
-			checkPropertyPresent(n, objlabels, propertyname,
-					n.isPropertyFixed(), false, false, maybe_undef
-							|| maybe_null || maybe_nan, state);
+			checkPropertyPresent(n, objlabels, propertyname, n.isPropertyFixed(), false, false, maybe_undef || maybe_null || maybe_nan, state);
 			v = state.readProperty(objlabels, propertyname);
-		} else if (propertystr.isMaybeStrUInt()
-				|| propertystr.isMaybeStrNotUInt()) {
+		} else if (propertystr.isMaybeStrUInt() || propertystr.isMaybeStrNotUInt()) {
 			if (!propertystr.isMaybeStrNotUInt()) {
-				checkPropertyPresent(n, objlabels, null, false, true, false,
-						true, state);
+				checkPropertyPresent(n, objlabels, null, false, true, false, true, state);
 				v = state.readUnknownArrayIndex(objlabels);
 			} else {
-				checkPropertyPresent(n, objlabels, null, false, false, true,
-						true, state);
+				checkPropertyPresent(n, objlabels, null, false, false, true, true, state);
 				v = state.readUnknownProperty(objlabels);
 				read_all = true;
 			}
@@ -668,18 +630,15 @@ public class NodeTransfer implements INodeTransfer<State, CallContext> {
 			v = Value.makeBottom(new Dependency());
 		if (!read_all) {
 			if (maybe_undef) {
-				checkPropertyPresent(n, objlabels, "undefined", false, false,
-						false, true, state);
+				checkPropertyPresent(n, objlabels, "undefined", false, false, false, true, state);
 				v = v.join(state.readProperty(objlabels, "undefined"));
 			}
 			if (maybe_null) {
-				checkPropertyPresent(n, objlabels, "null", false, false, false,
-						true, state);
+				checkPropertyPresent(n, objlabels, "null", false, false, false, true, state);
 				v = v.join(state.readProperty(objlabels, "null"));
 			}
 			if (maybe_nan) {
-				checkPropertyPresent(n, objlabels, "NaN", false, false, false,
-						true, state);
+				checkPropertyPresent(n, objlabels, "NaN", false, false, false, true, state);
 				v = v.join(state.readProperty(objlabels, "NaN"));
 			}
 		}
@@ -701,16 +660,14 @@ public class NodeTransfer implements INodeTransfer<State, CallContext> {
 		// ##################################################
 
 		// ==================================================
-		v = v.setDependencyGraphReference(link(Label.ATTRIBUTE, n, v,
-				propertyval, baseval, state).getReference());
+		v = v.setDependencyGraphReference(link(Label.ATTRIBUTE, n, v, propertyval, baseval, state).getReference());
 		// ==================================================
 
 		state.writeTemporary(n.getResultVar(), v.joinDependency(dependency));
 	}
 
-	private void checkPropertyPresent(Node n, Set<ObjectLabel> objlabels,
-			String propertyname, boolean fixed_property, boolean array_index,
-			boolean any, boolean maybe, State state) {
+	private void checkPropertyPresent(Node n, Set<ObjectLabel> objlabels, String propertyname, boolean fixed_property, boolean array_index, boolean any,
+			boolean maybe, State state) {
 		Value v;
 		if (propertyname != null)
 			v = state.readPropertyPreserveAttributes(objlabels, propertyname);
@@ -726,11 +683,9 @@ public class NodeTransfer implements INodeTransfer<State, CallContext> {
 		else
 			s = Status.NONE;
 		if (fixed_property)
-			c.addMessage(s, Severity.MEDIUM, "Reading absent property: "
-					+ propertyname);
+			c.addMessage(s, Severity.MEDIUM, "Reading absent property: " + propertyname);
 		else
-			c.addMessage(s, Severity.LOW,
-					"Reading absent property (computed name)");
+			c.addMessage(s, Severity.LOW, "Reading absent property (computed name)");
 		if (s != Status.NONE && fixed_property && c.isScanning())
 			c.getStatistics().registerAbsentFixedPropertyRead(n);
 		Status s2;
@@ -740,8 +695,7 @@ public class NodeTransfer implements INodeTransfer<State, CallContext> {
 			s2 = Status.MAYBE;
 		else
 			s2 = Status.NONE;
-		c.addMessage(s2, Severity.MEDIUM_IF_CERTAIN_NONE_OTHERWISE,
-				"Property is null/undefined");
+		c.addMessage(s2, Severity.MEDIUM_IF_CERTAIN_NONE_OTHERWISE, "Property is null/undefined");
 	}
 
 	/**
@@ -764,8 +718,7 @@ public class NodeTransfer implements INodeTransfer<State, CallContext> {
 			s = Status.MAYBE;
 		else
 			s = Status.NONE;
-		c.addMessage(s, Severity.HIGH,
-				"TypeError, writing property of null/undefined");
+		c.addMessage(s, Severity.HIGH, "TypeError, writing property of null/undefined");
 		if (s != Status.NONE) {
 			Exceptions.throwTypeError(state, c);
 			if (c.isScanning())
@@ -776,8 +729,7 @@ public class NodeTransfer implements INodeTransfer<State, CallContext> {
 			}
 		}
 
-		Set<ObjectLabel> objlabels = Conversion.toObjectLabels(state, n,
-				baseval, c);
+		Set<ObjectLabel> objlabels = Conversion.toObjectLabels(state, n, baseval, c);
 
 		Value propertyval;
 		if (n.isPropertyFixed())
@@ -793,23 +745,19 @@ public class NodeTransfer implements INodeTransfer<State, CallContext> {
 		if (propertystr.isMaybeStrNotUInt())
 			state.writeUnknownProperty(objlabels, v.joinDependency(dependency));
 		else if (propertystr.isMaybeStrUInt())
-			state.writeUnknownArrayProperty(objlabels,
-					v.joinDependency(dependency));
+			state.writeUnknownArrayProperty(objlabels, v.joinDependency(dependency));
 		else if (propertystr.isMaybeSingleStr())
-			state.writeProperty(objlabels, propertystr.getStr(),
-					v.joinDependency(dependency));
+			state.writeProperty(objlabels, propertystr.getStr(), v.joinDependency(dependency));
 
 		// ##################################################
 		dependency.join(v.getDependency());
 		// ##################################################
 
 		// ==================================================
-		v = v.setDependencyGraphReference(link(Label.ATTRIBUTE, n, v,
-				propertyval, state).getReference());
+		v = v.setDependencyGraphReference(link(Label.ATTRIBUTE, n, v, propertyval, state).getReference());
 		// ==================================================
 
-		NativeFunctions.updateArrayLength(n, state, objlabels, propertyval,
-				v.joinDependency(dependency), c);
+		NativeFunctions.updateArrayLength(n, state, objlabels, propertyval, v.joinDependency(dependency), c);
 	}
 
 	/**
@@ -831,8 +779,7 @@ public class NodeTransfer implements INodeTransfer<State, CallContext> {
 			// ##################################################
 
 			// ==================================================
-			v = v.setDependencyGraphReference(link(Label.ATTRIBUTE, n, v, state)
-					.getReference());
+			v = v.setDependencyGraphReference(link(Label.ATTRIBUTE, n, v, state).getReference());
 			// ==================================================
 		} else {
 			Value baseval = state.readTemporary(n.getBaseVar());
@@ -850,8 +797,7 @@ public class NodeTransfer implements INodeTransfer<State, CallContext> {
 				s = Status.MAYBE;
 			else
 				s = Status.NONE;
-			c.addMessage(s, Severity.HIGH,
-					"TypeError, deleting property of null/undefined");
+			c.addMessage(s, Severity.HIGH, "TypeError, deleting property of null/undefined");
 			if (s != Status.NONE) {
 				Exceptions.throwTypeError(state, c);
 				if (c.isScanning())
@@ -863,8 +809,7 @@ public class NodeTransfer implements INodeTransfer<State, CallContext> {
 			}
 			baseval = baseval.restrictToNotNullNotUndef();
 			state.writeTemporary(n.getBaseVar(), baseval);
-			Set<ObjectLabel> objlabels = Conversion.toObjectLabels(state, n,
-					baseval, c);
+			Set<ObjectLabel> objlabels = Conversion.toObjectLabels(state, n, baseval, c);
 			Str propertystr = Conversion.toString(propertyval, c);
 			if (propertystr.isMaybeSingleStr())
 				v = state.deleteProperty(objlabels, propertystr.getStr());
@@ -878,8 +823,7 @@ public class NodeTransfer implements INodeTransfer<State, CallContext> {
 			// ##################################################
 
 			// ==================================================
-			v = v.setDependencyGraphReference(link(Label.ATTRIBUTE, n, v,
-					propertyval, baseval, state).getReference());
+			v = v.setDependencyGraphReference(link(Label.ATTRIBUTE, n, v, propertyval, baseval, state).getReference());
 			// ==================================================
 		}
 
@@ -920,8 +864,7 @@ public class NodeTransfer implements INodeTransfer<State, CallContext> {
 		}
 
 		// ==================================================
-		v = v.setDependencyGraphReference(link(Label.TYPEOF, n, v, state)
-				.getReference());
+		v = v.setDependencyGraphReference(link(Label.TYPEOF, n, v, state).getReference());
 		// ==================================================
 
 		state.writeTemporary(n.getResultVar(), v.joinDependency(dependency));
@@ -950,8 +893,7 @@ public class NodeTransfer implements INodeTransfer<State, CallContext> {
 		 */
 
 		// ==================================================
-		state.setDependencyGraphReference(link(Label.IF, n, v, state)
-				.getReference());
+		state.setDependencyGraphReference(link(Label.IF, n, v, state).getReference());
 		// ==================================================
 
 		// ##################################################
@@ -977,8 +919,7 @@ public class NodeTransfer implements INodeTransfer<State, CallContext> {
 		state.newObject(fn);
 		Value f = Value.makeObject(fn, dependency);
 		// 13.2 step 4
-		state.writeInternalPrototype(fn, Value.makeObject(
-				InitialStateBuilder.FUNCTION_PROTOTYPE, dependency));
+		state.writeInternalPrototype(fn, Value.makeObject(InitialStateBuilder.FUNCTION_PROTOTYPE, dependency));
 		// 13.2 step 7
 		Set<ScopeChain> scope = state.getScopeChain();
 		if (n.isExpression() && n.getFunction().getName() != null) {
@@ -986,43 +927,30 @@ public class NodeTransfer implements INodeTransfer<State, CallContext> {
 			ObjectLabel front = new ObjectLabel(n, Kind.OBJECT);
 			state.newObject(front);
 			scope = ScopeChain.make(front, scope);
-			state.writeSpecialProperty(front, n.getFunction().getName(),
-					f.setAttributes(false, true, true));
+			state.writeSpecialProperty(front, n.getFunction().getName(), f.setAttributes(false, true, true));
 		} else if (!n.isExpression() && n.getFunction().getName() != null) {
 			// p.71 (function declaration)
 			state.declareAndWriteVariable(n.getFunction().getName(), f);
 		}
 		state.writeObjectScope(fn, scope);
 		// 13.2 step 8
-		state.writeSpecialProperty(
-				fn,
-				"length",
-				Value.makeNum(n.getFunction().getParameterNames().size(),
-						f.getDependency()).setAttributes(true, true, true));
+		state.writeSpecialProperty(fn, "length", Value.makeNum(n.getFunction().getParameterNames().size(), f.getDependency()).setAttributes(true, true, true));
 		// 13.2 step 9
 		ObjectLabel prototype = new ObjectLabel(n, Kind.OBJECT);
 		state.newObject(prototype);
-		state.writeInternalPrototype(prototype, Value.makeObject(
-				InitialStateBuilder.OBJECT_PROTOTYPE, dependency));
+		state.writeInternalPrototype(prototype, Value.makeObject(InitialStateBuilder.OBJECT_PROTOTYPE, dependency));
 		// 13.2 step 10
-		state.writeSpecialProperty(
-				prototype,
-				"constructor",
-				Value.makeObject(fn, dependency).setAttributes(true, false,
-						false));
+		state.writeSpecialProperty(prototype, "constructor", Value.makeObject(fn, dependency).setAttributes(true, false, false));
 		// 13.2 step 11
-		state.writeSpecialProperty(
-				fn,
-				"prototype",
-				Value.makeObject(prototype, dependency).setAttributes(false,
-						true, false));
-		state.writeInternalValue(prototype,
-				Value.makeNum(Double.NaN, f.getDependency())); // TODO: as in
-																// Rhino (?)
+		state.writeSpecialProperty(fn, "prototype", Value.makeObject(prototype, dependency).setAttributes(false, true, false));
+		state.writeInternalValue(prototype, Value.makeNum(Double.NaN, f.getDependency())); // TODO:
+																							// as
+																							// in
+																							// Rhino
+																							// (?)
 
 		// ==================================================
-		f = f.setDependencyGraphReference(link(Label.FUNCTION, n, f, state)
-				.getReference());
+		f = f.setDependencyGraphReference(link(Label.FUNCTION, n, f, state).getReference());
 		// ==================================================
 
 		state.writeTemporary(n.getResultVar(), f.joinDependency(dependency));
@@ -1039,8 +967,7 @@ public class NodeTransfer implements INodeTransfer<State, CallContext> {
 		// ##################################################
 
 		if (n.getBlock().getNodes().size() != 1)
-			throw new RuntimeException(
-					"CallNode should have its own basic block");
+			throw new RuntimeException("CallNode should have its own basic block");
 
 		Value function = state.readTemporary(n.getFunctionVar());
 
@@ -1055,8 +982,7 @@ public class NodeTransfer implements INodeTransfer<State, CallContext> {
 		 */
 
 		// ==================================================
-		state.setDependencyGraphReference(link(Label.CALL, n, function, state)
-				.getReference());
+		state.setDependencyGraphReference(link(Label.CALL, n, function, state).getReference());
 		// ==================================================
 
 		// ##################################################
@@ -1081,10 +1007,8 @@ public class NodeTransfer implements INodeTransfer<State, CallContext> {
 			}
 
 			@Override
-			public Set<ObjectLabel> prepareThis(State caller_state,
-					State callee_state) {
-				return FunctionCalls.determineThis(n, caller_state,
-						callee_state, c);
+			public Set<ObjectLabel> prepareThis(State caller_state, State callee_state) {
+				return FunctionCalls.determineThis(n, caller_state, callee_state, c);
 			}
 
 			@Override
@@ -1102,8 +1026,7 @@ public class NodeTransfer implements INodeTransfer<State, CallContext> {
 
 			@Override
 			public Value getUnknownArg() {
-				throw new RuntimeException(
-						"Calling getUnknownArg but number of arguments is not unknown");
+				throw new RuntimeException("Calling getUnknownArg but number of arguments is not unknown");
 			}
 
 			@Override
@@ -1137,8 +1060,7 @@ public class NodeTransfer implements INodeTransfer<State, CallContext> {
 	 * @param caller
 	 *            if non-null, only consider this caller
 	 */
-	public void transferReturn(ReturnNode n, State state,
-			NodeAndContext<CallContext> caller) {
+	public void transferReturn(ReturnNode n, State state, NodeAndContext<CallContext> caller) {
 		// ##################################################
 		Dependency dependency = new Dependency();
 		dependency.join(state.getDependency());
@@ -1155,12 +1077,10 @@ public class NodeTransfer implements INodeTransfer<State, CallContext> {
 		// ##################################################
 
 		// ==================================================
-		v = v.setDependencyGraphReference(link(Label.RETURN, n, v, state)
-				.getReference());
+		v = v.setDependencyGraphReference(link(Label.RETURN, n, v, state).getReference());
 		// ==================================================
 
-		FunctionCalls.leaveUserFunction(v.joinDependency(dependency), false, n
-				.getBlock().getFunction(), state, c, caller);
+		FunctionCalls.leaveUserFunction(v.joinDependency(dependency), false, n.getBlock().getFunction(), state, c, caller);
 	}
 
 	/**
@@ -1177,8 +1097,7 @@ public class NodeTransfer implements INodeTransfer<State, CallContext> {
 	 * @param caller
 	 *            if non-null, only consider this caller
 	 */
-	public void transferExceptionalReturn(ExceptionalReturnNode n, State state,
-			NodeAndContext<CallContext> caller) {
+	public void transferExceptionalReturn(ExceptionalReturnNode n, State state, NodeAndContext<CallContext> caller) {
 
 		// ##################################################
 		Dependency dependency = new Dependency();
@@ -1188,13 +1107,11 @@ public class NodeTransfer implements INodeTransfer<State, CallContext> {
 		Value v = state.readTemporary(Node.EXCEPTION_VAR);
 
 		// ==================================================
-		v = v.setDependencyGraphReference(link(Label.EXCEPTION, n, v, state)
-				.getReference());
+		v = v.setDependencyGraphReference(link(Label.EXCEPTION, n, v, state).getReference());
 		// ==================================================
 
 		state.removeTemporary(Node.EXCEPTION_VAR);
-		FunctionCalls.leaveUserFunction(v.joinDependency(dependency), true, n
-				.getBlock().getFunction(), state, c, caller);
+		FunctionCalls.leaveUserFunction(v.joinDependency(dependency), true, n.getBlock().getFunction(), state, c, caller);
 	}
 
 	/**
@@ -1210,8 +1127,7 @@ public class NodeTransfer implements INodeTransfer<State, CallContext> {
 		Value v = state.readTemporary(n.getValueVar());
 
 		// ==================================================
-		v = v.setDependencyGraphReference(link(Label.THROW, n, v, state)
-				.getReference());
+		v = v.setDependencyGraphReference(link(Label.THROW, n, v, state).getReference());
 		// ==================================================
 
 		Exceptions.throwException(state, v.joinDependency(dependency), c);
@@ -1236,8 +1152,7 @@ public class NodeTransfer implements INodeTransfer<State, CallContext> {
 		// ##################################################
 
 		// ==================================================
-		v = v.setDependencyGraphReference(link(Label.CATCH, n, v, state)
-				.getReference());
+		v = v.setDependencyGraphReference(link(Label.CATCH, n, v, state).getReference());
 		// ==================================================
 
 		state.removeTemporary(Node.EXCEPTION_VAR);
@@ -1246,20 +1161,9 @@ public class NodeTransfer implements INodeTransfer<State, CallContext> {
 		} else {
 			ObjectLabel objlabel = new ObjectLabel(n, Kind.OBJECT);
 			state.newObject(objlabel);
-			state.writeInternalPrototype(
-					objlabel,
-					Value.makeObject(InitialStateBuilder.OBJECT_PROTOTYPE,
-							v.getDependency()));
-			state.writeSpecialProperty(
-					objlabel,
-					n.getVarName(),
-					v.setAttributes(false, true, false).joinDependency(
-							dependency));
-
-			// TODO set dependency of v
-
-			state.writeTemporary(n.getScopeObjVar(),
-					Value.makeObject(objlabel, dependency));
+			state.writeInternalPrototype(objlabel, Value.makeObject(InitialStateBuilder.OBJECT_PROTOTYPE, v.getDependency()));
+			state.writeSpecialProperty(objlabel, n.getVarName(), v.setAttributes(false, true, false).joinDependency(dependency));
+			state.writeTemporary(n.getScopeObjVar(), Value.makeObject(objlabel, dependency));
 		}
 	}
 
@@ -1277,18 +1181,14 @@ public class NodeTransfer implements INodeTransfer<State, CallContext> {
 		Value v = state.readTemporary(n.getObjectVar());
 
 		// ==================================================
-		v = v.setDependencyGraphReference(link(Label.WITH, n, v, state)
-				.getReference());
+		v = v.setDependencyGraphReference(link(Label.WITH, n, v, state).getReference());
 		// ==================================================
 
-		Set<ObjectLabel> objs = Conversion.toObjectLabels(state, n,
-				v.joinDependency(dependency), c);
+		Set<ObjectLabel> objs = Conversion.toObjectLabels(state, n, v.joinDependency(dependency), c);
 		Set<ExecutionContext> new_execution_context = newSet();
 		for (ObjectLabel obj : objs)
 			for (ExecutionContext ec : state.getExecutionContext())
-				new_execution_context.add(new ExecutionContext(ScopeChain.make(
-						obj, ec.getScopeChain()), ec.getVariableObject(), ec
-						.getThisObject()));
+				new_execution_context.add(new ExecutionContext(ScopeChain.make(obj, ec.getScopeChain()), ec.getVariableObject(), ec.getThisObject()));
 		state.setExecutionContext(new_execution_context);
 	}
 
@@ -1302,8 +1202,7 @@ public class NodeTransfer implements INodeTransfer<State, CallContext> {
 														// blocks
 		Set<ExecutionContext> new_execution_context = newSet();
 		for (ExecutionContext ec : state.getExecutionContext())
-			new_execution_context.add(new ExecutionContext(ec.getScopeChain()
-					.next(), ec.getVariableObject(), ec.getThisObject()));
+			new_execution_context.add(new ExecutionContext(ec.getScopeChain().next(), ec.getVariableObject(), ec.getThisObject()));
 		state.setExecutionContext(new_execution_context);
 	}
 
@@ -1323,16 +1222,13 @@ public class NodeTransfer implements INodeTransfer<State, CallContext> {
 		dependency.join(v.getDependency());
 		// ##################################################
 
-		/* Set<ObjectLabel> objs = */Conversion.toObjectLabels(state, n,
-				v.joinDependency(dependency), c);
+		/* Set<ObjectLabel> objs = */Conversion.toObjectLabels(state, n, v.joinDependency(dependency), c);
 
 		// ==================================================
-		v = v.setDependencyGraphReference(link(Label.IN, n, v, state)
-				.getReference());
+		v = v.setDependencyGraphReference(link(Label.IN, n, v, state).getReference());
 		// ==================================================
 
-		state.writeTemporary(n.getPropertyQueueVar(),
-				v.joinDependency(dependency));
+		state.writeTemporary(n.getPropertyQueueVar(), v.joinDependency(dependency));
 
 		// TODO: improve transfer for GetPropertiesNode? - need path sensitivity
 		// or a stronger Str lattice?
@@ -1354,8 +1250,7 @@ public class NodeTransfer implements INodeTransfer<State, CallContext> {
 		Value queue = state.readTemporary(n.getPropertyQueueVar());
 
 		// ==================================================
-		queue = queue.setDependencyGraphReference(link(Label.IN, n, queue,
-				state).getReference());
+		queue = queue.setDependencyGraphReference(link(Label.IN, n, queue, state).getReference());
 		// ==================================================
 
 		// ##################################################
@@ -1385,8 +1280,7 @@ public class NodeTransfer implements INodeTransfer<State, CallContext> {
 		Value queue = state.readTemporary(n.getPropertyQueueVar());
 
 		// ==================================================
-		queue = queue.setDependencyGraphReference(link(Label.IN, n, queue,
-				state).getReference());
+		queue = queue.setDependencyGraphReference(link(Label.IN, n, queue, state).getReference());
 		// ==================================================
 
 		// ##################################################
@@ -1417,20 +1311,17 @@ public class NodeTransfer implements INodeTransfer<State, CallContext> {
 			v = v.restrictToNotNullNotUndef().clearAbsent();
 
 			if (Options.isCollectVariableInfoEnabled()) {
-				c.record(n.getVarName(), n.getSourceLocation(),
-						v.joinDependency(dependency));
+				c.record(n.getVarName(), n.getSourceLocation(), v.joinDependency(dependency));
 			}
 
 			// ==================================================
-			v = v.setDependencyGraphReference(link(Label.OPERATION, n, v, state)
-					.getReference());
+			v = v.setDependencyGraphReference(link(Label.OPERATION, n, v, state).getReference());
 			// ==================================================
 
 			if (v.isNoValue() && !Options.isPropagateDeadFlow())
 				state.setToBottom();
 			else
-				state.writeVariable(n.getVarName(),
-						v.joinDependency(dependency));
+				state.writeVariable(n.getVarName(), v.joinDependency(dependency));
 			break;
 		}
 
@@ -1445,27 +1336,22 @@ public class NodeTransfer implements INodeTransfer<State, CallContext> {
 				dependency.join(propval.getDependency());
 				// ##################################################
 
-				if (!propval.isMaybeSingleStr()
-						|| propval.isMaybeOtherThanStr())
+				if (!propval.isMaybeSingleStr() || propval.isMaybeOtherThanStr())
 					break; // safe to do nothing here if it gets complicated
 				propname = propval.getStr();
 			}
-			Set<ObjectLabel> baseobjs = Conversion.toObjectLabels(state,
-					n.getAccessNode(), state.readTemporary(n.getBaseVar()),
-					null);
+			Set<ObjectLabel> baseobjs = Conversion.toObjectLabels(state, n.getAccessNode(), state.readTemporary(n.getBaseVar()), null);
 			Value v = state.readPropertyPreserveAttributes(baseobjs, propname);
 			v = v.restrictToNotNullNotUndef().clearAbsent();
 
 			// ==================================================
-			v = v.setDependencyGraphReference(link(Label.OPERATION, n, v, state)
-					.getReference());
+			v = v.setDependencyGraphReference(link(Label.OPERATION, n, v, state).getReference());
 			// ==================================================
 
 			if (v.isNoValue() && !Options.isPropagateDeadFlow())
 				state.setToBottom();
 			else
-				state.writeSpecialProperty(baseobjs, propname,
-						v.joinDependency(dependency));
+				state.writeSpecialProperty(baseobjs, propname, v.joinDependency(dependency));
 			break;
 		}
 		}
@@ -1484,8 +1370,7 @@ public class NodeTransfer implements INodeTransfer<State, CallContext> {
 		// ##################################################
 
 		if (n.getBlock().getNodes().size() != 1)
-			throw new RuntimeException(
-					"EventDispatcherNode should have its own basic block");
+			throw new RuntimeException("EventDispatcherNode should have its own basic block");
 		if (!Options.isDOMEnabled()) {
 			throw new RuntimeException();
 		}
@@ -1499,16 +1384,13 @@ public class NodeTransfer implements INodeTransfer<State, CallContext> {
 				}
 			}
 
-			Value v = Value.makeObject(state.getAllLoadEventHandlers(),
-					dependency);
+			Value v = Value.makeObject(state.getAllLoadEventHandlers(), dependency);
 
 			// ==================================================
-			v = v.setDependencyGraphReference(link(Label.EVENT, n, v, state)
-					.getReference());
+			v = v.setDependencyGraphReference(link(Label.EVENT, n, v, state).getReference());
 			// ==================================================
 
-			FunctionCalls.callFunction(new FunctionCalls.EventHandlerCall(n, v,
-					null, c), state, c);
+			FunctionCalls.callFunction(new FunctionCalls.EventHandlerCall(n, v, null, c), state, c);
 		}
 
 		// Unload Event Handlers
@@ -1516,21 +1398,17 @@ public class NodeTransfer implements INodeTransfer<State, CallContext> {
 			// Debugging
 			if (Options.isDebugEnabled()) {
 				for (ObjectLabel l : state.getUnloadEventHandlers()) {
-					System.out
-							.println("NodeTransfer: UnloadEventHandler: " + l);
+					System.out.println("NodeTransfer: UnloadEventHandler: " + l);
 				}
 			}
 
-			Value v = Value.makeObject(state.getUnloadEventHandlers(),
-					dependency);
+			Value v = Value.makeObject(state.getUnloadEventHandlers(), dependency);
 
 			// ==================================================
-			v = v.setDependencyGraphReference(link(Label.EVENT, n, v, state)
-					.getReference());
+			v = v.setDependencyGraphReference(link(Label.EVENT, n, v, state).getReference());
 			// ==================================================
 
-			FunctionCalls.callFunction(new FunctionCalls.EventHandlerCall(n, v,
-					null, c), state, c);
+			FunctionCalls.callFunction(new FunctionCalls.EventHandlerCall(n, v, null, c), state, c);
 		}
 
 		// Other Event Handlers
@@ -1538,19 +1416,16 @@ public class NodeTransfer implements INodeTransfer<State, CallContext> {
 			// Debugging
 			if (Options.isDebugEnabled()) {
 				for (ObjectLabel l : state.getKeyboardEventHandlers()) {
-					System.out.println("NodeTransfer: KeyboardEventHandler: "
-							+ l);
+					System.out.println("NodeTransfer: KeyboardEventHandler: " + l);
 				}
 				for (ObjectLabel l : state.getMouseEventHandlers()) {
 					System.out.println("NodeTransfer: MouseEventHandler: " + l);
 				}
 				for (ObjectLabel l : state.getUnknownEventHandlers()) {
-					System.out.println("NodeTransfer: UnknownEventHandler: "
-							+ l);
+					System.out.println("NodeTransfer: UnknownEventHandler: " + l);
 				}
 				for (ObjectLabel l : state.getTimeoutEventHandlers()) {
-					System.out.println("NodeTransfer: TimeoutEventHandler: "
-							+ l);
+					System.out.println("NodeTransfer: TimeoutEventHandler: " + l);
 				}
 			}
 
@@ -1561,22 +1436,17 @@ public class NodeTransfer implements INodeTransfer<State, CallContext> {
 			final State timeoutState = state.clone();
 
 			// Keyboard Events
-			final Value keyboardEvent = DOMEvents
-					.createAnyKeyboardEvent(keyboardState);
-			keyboardState.writeProperty(DOMWindow.WINDOW, "event",
-					keyboardEvent);
+			final Value keyboardEvent = DOMEvents.createAnyKeyboardEvent(keyboardState);
+			keyboardState.writeProperty(DOMWindow.WINDOW, "event", keyboardEvent);
 			c.setCurrentState(keyboardState);
 
-			Value vkeyboard = Value.makeObject(
-					keyboardState.getKeyboardEventHandlers(), dependency);
+			Value vkeyboard = Value.makeObject(keyboardState.getKeyboardEventHandlers(), dependency);
 
 			// ==================================================
-			vkeyboard = vkeyboard.setDependencyGraphReference(link(Label.EVENT,
-					n, vkeyboard, state).getReference());
+			vkeyboard = vkeyboard.setDependencyGraphReference(link(Label.EVENT, n, vkeyboard, state).getReference());
 			// ==================================================
 
-			FunctionCalls.callFunction(new FunctionCalls.EventHandlerCall(n,
-					vkeyboard, keyboardEvent, c), keyboardState, c);
+			FunctionCalls.callFunction(new FunctionCalls.EventHandlerCall(n, vkeyboard, keyboardEvent, c), keyboardState, c);
 
 			// Mouse Events
 			final Value mouseEvent = DOMEvents.createAnyMouseEvent(mouseState);
@@ -1584,16 +1454,13 @@ public class NodeTransfer implements INodeTransfer<State, CallContext> {
 
 			c.setCurrentState(mouseState);
 
-			Value vmouse = Value.makeObject(mouseState.getMouseEventHandlers(),
-					dependency);
+			Value vmouse = Value.makeObject(mouseState.getMouseEventHandlers(), dependency);
 
 			// ==================================================
-			vmouse = vmouse.setDependencyGraphReference(link(Label.EVENT, n,
-					vmouse, state).getReference());
+			vmouse = vmouse.setDependencyGraphReference(link(Label.EVENT, n, vmouse, state).getReference());
 			// ==================================================
 
-			FunctionCalls.callFunction(new FunctionCalls.EventHandlerCall(n,
-					vmouse, mouseEvent, c), mouseState, c);
+			FunctionCalls.callFunction(new FunctionCalls.EventHandlerCall(n, vmouse, mouseEvent, c), mouseState, c);
 
 			// Unknown Event Handlers
 			final Value anyEvent = DOMEvents.createAnyEvent(unknownState);
@@ -1601,30 +1468,24 @@ public class NodeTransfer implements INodeTransfer<State, CallContext> {
 
 			c.setCurrentState(unknownState);
 
-			Value vunknown = Value.makeObject(
-					unknownState.getUnknownEventHandlers(), dependency);
+			Value vunknown = Value.makeObject(unknownState.getUnknownEventHandlers(), dependency);
 
 			// ==================================================
-			vunknown = vunknown.setDependencyGraphReference(link(Label.EVENT,
-					n, vunknown, state).getReference());
+			vunknown = vunknown.setDependencyGraphReference(link(Label.EVENT, n, vunknown, state).getReference());
 			// ==================================================
 
-			FunctionCalls.callFunction(new FunctionCalls.EventHandlerCall(n,
-					vunknown, anyEvent, c), unknownState, c);
+			FunctionCalls.callFunction(new FunctionCalls.EventHandlerCall(n, vunknown, anyEvent, c), unknownState, c);
 
 			// Timeout
 			c.setCurrentState(timeoutState);
 
-			Value vtimeout = Value.makeObject(
-					timeoutState.getTimeoutEventHandlers(), dependency);
+			Value vtimeout = Value.makeObject(timeoutState.getTimeoutEventHandlers(), dependency);
 
 			// ==================================================
-			vtimeout = vtimeout.setDependencyGraphReference(link(Label.EVENT,
-					n, vtimeout, state).getReference());
+			vtimeout = vtimeout.setDependencyGraphReference(link(Label.EVENT, n, vtimeout, state).getReference());
 			// ==================================================
 
-			FunctionCalls.callFunction(new FunctionCalls.EventHandlerCall(n,
-					vtimeout, null, c), timeoutState, c);
+			FunctionCalls.callFunction(new FunctionCalls.EventHandlerCall(n, vtimeout, null, c), timeoutState, c);
 
 			// Return state to its original
 			c.setCurrentState(state);
@@ -1678,28 +1539,9 @@ public class NodeTransfer implements INodeTransfer<State, CallContext> {
 		 * ############################################################
 		 */
 
-		// // FIXME
-		// Map<Node, DependencyExpressionNode> map = new HashMap<Node,
-		// DependencyExpressionNode>();
-		// mDependencyScope.push(map);
-
-		// TODO
-		if (!mDependencyScopeReferences.containsKey(n.getID())) {
-			Map<Node, DependencyExpressionNode> map = new HashMap<Node, DependencyExpressionNode>();
-			mDependencyScopeReferences.put(n.getID(), map);
-			mDependencyScope.push(map);
-			// System.out.println("%%%%% add new map for context #" + n.
-			// getID());
-
-		}
-
-		// FIXME
-		// mDependencyScope.push(new HashMap<Node, DependencyExpressionNode>());
-		//
 		// ##################################################
 		n.setContextDependency(state.getDependency());
-		n.setContextDependencyGraphReference(state
-				.getDependencyGraphReference());
+		n.setContextDependencyGraphReference(state.getDependencyGraphReference());
 		// ##################################################
 	}
 
@@ -1711,20 +1553,9 @@ public class NodeTransfer implements INodeTransfer<State, CallContext> {
 		 * ############################################################
 		 */
 
-		// FIXME
-		// mDependencyScope.pop();
-		//
-		if (mDependencyScope.lastElement().equals(
-				mDependencyScopeReferences.get(n.getID()))) {
-			mDependencyScope.pop();
-			mDependencyScopeReferences.remove(n.getID());
-			// System.out.println("%%%%% remove map for context #" + n.getID());
-		}
-
 		// ##################################################
 		state.setDependency(n.getContextDependency());
-		state.setDependencyGraphReference(n
-				.getContextDependencyGraphReference());
+		state.setDependencyGraphReference(n.getContextDependencyGraphReference());
 		// ##################################################
 	}
 }

@@ -461,6 +461,7 @@ public class FunctionCalls {
 			state.clearTemporaries();
 			state.writeTemporary(0, returnval); // ensures that returnval is
 												// treated as live
+			
 			state.sharpen();
 			state.clearTemporaries();
 		}
