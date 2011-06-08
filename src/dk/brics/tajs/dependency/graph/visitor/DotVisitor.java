@@ -193,7 +193,7 @@ public class DotVisitor implements IDependencyGraphVisitor {
 	 * @param id1
 	 */
 	private void addNodeEdge(String id0, String id1) {
-		mBufferEdges.append("   " + id0 + " ->" + id1 + ";\n");
+		mBufferEdges.append("   " + id0 + " -> " + id1 + "[dir=back];\n");
 	}
 
 	/**
