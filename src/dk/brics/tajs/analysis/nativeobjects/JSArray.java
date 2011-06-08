@@ -111,7 +111,6 @@ public class JSArray {
 					// ##################################################
 				}
 			}
-
 			Value res = Value.makeObject(objlabel, dependency);
 			state.writeInternalPrototype(objlabel, Value.makeObject(
 					InitialStateBuilder.ARRAY_PROTOTYPE, dependency));
