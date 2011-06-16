@@ -43,14 +43,17 @@ public class ECMAScriptFunctions {
             case ARRAY_TOSTRING:
             case ARRAY_TOLOCALESTRING:
             case ARRAY_CONCAT:
+//            case ARRAY_FOREACH:
             case ARRAY_PUSH:
             case ARRAY_POP:
             case ARRAY_REVERSE:
             case ARRAY_SHIFT:
             case ARRAY_SLICE:
+//            case ARRAY_SOME:	
             case ARRAY_SORT:
             case ARRAY_SPLICE:
             case ARRAY_UNSHIFT:
+//            case ARRAY_INDEXOF:
                 res = JSArray.evaluate(nativeobject, call, state, c);
                 break;
 
