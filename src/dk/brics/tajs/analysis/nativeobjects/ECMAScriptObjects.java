@@ -32,16 +32,19 @@ public enum ECMAScriptObjects implements NativeObject {
 			NativeAPIs.ECMA_SCRIPT_NATIVE, "Array.prototype"), ARRAY_TOSTRING(
 			NativeAPIs.ECMA_SCRIPT_NATIVE, "Array.prototype.toString"), ARRAY_TOLOCALESTRING(
 			NativeAPIs.ECMA_SCRIPT_NATIVE, "Array.prototype.toLocaleString"), ARRAY_CONCAT(
-			NativeAPIs.ECMA_SCRIPT_NATIVE, "Array.prototype.concat"), ARRAY_JOIN(
+			NativeAPIs.ECMA_SCRIPT_NATIVE, "Array.prototype.concat"), ARRAY_FOREACH(
+			NativeAPIs.ECMA_SCRIPT_NATIVE, "Array.prototype.forEach"), ARRAY_JOIN(
 			NativeAPIs.ECMA_SCRIPT_NATIVE, "Array.prototype.join"), ARRAY_POP(
 			NativeAPIs.ECMA_SCRIPT_NATIVE, "Array.prototype.pop"), ARRAY_PUSH(
 			NativeAPIs.ECMA_SCRIPT_NATIVE, "Array.prototype.push"), ARRAY_REVERSE(
 			NativeAPIs.ECMA_SCRIPT_NATIVE, "Array.prototype.reverse"), ARRAY_SHIFT(
 			NativeAPIs.ECMA_SCRIPT_NATIVE, "Array.prototype.shift"), ARRAY_SLICE(
-			NativeAPIs.ECMA_SCRIPT_NATIVE, "Array.prototype.slice"), ARRAY_SORT(
+			NativeAPIs.ECMA_SCRIPT_NATIVE, "Array.prototype.slice"), ARRAY_SOME(
+			NativeAPIs.ECMA_SCRIPT_NATIVE, "Array.prototype.some"), ARRAY_SORT(
 			NativeAPIs.ECMA_SCRIPT_NATIVE, "Array.prototype.sort"), ARRAY_SPLICE(
 			NativeAPIs.ECMA_SCRIPT_NATIVE, "Array.prototype.splice"), ARRAY_UNSHIFT(
-			NativeAPIs.ECMA_SCRIPT_NATIVE, "Array.prototype.unshift"),
+			NativeAPIs.ECMA_SCRIPT_NATIVE, "Array.prototype.unshift"), ARRAY_INDEXOF(
+			NativeAPIs.ECMA_SCRIPT_NATIVE, "Array.prototype.indexOf"),
 
 	STRING(NativeAPIs.ECMA_SCRIPT_NATIVE, "String"), STRING_PROTOTYPE(
 			NativeAPIs.ECMA_SCRIPT_NATIVE, "String.prototype"), STRING_FROMCHARCODE(
@@ -211,8 +214,9 @@ public enum ECMAScriptObjects implements NativeObject {
 			"_TAJS_getKeyboardEvent"), // nonstandard
 	TAJS_GET_EVENT_LISTENER(NativeAPIs.ECMA_SCRIPT_NATIVE,
 			"_TAJS_getEventListener"), // nonstandard
-	TAJS_GET_WHEEL_EVENT(NativeAPIs.ECMA_SCRIPT_NATIVE, "_TAJS_getWheelEvent"); // nonstandard
-
+	TAJS_GET_WHEEL_EVENT(NativeAPIs.ECMA_SCRIPT_NATIVE, "_TAJS_getWheelEvent"), // nonstandard
+	TAJS_GET_AJAX_EVENT(NativeAPIs.ECMA_SCRIPT_NATIVE, "_TAJS_getAjaxEvent"); // nonstandard
+	
 	private NativeAPIs api;
 	private String string;
 
