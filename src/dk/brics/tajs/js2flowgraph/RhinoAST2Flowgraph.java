@@ -586,6 +586,12 @@ public class RhinoAST2Flowgraph {
 				FunctionNode fn = getTop()
 						.getFunctionNode(
 								rn.getExistingIntProp(org.mozilla.javascript.Node.FUNCTION_PROP));
+
+				// fixes, tha all function will be created in line 1
+				if(sloc.getLineNumber() != fn.getBaseLineno()+1) {
+					sloc = new SourceLocation(fn.getBaseLineno()+1, fileName);
+				}
+
 				Function f = new RhinoASTWalker(fileName, fn, null, currFun)
 						.buildFunction(fn);
 				DeclareFunctionNode fnN = new DeclareFunctionNode(f,
