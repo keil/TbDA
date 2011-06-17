@@ -79,10 +79,10 @@ public class JSArray {
 					s = Status.CERTAIN;
 				else if (lenarg.isMaybeFuzzyNum()) {
 					s = Status.MAYBE;
-					length = Value.makeAnyNumUInt(lenarg.getDependency()).joinDependencyGraphReference(node);
+					length = Value.makeAnyNumUInt(dependency).joinDependencyGraphReference(node);
 				} else {
 					s = Status.NONE;
-					length = Value.makeBottom(lenarg.getDependency()).joinDependencyGraphReference(node);
+					length = Value.makeBottom(dependency).joinDependencyGraphReference(node);
 				}
 				if (s == Status.CERTAIN && lenarg.isMaybeOtherThanNum())
 					s = Status.MAYBE;
@@ -90,7 +90,7 @@ public class JSArray {
 				if (s != Status.NONE)
 					Exceptions.throwRangeError(state, c);
 				if (s == Status.CERTAIN)
-					return Value.makeBottom(lenarg.getDependency()).joinDependencyGraphReference(node);
+					return Value.makeBottom(dependency).joinDependencyGraphReference(node);
 				if (lenarg.isMaybeOtherThanNum()) {
 					length = length.joinNum(1);
 					Value zeroprop = lenarg.restrictToNotNum();
@@ -98,10 +98,10 @@ public class JSArray {
 						zeroprop = zeroprop.joinAbsent();
 					state.writeProperty(objlabel, "0", zeroprop);
 				}
-				state.writeSpecialProperty(objlabel, "length", length.setAttributes(true, true, false));
+				state.writeSpecialProperty(objlabel, "length", length.setAttributes(true, true, false).joinDependency(dependency));
 			} else { // 15.4.2.1
 				// ##########
-				state.writeSpecialProperty(objlabel, "length", Value.makeNum(call.getNumberOfArgs(), new Dependency()).setAttributes(true, true, false));
+				state.writeSpecialProperty(objlabel, "length", Value.makeNum(call.getNumberOfArgs(), dependency).setAttributes(true, true, false));
 				for (int i = 0; i < call.getNumberOfArgs(); i++) {
 					state.writeProperty(objlabel, Integer.toString(i), call.getArg(i));
 					// ##################################################
@@ -154,7 +154,7 @@ public class JSArray {
 
 			} else {
 				if (NativeFunctions.throwTypeErrorIfWrongKindOfThis(nativeobject, call, state, c, Kind.ARRAY))
-					return Value.makeBottom(new Dependency());
+					return Value.makeBottom(dependency);
 				NativeFunctions.expectParameters(nativeobject, call, c, 0, 0);
 			}
 			return Value.makeAnyStr(dependency).joinDependencyGraphReference(node); // TODO:
