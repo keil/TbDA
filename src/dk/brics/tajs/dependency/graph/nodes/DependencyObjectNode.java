@@ -23,10 +23,8 @@ public class DependencyObjectNode extends DependencyNode {
 	 * @param dependency
 	 * @param root
 	 */
-	public DependencyObjectNode(DependencyObject dependency,
-			DependencyRootNode root) {
+	public DependencyObjectNode(DependencyObject dependency, DependencyRootNode root) {
 		this.mDependency = dependency;
-
 		addParentNode(root);
 	}
 
@@ -98,8 +96,7 @@ public class DependencyObjectNode extends DependencyNode {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result
-				+ ((mDependency == null) ? 0 : mDependency.hashCode());
+		result = prime * result + ((mDependency == null) ? 0 : mDependency.hashCode());
 		return result;
 	}
 

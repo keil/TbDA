@@ -7,8 +7,11 @@ import java.util.Set;
 
 import dk.brics.tajs.dependency.Dependency;
 import dk.brics.tajs.dependency.DependencyAnalyzer;
+import dk.brics.tajs.dependency.graph.interfaces.IDependencyGraphReference;
 import dk.brics.tajs.dependency.graph.interfaces.IDependencyGraphVisitor;
+import dk.brics.tajs.dependency.graph.nodes.DependencyExpressionNode;
 import dk.brics.tajs.dependency.graph.visitor.DependencyVisitor;
+import dk.brics.tajs.flowgraph.Node;
 
 public abstract class DependencyNode {
 
@@ -96,6 +99,13 @@ public abstract class DependencyNode {
 	}
 
 	/**
+	 * @param reference
+	 */
+	public void addParent(IDependencyGraphReference<?> reference) {
+		addParent(reference.getDependencyGraphReference());
+	}
+
+	/**
 	 * @return DependencyGraphReference
 	 */
 	public DependencyGraphReference getReference() {
@@ -159,4 +169,58 @@ public abstract class DependencyNode {
 	protected void finalize() throws Throwable {
 		super.finalize();
 	}
+	
+	
+	
+	
+	
+	
+	///////////////////////////////////////////////
+	///////////////////////////////////////////////
+	
+	// TODO
+	
+	/**
+	 * scope for handling context specific DependencyExpressionNode
+	 */
+	private static Map<Node, DependencyExpressionNode> mScope = new HashMap<Node, DependencyExpressionNode>();
+	
+	/**
+	 * returns an DependencyExpressionNode
+	 * 
+	 * @param label
+	 *            expression label
+	 * @param n
+	 *            evaluated node
+	 * @return corresponding DependencyExpressionNode
+	 */
+	public static DependencyExpressionNode link(Label label, Node node) {
+		if (!mScope.containsKey(node)) {
+			DependencyExpressionNode dependencyExpressionNode = new DependencyExpressionNode(new DependencyLabel(label, node));
+			mScope.put(node, dependencyExpressionNode);
+		}
+		return mScope.get(node);
+	}
+
+	/**
+	 * returns an DependencyExpressionNode
+	 * 
+	 * @param label
+	 *            expression label
+	 * @param n
+	 *            evaluated node
+	 * @param references
+	 *            dependency references
+	 * @return corresponding DependencyExpressionNode
+	 */
+	public static DependencyExpressionNode link(Label label, Node n, IDependencyGraphReference<?>... references) {
+		DependencyExpressionNode node = link(label, n);
+		for (IDependencyGraphReference<?> reference : references) {
+			node.addParent(reference.getDependencyGraphReference());
+		}
+		return node;
+	}
+	
+	
+	
 }

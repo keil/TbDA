@@ -168,8 +168,7 @@ public class DotVisitor implements IDependencyGraphVisitor {
 	 * @param label
 	 */
 	private void addRoot(String id, String label) {
-		mBufferNodes.append("   " + id + " " + "[label=\"" + label
-				+ "\"  shape=box];\n");
+		mBufferNodes.append("   " + id + " " + "[label=\"" + label + "\"  shape=box];\n");
 	}
 
 	/**

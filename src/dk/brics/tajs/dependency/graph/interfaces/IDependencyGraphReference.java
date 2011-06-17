@@ -1,6 +1,7 @@
 package dk.brics.tajs.dependency.graph.interfaces;
 
 import dk.brics.tajs.dependency.graph.DependencyGraphReference;
+import dk.brics.tajs.dependency.graph.DependencyNode;
 
 public interface IDependencyGraphReference<Arg> {
 
@@ -40,4 +41,12 @@ public interface IDependencyGraphReference<Arg> {
 	 * @return joined object
 	 */
 	public Arg joinDependencyGraphReference(DependencyGraphReference reference);
+
+	/**
+	 * return object with joined graph references
+	 * 
+	 * @param node
+	 * @return joined object
+	 */
+	public Arg joinDependencyGraphReference(DependencyNode node);
 }

@@ -87,7 +87,6 @@ public class GraphVisitor implements IDependencyGraphVisitor {
 	@Override
 	public void visit(DependencyRootNode node) {
 		append(new SourceLocation(0, ""), node.toString());
-
 		mVisited.add(node);
 		for (DependencyNode n : node.getChildNodes()) {
 			if (!visited(n)) {
@@ -106,7 +105,6 @@ public class GraphVisitor implements IDependencyGraphVisitor {
 	@Override
 	public void visit(DependencyObjectNode node) {
 		append(node.getSourceLocation(), node.toString());
-
 		mVisited.add(node);
 		for (DependencyNode n : node.getChildNodes()) {
 			if (!visited(n)) {
@@ -125,7 +123,6 @@ public class GraphVisitor implements IDependencyGraphVisitor {
 	@Override
 	public void visit(DependencyExpressionNode node) {
 		append(node.getSourceLocation(), node.toString());
-
 		mVisited.add(node);
 		for (DependencyNode n : node.getChildNodes()) {
 			if (!visited(n)) {
