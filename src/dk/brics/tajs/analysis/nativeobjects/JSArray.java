@@ -10,6 +10,9 @@ import dk.brics.tajs.analysis.Solver;
 import dk.brics.tajs.analysis.State;
 import dk.brics.tajs.analysis.FunctionCalls.CallInfo;
 import dk.brics.tajs.dependency.Dependency;
+import dk.brics.tajs.dependency.graph.DependencyNode;
+import dk.brics.tajs.dependency.graph.Label;
+import dk.brics.tajs.dependency.graph.nodes.DependencyExpressionNode;
 import dk.brics.tajs.flowgraph.ObjectLabel;
 import dk.brics.tajs.flowgraph.ObjectLabel.Kind;
 import dk.brics.tajs.lattice.Value;
@@ -27,8 +30,7 @@ public class JSArray {
 	/**
 	 * Evaluates the given native function.
 	 */
-	public static Value evaluate(ECMAScriptObjects nativeobject, CallInfo call,
-			State state, Solver.SolverInterface c) {
+	public static Value evaluate(ECMAScriptObjects nativeobject, CallInfo call, State state, Solver.SolverInterface c) {
 		if (nativeobject != ECMAScriptObjects.ARRAY)
 			if (NativeFunctions.throwTypeErrorIfConstructor(call, state, c))
 				return Value.makeBottom(new Dependency());
@@ -40,15 +42,16 @@ public class JSArray {
 			Dependency dependency = new Dependency();
 			// ##################################################
 
-			ObjectLabel objlabel = new ObjectLabel(call.getSourceNode(),
-					Kind.ARRAY);
+			// ==================================================
+			DependencyExpressionNode node = DependencyNode.link(Label.CALL, call.getSourceNode(), state);
+			// ==================================================
+
+			ObjectLabel objlabel = new ObjectLabel(call.getSourceNode(), Kind.ARRAY);
 			state.newObject(objlabel);
 
 			if (call.isUnknownNumberOfArgs()) { // TODO: warn about this case?
 				state.writeUnknownArrayProperty(objlabel, call.getUnknownArg());
-				state.writeSpecialProperty(objlabel, "length", Value
-						.makeAnyNumUInt(call.getUnknownArg().getDependency())
-						.setAttributes(true, true, false));
+				state.writeSpecialProperty(objlabel, "length", Value.makeAnyNumUInt(call.getUnknownArg().getDependency()).setAttributes(true, true, false));
 			} else if (call.getNumberOfArgs() == 1) { // 15.4.2.2
 				Value lenarg = call.getArg(0);
 
@@ -56,39 +59,38 @@ public class JSArray {
 				dependency.join(lenarg.getDependency());
 				// ##################################################
 
+				// ==================================================
+				node.addParent(lenarg);
+				// ==================================================
+
 				Status s;
 				Value length = null;
 				if (lenarg.isMaybeSingleNum()) {
 					double d = lenarg.getNum();
 					if (d >= 0 && d < 2147483647d && Math.floor(d) == d) {
 						s = Status.NONE;
-						length = Value.makeNum(d, dependency);
+						length = Value.makeNum(d, dependency).joinDependencyGraphReference(node);
 					} else
 						s = Status.CERTAIN;
-				} else if (lenarg.isMaybeNumUInt()
-						&& !lenarg.isMaybeNumNotUInt() && !lenarg.isMaybeInf()
-						&& !lenarg.isMaybeNaN()) {
+				} else if (lenarg.isMaybeNumUInt() && !lenarg.isMaybeNumNotUInt() && !lenarg.isMaybeInf() && !lenarg.isMaybeNaN()) {
 					s = Status.NONE;
 					length = Value.makeAnyNumUInt(lenarg.getDependency());
-				} else if (!lenarg.isMaybeNumUInt()
-						&& (lenarg.isMaybeNumNotUInt() || lenarg.isMaybeInf() || lenarg
-								.isMaybeNaN()))
+				} else if (!lenarg.isMaybeNumUInt() && (lenarg.isMaybeNumNotUInt() || lenarg.isMaybeInf() || lenarg.isMaybeNaN()))
 					s = Status.CERTAIN;
 				else if (lenarg.isMaybeFuzzyNum()) {
 					s = Status.MAYBE;
-					length = Value.makeAnyNumUInt(lenarg.getDependency());
+					length = Value.makeAnyNumUInt(lenarg.getDependency()).joinDependencyGraphReference(node);
 				} else {
 					s = Status.NONE;
-					length = Value.makeBottom(lenarg.getDependency());
+					length = Value.makeBottom(lenarg.getDependency()).joinDependencyGraphReference(node);
 				}
 				if (s == Status.CERTAIN && lenarg.isMaybeOtherThanNum())
 					s = Status.MAYBE;
-				c.addMessage(call.getSourceNode(), s, Severity.HIGH,
-						"RangeError, invalid value of array length");
+				c.addMessage(call.getSourceNode(), s, Severity.HIGH, "RangeError, invalid value of array length");
 				if (s != Status.NONE)
 					Exceptions.throwRangeError(state, c);
 				if (s == Status.CERTAIN)
-					return Value.makeBottom(lenarg.getDependency());
+					return Value.makeBottom(lenarg.getDependency()).joinDependencyGraphReference(node);
 				if (lenarg.isMaybeOtherThanNum()) {
 					length = length.joinNum(1);
 					Value zeroprop = lenarg.restrictToNotNum();
@@ -96,26 +98,25 @@ public class JSArray {
 						zeroprop = zeroprop.joinAbsent();
 					state.writeProperty(objlabel, "0", zeroprop);
 				}
-				state.writeSpecialProperty(objlabel, "length",
-						length.setAttributes(true, true, false));
+				state.writeSpecialProperty(objlabel, "length", length.setAttributes(true, true, false));
 			} else { // 15.4.2.1
 				// ##########
-				state.writeSpecialProperty(objlabel, "length",
-						Value.makeNum(call.getNumberOfArgs(), new Dependency())
-								.setAttributes(true, true, false));
+				state.writeSpecialProperty(objlabel, "length", Value.makeNum(call.getNumberOfArgs(), new Dependency()).setAttributes(true, true, false));
 				for (int i = 0; i < call.getNumberOfArgs(); i++) {
-					state.writeProperty(objlabel, Integer.toString(i),
-							call.getArg(i));
+					state.writeProperty(objlabel, Integer.toString(i), call.getArg(i));
 					// ##################################################
 					dependency.join(call.getArg(i).getDependency());
 					// ##################################################
+
+					// ==================================================
+					node.addParent(call.getArg(i));
+					// ==================================================
 				}
 			}
 			Value res = Value.makeObject(objlabel, dependency);
-			state.writeInternalPrototype(objlabel, Value.makeObject(
-					InitialStateBuilder.ARRAY_PROTOTYPE, dependency));
+			state.writeInternalPrototype(objlabel, Value.makeObject(InitialStateBuilder.ARRAY_PROTOTYPE, dependency));
 
-			return res;
+			return res.joinDependencyGraphReference(node);
 		}
 
 		case ARRAY_TOSTRING: // 15.4.4.2
@@ -125,11 +126,19 @@ public class JSArray {
 			Dependency dependency = new Dependency();
 			// ##################################################
 
+			// ==================================================
+			DependencyExpressionNode node = DependencyNode.link(Label.CALL, call.getSourceNode(), state);
+			// ==================================================
+
 			Value val = state.readInternalValue(state.readThisObjects());
 
 			// ##################################################
 			dependency.join(val.getDependency());
 			// ##################################################
+
+			// ==================================================
+			node.addParent(val);
+			// ==================================================
 
 			if (nativeobject == ECMAScriptObjects.ARRAY_JOIN) {
 				NativeFunctions.expectParameters(nativeobject, call, c, 0, 1);
@@ -138,13 +147,19 @@ public class JSArray {
 				// ##################################################
 				dependency.join(arg.getDependency());
 				// ##################################################
+
+				// ==================================================
+				node.addParent(arg);
+				// ==================================================
+
 			} else {
-				if (NativeFunctions.throwTypeErrorIfWrongKindOfThis(
-						nativeobject, call, state, c, Kind.ARRAY))
+				if (NativeFunctions.throwTypeErrorIfWrongKindOfThis(nativeobject, call, state, c, Kind.ARRAY))
 					return Value.makeBottom(new Dependency());
 				NativeFunctions.expectParameters(nativeobject, call, c, 0, 0);
 			}
-			return Value.makeAnyStr(dependency); // TODO: improve precision?
+			return Value.makeAnyStr(dependency).joinDependencyGraphReference(node); // TODO:
+																					// improve
+																					// precision?
 			// String sep;
 			// if (params == 2)
 			// sep = ",";
@@ -185,8 +200,11 @@ public class JSArray {
 			Dependency dependency = new Dependency();
 			// ##################################################
 
-			ObjectLabel objlabel = new ObjectLabel(call.getSourceNode(),
-					Kind.ARRAY);
+			// ==================================================
+			DependencyExpressionNode node = DependencyNode.link(Label.CALL, call.getSourceNode(), state);
+			// ==================================================
+
+			ObjectLabel objlabel = new ObjectLabel(call.getSourceNode(), Kind.ARRAY);
 			state.newObject(objlabel);
 
 			Value v = state.readUnknownArrayIndex(state.readThisObjects());
@@ -197,22 +215,27 @@ public class JSArray {
 				dependency.join(v.getDependency());
 				// ##################################################
 
+				// ==================================================
+				node.addParent(v);
+				// ==================================================
+
 			} else {
 				for (int i = 0; i < call.getNumberOfArgs(); i++) {
 					v = v.join(call.getArg(i));
 					// ##################################################
 					dependency.join(v.getDependency());
 					// ##################################################
+
+					// ==================================================
+					node.addParent(v);
+					// ==================================================
 				}
 			}
-			Value res = Value.makeObject(objlabel, dependency);
-			state.writeInternalPrototype(objlabel, Value.makeObject(
-					InitialStateBuilder.ARRAY_PROTOTYPE, dependency));
+			Value res = Value.makeObject(objlabel, dependency).joinDependencyGraphReference(node);
+			state.writeInternalPrototype(objlabel, Value.makeObject(InitialStateBuilder.ARRAY_PROTOTYPE, dependency));
 
 			state.writeUnknownArrayProperty(objlabel, v);
-			state.writeSpecialProperty(objlabel, "length", Value
-					.makeAnyNumUInt(dependency)
-					.setAttributes(true, true, false));
+			state.writeSpecialProperty(objlabel, "length", Value.makeAnyNumUInt(dependency).setAttributes(true, true, false));
 			return res; // TODO: improve precision?
 			// Value res = Value.makeBottom();
 			// ObjectLabel conc = new ObjectLabel(node.getFunction().getIndex(),
@@ -275,16 +298,17 @@ public class JSArray {
 			Dependency dependency = new Dependency();
 			// ##################################################
 
+			// ==================================================
+			DependencyExpressionNode node = DependencyNode.link(Label.CALL, call.getSourceNode(), state);
+			// ==================================================
+
 			NativeFunctions.expectParameters(nativeobject, call, c, 0, 0);
 			Set<ObjectLabel> thisobj = state.readThisObjects();
 			Value res = state.readUnknownArrayIndex(thisobj);
 			state.deleteUnknownArrayProperty(thisobj);
-			state.writeSpecialProperty(
-					thisobj,
-					"length",
-					Value.makeAnyNumUInt(res.getDependency()).setAttributes(
-							true, true, false));
-			return res; // TODO: improve precision?
+			state.writeSpecialProperty(thisobj, "length", Value.makeAnyNumUInt(res.getDependency()).setAttributes(true, true, false));
+			return res.joinDependencyGraphReference(node); // TODO: improve
+															// precision?
 			// NativeFunctions.expectZeroParameters(solver, node, params,
 			// first_param);
 			// Value arr = call.getArg(first_param-1);
@@ -326,6 +350,10 @@ public class JSArray {
 			Dependency dependency = new Dependency();
 			// ##################################################
 
+			// ==================================================
+			DependencyExpressionNode node = DependencyNode.link(Label.CALL, call.getSourceNode(), state);
+			// ==================================================
+
 			Set<ObjectLabel> arr = state.readThisObjects();
 			if (call.isUnknownNumberOfArgs()) {
 				Value v = call.getUnknownArg();
@@ -333,6 +361,10 @@ public class JSArray {
 				// ##################################################
 				dependency.join(v.getDependency());
 				// ##################################################
+
+				// ==================================================
+				node.addParent(v);
+				// ==================================================
 
 				state.writeUnknownArrayProperty(arr, v);
 			} else { // TODO: improve precision?
@@ -343,15 +375,15 @@ public class JSArray {
 					dependency.join(v.getDependency());
 					// ##################################################
 
+					// ==================================================
+					node.addParent(v);
+					// ==================================================
+
 					state.writeUnknownArrayProperty(arr, v);
 				}
 			}
-			state.writeSpecialProperty(
-					arr,
-					"length",
-					Value.makeAnyNumUInt(dependency).setAttributes(true, true,
-							false));
-			return Value.makeAnyNumUInt(dependency);
+			state.writeSpecialProperty(arr, "length", Value.makeAnyNumUInt(dependency).setAttributes(true, true, false));
+			return Value.makeAnyNumUInt(dependency).joinDependencyGraphReference(node);
 		}
 
 		case ARRAY_REVERSE: { // 15.4.4.8
@@ -359,14 +391,16 @@ public class JSArray {
 			Dependency dependency = new Dependency();
 			// ##################################################
 
+			// ==================================================
+			DependencyExpressionNode node = DependencyNode.link(Label.CALL, call.getSourceNode(), state);
+			// ==================================================
+
 			NativeFunctions.expectParameters(nativeobject, call, c, 0, 0);
 			Set<ObjectLabel> thisobj = state.readThisObjects();
-			state.writeUnknownArrayProperty(thisobj,
-					state.readUnknownArrayIndex(thisobj));
-			return Value.makeObject(thisobj,
-					state.readUnknownArrayIndex(thisobj).getDependency()); // TODO:
-																			// improve
-																			// precision?
+			state.writeUnknownArrayProperty(thisobj, state.readUnknownArrayIndex(thisobj));
+			return Value.makeObject(thisobj, state.readUnknownArrayIndex(thisobj).getDependency()); // TODO:
+																									// improve
+																									// precision?
 			// NativeFunctions.expectZeroParameters(solver, node, params,
 			// first_param);
 			// Value arr = call.getArg(first_param-1);
@@ -401,6 +435,10 @@ public class JSArray {
 			Dependency dependency = new Dependency();
 			// ##################################################
 
+			// ==================================================
+			DependencyExpressionNode node = DependencyNode.link(Label.CALL, call.getSourceNode(), state);
+			// ==================================================
+
 			NativeFunctions.expectParameters(nativeobject, call, c, 0, 0);
 			Set<ObjectLabel> thisobj = state.readThisObjects();
 			Value res = state.readUnknownArrayIndex(thisobj);
@@ -409,13 +447,14 @@ public class JSArray {
 			dependency.join(res.getDependency());
 			// ##################################################
 
+			// ==================================================
+			node.addParent(res);
+			// ==================================================
+
 			state.deleteUnknownArrayProperty(thisobj);
-			state.writeSpecialProperty(
-					thisobj,
-					"length",
-					Value.makeAnyNumUInt(dependency).setAttributes(true, true,
-							false));
-			return res; // TODO: improve precision?
+			state.writeSpecialProperty(thisobj, "length", Value.makeAnyNumUInt(dependency).setAttributes(true, true, false));
+			return res.joinDependencyGraphReference(node); // TODO: improve
+															// precision?
 			// NativeFunctions.expectZeroParameters(solver, node, params,
 			// first_param);
 			// Value arr = call.getArg(first_param-1);
@@ -470,9 +509,12 @@ public class JSArray {
 			Dependency dependency = new Dependency();
 			// ##################################################
 
+			// ==================================================
+			DependencyExpressionNode node = DependencyNode.link(Label.CALL, call.getSourceNode(), state);
+			// ==================================================
+
 			NativeFunctions.expectParameters(nativeobject, call, c, 1, 2);
-			ObjectLabel objlabel = new ObjectLabel(call.getSourceNode(),
-					Kind.ARRAY);
+			ObjectLabel objlabel = new ObjectLabel(call.getSourceNode(), Kind.ARRAY);
 			state.newObject(objlabel);
 
 			Value v = state.readUnknownArrayIndex(state.readThisObjects());
@@ -484,17 +526,19 @@ public class JSArray {
 				// ##################################################
 				dependency.join(call.getArg(i).getDependency());
 				// ##################################################
+
+				// ==================================================
+				node.addParent(call.getArg(i));
+				// ==================================================
 			}
 
 			Value res = Value.makeObject(objlabel, dependency);
-			state.writeInternalPrototype(objlabel, Value.makeObject(
-					InitialStateBuilder.ARRAY_PROTOTYPE, dependency));
+			state.writeInternalPrototype(objlabel, Value.makeObject(InitialStateBuilder.ARRAY_PROTOTYPE, dependency));
 
 			state.writeUnknownArrayProperty(objlabel, v);
-			state.writeSpecialProperty(objlabel, "length", Value
-					.makeAnyNumUInt(dependency)
-					.setAttributes(true, true, false));
-			return res; // TODO: improve precision?
+			state.writeSpecialProperty(objlabel, "length", Value.makeAnyNumUInt(dependency).setAttributes(true, true, false));
+			return res.joinDependencyGraphReference(node); // TODO: improve
+															// precision?
 			// NativeFunctions.expectTwoParameters(solver, node, params,
 			// first_param);
 			// Value arr = call.getArg(first_param-1);
@@ -516,25 +560,37 @@ public class JSArray {
 			Dependency dependency = new Dependency();
 			// ##################################################
 
+			// ==================================================
+			DependencyExpressionNode node = DependencyNode.link(Label.CALL, call.getSourceNode(), state);
+			// ==================================================
+
 			NativeFunctions.expectParameters(nativeobject, call, c, 0, 1);
 			// FIXME: make sure function argument may get evaluated some number
 			// of times (it may have side effects!)
 			Set<ObjectLabel> thisobj = state.readThisObjects();
-			state.writeUnknownArrayProperty(thisobj,
-					state.readUnknownArrayIndex(thisobj));
+			state.writeUnknownArrayProperty(thisobj, state.readUnknownArrayIndex(thisobj));
 			Value v = state.readUnknownArrayIndex(thisobj);
 			// ##################################################
 			dependency.join(v.getDependency());
 			// ##################################################
 
+			// ==================================================
+			node.addParent(v);
+			// ==================================================
+
 			for (int i = 0; i < call.getNumberOfArgs(); i++) {
 				// ##################################################
 				dependency.join(call.getArg(i).getDependency());
 				// ##################################################
+
+				// ==================================================
+				node.addParent(call.getArg(i));
+				// ==================================================
 			}
 
-			return Value.makeObject(thisobj, dependency); // TODO: improve
-															// precision?
+			return Value.makeObject(thisobj, dependency).joinDependencyGraphReference(node); // TODO:
+																								// improve
+			// precision?
 		}
 
 		case ARRAY_SPLICE: {
@@ -542,9 +598,12 @@ public class JSArray {
 			Dependency dependency = new Dependency();
 			// ##################################################
 
+			// ==================================================
+			DependencyExpressionNode node = DependencyNode.link(Label.CALL, call.getSourceNode(), state);
+			// ==================================================
+
 			NativeFunctions.expectParameters(nativeobject, call, c, 2, -1);
-			ObjectLabel objlabel = new ObjectLabel(call.getSourceNode(),
-					Kind.ARRAY);
+			ObjectLabel objlabel = new ObjectLabel(call.getSourceNode(), Kind.ARRAY);
 			state.newObject(objlabel);
 			Value v = state.readUnknownArrayIndex(state.readThisObjects());
 			if (call.isUnknownNumberOfArgs()) {
@@ -552,29 +611,39 @@ public class JSArray {
 				// ##################################################
 				dependency.join(v.getDependency());
 				// ##################################################
+
+				// ==================================================
+				node.addParent(v);
+				// ==================================================
 			} else {
 				for (int i = 0; i < call.getNumberOfArgs(); i++) {
 					v = v.join(call.getArg(i));
 					// ##################################################
 					dependency.join(v.getDependency());
 					// ##################################################
+
+					// ==================================================
+					node.addParent(v);
+					// ==================================================
 				}
 			}
 			Value res = Value.makeObject(objlabel, dependency);
-			state.writeInternalPrototype(objlabel, Value.makeObject(
-					InitialStateBuilder.ARRAY_PROTOTYPE, dependency));
+			state.writeInternalPrototype(objlabel, Value.makeObject(InitialStateBuilder.ARRAY_PROTOTYPE, dependency));
 
 			state.writeUnknownArrayProperty(objlabel, v);
-			state.writeSpecialProperty(objlabel, "length", Value
-					.makeAnyNumUInt(dependency)
-					.setAttributes(true, true, false));
-			return res; // TODO: improve precision?
+			state.writeSpecialProperty(objlabel, "length", Value.makeAnyNumUInt(dependency).setAttributes(true, true, false));
+			return res.joinDependencyGraphReference(node); // TODO: improve
+															// precision?
 		}
 
 		case ARRAY_UNSHIFT: { // 15.4.4.13
 			// ##################################################
 			Dependency dependency = new Dependency();
 			// ##################################################
+
+			// ==================================================
+			DependencyExpressionNode node = DependencyNode.link(Label.CALL, call.getSourceNode(), state);
+			// ==================================================
 
 			Set<ObjectLabel> arr = state.readThisObjects();
 			if (call.isUnknownNumberOfArgs()) {
@@ -583,6 +652,10 @@ public class JSArray {
 				// ##################################################
 				dependency.join(v.getDependency());
 				// ##################################################
+
+				// ==================================================
+				node.addParent(v);
+				// ==================================================
 
 				state.writeUnknownArrayProperty(arr, v);
 			} else { // TODO: improve precision?
@@ -593,15 +666,15 @@ public class JSArray {
 					dependency.join(v.getDependency());
 					// ##################################################
 
+					// ==================================================
+					node.addParent(v);
+					// ==================================================
+
 					state.writeUnknownArrayProperty(arr, v);
 				}
 			}
-			state.writeSpecialProperty(
-					arr,
-					"length",
-					Value.makeAnyNumUInt(dependency).setAttributes(true, true,
-							false));
-			return Value.makeAnyNumUInt(dependency);
+			state.writeSpecialProperty(arr, "length", Value.makeAnyNumUInt(dependency).setAttributes(true, true, false));
+			return Value.makeAnyNumUInt(dependency).joinDependencyGraphReference(node);
 		}
 
 		default:
