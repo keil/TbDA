@@ -1,6 +1,7 @@
 package dk.brics.tajs.flowgraph;
 
 import dk.brics.tajs.dependency.graph.DependencyGraphReference;
+import dk.brics.tajs.dependency.graph.DependencyNode;
 import dk.brics.tajs.dependency.graph.interfaces.IDependencyGraphReference;
 
 /**
@@ -130,5 +131,10 @@ public abstract class Node implements IDependencyGraphReference<Node> {
 		newReference.join(reference);
 		mDependencyGraphReference  = newReference;
 		return this;
+	}
+
+	@Override
+	public Node joinDependencyGraphReference(DependencyNode node) {
+		return joinDependencyGraphReference(node.getReference());
 	}
 }

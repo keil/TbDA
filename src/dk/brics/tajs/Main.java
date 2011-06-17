@@ -69,8 +69,7 @@ public class Main {
 					.println("(C) 2008-2010 Anders M\u00F8ller, Simon Holm Jensen, Peter Thiemann, Magnus Madsen, Matthias Diehn Ingesman, Roman Matthias Keil\n");
 		}
 		if (show_usage) {
-			System.out
-					.println("Usage: java -jar tajs-all.jar [OPTION]... [FILE]...\n");
+			System.out.println("Usage: java -jar tajs-all.jar [OPTION]... [FILE]...\n");
 			System.out.print(Options.describe());
 			return;
 		}
@@ -90,8 +89,7 @@ public class Main {
 			List<String> js_files = newList();
 			for (String fn : files) {
 				String l = fn.toLowerCase();
-				if (l.endsWith(".html") || l.endsWith(".xhtml")
-						|| l.endsWith(".htm"))
+				if (l.endsWith(".html") || l.endsWith(".xhtml") || l.endsWith(".htm"))
 					html_files.add(fn);
 				else
 					js_files.add(fn);
@@ -101,8 +99,7 @@ public class Main {
 				builder.build(js_files);
 			if (!html_files.isEmpty()) {
 				if (html_files.size() > 1) {
-					throw new RuntimeException(
-							"Only one html-file can be analyzed at a time.");
+					throw new RuntimeException("Only one html-file can be analyzed at a time.");
 				}
 				Options.setDOM(true);
 				p = new HTMLParserImpl(builder);
@@ -118,8 +115,7 @@ public class Main {
 
 		if (Options.isFlowGraphEnabled())
 			try {
-				PrintWriter pw = new PrintWriter(
-						new FileWriter("flowgraph.dot"));
+				PrintWriter pw = new PrintWriter(new FileWriter("flowgraph.dot"));
 				g.toDot(pw);
 				pw.close();
 				System.out.println(g.toString());
@@ -132,12 +128,9 @@ public class Main {
 					String n = function.getName();
 					if (n == null)
 						n = "-";
-					String name = (function.getSourceLocation().getFileName()
-							+ "." + n + ".line" + function.getSourceLocation()
-							.getLineNumber()).replace('/', '.')
-							.replace('\\', '.').replace(':', '.');
-					File file = new File("flowgraphs" + File.separator + name
-							+ ".dot");
+					String name = (function.getSourceLocation().getFileName() + "." + n + ".line" + function.getSourceLocation().getLineNumber())
+							.replace('/', '.').replace('\\', '.').replace(':', '.');
+					File file = new File("flowgraphs" + File.separator + name + ".dot");
 					PrintWriter writer = new PrintWriter(file);
 					function.toDot(writer, true, function == g.getMain());
 					writer.close();
@@ -161,25 +154,15 @@ public class Main {
 		if (!Options.isQuietEnabled() && Options.isStatisticsEnabled()) {
 			enterPhase("Statistics");
 			System.out.println(a.getStatistics());
-			System.out.println("BlockState: created="
-					+ BlockState.getNumberOfStatesCreated()
-					+ ", makeWritableStore="
+			System.out.println("BlockState: created=" + BlockState.getNumberOfStatesCreated() + ", makeWritableStore="
 					+ BlockState.getNumberOfMakeWritableStoreCalls());
-			System.out.println("Obj: created=" + Obj.getNumberOfObjsCreated()
-					+ ", makeWritableProperties="
-					+ Obj.getNumberOfMakeWritablePropertiesCalls());
-			System.out.println("Value cache: hits="
-					+ Value.getNumberOfValueCacheHits() + ", misses="
-					+ Value.getNumberOfValueCacheMisses() + ", finalSize="
+			System.out.println("Obj: created=" + Obj.getNumberOfObjsCreated() + ", makeWritableProperties=" + Obj.getNumberOfMakeWritablePropertiesCalls());
+			System.out.println("Value cache: hits=" + Value.getNumberOfValueCacheHits() + ", misses=" + Value.getNumberOfValueCacheMisses() + ", finalSize="
 					+ Value.getValueCacheSize());
-			System.out.println("Value object set cache: hits="
-					+ Value.getNumberOfObjectSetCacheHits() + ", misses="
-					+ Value.getNumberOfObjectSetCacheMisses() + ", finalSize="
-					+ Value.getObjectSetCacheSize());
-			System.out.println("ScopeChain cache: hits="
-					+ ScopeChain.getNumberOfCacheHits() + ", misses="
-					+ ScopeChain.getNumberOfCacheMisses() + ", finalSize="
-					+ ScopeChain.getCacheSize());
+			System.out.println("Value object set cache: hits=" + Value.getNumberOfObjectSetCacheHits() + ", misses=" + Value.getNumberOfObjectSetCacheMisses()
+					+ ", finalSize=" + Value.getObjectSetCacheSize());
+			System.out.println("ScopeChain cache: hits=" + ScopeChain.getNumberOfCacheHits() + ", misses=" + ScopeChain.getNumberOfCacheMisses()
+					+ ", finalSize=" + ScopeChain.getCacheSize());
 			System.out.println("Basic blocks: " + g.getNumberOfBlocks());
 			if (Options.isDebugEnabled()) {
 				System.out.println(optimizer);
@@ -189,8 +172,7 @@ public class Main {
 		}
 
 		if (Options.isTimingEnabled())
-			System.out.println("Analysis finished in "
-					+ (System.currentTimeMillis() - time) + "ms");
+			System.out.println("Analysis finished in " + (System.currentTimeMillis() - time) + "ms");
 
 		// FIXME scanning messages
 		enterPhase("Scanning for messages");
@@ -198,8 +180,7 @@ public class Main {
 		if (Options.isDebugEnabled())
 			enterPhase("Messages");
 		for (Message m : a.getSolver().getMessages()) {
-			if (m.getSeverity() != Message.Severity.LOW
-					|| Options.isLowSeverityEnabled())
+			if (m.getSeverity() != Message.Severity.LOW || Options.isLowSeverityEnabled())
 				System.out.println(m);
 		}
 
@@ -208,25 +189,21 @@ public class Main {
 
 		if (Options.isCallGraphEnabled()) {
 			enterPhase("Call graph");
-			System.out.println(a.getSolver().getAnalysisLatticeElement()
-					.getCallGraph());
+			System.out.println(a.getSolver().getAnalysisLatticeElement().getCallGraph());
 			FileWriter f = null;
 			String filename = "callgraph.dot";
 			try {
 				f = new FileWriter(filename);
 				System.out.println("Writing call graph to " + filename);
-				a.getSolver().getAnalysisLatticeElement().getCallGraph()
-						.toDot(new PrintWriter(f));
+				a.getSolver().getAnalysisLatticeElement().getCallGraph().toDot(new PrintWriter(f));
 			} catch (IOException e) {
-				System.out.println("Unable to write " + filename + ": "
-						+ e.getMessage());
+				System.out.println("Unable to write " + filename + ": " + e.getMessage());
 			} finally {
 				if (f != null)
 					try {
 						f.close();
 					} catch (IOException e) {
-						System.out.println("Unable to close " + filename + ": "
-								+ e.getMessage());
+						System.out.println("Unable to close " + filename + ": " + e.getMessage());
 					}
 			}
 		}
@@ -270,12 +247,8 @@ public class Main {
 					try {
 						File f = new File(string);
 
-						String filename = f.getName().substring(0,
-								f.getName().indexOf("."))
-								+ ".dot";
-						String path = "output/"
-								+ f.getPath().substring(0,
-										f.getPath().indexOf(f.getName()));
+						String filename = f.getName().substring(0, f.getName().indexOf(".")) + ".dot";
+						String path = "output/" + f.getPath().substring(0, f.getPath().indexOf(f.getName()));
 
 						File dotFile = new File(path + filename);
 						File dotDir = new File(path);
@@ -283,8 +256,7 @@ public class Main {
 
 						visitor.flush(dotFile);
 					} catch (IOException e) {
-						System.out.println("Unable to print dependency graph "
-								+ e.getMessage());
+						System.out.println("Unable to print dependency graph " + e.getMessage());
 					}
 				}
 			}

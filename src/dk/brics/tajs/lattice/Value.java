@@ -13,6 +13,7 @@ import java.util.WeakHashMap;
 import dk.brics.tajs.dependency.Dependency;
 import dk.brics.tajs.dependency.DependencyObject;
 import dk.brics.tajs.dependency.graph.DependencyGraphReference;
+import dk.brics.tajs.dependency.graph.DependencyNode;
 import dk.brics.tajs.dependency.graph.interfaces.IDependencyGraphReference;
 import dk.brics.tajs.dependency.interfaces.IDependency;
 import dk.brics.tajs.flowgraph.ObjectLabel;
@@ -2070,5 +2071,10 @@ public final class Value implements Undef, Null, Bool, Num, Str, IDependency<Val
 		Value r = new Value(this);
 		r.mDependencyGraphReference.join(reference);
 		return canonicalize(r);
+	}
+
+	@Override
+	public Value joinDependencyGraphReference(DependencyNode node) {
+		return joinDependencyGraphReference(node.getReference());
 	}
 }
