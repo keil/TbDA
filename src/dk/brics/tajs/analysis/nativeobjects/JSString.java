@@ -7,7 +7,9 @@ import dk.brics.tajs.analysis.Solver;
 import dk.brics.tajs.analysis.State;
 import dk.brics.tajs.analysis.FunctionCalls.CallInfo;
 import dk.brics.tajs.dependency.Dependency;
-import dk.brics.tajs.dependency.DependencyObject;
+import dk.brics.tajs.dependency.graph.DependencyNode;
+import dk.brics.tajs.dependency.graph.Label;
+import dk.brics.tajs.dependency.graph.nodes.DependencyExpressionNode;
 import dk.brics.tajs.flowgraph.ObjectLabel;
 import dk.brics.tajs.flowgraph.ObjectLabel.Kind;
 import dk.brics.tajs.lattice.Value;
@@ -34,6 +36,10 @@ public class JSString {
 			Dependency dependency = new Dependency();
 			// ##################################################
 			
+			// ==================================================
+			DependencyExpressionNode node = DependencyNode.link(Label.CALL, call.getSourceNode(), state);
+			// ==================================================
+			
 			NativeFunctions.expectParameters(nativeobject, call, c, 0, 1);
 			Value s;
 			if (call.isUnknownNumberOfArgs())
@@ -44,23 +50,31 @@ public class JSString {
 			// ##################################################
 			dependency.join(s.getDependency());
 			// ##################################################
+			
+			// ==================================================
+			node.addParent(s);
+			// ==================================================
 				
 				if (call.isConstructorCall()) { // 15.5.2
 				ObjectLabel objlabel = new ObjectLabel(call.getSourceNode(), Kind.STRING);
 				state.newObject(objlabel);
 				state.writeInternalValue(objlabel, s);
-				state.writeInternalPrototype(objlabel, Value.makeObject(InitialStateBuilder.STRING_PROTOTYPE, dependency));
-				Value len = s.isMaybeSingleStr() ? Value.makeNum(s.getStr().length(), s.getDependency()) : Value.makeAnyNumUInt(dependency);
+				state.writeInternalPrototype(objlabel, Value.makeObject(InitialStateBuilder.STRING_PROTOTYPE, dependency).joinDependencyGraphReference(node));
+				Value len = s.isMaybeSingleStr() ? Value.makeNum(s.getStr().length(), s.getDependency()).joinDependencyGraphReference(node) : Value.makeAnyNumUInt(dependency).joinDependencyGraphReference(node);
 				state.writeSpecialProperty(objlabel, "length", len.setAttributes(true, true, true));
-				return Value.makeObject(objlabel, dependency);
+				return Value.makeObject(objlabel, dependency).joinDependencyGraphReference(node);
 			} else // 15.5.1
-				return s;
+				return s.joinDependencyGraphReference(node);
 		}
 
 		case STRING_FROMCHARCODE: { // 15.5.3.2
 			// ##################################################
 			Dependency dependency = new Dependency();
 			// ##################################################
+			
+			// ==================================================
+			DependencyExpressionNode node = DependencyNode.link(Label.CALL, call.getSourceNode(), state);
+			// ==================================================
 			
 			if (call.isUnknownNumberOfArgs())
 				return Value.makeAnyStr(dependency);
@@ -71,6 +85,10 @@ public class JSString {
 				// ##################################################
 				dependency.join(v.getDependency());
 				// ##################################################
+				
+				// ==================================================
+				node.addParent(v);
+				// ==================================================
 
 				if (v.isMaybeSingleNum()) {
 					long codepoint = Conversion.toUInt16(v.getNum());
@@ -87,12 +105,20 @@ public class JSString {
 			Dependency dependency = new Dependency();
 			// ##################################################
 			
+			// ==================================================
+			DependencyExpressionNode node = DependencyNode.link(Label.CALL, call.getSourceNode(), state);
+			// ==================================================
+			
 			NativeFunctions.expectParameters(nativeobject, call, c, 0, 0);
 			Value vthisstring = state.readInternalValue(state.readThisObjects());
 			
 			// ##################################################
 			dependency.join(vthisstring.getDependency());
 			// ##################################################
+			
+			// ==================================================
+			node.addParent(vthisstring);
+			// ==================================================
 			
 			if (NativeFunctions.throwTypeErrorIfWrongKindOfThis(nativeobject, call, state, c, Kind.STRING))
 				return Value.makeBottom(dependency);
@@ -105,6 +131,10 @@ public class JSString {
 			Dependency dependency = new Dependency();
 			// ##################################################
 			
+			// ==================================================
+			DependencyExpressionNode node = DependencyNode.link(Label.CALL, call.getSourceNode(), state);
+			// ==================================================
+			
 			NativeFunctions.expectParameters(nativeobject, call, c, 1, 1);
 			Value receiver = Conversion.toString(Value.makeObject(state.readThisObjects(), dependency), c);
 			Value str = Conversion.toString(receiver, c);
@@ -115,6 +145,12 @@ public class JSString {
 			dependency.join(str.getDependency());
 			dependency.join(pos.getDependency());
 			// ##################################################
+			
+			// ==================================================
+			node.addParent(receiver);
+			node.addParent(str);
+			node.addParent(pos);
+			// ==================================================
 			
 			if (str.isMaybeSingleStr() && pos.isMaybeSingleNum()) { // FIXME: may also be maybe non-single!
 				String s = str.getStr();
@@ -140,12 +176,19 @@ public class JSString {
 			Dependency dependency = new Dependency();
 			// ##################################################
 			
+			// ==================================================
+			DependencyExpressionNode node = DependencyNode.link(Label.CALL, call.getSourceNode(), state);
+			// ==================================================
+			
 			Value vthisstring = state.readInternalValue(state.readThisObjects());
 			
 			// ##################################################
 			dependency.join(vthisstring.getDependency());
 			// ##################################################
-
+			
+			// ==================================================
+			node.addParent(vthisstring);
+			// ==================================================
 		
 			// return Value.makeAnyStr(); // TODO: improve precision?
 			if (call.isUnknownNumberOfArgs())
@@ -170,23 +213,40 @@ public class JSString {
 			Dependency dependency = new Dependency();
 			// ##################################################
 
+			// ==================================================
+			DependencyExpressionNode node = DependencyNode.link(Label.CALL, call.getSourceNode(), state);
+			// ==================================================
+			
 			NativeFunctions.expectParameters(nativeobject, call, c, 1, 2);
 			Value vthisstring = state.readInternalValue(state.readThisObjects());
 			
 			// ##################################################
 			dependency.join(vthisstring.getDependency());
 			// ##################################################
+
+			// ==================================================
+			node.addParent(vthisstring);
+			// ==================================================
 			
 			if (call.getNumberOfArgs() == 1) {
 				// ##################################################
 				dependency.join(call.getArg(0).getDependency());
 				// ##################################################
+				
+				// ==================================================
+				node.addParent(call.getArg(0));
+				// ==================================================
 			}
 			else if (call.getNumberOfArgs() == 2) {
 				// ##################################################
 				dependency.join(call.getArg(0).getDependency());
 				dependency.join(call.getArg(1).getDependency());
 				// ##################################################
+				
+				// ==================================================
+				node.addParent(call.getArg(0));
+				node.addParent(call.getArg(1));
+				// ==================================================
 			}
 			
 			return Value.makeAnyNumNotNaNInf(dependency); // TODO: improve precision?
@@ -234,6 +294,10 @@ public class JSString {
 			Dependency dependency = new Dependency();
 			// ##################################################
 			
+			// ==================================================
+			DependencyExpressionNode node = DependencyNode.link(Label.CALL, call.getSourceNode(), state);
+			// ==================================================
+			
 			NativeFunctions.expectParameters(nativeobject, call, c, 1, 1);
 			Value vthisstring = state.readInternalValue(state.readThisObjects());
 			
@@ -242,6 +306,11 @@ public class JSString {
 			dependency.join(call.getArg(0).getDependency());
 			// ##################################################
 			
+			// ==================================================
+			node.addParent(vthisstring);
+			node.addParent(call.getArg(0));
+			// ==================================================
+
 			return Value.makeAnyNum(dependency); // TODO: improve precision?
 		}
 					
@@ -249,6 +318,10 @@ public class JSString {
 			// ##################################################
 			Dependency dependency = new Dependency();
 			// ##################################################
+			
+			// ==================================================
+			DependencyExpressionNode node = DependencyNode.link(Label.CALL, call.getSourceNode(), state);
+			// ==================================================
 			
 			NativeFunctions.expectParameters(nativeobject, call, c, 1, 1);
 			Value vthisstring = state.readInternalValue(state.readThisObjects());
@@ -258,6 +331,10 @@ public class JSString {
 			dependency.join(call.getArg(0).getDependency());
 			// ##################################################
 
+			// ==================================================
+			node.addParent(vthisstring);
+			node.addParent(call.getArg(0));
+			// ==================================================
 			
 			ObjectLabel objlabel = new ObjectLabel(call.getSourceNode(), Kind.ARRAY);
 			state.newObject(objlabel);
@@ -275,6 +352,10 @@ public class JSString {
 			Dependency dependency = new Dependency();
 			// ##################################################
 			
+			// ==================================================
+			DependencyExpressionNode node = DependencyNode.link(Label.CALL, call.getSourceNode(), state);
+			// ==================================================
+			
 			NativeFunctions.expectParameters(nativeobject, call, c, 2, 2);
 			Value vthisstring = state.readInternalValue(state.readThisObjects());
 			
@@ -283,6 +364,12 @@ public class JSString {
 			dependency.join(call.getArg(0).getDependency());
 			dependency.join(call.getArg(1).getDependency());
 			// ##################################################
+			
+			// ==================================================
+			node.addParent(vthisstring);
+			node.addParent(call.getArg(0));
+			node.addParent(call.getArg(1));
+			// ==================================================
 			
 			// FIXME: if second param to 'replace' is a function, it may be called, even several times!
 			return Value.makeAnyStr(dependency); // complicated regexp stuff
@@ -293,6 +380,10 @@ public class JSString {
 			Dependency dependency = new Dependency();
 			// ##################################################
 			
+			// ==================================================
+			DependencyExpressionNode node = DependencyNode.link(Label.CALL, call.getSourceNode(), state);
+			// ==================================================
+			
 			NativeFunctions.expectParameters(nativeobject, call, c, 1, 1);
 			Value vthisstring = state.readInternalValue(state.readThisObjects());
 			
@@ -300,6 +391,11 @@ public class JSString {
 			dependency.join(vthisstring.getDependency());
 			dependency.join(call.getArg(0).getDependency());
 			// ##################################################
+			
+			// ==================================================
+			node.addParent(vthisstring);
+			node.addParent(call.getArg(1));
+			// ==================================================
 			
 			return Value.makeAnyNumNotNaNInf(dependency); // TODO: improve precision?
 		}
@@ -309,6 +405,10 @@ public class JSString {
 			Dependency dependency = new Dependency();
 			// ##################################################
 			
+			// ==================================================
+			DependencyExpressionNode node = DependencyNode.link(Label.CALL, call.getSourceNode(), state);
+			// ==================================================
+			
 			NativeFunctions.expectParameters(nativeobject, call, c, 1, 2);
 			Value vthisstring = state.readInternalValue(state.readThisObjects());
 			
@@ -316,16 +416,29 @@ public class JSString {
 			dependency.join(vthisstring.getDependency());
 			// ##################################################
 			
+			// ==================================================
+			node.addParent(vthisstring);
+			// ==================================================
+			
 			if (call.getNumberOfArgs() == 1) {
 				// ##################################################
 				dependency.join(call.getArg(0).getDependency());
 				// ##################################################
+				
+				// ==================================================
+				node.addParent(call.getArg(0));
+				// ==================================================
 			}
 			else if (call.getNumberOfArgs() == 2) {
 				// ##################################################
 				dependency.join(call.getArg(0).getDependency());
 				dependency.join(call.getArg(1).getDependency());
 				// ##################################################
+				
+				// ==================================================
+				node.addParent(call.getArg(0));
+				node.addParent(call.getArg(1));
+				// ==================================================
 			}
 			
 			return Value.makeAnyStr(dependency); // TODO: improve precision?
@@ -356,6 +469,10 @@ public class JSString {
 			Dependency dependency = new Dependency();
 			// ##################################################
 			
+			// ==================================================
+			DependencyExpressionNode node = DependencyNode.link(Label.CALL, call.getSourceNode(), state);
+			// ==================================================
+			
 			NativeFunctions.expectParameters(nativeobject, call, c, 1, 2);
 			Value vthisstring = state.readInternalValue(state.readThisObjects());
 			
@@ -363,16 +480,29 @@ public class JSString {
 			dependency.join(vthisstring.getDependency());
 			// ##################################################
 			
+			// ==================================================
+			node.addParent(vthisstring);
+			// ==================================================
+			
 			if (call.getNumberOfArgs() == 1) {
 				// ##################################################
 				dependency.join(call.getArg(0).getDependency());
 				// ##################################################
+				
+				// ==================================================
+				node.addParent(call.getArg(0));
+				// ==================================================
 			}
 			else if (call.getNumberOfArgs() == 2) {
 				// ##################################################
 				dependency.join(call.getArg(0).getDependency());
 				dependency.join(call.getArg(1).getDependency());
 				// ##################################################
+				
+				// ==================================================
+				node.addParent(call.getArg(0));
+				node.addParent(call.getArg(1));
+				// ==================================================
 			}
 			
 			ObjectLabel aobj = new ObjectLabel(call.getSourceNode(), Kind.ARRAY);
@@ -388,6 +518,10 @@ public class JSString {
 			Dependency dependency = new Dependency();
 			// ##################################################
 			
+			// ==================================================
+			DependencyExpressionNode node = DependencyNode.link(Label.CALL, call.getSourceNode(), state);
+			// ==================================================
+			
 			NativeFunctions.expectParameters(nativeobject, call, c, 1, 2);
 			Value vthisstring = state.readInternalValue(state.readThisObjects());
 			
@@ -395,17 +529,31 @@ public class JSString {
 				// ##################################################
 				dependency.join(call.getArg(0).getDependency());
 				// ##################################################
+				
+				// ==================================================
+				node.addParent(call.getArg(0));
+				// ==================================================
+				
 			}
 			else if (call.getNumberOfArgs() == 2) {
 				// ##################################################
 				dependency.join(call.getArg(0).getDependency());
 				dependency.join(call.getArg(1).getDependency());
 				// ##################################################
+				
+				// ==================================================
+				node.addParent(call.getArg(0));
+				node.addParent(call.getArg(1));
+				// ==================================================
 			}
 			
 			// ##################################################
 			dependency.join(vthisstring.getDependency());
 			// ##################################################
+			
+			// ==================================================
+			node.addParent(vthisstring);
+			// ==================================================
 			
 			return Value.makeAnyStr(dependency); // TODO: improve precision?
 //			NativeFunctions.expectParameters(nativeobject, call, c, 2, 2);
@@ -435,12 +583,20 @@ public class JSString {
 			Dependency dependency = new Dependency();
 			// ##################################################
 			
+			// ==================================================
+			DependencyExpressionNode node = DependencyNode.link(Label.CALL, call.getSourceNode(), state);
+			// ==================================================
+			
 			NativeFunctions.expectParameters(nativeobject, call, c, 0, 0);
 			Value vthisstring = state.readInternalValue(state.readThisObjects());
 			
 			// ##################################################
 			dependency.join(vthisstring.getDependency());
 			// ##################################################
+			
+			// ==================================================
+			node.addParent(vthisstring);
+			// ==================================================
 			
 			if (vthisstring.isMaybeSingleStr()) {
 				String sthis = vthisstring.getStr();
@@ -459,12 +615,20 @@ public class JSString {
 			Dependency dependency = new Dependency();
 			// ##################################################
 			
+			// ==================================================
+			DependencyExpressionNode node = DependencyNode.link(Label.CALL, call.getSourceNode(), state);
+			// ==================================================
+			
 			NativeFunctions.expectParameters(nativeobject, call, c, 0, 0);
 			Value vthisstring = state.readInternalValue(state.readThisObjects());
 			
 			// ##################################################
 			dependency.join(vthisstring.getDependency());
 			// ##################################################
+			
+			// ==================================================
+			node.addParent(vthisstring);
+			// ==================================================
 			
 			return Value.makeAnyStr(dependency);
 		}
@@ -474,6 +638,10 @@ public class JSString {
 			Dependency dependency = new Dependency();
 			// ##################################################
 
+			// ==================================================
+			DependencyExpressionNode node = DependencyNode.link(Label.CALL, call.getSourceNode(), state);
+			// ==================================================
+			
 			NativeFunctions.expectParameters(nativeobject, call, c, 1, 2);
 			Value vthisstring = state.readInternalValue(state.readThisObjects());
 			
@@ -485,12 +653,22 @@ public class JSString {
 				// ##################################################
 				dependency.join(call.getArg(0).getDependency());
 				// ##################################################
+				
+				// ==================================================
+				node.addParent(call.getArg(0));
+				// ==================================================
+				
 			}
 			else if (call.getNumberOfArgs() == 2) {
 				// ##################################################
 				dependency.join(call.getArg(0).getDependency());
 				dependency.join(call.getArg(1).getDependency());
 				// ##################################################
+				
+				// ==================================================
+				node.addParent(call.getArg(0));
+				node.addParent(call.getArg(1));
+				// ==================================================
 			}
 			
 			return Value.makeAnyStr(dependency); // TODO: improve precision?

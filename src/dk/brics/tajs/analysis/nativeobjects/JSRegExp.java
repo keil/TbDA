@@ -8,6 +8,9 @@ import dk.brics.tajs.analysis.Solver;
 import dk.brics.tajs.analysis.State;
 import dk.brics.tajs.analysis.FunctionCalls.CallInfo;
 import dk.brics.tajs.dependency.Dependency;
+import dk.brics.tajs.dependency.graph.DependencyNode;
+import dk.brics.tajs.dependency.graph.Label;
+import dk.brics.tajs.dependency.graph.nodes.DependencyExpressionNode;
 import dk.brics.tajs.flowgraph.ObjectLabel;
 import dk.brics.tajs.flowgraph.ObjectLabel.Kind;
 import dk.brics.tajs.lattice.Value;
@@ -35,6 +38,10 @@ public class JSRegExp { // TODO: see http://dev.opera.com/articles/view/opera-ja
 			// ##################################################
 			Dependency dependency = new Dependency();
 			// ##################################################
+
+			// ==================================================
+			DependencyExpressionNode node = DependencyNode.link(Label.CALL, call.getSourceNode(), state);
+			// ==================================================
 			
 			NativeFunctions.expectParameters(nativeobject, call, c, 1, 2);
 			boolean ctor = call.isConstructorCall();
@@ -47,7 +54,12 @@ public class JSRegExp { // TODO: see http://dev.opera.com/articles/view/opera-ja
 			dependency.join(flags.getDependency());
 			// ##################################################			
 			
-			Value result = Value.makeBottom(dependency);
+			// ==================================================
+			node.addParent(pattern);
+			node.addParent(flags);
+			// ==================================================
+			
+			Value result = Value.makeBottom(dependency).joinDependencyGraphReference(node);
 			
 //			// 15.10.3.1 function call
 			if (flags.isMaybeUndef()) {
@@ -77,17 +89,21 @@ public class JSRegExp { // TODO: see http://dev.opera.com/articles/view/opera-ja
 					dependency.join(sflags.getDependency());
 					// ##################################################	
 
+					// ==================================================
+					node.addParent(sflags);
+					// ==================================================
+					
 					if (!sflags.isMaybeAnyStr() && sflags.getStr() != null) {
 						String strflags = sflags.getStr();
-						pGlobal = Value.makeBool(strflags.indexOf("g") != -1, dependency);
-						pIgnoreCase = Value.makeBool(strflags.indexOf("i") != -1, dependency);
-						pMultiline = Value.makeBool(strflags.indexOf("m") != -1, dependency);
+						pGlobal = Value.makeBool(strflags.indexOf("g") != -1, dependency).joinDependencyGraphReference(node);
+						pIgnoreCase = Value.makeBool(strflags.indexOf("i") != -1, dependency).joinDependencyGraphReference(node);
+						pMultiline = Value.makeBool(strflags.indexOf("m") != -1, dependency).joinDependencyGraphReference(node);
 						strflags = strflags.replaceFirst("g", "").replaceFirst("i", "").replaceFirst("m", "");
 						boolean bad = strflags.length() != 0;
 						c.addMessage(bad ? Status.MAYBE : Status.NONE,Severity.HIGH, "SyntaxError in flags of RegExp constructor.");
 						if (bad) { 
 							Exceptions.throwSyntaxError(state, c);
-							return Value.makeBottom(dependency);
+							return Value.makeBottom(dependency).joinDependencyGraphReference(node);
 						}
 					}
 				}
@@ -98,19 +114,23 @@ public class JSRegExp { // TODO: see http://dev.opera.com/articles/view/opera-ja
 				Value p = Conversion.toString(arg,c).join(state.readInternalValue(result.getObjectLabels()));
 				state.writeInternalValue(no, p);
 				state.writeSpecialProperty(no, "source", p.setAttributes(true, true, true));
-				state.writeSpecialProperty(no, "lastIndex", Value.makeNum(0, dependency).setAttributes(true, true, false));
+				state.writeSpecialProperty(no, "lastIndex", Value.makeNum(0, dependency).setAttributes(true, true, false).joinDependencyGraphReference(node));
 				state.writeSpecialProperty(no, "global", pGlobal.setAttributes(true, true, true));
 				state.writeSpecialProperty(no, "ignoreCase", pIgnoreCase.setAttributes(true, true, true));
 				state.writeSpecialProperty(no, "multiline", pMultiline.setAttributes(true, true, true));
 				result = result.joinObject(no);
 			}
-			return result;
+			return result.joinDependencyGraphReference(node);
 		}
 		
 		case REGEXP_EXEC: { // 15.10.6.2 (see STRING_MATCH)
 			// ##################################################
 			Dependency dependency = new Dependency();
 			// ##################################################
+
+			// ==================================================
+			DependencyExpressionNode node = DependencyNode.link(Label.CALL, call.getSourceNode(), state);
+			// ==================================================
 			
 			NativeFunctions.expectParameters(nativeobject, call, c, 1, 1);
 			Value thisval = state.readInternalValue(state.readThisObjects());
@@ -120,6 +140,11 @@ public class JSRegExp { // TODO: see http://dev.opera.com/articles/view/opera-ja
 			dependency.join(thisval.getDependency());
 			dependency.join(arg.getDependency());
 			// ##################################################
+			
+			// ==================================================
+			node.addParent(thisval);
+			node.addParent(arg);
+			// ==================================================
 			
 			ObjectLabel objlabel = new ObjectLabel(call.getSourceNode(), Kind.ARRAY);
 			state.newObject(objlabel);
@@ -137,6 +162,10 @@ public class JSRegExp { // TODO: see http://dev.opera.com/articles/view/opera-ja
 			// ##################################################
 			Dependency dependency = new Dependency();
 			// ##################################################
+
+			// ==================================================
+			DependencyExpressionNode node = DependencyNode.link(Label.CALL, call.getSourceNode(), state);
+			// ==================================================
 			
 			NativeFunctions.expectParameters(nativeobject, call, c, 1, 1);
 			Value thisval = state.readInternalValue(state.readThisObjects());
@@ -146,6 +175,11 @@ public class JSRegExp { // TODO: see http://dev.opera.com/articles/view/opera-ja
 			dependency.join(thisval.getDependency());
 			dependency.join(arg.getDependency());
 			// ##################################################
+			
+			// ==================================================
+			node.addParent(thisval);
+			node.addParent(arg);
+			// ==================================================
 			
 			return Value.makeAnyBool(dependency); //TODO: More precision.
 			//			NativeFunctions.expectOneParameter(solver, node, params, first_param);
@@ -159,6 +193,10 @@ public class JSRegExp { // TODO: see http://dev.opera.com/articles/view/opera-ja
 			// ##################################################
 			Dependency dependency = new Dependency();
 			// ##################################################
+
+			// ==================================================
+			DependencyExpressionNode node = DependencyNode.link(Label.CALL, call.getSourceNode(), state);
+			// ==================================================
 			
 			NativeFunctions.expectParameters(nativeobject, call, c, 1, 1);
 			Value thisval = state.readInternalValue(state.readThisObjects());
@@ -166,6 +204,10 @@ public class JSRegExp { // TODO: see http://dev.opera.com/articles/view/opera-ja
 			// ##################################################
 			dependency.join(thisval.getDependency());
 			// ##################################################
+			
+			// ==================================================
+			node.addParent(thisval);
+			// ==================================================
 			
 			return Value.makeAnyStr(dependency); 
 		}
