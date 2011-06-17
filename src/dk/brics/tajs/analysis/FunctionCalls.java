@@ -9,6 +9,7 @@ import java.util.TreeSet;
 
 import dk.brics.tajs.analysis.dom.html.HTMLBuilder;
 import dk.brics.tajs.dependency.Dependency;
+import dk.brics.tajs.dependency.graph.Label;
 import dk.brics.tajs.flowgraph.Function;
 import dk.brics.tajs.flowgraph.Node;
 import dk.brics.tajs.flowgraph.ObjectLabel;
@@ -207,6 +208,8 @@ public class FunctionCalls {
 					res = res.joinDependency(dependency);
 					// ##################################################
 
+					res = res.joinDependencyGraphReference(funval.getDependencyGraphReference());
+					
 					c.setCurrentState(ts);
 					if ((!res.isBottom() && !newstate.isEmpty())
 							|| Options.isPropagateDeadFlow()) {

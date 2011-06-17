@@ -2,6 +2,7 @@ package dk.brics.tajs.analysis;
 
 import dk.brics.tajs.dependency.Dependency;
 import dk.brics.tajs.dependency.graph.DependencyGraphReference;
+import dk.brics.tajs.dependency.graph.DependencyNode;
 import dk.brics.tajs.dependency.graph.interfaces.IDependencyGraphReference;
 import dk.brics.tajs.dependency.interfaces.IDependency;
 import dk.brics.tajs.flowgraph.BasicBlock;
@@ -131,5 +132,10 @@ public final class State extends BlockState<State, CallContext, Statistics>
 		newReference.join(reference);
 		mDependencyGraphReference  = newReference;
 		return this;
+	}
+
+	@Override
+	public State joinDependencyGraphReference(DependencyNode node) {
+		return joinDependencyGraphReference(node.getReference());
 	}
 }

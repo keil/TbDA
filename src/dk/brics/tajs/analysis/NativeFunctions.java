@@ -10,7 +10,6 @@ import dk.brics.tajs.analysis.dom.DOMObjects;
 import dk.brics.tajs.analysis.nativeobjects.ECMAScriptFunctions;
 import dk.brics.tajs.analysis.nativeobjects.ECMAScriptObjects;
 import dk.brics.tajs.dependency.Dependency;
-import dk.brics.tajs.dependency.DependencyObject;
 import dk.brics.tajs.flowgraph.NativeObject;
 import dk.brics.tajs.flowgraph.Node;
 import dk.brics.tajs.flowgraph.ObjectLabel;

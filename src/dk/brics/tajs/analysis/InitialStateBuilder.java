@@ -1,6 +1,8 @@
 package dk.brics.tajs.analysis;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.w3c.dom.Document;
 
@@ -31,7 +33,7 @@ import dk.brics.tajs.solver.IInitialStateBuilder;
 public class InitialStateBuilder implements IInitialStateBuilder<State, CallContext, Statistics> {
 
 	private static DependencyGraph mDependencyGraph;
-	
+
 	/**
 	 * Object label for the global object.
 	 */
@@ -208,8 +210,11 @@ public class InitialStateBuilder implements IInitialStateBuilder<State, CallCont
 		createSpecialProperty(s, global, "NaN", Value.makeNum(Double.NaN, new Dependency()).setAttributes(true, true, false));
 		createSpecialProperty(s, global, "Infinity", Value.makeNum(Double.POSITIVE_INFINITY, new Dependency()).setAttributes(true, true, false));
 		createSpecialProperty(s, global, "undefined", Value.makeUndef(new Dependency()).setAttributes(true, true, false));
-		// TODO: 15.1 the values of the [[Prototype]] and [[Class]] properties of the global object are implementation-dependent
-		createInternalPrototype(s, global, Value.makeObject(lObjectPrototype, new Dependency())); // Rhino's implementation choice
+		// TODO: 15.1 the values of the [[Prototype]] and [[Class]] properties
+		// of the global object are implementation-dependent
+		createInternalPrototype(s, global, Value.makeObject(lObjectPrototype, new Dependency())); // Rhino's
+																									// implementation
+																									// choice
 
 		// 15.1.2 function properties of the global object
 		createPrimitiveFunction(s, global, lFunProto, ECMAScriptObjects.EVAL, "eval", 1);
@@ -257,7 +262,8 @@ public class InitialStateBuilder implements IInitialStateBuilder<State, CallCont
 
 		// 15.3.4 properties of the Function prototype object
 		createInternalPrototype(s, lFunProto, Value.makeObject(lObjectPrototype, new Dependency()));
-		createSpecialProperty(s, lFunProto, "valueOf", Value.makeObject(new ObjectLabel(ECMAScriptObjects.OBJECT_VALUEOF, Kind.FUNCTION), new Dependency()).setAttributes(true, false, false));
+		createSpecialProperty(s, lFunProto, "valueOf", Value.makeObject(new ObjectLabel(ECMAScriptObjects.OBJECT_VALUEOF, Kind.FUNCTION), new Dependency())
+				.setAttributes(true, false, false));
 		createSpecialProperty(s, lFunProto, "constructor", Value.makeObject(lFunction, new Dependency()).setAttributes(true, false, false));
 		createPrimitiveFunction(s, lFunProto, lFunProto, ECMAScriptObjects.FUNCTION_TOSTRING, "toString", 0);
 		createPrimitiveFunction(s, lFunProto, lFunProto, ECMAScriptObjects.FUNCTION_APPLY, "apply", 2);
@@ -266,7 +272,8 @@ public class InitialStateBuilder implements IInitialStateBuilder<State, CallCont
 		// 15.4.4 properties of the Array prototype object
 		createInternalPrototype(s, lArrayProto, Value.makeObject(lObjectPrototype, new Dependency()));
 		createSpecialProperty(s, lArrayProto, "length", Value.makeNum(0, new Dependency()).setAttributes(true, false, false));
-		createSpecialProperty(s, lArrayProto, "valueOf", Value.makeObject(new ObjectLabel(ECMAScriptObjects.OBJECT_VALUEOF, Kind.FUNCTION), new Dependency()).setAttributes(true, false, false));
+		createSpecialProperty(s, lArrayProto, "valueOf", Value.makeObject(new ObjectLabel(ECMAScriptObjects.OBJECT_VALUEOF, Kind.FUNCTION), new Dependency())
+				.setAttributes(true, false, false));
 		createSpecialProperty(s, lArrayProto, "constructor", Value.makeObject(lArray, new Dependency()).setAttributes(true, false, false));
 		createPrimitiveFunction(s, lArrayProto, lFunProto, ECMAScriptObjects.ARRAY_TOSTRING, "toString", 0);
 		createPrimitiveFunction(s, lArrayProto, lFunProto, ECMAScriptObjects.ARRAY_TOLOCALESTRING, "toLocaleString", 0);
@@ -414,7 +421,8 @@ public class InitialStateBuilder implements IInitialStateBuilder<State, CallCont
 
 		// 15.10.6 properties of the RegExp prototype object
 		createInternalPrototype(s, lDateProto, Value.makeObject(lObjectPrototype, new Dependency()));
-		createSpecialProperty(s, lRegExpProto, "valueOf", Value.makeObject(new ObjectLabel(ECMAScriptObjects.OBJECT_VALUEOF, Kind.FUNCTION), new Dependency()).setAttributes(true, false, false));
+		createSpecialProperty(s, lRegExpProto, "valueOf", Value.makeObject(new ObjectLabel(ECMAScriptObjects.OBJECT_VALUEOF, Kind.FUNCTION), new Dependency())
+				.setAttributes(true, false, false));
 		createSpecialProperty(s, lRegExpProto, "constructor", Value.makeObject(lRegExp, new Dependency()).setAttributes(true, false, false));
 		createPrimitiveFunction(s, lRegExpProto, lFunProto, ECMAScriptObjects.REGEXP_EXEC, "exec", 1);
 		createPrimitiveFunction(s, lRegExpProto, lFunProto, ECMAScriptObjects.REGEXP_TEST, "test", 1);
@@ -424,7 +432,9 @@ public class InitialStateBuilder implements IInitialStateBuilder<State, CallCont
 		createInternalPrototype(s, lErrorProto, Value.makeObject(lObjectPrototype, new Dependency()));
 		createSpecialProperty(s, lErrorProto, "constructor", Value.makeObject(lError, new Dependency()).setAttributes(true, false, false));
 		createSpecialProperty(s, lErrorProto, "name", Value.makeStr("Error", new Dependency()).setAttributes(true, false, false));
-		createSpecialProperty(s, lErrorProto, "message", Value.makeAnyStr(new Dependency()).setAttributes(true, false, false)); // implementation dependent string
+		createSpecialProperty(s, lErrorProto, "message", Value.makeAnyStr(new Dependency()).setAttributes(true, false, false)); // implementation
+																																// dependent
+																																// string
 		createPrimitiveFunction(s, lErrorProto, lFunProto, ECMAScriptObjects.ERROR_TOSTRING, "toString", 0);
 
 		// 15.11.7 native error objects
@@ -490,7 +500,7 @@ public class InitialStateBuilder implements IInitialStateBuilder<State, CallCont
 		if (Options.isDOMEnabled()) {
 			DOMBuilder.addIinitialDOM(s);
 		}
-			
+
 		ExecutionContext e = new ExecutionContext(ScopeChain.make(global), global, global);
 		s.setExecutionContext(e);
 		s.clearEffects();
@@ -498,9 +508,9 @@ public class InitialStateBuilder implements IInitialStateBuilder<State, CallCont
 
 		Function main = c.getFlowGraph().getMain();
 		CallContext call_context = new CallContext(s, main, null, null);
-		//s.setContext(call_context);
+		// s.setContext(call_context);
 		c.joinBlockEntry(s, main.getEntry(), call_context);
-		c.getAnalysisLatticeElement().getCallGraph().registerFunctionContext(main, call_context);        
+		c.getAnalysisLatticeElement().getCallGraph().registerFunctionContext(main, call_context);
 	}
 
 	/**
@@ -518,7 +528,9 @@ public class InitialStateBuilder implements IInitialStateBuilder<State, CallCont
 	 * InitialState dependency trace list
 	 */
 	static List<String> trace = DependencyProperties.getInstance().getStringArray(DependencyProperties.TRACE);
-	
+
+	private static Map<DependencyObject, DependencyObjectNode> mReferences = new HashMap<DependencyObject, DependencyObjectNode>();
+
 	/**
 	 * @param dependency
 	 * @return DependencyGraphReference
@@ -526,10 +538,11 @@ public class InitialStateBuilder implements IInitialStateBuilder<State, CallCont
 	private static DependencyGraphReference createDependencyGraphReference(Dependency dependency) {
 		DependencyGraphReference reference = new DependencyGraphReference();
 		for (DependencyObject dependencyObject : dependency) {
-			// ==================================================
-			DependencyObjectNode node = new DependencyObjectNode(dependencyObject, mDependencyGraph.getRoot());
-			reference.join(node);
-			// ==================================================
+
+			if (!mReferences.containsKey(dependencyObject)) {
+				mReferences.put(dependencyObject, new DependencyObjectNode(dependencyObject, mDependencyGraph.getRoot()));
+			}
+			reference.join(mReferences.get(dependencyObject));
 		}
 		return reference;
 	}
@@ -545,12 +558,12 @@ public class InitialStateBuilder implements IInitialStateBuilder<State, CallCont
 	 * Creates a new built-in internal prototype.
 	 */
 	public static void createInternalPrototype(State s, ObjectLabel objlabel, Value value) {
-		Dependency dependency	= new Dependency();
+		Dependency dependency = new Dependency();
 
-		String string_objlabel	= objlabel.getNativeObjectID().toString();
+		String string_objlabel = objlabel.getNativeObjectID().toString();
 
 		// string_target
-		dependency = trace.contains(string_objlabel) ? DependencyObject.getInitialStateDependencyObject(string_objlabel).getDependency(): new Dependency();
+		dependency = trace.contains(string_objlabel) ? DependencyObject.getInitialStateDependencyObject(string_objlabel).getDependency() : new Dependency();
 		value = value.setDependencyGraphReference(createDependencyGraphReference(dependency));
 		s.writeInternalPrototype(objlabel, value.joinDependency(dependency));
 		DependencyAnalyzer.initialstate.add(string_objlabel);
@@ -560,12 +573,12 @@ public class InitialStateBuilder implements IInitialStateBuilder<State, CallCont
 	 * Creates a new built-in internal value.
 	 */
 	public static void createInternalValue(State s, ObjectLabel objlabel, Value value) {
-		Dependency dependency	= new Dependency();
+		Dependency dependency = new Dependency();
 
-		String string_objlabel	= objlabel.getNativeObjectID().toString();
+		String string_objlabel = objlabel.getNativeObjectID().toString();
 
 		// string_target
-		dependency = trace.contains(string_objlabel) ? DependencyObject.getInitialStateDependencyObject(string_objlabel).getDependency(): new Dependency();
+		dependency = trace.contains(string_objlabel) ? DependencyObject.getInitialStateDependencyObject(string_objlabel).getDependency() : new Dependency();
 		value = value.setDependencyGraphReference(createDependencyGraphReference(dependency));
 		s.writeInternalValue(objlabel, value.joinDependency(dependency));
 		DependencyAnalyzer.initialstate.add(string_objlabel);
@@ -575,12 +588,12 @@ public class InitialStateBuilder implements IInitialStateBuilder<State, CallCont
 	 * Creates a new built-in unknown array.
 	 */
 	public static void createUnknownArrayProperty(State s, ObjectLabel objlabel, Value value) {
-		Dependency dependency	= new Dependency();
+		Dependency dependency = new Dependency();
 
-		String string_objlabel	= objlabel.getNativeObjectID().toString();
+		String string_objlabel = objlabel.getNativeObjectID().toString();
 
 		// string_objlabel
-		dependency = trace.contains(string_objlabel) ? DependencyObject.getInitialStateDependencyObject(string_objlabel).getDependency(): new Dependency();
+		dependency = trace.contains(string_objlabel) ? DependencyObject.getInitialStateDependencyObject(string_objlabel).getDependency() : new Dependency();
 		value = value.setDependencyGraphReference(createDependencyGraphReference(dependency));
 		s.writeUnknownArrayProperty(objlabel, value.joinDependency(dependency));
 		DependencyAnalyzer.initialstate.add(string_objlabel);
@@ -590,13 +603,14 @@ public class InitialStateBuilder implements IInitialStateBuilder<State, CallCont
 	 * Creates a new built-in property.
 	 */
 	public static void createProperty(State s, ObjectLabel target, String propertyname, Value value) {
-		Dependency dependency	= new Dependency();
+		Dependency dependency = new Dependency();
 
-		String string_target	= target.equals(GLOBAL) ? "" : target.getNativeObjectID().toString() + ".";
-		String string_name		= propertyname;
+		String string_target = target.equals(GLOBAL) ? "" : target.getNativeObjectID().toString() + ".";
+		String string_name = propertyname;
 
 		// string_target + string_name
-		dependency = trace.contains(string_target + string_name) ? DependencyObject.getInitialStateDependencyObject(string_target + string_name).getDependency(): new Dependency();
+		dependency = trace.contains(string_target + string_name) ? DependencyObject.getInitialStateDependencyObject(string_target + string_name)
+				.getDependency() : new Dependency();
 		value = value.setDependencyGraphReference(createDependencyGraphReference(dependency));
 		s.writeProperty(target, propertyname, value.joinDependency(dependency));
 		DependencyAnalyzer.initialstate.add(string_target + string_name);
@@ -606,13 +620,14 @@ public class InitialStateBuilder implements IInitialStateBuilder<State, CallCont
 	 * Creates a new built-in special property.
 	 */
 	public static void createSpecialProperty(State s, ObjectLabel target, String propertyname, Value value) {
-		Dependency dependency	= new Dependency();
+		Dependency dependency = new Dependency();
 
-		String string_target	= target.equals(GLOBAL) ? "" : target.getNativeObjectID().toString() + ".";
-		String string_name		= propertyname;
+		String string_target = target.equals(GLOBAL) ? "" : target.getNativeObjectID().toString() + ".";
+		String string_name = propertyname;
 
 		// string_target + string_name
-		dependency = trace.contains(string_target + string_name) ? DependencyObject.getInitialStateDependencyObject(string_target + string_name).getDependency(): new Dependency();
+		dependency = trace.contains(string_target + string_name) ? DependencyObject.getInitialStateDependencyObject(string_target + string_name)
+				.getDependency() : new Dependency();
 		value = value.setDependencyGraphReference(createDependencyGraphReference(dependency));
 		s.writeSpecialProperty(target, propertyname, value.joinDependency(dependency));
 		DependencyAnalyzer.initialstate.add(string_target + string_name);
@@ -622,31 +637,33 @@ public class InitialStateBuilder implements IInitialStateBuilder<State, CallCont
 	 * Creates a new built-in function.
 	 */
 	public static void createPrimitiveFunction(State s, ObjectLabel target, ObjectLabel internal_proto, NativeObject primitive, String name, int arity) {
-		ObjectLabel objlabel	= new ObjectLabel(primitive, Kind.FUNCTION);
-		Dependency dependency	= new Dependency();
+		ObjectLabel objlabel = new ObjectLabel(primitive, Kind.FUNCTION);
+		Dependency dependency = new Dependency();
 		DependencyGraphReference reference = new DependencyGraphReference();
 
-		String string_target	= target.equals(GLOBAL) ? "" : target.getNativeObjectID().toString() + ".";
-		String string_objlabel	= objlabel.getNativeObjectID().toString() + ".";
-		String string_objlabel2	= objlabel.getNativeObjectID().toString();
-		String string_name		= name;
-		String string_length	= "length";
+		String string_target = target.equals(GLOBAL) ? "" : target.getNativeObjectID().toString() + ".";
+		String string_objlabel = objlabel.getNativeObjectID().toString() + ".";
+		String string_objlabel2 = objlabel.getNativeObjectID().toString();
+		String string_name = name;
+		String string_length = "length";
 
 		// string_objlabel2
-		dependency = trace.contains(string_objlabel2) ? DependencyObject.getInitialStateDependencyObject(string_objlabel2).getDependency(): new Dependency();
+		dependency = trace.contains(string_objlabel2) ? DependencyObject.getInitialStateDependencyObject(string_objlabel2).getDependency() : new Dependency();
 		s.newObject(objlabel);
 		reference = createDependencyGraphReference(dependency);
 		s.writeInternalPrototype(objlabel, Value.makeObject(internal_proto, new Dependency()).setDependencyGraphReference(reference));
 		DependencyAnalyzer.initialstate.add(string_objlabel2);
 
 		// string_target + string_name
-		dependency = trace.contains(string_target + string_name) ? DependencyObject.getInitialStateDependencyObject(string_target + string_name).getDependency(): new Dependency();
+		dependency = trace.contains(string_target + string_name) ? DependencyObject.getInitialStateDependencyObject(string_target + string_name)
+				.getDependency() : new Dependency();
 		reference = createDependencyGraphReference(dependency);
 		s.writeSpecialProperty(target, name, Value.makeObject(objlabel, dependency).setDependencyGraphReference(reference).setAttributes(true, false, false));
 		DependencyAnalyzer.initialstate.add(string_target + string_name);
 
 		// string_objlabel + string_length
-		dependency = trace.contains(string_objlabel + string_length) ? DependencyObject.getInitialStateDependencyObject(string_objlabel + string_length).getDependency(): new Dependency();
+		dependency = trace.contains(string_objlabel + string_length) ? DependencyObject.getInitialStateDependencyObject(string_objlabel + string_length)
+				.getDependency() : new Dependency();
 		reference = createDependencyGraphReference(dependency);
 		s.writeSpecialProperty(objlabel, "length", Value.makeNum(arity, dependency).setDependencyGraphReference(reference).setAttributes(true, true, true));
 		DependencyAnalyzer.initialstate.add(string_objlabel + string_length);
@@ -655,32 +672,37 @@ public class InitialStateBuilder implements IInitialStateBuilder<State, CallCont
 	/**
 	 * Creates a new built-in constructor.
 	 */
-	public static void createPrimitiveConstructor(State s, ObjectLabel target, ObjectLabel internal_proto, ObjectLabel prototype, ObjectLabel objlabel, String name, int arity) {
-		Dependency dependency	= new Dependency();
+	public static void createPrimitiveConstructor(State s, ObjectLabel target, ObjectLabel internal_proto, ObjectLabel prototype, ObjectLabel objlabel,
+			String name, int arity) {
+		Dependency dependency = new Dependency();
 		DependencyGraphReference reference = new DependencyGraphReference();
 
-		String string_target	= target.equals(GLOBAL) ? "" : target.getNativeObjectID().toString() + ".";
-		String string_objlabel	= objlabel.getNativeObjectID().toString() + ".";
-		String string_name		= name;
-		String string_length	= "length";
-		String string_prototype	= "prototype";
+		String string_target = target.equals(GLOBAL) ? "" : target.getNativeObjectID().toString() + ".";
+		String string_objlabel = objlabel.getNativeObjectID().toString() + ".";
+		String string_name = name;
+		String string_length = "length";
+		String string_prototype = "prototype";
 
 		// string_target + string_name
-		dependency = trace.contains(string_target + string_name) ? DependencyObject.getInitialStateDependencyObject(string_target + string_name).getDependency(): new Dependency();
+		dependency = trace.contains(string_target + string_name) ? DependencyObject.getInitialStateDependencyObject(string_target + string_name)
+				.getDependency() : new Dependency();
 		reference = createDependencyGraphReference(dependency);
 		s.writeSpecialProperty(target, name, Value.makeObject(objlabel, dependency).setDependencyGraphReference(reference).setAttributes(true, false, false));
 		DependencyAnalyzer.initialstate.add(string_target + string_name);
 
 		// string_objlabel + string_length
-		dependency = trace.contains(string_objlabel + string_length) ? DependencyObject.getInitialStateDependencyObject(string_objlabel + string_length).getDependency(): new Dependency();
+		dependency = trace.contains(string_objlabel + string_length) ? DependencyObject.getInitialStateDependencyObject(string_objlabel + string_length)
+				.getDependency() : new Dependency();
 		reference = createDependencyGraphReference(dependency);
 		s.writeSpecialProperty(objlabel, "length", Value.makeNum(arity, dependency).setDependencyGraphReference(reference).setAttributes(true, true, true));
 		DependencyAnalyzer.initialstate.add(string_objlabel + string_length);
 
 		// string_objlabel + string_prototype
-		dependency = trace.contains(string_objlabel + string_prototype) ? DependencyObject.getInitialStateDependencyObject(string_objlabel + string_prototype).getDependency(): new Dependency();
+		dependency = trace.contains(string_objlabel + string_prototype) ? DependencyObject.getInitialStateDependencyObject(string_objlabel + string_prototype)
+				.getDependency() : new Dependency();
 		reference = createDependencyGraphReference(dependency);
-		s.writeSpecialProperty(objlabel, "prototype", Value.makeObject(prototype, dependency).setDependencyGraphReference(reference).setAttributes(true, true, true));
+		s.writeSpecialProperty(objlabel, "prototype",
+				Value.makeObject(prototype, dependency).setDependencyGraphReference(reference).setAttributes(true, true, true));
 		s.writeInternalPrototype(objlabel, Value.makeObject(internal_proto, dependency).setDependencyGraphReference(reference));
 		DependencyAnalyzer.initialstate.add(string_objlabel + string_prototype);
 	}

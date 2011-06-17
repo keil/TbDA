@@ -918,6 +918,20 @@ public class NodeTransfer implements INodeTransfer<State, CallContext> {
 		// 13.2 step 2 and 3
 		state.newObject(fn);
 		Value f = Value.makeObject(fn, dependency);
+
+		// ##################################################
+		if (Options.isTraceAll()) {
+			DependencyObject dependencyObject = DependencyObject.getDependencyObject(n.getSourceLocation());
+			dependency.join(dependencyObject);
+			f = f.joinDependency(dependency);
+
+			// ==================================================
+			DependencyObjectNode node = new DependencyObjectNode(dependencyObject, mDependencyGraph.getRoot());
+			f = f.setDependencyGraphReference(node.getReference());
+			// ==================================================
+		}
+		// ##################################################
+
 		// 13.2 step 4
 		state.writeInternalPrototype(fn, Value.makeObject(InitialStateBuilder.FUNCTION_PROTOTYPE, dependency));
 		// 13.2 step 7
@@ -934,7 +948,7 @@ public class NodeTransfer implements INodeTransfer<State, CallContext> {
 		}
 		state.writeObjectScope(fn, scope);
 		// 13.2 step 8
-		state.writeSpecialProperty(fn, "length", Value.makeNum(n.getFunction().getParameterNames().size(), f.getDependency()).setAttributes(true, true, true));
+		state.writeSpecialProperty(fn, "length", Value.makeNum(n.getFunction().getParameterNames().size(), dependency).setAttributes(true, true, true));
 		// 13.2 step 9
 		ObjectLabel prototype = new ObjectLabel(n, Kind.OBJECT);
 		state.newObject(prototype);
@@ -943,12 +957,12 @@ public class NodeTransfer implements INodeTransfer<State, CallContext> {
 		state.writeSpecialProperty(prototype, "constructor", Value.makeObject(fn, dependency).setAttributes(true, false, false));
 		// 13.2 step 11
 		state.writeSpecialProperty(fn, "prototype", Value.makeObject(prototype, dependency).setAttributes(false, true, false));
-		state.writeInternalValue(prototype, Value.makeNum(Double.NaN, f.getDependency())); // TODO:
+		state.writeInternalValue(prototype, Value.makeNum(Double.NaN, dependency)); // TODO:
 																							// as
 																							// in
 																							// Rhino
 																							// (?)
-
+		
 		// ==================================================
 		f = f.setDependencyGraphReference(link(Label.FUNCTION, n, f, state).getReference());
 		// ==================================================
@@ -971,6 +985,8 @@ public class NodeTransfer implements INodeTransfer<State, CallContext> {
 
 		Value function = state.readTemporary(n.getFunctionVar());
 
+		// TODO
+		System.out.println(function.getDependencyGraphReference());
 		// ##################################################
 		dependency.join(function.getDependency());
 		// ##################################################
