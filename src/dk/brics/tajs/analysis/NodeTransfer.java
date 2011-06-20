@@ -985,8 +985,6 @@ public class NodeTransfer implements INodeTransfer<State, CallContext> {
 
 		Value function = state.readTemporary(n.getFunctionVar());
 
-		// TODO
-		System.out.println(function.getDependencyGraphReference());
 		// ##################################################
 		dependency.join(function.getDependency());
 		// ##################################################
