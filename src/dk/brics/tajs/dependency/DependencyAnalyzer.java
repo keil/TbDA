@@ -7,12 +7,17 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
+import dk.brics.tajs.analysis.State;
 import dk.brics.tajs.dependency.graph.DependencyGraph;
 import dk.brics.tajs.dependency.graph.DependencyGraphReference;
 import dk.brics.tajs.dependency.graph.DependencyNode;
 import dk.brics.tajs.dependency.graph.visitor.GraphVisitor;
+import dk.brics.tajs.dependency.interfaces.IDependency;
 import dk.brics.tajs.flowgraph.SourceLocation;
+import dk.brics.tajs.lattice.Value;
 import dk.brics.tajs.options.Options;
+import dk.brics.tajs.util.Pair;
+import dk.brics.tajs.util.Triple;
 
 /**
  * creates the dependency output
@@ -36,6 +41,15 @@ public class DependencyAnalyzer {
 	 * store the state analysis
 	 */
 	public static List<List<HashMap<String, DependencyGraphReference>>> references = new ArrayList<List<HashMap<String, DependencyGraphReference>>>();
+
+	/**
+	 * store the dump analysis
+	 */
+	// public static Map<String, List<Pair<Dependency,
+	// DependencyGraphReference>>> dumps = new HashMap<String,
+	// List<Pair<Dependency, DependencyGraphReference>>>();
+
+	public static Map<Triple<String, IDependency<?>, SourceLocation>, List<Pair<Dependency, DependencyGraphReference>>> dumps = new HashMap<Triple<String, IDependency<?>, SourceLocation>, List<Pair<Dependency, DependencyGraphReference>>>();
 
 	/**
 	 * store all dependency nodes
@@ -73,10 +87,8 @@ public class DependencyAnalyzer {
 		b.append(makeSpace());
 		b.append(makeHeader("Dependencies"));
 
-		HashMap<SourceLocation, DependencyObject> cache = DependencyObject
-				.getCache();
-		ArrayList<DependencyObject> list = new ArrayList<DependencyObject>(
-				cache.values());
+		HashMap<SourceLocation, DependencyObject> cache = DependencyObject.getCache();
+		ArrayList<DependencyObject> list = new ArrayList<DependencyObject>(cache.values());
 		Collections.sort(list);
 
 		for (DependencyObject dependencyObject : list) {
@@ -87,11 +99,9 @@ public class DependencyAnalyzer {
 			String space_string = " ";
 			String key_string = leftPadding(dependencyObject.getTrace(), width);
 			String equals_string = " : ";
-			String dependecy_string = dependencyObject.getSourceLocation()
-					.toString();
+			String dependecy_string = dependencyObject.getSourceLocation().toString();
 
-			b.append(space_string + key_string + equals_string
-					+ dependecy_string);
+			b.append(space_string + key_string + equals_string + dependecy_string);
 			b.append("\n");
 		}
 
@@ -103,8 +113,7 @@ public class DependencyAnalyzer {
 	 * print dependencies
 	 */
 	public static String printValues() {
-		List<List<HashMap<String, Dependency>>> output = new ArrayList<List<HashMap<String, Dependency>>>(
-				values);
+		List<List<HashMap<String, Dependency>>> output = new ArrayList<List<HashMap<String, Dependency>>>(values);
 
 		StringBuilder b = new StringBuilder();
 		b.append(makeSpace());
@@ -129,8 +138,7 @@ public class DependencyAnalyzer {
 		for (List<HashMap<String, Dependency>> list : output) {
 			for (HashMap<String, Dependency> hashMap : list) {
 
-				ArrayList<String> keySet = new ArrayList<String>(
-						hashMap.keySet());
+				ArrayList<String> keySet = new ArrayList<String>(hashMap.keySet());
 				Collections.sort(keySet);
 
 				for (String key : keySet) {
@@ -145,8 +153,7 @@ public class DependencyAnalyzer {
 
 					String dependecy_string = dependecy.toString();
 
-					b.append(space_string + key_string + equals_string
-							+ dependecy_string);
+					b.append(space_string + key_string + equals_string + dependecy_string);
 					b.append("\n");
 				}
 
@@ -163,8 +170,7 @@ public class DependencyAnalyzer {
 	 * print dependency graph references
 	 */
 	public static String printReferences() {
-		List<List<HashMap<String, DependencyGraphReference>>> output = new ArrayList<List<HashMap<String, DependencyGraphReference>>>(
-				references);
+		List<List<HashMap<String, DependencyGraphReference>>> output = new ArrayList<List<HashMap<String, DependencyGraphReference>>>(references);
 
 		StringBuilder b = new StringBuilder();
 		b.append(makeSpace());
@@ -189,8 +195,7 @@ public class DependencyAnalyzer {
 		for (List<HashMap<String, DependencyGraphReference>> list : output) {
 			for (HashMap<String, DependencyGraphReference> hashMap : list) {
 
-				ArrayList<String> keySet = new ArrayList<String>(
-						hashMap.keySet());
+				ArrayList<String> keySet = new ArrayList<String>(hashMap.keySet());
 				Collections.sort(keySet);
 
 				for (String key : keySet) {
@@ -205,8 +210,7 @@ public class DependencyAnalyzer {
 
 					String dependecy_string = reference.toString();
 
-					b.append(space_string + key_string + equals_string
-							+ dependecy_string);
+					b.append(space_string + key_string + equals_string + dependecy_string);
 					b.append("\n");
 				}
 
@@ -263,8 +267,7 @@ public class DependencyAnalyzer {
 			String equals_string = " = ";
 			String dependecy_string = node.toString();
 
-			b.append(space_string + key_string + equals_string
-					+ dependecy_string);
+			b.append(space_string + key_string + equals_string + dependecy_string);
 			b.append("\n");
 		}
 
@@ -272,8 +275,77 @@ public class DependencyAnalyzer {
 		return b.toString();
 	}
 
+	/**
+	 * print dumped dependencies
+	 */
+	public static String printDumpedValues() {
+		Map<Triple<String, IDependency<?>, SourceLocation>, List<Pair<Dependency, DependencyGraphReference>>> output = new HashMap<Triple<String, IDependency<?>, SourceLocation>, List<Pair<Dependency, DependencyGraphReference>>>(
+				dumps);
+
+		StringBuilder b = new StringBuilder();
+		b.append(makeSpace());
+		b.append(makeHeader("Dumped Value Dependencies"));
+
+		if (output.isEmpty())
+			return b.toString();
+
+		List<String> dependencyList = new ArrayList<String>();
+		List<String> referenceList = new ArrayList<String>();
+
+		for (Triple<String, IDependency<?>, SourceLocation> triple : output.keySet()) {
+			for (Pair<Dependency, DependencyGraphReference> pair : output.get(triple)) {
+				dependencyList.add(pair.getElement1().toString());
+			}
+		}
+
+		for (Triple<String, IDependency<?>, SourceLocation> triple : output.keySet()) {
+			for (Pair<Dependency, DependencyGraphReference> pair : output.get(triple)) {
+				referenceList.add(pair.getElement2().toString());
+			}
+		}
+
+		int dependencyLength = calculateMaxLengthOfKey(dependencyList);
+		int referenceLength = calculateMaxLengthOfKey(referenceList);
+
+		int dependencyWidth = (dependencyLength > 15) ? dependencyLength : 15;
+		int referenceWidth = (referenceLength > 15) ? referenceLength : 15;
+
+		for (Triple<String, IDependency<?>, SourceLocation> triple : output.keySet()) {
+			String spaceString = " ";
+			String newlineString = "\n";
+			String equalsString = " = ";
+			String separatorString = " | ";
+
+			String identifier = triple.getElement1();
+			String object = triple.getElement2().toString();
+			String location = "(" + triple.getElement3().toString() + ")";
+
+			String keyString = spaceString + identifier + location;
+
+			if (triple.getElement2() instanceof State) {
+				keyString = spaceString + object + "\n(" + location + ")";
+			} else if (triple.getElement2() instanceof Value) {
+				keyString = spaceString + identifier + "=" + object + " (" + location + ")";
+			}
+
+			b.append(keyString);
+			b.append(newlineString);
+
+			for (Pair<Dependency, DependencyGraphReference> pair : output.get(triple)) {
+				b.append(equalsString);
+				b.append(leftPadding(pair.getElement1().toString(), dependencyWidth));
+				b.append(separatorString);
+				b.append(leftPadding(pair.getElement2().toString(), referenceWidth));
+				b.append(newlineString);
+			}
+			b.append(newlineString);
+		}
+		return b.toString();
+	}
+
 	/*
-	 * ################################################## HELPERS
+	 * ##################################################
+	 * HELPERS
 	 * ##################################################
 	 */
 
@@ -334,8 +406,21 @@ public class DependencyAnalyzer {
 	 * @param list
 	 * @return int
 	 */
-	public static <T> int calculateMaxLengthOfString(
-			List<List<HashMap<String, T>>> values) {
+	public static <T> int calculateMaxLengthOfKey(List<String> values) {
+		int max = 0;
+		for (String string : values) {
+			max = Math.max(max, string.length());
+		}
+		return max;
+	}
+
+	/**
+	 * calculates the max - length of the given strings
+	 * 
+	 * @param list
+	 * @return int
+	 */
+	public static <T> int calculateMaxLengthOfString(List<List<HashMap<String, T>>> values) {
 		int max = 0;
 		for (List<HashMap<String, T>> list : values) {
 			for (HashMap<String, T> hashMap : list) {
@@ -353,8 +438,7 @@ public class DependencyAnalyzer {
 	 * @param list
 	 * @return int
 	 */
-	public static int calculateMaxLengthOfDepenencyObject(
-			List<DependencyObject> list) {
+	public static int calculateMaxLengthOfDepenencyObject(List<DependencyObject> list) {
 		int max = 0;
 		for (DependencyObject dependencyObject : list) {
 			max = Math.max(max, dependencyObject.getTrace().length());

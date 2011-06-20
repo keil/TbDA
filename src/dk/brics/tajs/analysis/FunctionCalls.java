@@ -9,7 +9,6 @@ import java.util.TreeSet;
 
 import dk.brics.tajs.analysis.dom.html.HTMLBuilder;
 import dk.brics.tajs.dependency.Dependency;
-import dk.brics.tajs.dependency.graph.Label;
 import dk.brics.tajs.flowgraph.Function;
 import dk.brics.tajs.flowgraph.Node;
 import dk.brics.tajs.flowgraph.ObjectLabel;
@@ -38,13 +37,13 @@ public class FunctionCalls {
 	/**
 	 * Information about a function call.
 	 */
-	public static interface CallInfo {
+	public static interface CallInfo<T extends Node> {
 
 		/**
 		 * Returns the node where the call originates from. Note that this may
 		 * be an indirect call via call/apply.
 		 */
-		public Node getSourceNode();
+		public T getSourceNode();
 
 		/**
 		 * Checks whether this is a construct or an ordinary call.
@@ -60,8 +59,7 @@ public class FunctionCalls {
 		 * Creates the object value of 'this'. Note that this may have
 		 * side-effects on the callee_state.
 		 */
-		public Set<ObjectLabel> prepareThis(State caller_state,
-				State callee_state);
+		public Set<ObjectLabel> prepareThis(State caller_state, State callee_state);
 
 		/**
 		 * Returns the value of the i'th argument. The first argument is number
@@ -97,16 +95,15 @@ public class FunctionCalls {
 		public int getBaseVar();
 	}
 
-	public static class EventHandlerCall implements CallInfo {
+	public static class EventHandlerCall implements CallInfo<EventDispatcherNode> {
 
-		private Node sourceNode;
+		private EventDispatcherNode sourceNode;
 		private Value function;
 		private Value arg1;
 
 		private Solver.SolverInterface solver;
 
-		public EventHandlerCall(Node sourceNode, Value function, Value arg1,
-				GenericSolver.SolverInterface solver) {
+		public EventHandlerCall(EventDispatcherNode sourceNode, Value function, Value arg1, GenericSolver.SolverInterface solver) {
 			this.sourceNode = sourceNode;
 			this.function = function;
 			this.arg1 = arg1;
@@ -114,7 +111,7 @@ public class FunctionCalls {
 		}
 
 		@Override
-		public Node getSourceNode() {
+		public EventDispatcherNode getSourceNode() {
 			return sourceNode;
 		}
 
@@ -129,8 +126,7 @@ public class FunctionCalls {
 		}
 
 		@Override
-		public Set<ObjectLabel> prepareThis(State caller_state,
-				State callee_state) {
+		public Set<ObjectLabel> prepareThis(State caller_state, State callee_state) {
 			return HTMLBuilder.HTML_OBJECT_LABELS;
 		}
 
@@ -146,8 +142,7 @@ public class FunctionCalls {
 
 		@Override
 		public Value getUnknownArg() {
-			throw new RuntimeException(
-					"Calling getUnknownArg but number of arguments is not unknown");
+			throw new RuntimeException("Calling getUnknownArg but number of arguments is not unknown");
 		}
 
 		@Override
@@ -170,8 +165,7 @@ public class FunctionCalls {
 	 * Enters a function described by a CallInfo.
 	 */
 
-	public static void callFunction(CallInfo call, State caller_state,
-			Solver.SolverInterface c) {
+	public static void callFunction(CallInfo<? extends Node> call, State caller_state, Solver.SolverInterface c) {
 
 		// ##################################################
 		Dependency dependency = new Dependency();
@@ -194,50 +188,41 @@ public class FunctionCalls {
 					Set<ExecutionContext> old_ec;
 					if (!call.isConstructorCall()) {
 						old_ec = newstate.getExecutionContext();
-						newstate.setExecutionContext(ExecutionContext.make(
-								old_ec,
-								call.prepareThis(caller_state, newstate)));
+						newstate.setExecutionContext(ExecutionContext.make(old_ec, call.prepareThis(caller_state, newstate)));
 					} else
 						old_ec = null;
 					State ts = c.getCurrentState();
 					c.setCurrentState(newstate);
-					Value res = NativeFunctions.evaluate(
-							objlabel.getNativeObjectID(), call, newstate, c);
+					Value res = NativeFunctions.evaluate(objlabel.getNativeObjectID(), call, newstate, c);
 
 					// ##################################################
 					res = res.joinDependency(dependency);
 					// ##################################################
 
 					res = res.joinDependencyGraphReference(funval.getDependencyGraphReference());
-					
+
 					c.setCurrentState(ts);
-					if ((!res.isBottom() && !newstate.isEmpty())
-							|| Options.isPropagateDeadFlow()) {
+					if ((!res.isBottom() && !newstate.isEmpty()) || Options.isPropagateDeadFlow()) {
 						if (old_ec != null)
 							newstate.setExecutionContext(newSet(old_ec));
 						Node n = call.getSourceNode();
 						if (call.getResultVar() != CallNode.NO_VALUE)
 							newstate.writeTemporary(call.getResultVar(), res);
-						c.joinBlockEntry(newstate, n.getBlock()
-								.getSingleSuccessor(), c.getCurrentContext());
+						c.joinBlockEntry(newstate, n.getBlock().getSingleSuccessor(), c.getCurrentContext());
 					}
 				} else
 					// user-defined function
-					FunctionCalls.enterUserFunction(objlabel, call,
-							caller_state, c);
+					FunctionCalls.enterUserFunction(objlabel, call, caller_state, c);
 			} else
 				maybe_non_function = true;
 		}
 		if (funval.getObjectLabels().isEmpty() && Options.isPropagateDeadFlow()) {
 			State newstate = caller_state.clone();
 			if (call.getResultVar() != CallNode.NO_VALUE)
-				newstate.writeTemporary(call.getResultVar(),
-						Value.makeBottom(dependency));
-			c.joinBlockEntry(newstate, call.getSourceNode().getBlock()
-					.getSingleSuccessor(), c.getCurrentContext());
+				newstate.writeTemporary(call.getResultVar(), Value.makeBottom(dependency));
+			c.joinBlockEntry(newstate, call.getSourceNode().getBlock().getSingleSuccessor(), c.getCurrentContext());
 		}
-		Status s = maybe_non_function ? (maybe_function ? Status.MAYBE
-				: Status.CERTAIN) : Status.NONE;
+		Status s = maybe_non_function ? (maybe_function ? Status.MAYBE : Status.CERTAIN) : Status.NONE;
 		c.addMessage(s, Severity.HIGH, "TypeError, call to non-function");
 		if (s != Status.NONE) {
 			Exceptions.throwTypeError(caller_state, c);
@@ -249,8 +234,7 @@ public class FunctionCalls {
 	/**
 	 * Enters a user-defined function.
 	 */
-	public static void enterUserFunction(ObjectLabel obj_f, CallInfo call,
-			State caller_state, Solver.SolverInterface c) {
+	public static void enterUserFunction(ObjectLabel obj_f, CallInfo<? extends Node> call, State caller_state, Solver.SolverInterface c) {
 
 		// ##################################################
 		Dependency dependency = new Dependency();
@@ -261,9 +245,8 @@ public class FunctionCalls {
 		Node n = call.getSourceNode();
 
 		if (Options.isDebugEnabled())
-			System.out.println("enterUserFunction from call node "
-					+ n.getIndex() + " at " + n.getSourceLocation() + " to "
-					+ f + " at " + f.getSourceLocation());
+			System.out.println("enterUserFunction from call node " + n.getIndex() + " at " + n.getSourceLocation() + " to " + f + " at "
+					+ f.getSourceLocation());
 
 		State callee_state = caller_state.clone();
 
@@ -272,8 +255,7 @@ public class FunctionCalls {
 		callee_state.clearTemporaries();
 
 		Summarized s = new Summarized();
-		Set<ObjectLabel> this_objs = call.prepareThis(caller_state,
-				callee_state);
+		Set<ObjectLabel> this_objs = call.prepareThis(caller_state, callee_state);
 		if (call.isConstructorCall()) {
 			// 13.2.2.1-2 create new object
 			ObjectLabel new_obj = new ObjectLabel(n, Kind.OBJECT); // same as
@@ -282,69 +264,55 @@ public class FunctionCalls {
 																	// determineThis
 			s.addDefinitelySummarized(new_obj);
 			// 13.2.2.3-5 provide [[Prototype]]
-			Value prototype = caller_state.readPropertyDirect(
-					Collections.singleton(obj_f), "prototype");
+			Value prototype = caller_state.readPropertyDirect(Collections.singleton(obj_f), "prototype");
 
 			// ##################################################
 			dependency.join(prototype.getDependency());
 			// ##################################################
 
 			if (prototype.isMaybePrimitive())
-				prototype = prototype.restrictToObject().joinObject(
-						InitialStateBuilder.OBJECT_PROTOTYPE);
+				prototype = prototype.restrictToObject().joinObject(InitialStateBuilder.OBJECT_PROTOTYPE);
 			callee_state.writeInternalPrototype(new_obj, prototype);
 		}
 		// 10.2.3 enter new execution context, 13.2.1 transfer parameters,
 		// 10.1.6/8 provide 'arguments' object
-		ObjectLabel varobj = new ObjectLabel(f.getEntry().getFirstNode(),
-				Kind.ACTIVATION); // better to use entry than invoke here
+		ObjectLabel varobj = new ObjectLabel(f.getEntry().getFirstNode(), Kind.ACTIVATION); // better
+																							// to
+																							// use
+																							// entry
+																							// than
+																							// invoke
+																							// here
 		callee_state.newObject(varobj);
 		s.addDefinitelySummarized(varobj);
-		ObjectLabel argobj = new ObjectLabel(f.getEntry().getFirstNode(),
-				Kind.ARGUMENTS);
+		ObjectLabel argobj = new ObjectLabel(f.getEntry().getFirstNode(), Kind.ARGUMENTS);
 		callee_state.newObject(argobj);
 		s.addDefinitelySummarized(argobj);
-		Set<ScopeChain> sc = ScopeChain.make(varobj,
-				caller_state.readObjectScope(obj_f));
+		Set<ScopeChain> sc = ScopeChain.make(varobj, caller_state.readObjectScope(obj_f));
 		if (sc.isEmpty()) {
 			// throw new RuntimeException("Empty scope chain set!?");
 			return; // test/wala/upward.js
 		}
-		callee_state.setExecutionContext(ExecutionContext.make(sc, varobj,
-				this_objs));
-		callee_state.declareAndWriteVariable("arguments",
-				Value.makeObject(argobj, dependency));
-		callee_state.writeInternalPrototype(argobj, Value.makeObject(
-				InitialStateBuilder.OBJECT_PROTOTYPE, dependency));
-		callee_state.writeSpecialProperty(
-				argobj,
-				"callee",
-				Value.makeObject(obj_f, dependency).setAttributes(true, false,
-						false));
+		callee_state.setExecutionContext(ExecutionContext.make(sc, varobj, this_objs));
+		callee_state.declareAndWriteVariable("arguments", Value.makeObject(argobj, dependency));
+		callee_state.writeInternalPrototype(argobj, Value.makeObject(InitialStateBuilder.OBJECT_PROTOTYPE, dependency));
+		callee_state.writeSpecialProperty(argobj, "callee", Value.makeObject(obj_f, dependency).setAttributes(true, false, false));
 		int num_formals = f.getParameterNames().size();
 		int num_actuals = call.getNumberOfArgs();
 		boolean num_actuals_unknown = call.isUnknownNumberOfArgs();
-		callee_state.writeSpecialProperty(
-				argobj,
-				"length",
-				(num_actuals_unknown ? Value.makeAnyNumUInt(dependency) : Value
-						.makeNum(num_actuals, new Dependency())).setAttributes(
-						true, false, false));
+		callee_state.writeSpecialProperty(argobj, "length",
+				(num_actuals_unknown ? Value.makeAnyNumUInt(dependency) : Value.makeNum(num_actuals, new Dependency())).setAttributes(true, false, false));
 		if (num_actuals_unknown)
-			callee_state.writeSpecialUnknownArrayProperty(argobj, call
-					.getUnknownArg().setAttributes(true, false, false));
-		for (int i = 0; i < num_formals
-				|| (!num_actuals_unknown && i < num_actuals); i++) {
+			callee_state.writeSpecialUnknownArrayProperty(argobj, call.getUnknownArg().setAttributes(true, false, false));
+		for (int i = 0; i < num_formals || (!num_actuals_unknown && i < num_actuals); i++) {
 			Value v;
 			if (num_actuals_unknown || i < num_actuals) {
 				v = call.getArg(i).summarize(s);
-				callee_state.writeSpecialProperty(argobj, Integer.toString(i),
-						v.setAttributes(true, false, false));
+				callee_state.writeSpecialProperty(argobj, Integer.toString(i), v.setAttributes(true, false, false));
 			} else
 				v = Value.makeUndef(dependency);
 			if (i < num_formals)
-				callee_state.declareAndWriteVariable(
-						f.getParameterNames().get(i), v);
+				callee_state.declareAndWriteVariable(f.getParameterNames().get(i), v);
 		}
 		// FIXME: properties of 'arguments' should be shared with the formal
 		// parameters (see 10.1.8 item 4) - easy solution that does not require
@@ -353,8 +321,7 @@ public class FunctionCalls {
 		// way around...)
 
 		CallContext caller_context = c.getCurrentContext();
-		CallContext callee_context = new CallContext(callee_state, f,
-				caller_context, n);
+		CallContext callee_context = new CallContext(callee_state, f, caller_context, n);
 		c.joinFunctionEntry(callee_state, n, caller_context, f, callee_context);
 	}
 
@@ -363,9 +330,8 @@ public class FunctionCalls {
 	 * call/apply and other than constructor call to native function). May have
 	 * side-effects on callee_state.
 	 */
-	public static Set<ObjectLabel> determineThis(Node n, State caller_state,
-			State callee_state, Solver.SolverInterface c,
-			boolean isConstructorCall, int baseVar) {
+	public static Set<ObjectLabel> determineThis(Node n, State caller_state, State callee_state, Solver.SolverInterface c, boolean isConstructorCall,
+			int baseVar) {
 		Set<ObjectLabel> this_obj;
 		if (isConstructorCall) {
 			// 13.2.2.1-2 create new object
@@ -381,19 +347,22 @@ public class FunctionCalls {
 				this_obj = newSet();
 				this_obj.add(InitialStateBuilder.GLOBAL);
 			} else {
-				Set<ObjectLabel> t = Conversion.toObjectLabels(callee_state, n,
-						caller_state.readTemporary(baseVar), c); // TODO: likely
-																	// loss of
-																	// precision
-																	// if
-																	// multiple
-																	// object
-																	// labels
-																	// (or a
-																	// summary
-																	// object)
-																	// as 'this'
-																	// value
+				Set<ObjectLabel> t = Conversion.toObjectLabels(callee_state, n, caller_state.readTemporary(baseVar), c); // TODO:
+																															// likely
+																															// loss
+																															// of
+																															// precision
+																															// if
+																															// multiple
+																															// object
+																															// labels
+																															// (or
+																															// a
+																															// summary
+																															// object)
+																															// as
+																															// 'this'
+																															// value
 				this_obj = newSet();
 				// 10.1.6: replace activation objects by the global object
 				for (ObjectLabel objlabel : t)
@@ -411,10 +380,8 @@ public class FunctionCalls {
 	 * call/apply and other than constructor call to native function). May have
 	 * side-effects on callee_state.
 	 */
-	public static Set<ObjectLabel> determineThis(CallNode n,
-			State caller_state, State callee_state, Solver.SolverInterface c) {
-		return determineThis(n, caller_state, callee_state, c,
-				n.isConstructorCall(), n.getBaseVar());
+	public static Set<ObjectLabel> determineThis(CallNode n, State caller_state, State callee_state, Solver.SolverInterface c) {
+		return determineThis(n, caller_state, callee_state, c, n.isConstructorCall(), n.getBaseVar());
 	}
 
 	/**
@@ -422,17 +389,14 @@ public class FunctionCalls {
 	 * call/apply and other than constructor call to native function). May have
 	 * side-effects on callee_state.
 	 */
-	public static Set<ObjectLabel> determineThis(CallInfo i, Node n,
-			State caller_state, State callee_state, Solver.SolverInterface c) {
-		return determineThis(n, caller_state, callee_state, c,
-				i.isConstructorCall(), i.getBaseVar());
+	public static Set<ObjectLabel> determineThis(CallInfo<? extends Node> i, Node n, State caller_state, State callee_state, Solver.SolverInterface c) {
+		return determineThis(n, caller_state, callee_state, c, i.isConstructorCall(), i.getBaseVar());
 	}
 
 	/**
 	 * Leaves a user-defined function.
 	 */
-	public static void leaveUserFunction(Value returnval, boolean exceptional,
-			Function f, State state, Solver.SolverInterface c,
+	public static void leaveUserFunction(Value returnval, boolean exceptional, Function f, State state, Solver.SolverInterface c,
 			NodeAndContext<CallContext> specific_caller) {
 
 		if (f.isMain()) {
@@ -441,13 +405,10 @@ public class FunctionCalls {
 			if (exceptional) {
 				Value v = returnval.restrictToNonObject();
 				if (v.isMaybeValue())
-					c.addMessage(n, Status.CERTAIN, Severity.LOW, msgkey,
-							"Uncaught exception: " + v);
-				TreeSet<SourceLocation> objs = new TreeSet<SourceLocation>(
-						returnval.getObjectSourceLocations());
+					c.addMessage(n, Status.CERTAIN, Severity.LOW, msgkey, "Uncaught exception: " + v);
+				TreeSet<SourceLocation> objs = new TreeSet<SourceLocation>(returnval.getObjectSourceLocations());
 				if (!objs.isEmpty())
-					c.addMessage(n, Status.CERTAIN, Severity.LOW, msgkey,
-							"Uncaught exception, constructed at " + objs);
+					c.addMessage(n, Status.CERTAIN, Severity.LOW, msgkey, "Uncaught exception, constructed at " + objs);
 			} else {
 				if (returnval.isMaybeValue())
 					c.addMessage(n, Status.NONE, Severity.LOW, msgkey, "");
@@ -456,39 +417,32 @@ public class FunctionCalls {
 		}
 
 		if (Options.isDebugEnabled())
-			System.out.println("leaveUserFunction from " + f + " at "
-					+ f.getSourceLocation());
+			System.out.println("leaveUserFunction from " + f + " at " + f.getSourceLocation());
 
 		// collect garbage
 		if (!c.isScanning()) {
 			state.clearTemporaries();
 			state.writeTemporary(0, returnval); // ensures that returnval is
 												// treated as live
-			
+
 			state.sharpen();
 			state.clearTemporaries();
 		}
 
 		if (specific_caller != null)
-			leaveUserFunction(specific_caller, returnval, exceptional, f,
-					state, state.readThis(), c);
+			leaveUserFunction(specific_caller, returnval, exceptional, f, state, state.readThis(), c);
 		else {
 			// try each call node that calls f with the current callee context
-			Set<NodeAndContext<CallContext>> es = c.getCallSources(f,
-					c.getCurrentContext());
-			for (Iterator<NodeAndContext<CallContext>> i = es.iterator(); i
-					.hasNext();) {
+			Set<NodeAndContext<CallContext>> es = c.getCallSources(f, c.getCurrentContext());
+			for (Iterator<NodeAndContext<CallContext>> i = es.iterator(); i.hasNext();) {
 				NodeAndContext<CallContext> p = i.next();
-				leaveUserFunction(p, returnval, exceptional, f,
-						i.hasNext() ? state.clone() : state, state.readThis(),
-						c);
+				leaveUserFunction(p, returnval, exceptional, f, i.hasNext() ? state.clone() : state, state.readThis(), c);
 			}
 		}
 	}
 
-	private static void leaveUserFunction(NodeAndContext<CallContext> p,
-			Value returnval, boolean exceptional, Function f, State state,
-			Value thisval, Solver.SolverInterface c) {
+	private static void leaveUserFunction(NodeAndContext<CallContext> p, Value returnval, boolean exceptional, Function f, State state, Value thisval,
+			Solver.SolverInterface c) {
 
 		// ##################################################
 		Dependency dependency = new Dependency();
@@ -512,31 +466,25 @@ public class FunctionCalls {
 					// such return flow? by additional call nodes?
 
 		if (Options.isDebugEnabled()) {
-			System.out.println("trying call node " + node.getIndex() + ": "
-					+ node + " at " + node.getSourceLocation());
-			System.out.println("caller context: " + caller_context
-					+ ", callee context: " + c.getCurrentContext());
+			System.out.println("trying call node " + node.getIndex() + ": " + node + " at " + node.getSourceLocation());
+			System.out.println("caller context: " + caller_context + ", callee context: " + c.getCurrentContext());
 		}
 
 		// merge newstate with caller state and call edge state
 		Summarized callee_summarized = new Summarized(state.getSummarized());
-		ObjectLabel activation_obj = new ObjectLabel(f.getEntry()
-				.getFirstNode(), Kind.ACTIVATION);
+		ObjectLabel activation_obj = new ObjectLabel(f.getEntry().getFirstNode(), Kind.ACTIVATION);
 		callee_summarized.addDefinitelySummarized(activation_obj);
-		ObjectLabel arguments_obj = new ObjectLabel(
-				f.getEntry().getFirstNode(), Kind.ARGUMENTS);
+		ObjectLabel arguments_obj = new ObjectLabel(f.getEntry().getFirstNode(), Kind.ARGUMENTS);
 		callee_summarized.addDefinitelySummarized(arguments_obj);
 		if (isConstructor) {
 			ObjectLabel this_obj = new ObjectLabel(node, Kind.OBJECT);
 			callee_summarized.addDefinitelySummarized(this_obj);
 		} // FIXME: =======> prepareThis may create additional objects!!!
-		state.mergeFunctionReturn(c.getCallState(node, caller_context),
-				c.getCallEdgeState(node, caller_context, f), callee_summarized);
+		state.mergeFunctionReturn(c.getCallState(node, caller_context), c.getCallEdgeState(node, caller_context, f), callee_summarized);
 
 		if (exceptional) {
 			// transfer exception value to caller
-			Exceptions
-					.throwException(state, returnval, c, node, caller_context);
+			Exceptions.throwException(state, returnval, c, node, caller_context);
 
 		} else {
 			if (isConstructor && returnval.isMaybePrimitive()) {
@@ -554,8 +502,7 @@ public class FunctionCalls {
 			// ##################################################
 			if (node instanceof CallNode) {
 				CallNode call_node = (CallNode) node;
-				dependency.join(state.readTemporary(call_node.getFunctionVar())
-						.getDependency());
+				dependency.join(state.readTemporary(call_node.getFunctionVar()).getDependency());
 				returnval.joinDependency(dependency);
 			}
 			// ##################################################
@@ -565,8 +512,7 @@ public class FunctionCalls {
 				state.writeTemporary(resultVar, returnval);
 
 			// flow to next basic block after call_node
-			c.joinBlockEntry(state, node.getBlock().getSingleSuccessor(),
-					caller_context);
+			c.joinBlockEntry(state, node.getBlock().getSingleSuccessor(), caller_context);
 		}
 	}
 }

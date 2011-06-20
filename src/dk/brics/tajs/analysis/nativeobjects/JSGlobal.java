@@ -1,5 +1,6 @@
 package dk.brics.tajs.analysis.nativeobjects;
 
+import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -10,15 +11,22 @@ import dk.brics.tajs.analysis.State;
 import dk.brics.tajs.analysis.FunctionCalls.CallInfo;
 import dk.brics.tajs.analysis.dom.event.*;
 import dk.brics.tajs.dependency.Dependency;
+import dk.brics.tajs.dependency.DependencyAnalyzer;
 import dk.brics.tajs.dependency.DependencyObject;
+import dk.brics.tajs.dependency.graph.DependencyGraphReference;
 import dk.brics.tajs.dependency.graph.DependencyNode;
 import dk.brics.tajs.dependency.graph.Label;
 import dk.brics.tajs.dependency.graph.nodes.DependencyExpressionNode;
 import dk.brics.tajs.dependency.graph.nodes.DependencyObjectNode;
+import dk.brics.tajs.dependency.interfaces.IDependency;
+import dk.brics.tajs.flowgraph.Node;
 import dk.brics.tajs.flowgraph.SourceLocation;
+import dk.brics.tajs.flowgraph.nodes.CallNode;
 import dk.brics.tajs.lattice.Value;
 import dk.brics.tajs.solver.Message.Severity;
 import dk.brics.tajs.solver.Message.Status;
+import dk.brics.tajs.util.Pair;
+import dk.brics.tajs.util.Triple;
 
 /**
  * 15.1 and B.2 native global functions.
@@ -31,7 +39,7 @@ public class JSGlobal {
 	/**
 	 * Evaluates the given native function.
 	 */
-	public static Value evaluate(ECMAScriptObjects nativeobject, CallInfo call, State state, Solver.SolverInterface c) {
+	public static Value evaluate(ECMAScriptObjects nativeobject, CallInfo<CallNode> call, State state, Solver.SolverInterface c) {
 		if (NativeFunctions.throwTypeErrorIfConstructor(call, state, c))
 			return Value.makeBottom(new Dependency());
 
@@ -68,7 +76,7 @@ public class JSGlobal {
 			node.addParent(str);
 			node.addParent(basis);
 			// ==================================================
-			
+
 			if (str.isMaybeSingleStr() && basis.isMaybeSingleNum()) {
 				String s = str.getStr().trim();
 				double sign = 1;
@@ -256,6 +264,44 @@ public class JSGlobal {
 
 			value = value.joinDependency(dependency);
 			return value;
+		}
+
+			/*
+			 * ############################################################
+			 * Dependency function, to evaluate value dependency
+			 * ############################################################
+			 */
+		case DUMPDEPENDENCY: {
+
+			if (call.getNumberOfArgs() == 0) {
+				// dump state dependency
+
+				SourceLocation sourceLocation = call.getSourceNode().getSourceLocation();
+				Triple<String, IDependency<?>, SourceLocation> key = new Triple<String, IDependency<?>, SourceLocation>("", state, sourceLocation);
+
+				if (!DependencyAnalyzer.dumps.containsKey(key)) {
+					DependencyAnalyzer.dumps.put(key, new ArrayList<Pair<Dependency, DependencyGraphReference>>());
+				}
+				DependencyAnalyzer.dumps.get(key).add(
+						new Pair<Dependency, DependencyGraphReference>(state.getDependency(), state.getDependencyGraphReference()));
+
+			} else {
+				// dump value dependency
+
+				CallNode n = call.getSourceNode();
+				for (int i = 0; i < call.getNumberOfArgs(); i++) {
+
+					Triple<String, IDependency<?>, SourceLocation> key = new Triple<String, IDependency<?>, SourceLocation>("v" + n.getArgVar(i),
+							call.getArg(i), n.getSourceLocation());
+					if (!DependencyAnalyzer.dumps.containsKey(key)) {
+						DependencyAnalyzer.dumps.put(key, new ArrayList<Pair<Dependency, DependencyGraphReference>>());
+					}
+					DependencyAnalyzer.dumps.get(key).add(
+							new Pair<Dependency, DependencyGraphReference>(call.getArg(i).getDependency(), call.getArg(i).getDependencyGraphReference()));
+				}
+			}
+
+			return Value.makeUndef(new Dependency());
 		}
 
 		case ASSERT: {

@@ -194,6 +194,7 @@ public enum ECMAScriptObjects implements NativeObject {
 	 * ############################################################
 	 */
 	TRACE(NativeAPIs.ECMA_SCRIPT_NATIVE, "trace"), // nonstandard
+	DUMPDEPENDENCY(NativeAPIs.ECMA_SCRIPT_NATIVE, "dumpDependency"), // nonstandard
 
 	ASSERT(NativeAPIs.ECMA_SCRIPT_NATIVE, "assert"), // nonstandard
 	DUMPVALUE(NativeAPIs.ECMA_SCRIPT_NATIVE, "dumpValue"), // nonstandard

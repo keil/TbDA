@@ -1005,7 +1005,7 @@ public class NodeTransfer implements INodeTransfer<State, CallContext> {
 		state.joinDependency(dependency);
 		// ##################################################
 
-		FunctionCalls.callFunction(new FunctionCalls.CallInfo() {
+		FunctionCalls.callFunction(new FunctionCalls.CallInfo<CallNode>() {
 
 			@Override
 			public CallNode getSourceNode() {

@@ -477,6 +477,7 @@ public class InitialStateBuilder implements IInitialStateBuilder<State, CallCont
 		 * ############################################################
 		 */
 		createPrimitiveFunction(s, global, lFunProto, ECMAScriptObjects.TRACE, "trace", 1);
+		createPrimitiveFunction(s, global, lFunProto, ECMAScriptObjects.DUMPDEPENDENCY, "dumpDependency", 1);
 
 		// our own host defined properties
 		createPrimitiveFunction(s, global, lFunProto, ECMAScriptObjects.ASSERT, "assert", 1);

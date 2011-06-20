@@ -34,6 +34,9 @@ public final class State extends BlockState<State, CallContext, Statistics>
 		super(c, block);
 	}
 
+	/**
+	 * @param state
+	 */
 	private State(State state) {
 		super(state);
 		mDependency = state.getDependency();

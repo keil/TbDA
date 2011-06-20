@@ -260,6 +260,9 @@ public class Main {
 					}
 				}
 			}
+
+			// print dumped dependencies
+			System.out.println(DependencyAnalyzer.printDumpedValues());
 		}
 	}
 
