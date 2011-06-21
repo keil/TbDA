@@ -26,7 +26,7 @@ import dk.brics.tajs.util.Strings;
  */
 /**
  * @author Matthias
- *
+ * 
  */
 
 public final class Value implements Undef, Null, Bool, Num, Str, IDependency<Value>, IDependencyGraphReference<Value> {
@@ -55,18 +55,12 @@ public final class Value implements Undef, Null, Bool, Num, Str, IDependency<Val
 
 	private final static int BOOL_ANY = BOOL_TRUE | BOOL_FALSE;
 	private final static int STR_ANY = STR_UINT | STR_NOTUINT;
-	private final static int NUM_ANY = NUM_NAN | NUM_INF | NUM_UINT
-			| NUM_NOTUINT;
-	private final static int ATTR_DONTENUM_ANY = ATTR_DONTENUM
-			| ATTR_NOTDONTENUM;
-	private final static int ATTR_READONLY_ANY = ATTR_READONLY
-			| ATTR_NOTREADONLY;
-	private final static int ATTR_DONTDELETE_ANY = ATTR_DONTDELETE
-			| ATTR_NOTDONTDELETE;
-	private final static int ATTR_ANY = ATTR_DONTENUM_ANY | ATTR_READONLY_ANY
-			| ATTR_DONTDELETE_ANY;
-	private final static int PRIMITIVE = UNDEF | NULL | BOOL_ANY | NUM_ANY
-			| STR_ANY;
+	private final static int NUM_ANY = NUM_NAN | NUM_INF | NUM_UINT | NUM_NOTUINT;
+	private final static int ATTR_DONTENUM_ANY = ATTR_DONTENUM | ATTR_NOTDONTENUM;
+	private final static int ATTR_READONLY_ANY = ATTR_READONLY | ATTR_NOTREADONLY;
+	private final static int ATTR_DONTDELETE_ANY = ATTR_DONTDELETE | ATTR_NOTDONTDELETE;
+	private final static int ATTR_ANY = ATTR_DONTENUM_ANY | ATTR_READONLY_ANY | ATTR_DONTDELETE_ANY;
+	private final static int PRIMITIVE = UNDEF | NULL | BOOL_ANY | NUM_ANY | STR_ANY;
 
 	private static Map<Value, WeakReference<Value>> value_cache = new WeakHashMap<Value, WeakReference<Value>>();
 	private static int value_cache_hits;
@@ -104,12 +98,12 @@ public final class Value implements Undef, Null, Bool, Num, Str, IDependency<Val
 	private int flags;
 	private Double num;
 	private String str;
-	
+
 	/**
 	 * value dependencies
 	 */
 	private Dependency mDependency;
-	
+
 	/**
 	 * dependency graph reference
 	 */
@@ -136,7 +130,7 @@ public final class Value implements Undef, Null, Bool, Num, Str, IDependency<Val
 	private Value(DependencyObject dependencyObject) {
 		this(dependencyObject.getDependency());
 	}
-	
+
 	/**
 	 * Constructs a new bottom value with given dependency.
 	 */
@@ -159,33 +153,30 @@ public final class Value implements Undef, Null, Bool, Num, Str, IDependency<Val
 		mDependencyGraphReference = v.getDependencyGraphReference();
 		mDependency = new Dependency(v.getDependency());
 	}
-	
+
 	/**
-	 * Constructs a empty value. 
+	 * Constructs a empty value.
 	 */
 	private Value() {
 		this(new Dependency());
 	}
-		
+
 	private static Value canonicalize(Value v) {
 		if (Options.isDebugEnabled()) { // checking representation invariants
 			if (((v.flags & STR_ANY) != 0 && v.str != null)
 					|| ((v.flags & NUM_ANY) != 0 && v.num != null)
 					|| (v.num != null && Double.isNaN(v.num))
 					|| (v.object_labels != null && v.object_labels.isEmpty())
-					|| ((v.flags & UNKNOWN) != 0 && ((v.flags & ~UNKNOWN) != 0
-							|| v.str != null || v.num != null || (v.object_labels != null && !v.object_labels
+					|| ((v.flags & UNKNOWN) != 0 && ((v.flags & ~UNKNOWN) != 0 || v.str != null || v.num != null || (v.object_labels != null && !v.object_labels
 							.isEmpty()))))
 				throw new RuntimeException("Invalid value: " + v);
 		}
 		canonicalizing = true;
 		if (v.object_labels != null) {
-			WeakReference<Set<ObjectLabel>> ref1 = objset_cache
-					.get(v.object_labels);
+			WeakReference<Set<ObjectLabel>> ref1 = objset_cache.get(v.object_labels);
 			Set<ObjectLabel> so = ref1 != null ? ref1.get() : null;
 			if (so == null) {
-				objset_cache.put(v.object_labels,
-						new WeakReference<Set<ObjectLabel>>(v.object_labels));
+				objset_cache.put(v.object_labels, new WeakReference<Set<ObjectLabel>>(v.object_labels));
 				objset_cache_misses++;
 			} else {
 				v.object_labels = so;
@@ -206,9 +197,7 @@ public final class Value implements Undef, Null, Bool, Num, Str, IDependency<Val
 	}
 
 	private void computePosition() {
-		position = (num != null ? 1 : 0) + (str != null ? 1 : 0)
-				+ (object_labels != null ? object_labels.size() : 0)
-				+ ((flags & BOOL_TRUE) >> 0) // 0x1
+		position = (num != null ? 1 : 0) + (str != null ? 1 : 0) + (object_labels != null ? object_labels.size() : 0) + ((flags & BOOL_TRUE) >> 0) // 0x1
 				+ ((flags & BOOL_FALSE) >> 1) // 0x2
 				+ ((flags & UNDEF) >> 2) // 0x4
 				+ ((flags & NULL) >> 3) // 0x8
@@ -315,8 +304,7 @@ public final class Value implements Undef, Null, Bool, Num, Str, IDependency<Val
 	 * the same as {@link #isNoValue()}.
 	 */
 	public boolean isBottom() {
-		return flags == 0 && num == null && str == null
-				&& object_labels == null;
+		return flags == 0 && num == null && str == null && object_labels == null;
 	}
 
 	/**
@@ -410,8 +398,7 @@ public final class Value implements Undef, Null, Bool, Num, Str, IDependency<Val
 	 * Returns true if this value belongs to a definitely present property.
 	 */
 	public boolean isNotAbsent() {
-		return (flags & ABSENT) == 0
-				&& ((flags & PRIMITIVE) != 0 || num != null || str != null || object_labels != null);
+		return (flags & ABSENT) == 0 && ((flags & PRIMITIVE) != 0 || num != null || str != null || object_labels != null);
 	}
 
 	/**
@@ -752,8 +739,7 @@ public final class Value implements Undef, Null, Bool, Num, Str, IDependency<Val
 	/**
 	 * Constructs a value as a copy of this value but with the given attributes.
 	 */
-	public Value setAttributes(boolean dontenum, boolean dontdelete,
-			boolean readonly) {
+	public Value setAttributes(boolean dontenum, boolean dontdelete, boolean readonly) {
 		Value r = new Value(this);
 		r.flags &= ~ATTR_ANY;
 		if (dontdelete)
@@ -853,13 +839,13 @@ public final class Value implements Undef, Null, Bool, Num, Str, IDependency<Val
 		boolean modified = false;
 
 		// dependencies
-		if(!mDependency.equals(v.getDependency())) {
+		if (!mDependency.equals(v.getDependency())) {
 			mDependency.join(v.getDependency());
 			modified = true;
 		}
 
 		// dependency graph references
-		if(!mDependencyGraphReference.equals(v.getDependencyGraphReference())) {
+		if (!mDependencyGraphReference.equals(v.getDependencyGraphReference())) {
 			mDependencyGraphReference.join(v.getDependencyGraphReference());
 			modified = true;
 		}
@@ -924,55 +910,48 @@ public final class Value implements Undef, Null, Bool, Num, Str, IDependency<Val
 	 */
 	@Override
 	public boolean equals(Object obj) {
-//		if (!canonicalizing) // use object identity as equality, except during
-//								// canonicalization
-//			return obj == this;
+		// if (!canonicalizing) // use object identity as equality, except
+		// during
+		// // canonicalization
+		// return obj == this;
 		if (obj == this)
 			return true;
 		if (!(obj instanceof Value))
 			return false;
 		Value v = (Value) obj;
 
-		
-//		if(mDependencyGraphReference == null) {
-//			if(v.mDependencyGraphReference == null) {
-//				// ok
-//			} else {
-//				return false;
-//			}
-//		} else {
-//			if(v.mDependencyGraphReference == null) {
-//				return false;
-//			} else {
-//				if(!mDependencyGraphReference.equals(v.mDependencyGraphReference))
-//					return false;
-//			}
-//		}
-		
-		
-		
-//		// FIXME
-//		if(mDependencyNode != null && v.mDependencyNode != null)
-//			if(!mDependencyNode.equals(v.mDependencyNode))
-//				return false;
-//		else if(!(mDependencyNode == null && v.mDependencyNode == null))
-//				return false;
-//		}
-//		else {
-		
-			
-//		} 
+		// if(mDependencyGraphReference == null) {
+		// if(v.mDependencyGraphReference == null) {
+		// // ok
+		// } else {
+		// return false;
+		// }
+		// } else {
+		// if(v.mDependencyGraphReference == null) {
+		// return false;
+		// } else {
+		// if(!mDependencyGraphReference.equals(v.mDependencyGraphReference))
+		// return false;
+		// }
+		// }
+
+		// // FIXME
+		// if(mDependencyNode != null && v.mDependencyNode != null)
+		// if(!mDependencyNode.equals(v.mDependencyNode))
+		// return false;
+		// else if(!(mDependencyNode == null && v.mDependencyNode == null))
+		// return false;
+		// }
+		// else {
+
+		// }
 		// TODO
 		return flags == v.flags // && false
 				&& mDependency.equals(v.getDependency())
 				&& mDependencyGraphReference.equals(v.mDependencyGraphReference)
-				&& (num == v.num || (num != null && v.num != null && num
-						.equals(v.num)))
-				&& (str == v.str || (str != null && v.str != null && str
-						.equals(v.str)))
-				&& (object_labels == v.object_labels || (object_labels != null
-						&& v.object_labels != null && object_labels
-						.equals(v.object_labels)));
+				&& (num == v.num || (num != null && v.num != null && num.equals(v.num)))
+				&& (str == v.str || (str != null && v.str != null && str.equals(v.str)))
+				&& (object_labels == v.object_labels || (object_labels != null && v.object_labels != null && object_labels.equals(v.object_labels)));
 	}
 
 	/**
@@ -994,13 +973,8 @@ public final class Value implements Undef, Null, Bool, Num, Str, IDependency<Val
 	 */
 	@Override
 	public int hashCode() {
-		return flags
-				* 17
-				+ (mDependency != null ? mDependency.hashCode() : 0)
-				+ (mDependencyGraphReference != null ? mDependencyGraphReference.hashCode() : 0)
-				+ (num != null ? num.hashCode() : 0)
-				+ (str != null ? str.hashCode() : 0)
-				+ (object_labels != null ? object_labels.hashCode() : 0);
+		return flags * 17 + (mDependency != null ? mDependency.hashCode() : 0) + (mDependencyGraphReference != null ? mDependencyGraphReference.hashCode() : 0)
+				+ (num != null ? num.hashCode() : 0) + (str != null ? str.hashCode() : 0) + (object_labels != null ? object_labels.hashCode() : 0);
 	}
 
 	/**
@@ -1177,8 +1151,7 @@ public final class Value implements Undef, Null, Bool, Num, Str, IDependency<Val
 
 	@Override
 	public boolean isMaybeOtherThanUndef() {
-		return (flags & (NULL | BOOL_ANY | NUM_ANY | STR_ANY)) != 0
-				|| num != null || str != null || object_labels != null;
+		return (flags & (NULL | BOOL_ANY | NUM_ANY | STR_ANY)) != 0 || num != null || str != null || object_labels != null;
 	}
 
 	@Override
@@ -1232,8 +1205,7 @@ public final class Value implements Undef, Null, Bool, Num, Str, IDependency<Val
 
 	@Override
 	public boolean isMaybeOtherThanNull() {
-		return (flags & (UNDEF | BOOL_ANY | NUM_ANY | STR_ANY)) != 0
-				|| num != null || str != null || object_labels != null;
+		return (flags & (UNDEF | BOOL_ANY | NUM_ANY | STR_ANY)) != 0 || num != null || str != null || object_labels != null;
 	}
 
 	@Override
@@ -1264,9 +1236,7 @@ public final class Value implements Undef, Null, Bool, Num, Str, IDependency<Val
 	 * Returns true if this value is definitely null or undefined.
 	 */
 	public boolean isNullOrUndef() {
-		return (flags & (NULL | UNDEF)) != 0
-				&& (flags & (NUM_ANY | STR_ANY | BOOL_ANY)) == 0 && num == null
-				&& str == null && object_labels == null;
+		return (flags & (NULL | UNDEF)) != 0 && (flags & (NUM_ANY | STR_ANY | BOOL_ANY)) == 0 && num == null && str == null && object_labels == null;
 	}
 
 	/**
@@ -1328,8 +1298,7 @@ public final class Value implements Undef, Null, Bool, Num, Str, IDependency<Val
 
 	@Override
 	public boolean isMaybeOtherThanBool() {
-		return (flags & (UNDEF | NULL | NUM_ANY | STR_ANY)) != 0 || num != null
-				|| str != null || object_labels != null;
+		return (flags & (UNDEF | NULL | NUM_ANY | STR_ANY)) != 0 || num != null || str != null || object_labels != null;
 	}
 
 	@Override
@@ -1345,8 +1314,7 @@ public final class Value implements Undef, Null, Bool, Num, Str, IDependency<Val
 
 	@Override
 	public Value joinBool(boolean x) {
-		if (isMaybeAnyBool()
-				|| (x ? isMaybeTrueButNotFalse() : isMaybeFalseButNotTrue()))
+		if (isMaybeAnyBool() || (x ? isMaybeTrueButNotFalse() : isMaybeFalseButNotTrue()))
 			return this;
 		else {
 			Value r = new Value(this);
@@ -1378,7 +1346,7 @@ public final class Value implements Undef, Null, Bool, Num, Str, IDependency<Val
 	 */
 	public static Value makeBool(boolean b, Dependency dependenc) {
 		if (b)
-			return reallyMakeBool(true, dependenc); //return theBoolTrue;
+			return reallyMakeBool(true, dependenc); // return theBoolTrue;
 		else
 			return reallyMakeBool(false, dependenc);// return theBoolFalse;
 	}
@@ -1453,14 +1421,12 @@ public final class Value implements Undef, Null, Bool, Num, Str, IDependency<Val
 
 	@Override
 	public boolean isMaybeOtherThanNum() {
-		return ((flags & (UNDEF | NULL | BOOL_ANY | STR_ANY)) != 0)
-				|| str != null || object_labels != null;
+		return ((flags & (UNDEF | NULL | BOOL_ANY | STR_ANY)) != 0) || str != null || object_labels != null;
 	}
 
 	@Override
 	public boolean isMaybeOtherThanNumUInt() {
-		return ((flags & (UNDEF | NULL | BOOL_ANY | STR_ANY | NUM_INF | NUM_NAN | NUM_NOTUINT)) != 0)
-				|| str != null || object_labels != null;
+		return ((flags & (UNDEF | NULL | BOOL_ANY | STR_ANY | NUM_INF | NUM_NAN | NUM_NOTUINT)) != 0) || str != null || object_labels != null;
 	}
 
 	@Override
@@ -1602,13 +1568,13 @@ public final class Value implements Undef, Null, Bool, Num, Str, IDependency<Val
 		return canonicalize(r);
 	}
 
-	private static Value reallyMakeNumInf(Dependency dependency) {	
+	private static Value reallyMakeNumInf(Dependency dependency) {
 		Value r = new Value(dependency);
 		r.flags = NUM_INF;
 		return canonicalize(r);
 	}
 
-	private static Value reallyMakeAnyNum(Dependency dependency) {	
+	private static Value reallyMakeAnyNum(Dependency dependency) {
 		Value r = new Value(dependency);
 		r.flags = NUM_ANY;
 		return canonicalize(r);
@@ -1669,7 +1635,7 @@ public final class Value implements Undef, Null, Bool, Num, Str, IDependency<Val
 	}
 
 	@Override
-	public Value restrictToNum() {	
+	public Value restrictToNum() {
 		Value r = new Value(this);
 		r.flags = flags & NUM_ANY;
 		r.num = num;
@@ -1728,8 +1694,7 @@ public final class Value implements Undef, Null, Bool, Num, Str, IDependency<Val
 
 	@Override
 	public boolean isMaybeOtherThanStr() {
-		return (flags & (UNDEF | NULL | BOOL_ANY | NUM_ANY)) != 0
-				|| num != null || object_labels != null;
+		return (flags & (UNDEF | NULL | BOOL_ANY | NUM_ANY)) != 0 || num != null || object_labels != null;
 	}
 
 	@Override
@@ -1797,8 +1762,8 @@ public final class Value implements Undef, Null, Bool, Num, Str, IDependency<Val
 
 	/**
 	 * Constructs the value describing the given string.
-	 */	
-	public static Value makeStr(String s , Dependency dependency) {	
+	 */
+	public static Value makeStr(String s, Dependency dependency) {
 		Value r = new Value(dependency);
 		r.str = s;
 		return canonicalize(r);
@@ -1835,7 +1800,7 @@ public final class Value implements Undef, Null, Bool, Num, Str, IDependency<Val
 	/**
 	 * Constructs the value describing the given object labels.
 	 */
-	public static Value makeObject(Set<ObjectLabel> v ,Dependency dependency) {
+	public static Value makeObject(Set<ObjectLabel> v, Dependency dependency) {
 		Value r = new Value(dependency);
 		if (!v.isEmpty()) {
 			r.object_labels = newSet();
@@ -1916,8 +1881,7 @@ public final class Value implements Undef, Null, Bool, Num, Str, IDependency<Val
 	 * value.
 	 */
 	public boolean isMaybeValue() {
-		return (flags & PRIMITIVE) != 0 || num != null || str != null
-				|| object_labels != null;
+		return (flags & PRIMITIVE) != 0 || num != null || str != null || object_labels != null;
 	}
 
 	/**
@@ -1971,8 +1935,7 @@ public final class Value implements Undef, Null, Bool, Num, Str, IDependency<Val
 		else {
 			if (Options.isDebugEnabled()) {
 				if (!equals(v.restrictToNonModified()))
-					System.out.println("Value: replacing nonmodified value "
-							+ this + " by " + v);
+					System.out.println("Value: replacing nonmodified value " + this + " by " + v);
 			}
 			return v;
 		}
@@ -1983,8 +1946,7 @@ public final class Value implements Undef, Null, Bool, Num, Str, IDependency<Val
 	 * replaced, if present. Does not change modified flags.
 	 */
 	public Value replaceObjectLabel(ObjectLabel oldlabel, ObjectLabel newlabel) {
-		if (object_labels == null || oldlabel.equals(newlabel)
-				|| !object_labels.contains(oldlabel))
+		if (object_labels == null || oldlabel.equals(newlabel) || !object_labels.contains(oldlabel))
 			return this;
 		Set<ObjectLabel> newobjlabels = newSet(object_labels);
 		newobjlabels.remove(oldlabel);
@@ -2006,7 +1968,7 @@ public final class Value implements Undef, Null, Bool, Num, Str, IDependency<Val
 	}
 
 	/* dependency functions */
-	
+
 	@Override
 	public Dependency getDependency() {
 		return mDependency;
