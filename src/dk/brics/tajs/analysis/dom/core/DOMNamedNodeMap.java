@@ -8,6 +8,7 @@ import dk.brics.tajs.analysis.Solver;
 import dk.brics.tajs.analysis.State;
 import dk.brics.tajs.analysis.dom.*;
 import dk.brics.tajs.dependency.Dependency;
+import dk.brics.tajs.dependency.graph.DependencyGraphReference;
 import dk.brics.tajs.flowgraph.ObjectLabel;
 import dk.brics.tajs.lattice.Value;
 
@@ -33,17 +34,17 @@ public class DOMNamedNodeMap {
 	public static void build(State s) {
 		// Prototype object.
 		s.newObject(NAMED_NODE_MAP_PROTOTYPE);
-		createDOMInternalPrototype(s, NAMED_NODE_MAP_PROTOTYPE, Value.makeObject(InitialStateBuilder.OBJECT_PROTOTYPE, new Dependency()));
+		createDOMInternalPrototype(s, NAMED_NODE_MAP_PROTOTYPE, Value.makeObject(InitialStateBuilder.OBJECT_PROTOTYPE, new Dependency(), new DependencyGraphReference()));
 
 		// Multiplied object.
 		s.newObject(NAMED_NODE_MAP);
-		createDOMInternalPrototype(s, NAMED_NODE_MAP, Value.makeObject(NAMED_NODE_MAP_PROTOTYPE, new Dependency()));
-		createDOMProperty(s, DOMWindow.WINDOW, "NamedNodeMap", Value.makeObject(NAMED_NODE_MAP, new Dependency()));
+		createDOMInternalPrototype(s, NAMED_NODE_MAP, Value.makeObject(NAMED_NODE_MAP_PROTOTYPE, new Dependency(), new DependencyGraphReference()));
+		createDOMProperty(s, DOMWindow.WINDOW, "NamedNodeMap", Value.makeObject(NAMED_NODE_MAP, new Dependency(), new DependencyGraphReference()));
 
 		/*
 		 * Properties.
 		 */
-		createDOMProperty(s, NAMED_NODE_MAP, "length", Value.makeNum(0, new Dependency()).setReadOnly(), DOMSpec.LEVEL_1);
+		createDOMProperty(s, NAMED_NODE_MAP, "length", Value.makeNum(0, new Dependency(), new DependencyGraphReference()).setReadOnly(), DOMSpec.LEVEL_1);
 
 		s.multiplyObject(NAMED_NODE_MAP);
 		NAMED_NODE_MAP = NAMED_NODE_MAP.makeSingleton().makeSummary();
@@ -71,39 +72,39 @@ public class DOMNamedNodeMap {
 		case NAMEDNODEMAP_PROTOTYPE_GETNAMEDITEM: {
 			NativeFunctions.expectParameters(nativeobject, call, c, 1, 1);
 			Value name = Conversion.toString(call.getArg(0), c);
-			return Value.makeObject(DOMNode.NODE, new Dependency());
+			return Value.makeObject(DOMNode.NODE, new Dependency(), new DependencyGraphReference());
 		}
 		case NAMEDNODEMAP_PROTOTYPE_SETNAMEDITEM: {
 			NativeFunctions.expectParameters(nativeobject, call, c, 1, 1);
 			Value node = DOMConversion.toNode(call.getArg(0), c);
-			return Value.makeObject(DOMNode.NODE, new Dependency());
+			return Value.makeObject(DOMNode.NODE, new Dependency(), new DependencyGraphReference());
 		}
 		case NAMEDNODEMAP_PROTOTYPE_REMOVENAMEDITEM: {
 			NativeFunctions.expectParameters(nativeobject, call, c, 1, 1);
 			Value name = Conversion.toString(call.getArg(0), c);
-			return Value.makeObject(DOMNode.NODE, new Dependency());
+			return Value.makeObject(DOMNode.NODE, new Dependency(), new DependencyGraphReference());
 		}
 		case NAMEDNODEMAP_PROTOTYPE_ITEM: {
 			NativeFunctions.expectParameters(nativeobject, call, c, 1, 1);
 			Value index = Conversion.toNumber(call.getArg(0), c);
-			return Value.makeObject(DOMNode.NODE, new Dependency());
+			return Value.makeObject(DOMNode.NODE, new Dependency(), new DependencyGraphReference());
 		}
 		case NAMEDNODEMAP_PROTOTYPE_GETNAMEDITEMNS: {
 			NativeFunctions.expectParameters(nativeobject, call, c, 2, 2);
 			Value namespaceURI = Conversion.toString(call.getArg(0), c);
 			Value localName = Conversion.toString(call.getArg(1), c);
-			return Value.makeObject(DOMNode.NODE, new Dependency());
+			return Value.makeObject(DOMNode.NODE, new Dependency(), new DependencyGraphReference());
 		}
 		case NAMEDNODEMAP_PROTOTYPE_SETNAMEDITEMNS: {
 			NativeFunctions.expectParameters(nativeobject, call, c, 1, 1);
 			Value node = DOMConversion.toNode(call.getArg(0), c);
-			return Value.makeObject(DOMNode.NODE, new Dependency());
+			return Value.makeObject(DOMNode.NODE, new Dependency(), new DependencyGraphReference());
 		}
 		case NAMEDNODEMAP_PROTOTYPE_REMOVEDNAMEDITEMNS: {
 			NativeFunctions.expectParameters(nativeobject, call, c, 2, 2);
 			Value namespaceURI = Conversion.toString(call.getArg(0), c);
 			Value localName = Conversion.toString(call.getArg(1), c);
-			return Value.makeObject(DOMNode.NODE, new Dependency());
+			return Value.makeObject(DOMNode.NODE, new Dependency(), new DependencyGraphReference());
 		}
 		default: {
 			throw new RuntimeException("Unsupported Native Object: " + nativeobject);

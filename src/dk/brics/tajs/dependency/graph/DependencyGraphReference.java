@@ -5,9 +5,13 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 
-public class DependencyGraphReference implements Cloneable,
-		Iterable<DependencyNode> {
+public class DependencyGraphReference implements Cloneable, Iterable<DependencyNode> {
 
+	/**
+	 * TODO: remove
+	 */
+	public final static DependencyGraphReference NONE = new DependencyGraphReference();
+	
 	/**
 	 * list of referenced nodes
 	 */
@@ -77,8 +81,7 @@ public class DependencyGraphReference implements Cloneable,
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result
-				+ ((mReference == null) ? 0 : mReference.hashCode());
+		result = prime * result + ((mReference == null) ? 0 : mReference.hashCode());
 		return result;
 	}
 

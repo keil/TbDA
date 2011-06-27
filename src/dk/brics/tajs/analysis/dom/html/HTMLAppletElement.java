@@ -5,6 +5,7 @@ import dk.brics.tajs.analysis.dom.DOMObjects;
 import dk.brics.tajs.analysis.dom.DOMSpec;
 import dk.brics.tajs.analysis.dom.DOMWindow;
 import dk.brics.tajs.dependency.Dependency;
+import dk.brics.tajs.dependency.graph.DependencyGraphReference;
 import dk.brics.tajs.flowgraph.ObjectLabel;
 import dk.brics.tajs.lattice.Value;
 
@@ -23,28 +24,28 @@ public class HTMLAppletElement {
 	public static void build(State s) {
 		// Prototype Object
 		s.newObject(APPLET_PROTOTYPE);
-		createDOMInternalPrototype(s, APPLET_PROTOTYPE, Value.makeObject(HTMLElement.ELEMENT_PROTOTYPE, new Dependency()));
+		createDOMInternalPrototype(s, APPLET_PROTOTYPE, Value.makeObject(HTMLElement.ELEMENT_PROTOTYPE, new Dependency(), new DependencyGraphReference()));
 
 		// Multiplied Object
 		s.newObject(APPLET);
-		createDOMInternalPrototype(s, APPLET, Value.makeObject(APPLET_PROTOTYPE, new Dependency()));
-		createDOMProperty(s, DOMWindow.WINDOW, "HTMLAppletElement", Value.makeObject(APPLET, new Dependency()));
+		createDOMInternalPrototype(s, APPLET, Value.makeObject(APPLET_PROTOTYPE, new Dependency(), new DependencyGraphReference()));
+		createDOMProperty(s, DOMWindow.WINDOW, "HTMLAppletElement", Value.makeObject(APPLET, new Dependency(), new DependencyGraphReference()));
 
 		/*
 		 * Properties.
 		 */
 		// DOM LEVEL 1
-		createDOMProperty(s, APPLET, "align", Value.makeAnyStr(new Dependency()), DOMSpec.LEVEL_1);
-		createDOMProperty(s, APPLET, "alt", Value.makeAnyStr(new Dependency()), DOMSpec.LEVEL_1);
-		createDOMProperty(s, APPLET, "archive", Value.makeAnyStr(new Dependency()), DOMSpec.LEVEL_1);
-		createDOMProperty(s, APPLET, "code", Value.makeAnyStr(new Dependency()), DOMSpec.LEVEL_1);
-		createDOMProperty(s, APPLET, "codeBase", Value.makeAnyStr(new Dependency()), DOMSpec.LEVEL_1);
-		createDOMProperty(s, APPLET, "height", Value.makeAnyStr(new Dependency()), DOMSpec.LEVEL_1);
-		createDOMProperty(s, APPLET, "hspace", Value.makeAnyNum(new Dependency()), DOMSpec.LEVEL_1);
-		createDOMProperty(s, APPLET, "name", Value.makeAnyStr(new Dependency()), DOMSpec.LEVEL_1);
-		createDOMProperty(s, APPLET, "object", Value.makeAnyStr(new Dependency()), DOMSpec.LEVEL_1);
-		createDOMProperty(s, APPLET, "vspace", Value.makeAnyNum(new Dependency()), DOMSpec.LEVEL_1);
-		createDOMProperty(s, APPLET, "width", Value.makeAnyStr(new Dependency()), DOMSpec.LEVEL_1);
+		createDOMProperty(s, APPLET, "align", Value.makeAnyStr(new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_1);
+		createDOMProperty(s, APPLET, "alt", Value.makeAnyStr(new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_1);
+		createDOMProperty(s, APPLET, "archive", Value.makeAnyStr(new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_1);
+		createDOMProperty(s, APPLET, "code", Value.makeAnyStr(new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_1);
+		createDOMProperty(s, APPLET, "codeBase", Value.makeAnyStr(new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_1);
+		createDOMProperty(s, APPLET, "height", Value.makeAnyStr(new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_1);
+		createDOMProperty(s, APPLET, "hspace", Value.makeAnyNum(new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_1);
+		createDOMProperty(s, APPLET, "name", Value.makeAnyStr(new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_1);
+		createDOMProperty(s, APPLET, "object", Value.makeAnyStr(new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_1);
+		createDOMProperty(s, APPLET, "vspace", Value.makeAnyNum(new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_1);
+		createDOMProperty(s, APPLET, "width", Value.makeAnyStr(new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_1);
 
 		s.multiplyObject(APPLET);
 		APPLET = APPLET.makeSingleton().makeSummary();

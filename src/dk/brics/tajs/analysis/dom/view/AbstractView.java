@@ -6,6 +6,7 @@ import dk.brics.tajs.analysis.dom.DOMWindow;
 import dk.brics.tajs.analysis.dom.core.DOMDocument;
 import dk.brics.tajs.analysis.dom.html.HTMLDocument;
 import dk.brics.tajs.dependency.Dependency;
+import dk.brics.tajs.dependency.graph.DependencyGraphReference;
 import dk.brics.tajs.lattice.Value;
 
 import static dk.brics.tajs.analysis.dom.DOMFunctions.createDOMProperty;
@@ -21,6 +22,6 @@ public class AbstractView {
         /*
          * Properties.
          */
-        createDOMProperty(s, DOMWindow.WINDOW, "document", Value.makeObject(HTMLDocument.DOCUMENT, new Dependency()).setReadOnly(), DOMSpec.LEVEL_0);
+        createDOMProperty(s, DOMWindow.WINDOW, "document", Value.makeObject(HTMLDocument.DOCUMENT, new Dependency(), new DependencyGraphReference()).setReadOnly(), DOMSpec.LEVEL_0);
     }
 }

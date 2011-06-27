@@ -8,6 +8,7 @@ import dk.brics.tajs.analysis.dom.DOMObjects;
 import dk.brics.tajs.analysis.dom.DOMSpec;
 import dk.brics.tajs.analysis.dom.DOMWindow;
 import dk.brics.tajs.dependency.Dependency;
+import dk.brics.tajs.dependency.graph.DependencyGraphReference;
 import dk.brics.tajs.flowgraph.ObjectLabel;
 import dk.brics.tajs.lattice.Value;
 
@@ -23,30 +24,30 @@ public class HTMLTextAreaElement {
 	public static void build(State s) {
 		// Prototype Object
 		s.newObject(TEXTAREA_PROTOTYPE);
-		createDOMInternalPrototype(s, TEXTAREA_PROTOTYPE, Value.makeObject(HTMLElement.ELEMENT_PROTOTYPE, new Dependency()));
+		createDOMInternalPrototype(s, TEXTAREA_PROTOTYPE, Value.makeObject(HTMLElement.ELEMENT_PROTOTYPE, new Dependency(), new DependencyGraphReference()));
 
 		// Multiplied Object
 		s.newObject(TEXTAREA);
-		createDOMInternalPrototype(s, TEXTAREA, Value.makeObject(TEXTAREA_PROTOTYPE, new Dependency()));
-		createDOMProperty(s, DOMWindow.WINDOW, "HTMLTextAreaElement", Value.makeObject(TEXTAREA, new Dependency()));
+		createDOMInternalPrototype(s, TEXTAREA, Value.makeObject(TEXTAREA_PROTOTYPE, new Dependency(), new DependencyGraphReference()));
+		createDOMProperty(s, DOMWindow.WINDOW, "HTMLTextAreaElement", Value.makeObject(TEXTAREA, new Dependency(), new DependencyGraphReference()));
 
 		/*
 		 * Properties.
 		 */
 		// DOM Level 1
-		createDOMProperty(s, TEXTAREA, "form", Value.makeObject(HTMLFormElement.FORM, new Dependency()).setReadOnly(), DOMSpec.LEVEL_1);
-		createDOMProperty(s, TEXTAREA, "accessKey", Value.makeAnyStr(new Dependency()), DOMSpec.LEVEL_1);
-		createDOMProperty(s, TEXTAREA, "cols", Value.makeAnyNum(new Dependency()), DOMSpec.LEVEL_1);
-		createDOMProperty(s, TEXTAREA, "disabled", Value.makeAnyBool(new Dependency()), DOMSpec.LEVEL_1);
-		createDOMProperty(s, TEXTAREA, "name", Value.makeAnyStr(new Dependency()), DOMSpec.LEVEL_1);
-		createDOMProperty(s, TEXTAREA, "readOnly", Value.makeAnyBool(new Dependency()), DOMSpec.LEVEL_1);
-		createDOMProperty(s, TEXTAREA, "rows", Value.makeAnyNum(new Dependency()), DOMSpec.LEVEL_1);
-		createDOMProperty(s, TEXTAREA, "tabIndex", Value.makeAnyNum(new Dependency()), DOMSpec.LEVEL_1);
-		createDOMProperty(s, TEXTAREA, "type", Value.makeAnyStr(new Dependency()).setReadOnly(), DOMSpec.LEVEL_1);
-		createDOMProperty(s, TEXTAREA, "value", Value.makeAnyStr(new Dependency()), DOMSpec.LEVEL_1);
+		createDOMProperty(s, TEXTAREA, "form", Value.makeObject(HTMLFormElement.FORM, new Dependency(), new DependencyGraphReference()).setReadOnly(), DOMSpec.LEVEL_1);
+		createDOMProperty(s, TEXTAREA, "accessKey", Value.makeAnyStr(new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_1);
+		createDOMProperty(s, TEXTAREA, "cols", Value.makeAnyNum(new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_1);
+		createDOMProperty(s, TEXTAREA, "disabled", Value.makeAnyBool(new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_1);
+		createDOMProperty(s, TEXTAREA, "name", Value.makeAnyStr(new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_1);
+		createDOMProperty(s, TEXTAREA, "readOnly", Value.makeAnyBool(new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_1);
+		createDOMProperty(s, TEXTAREA, "rows", Value.makeAnyNum(new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_1);
+		createDOMProperty(s, TEXTAREA, "tabIndex", Value.makeAnyNum(new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_1);
+		createDOMProperty(s, TEXTAREA, "type", Value.makeAnyStr(new Dependency(), new DependencyGraphReference()).setReadOnly(), DOMSpec.LEVEL_1);
+		createDOMProperty(s, TEXTAREA, "value", Value.makeAnyStr(new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_1);
 
 		// DOM Level 2
-		createDOMProperty(s, TEXTAREA, "defaultValue", Value.makeAnyStr(new Dependency()), DOMSpec.LEVEL_2);
+		createDOMProperty(s, TEXTAREA, "defaultValue", Value.makeAnyStr(new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_2);
 
 		s.multiplyObject(TEXTAREA);
 		TEXTAREA = TEXTAREA.makeSingleton().makeSummary();
@@ -67,15 +68,15 @@ public class HTMLTextAreaElement {
 		switch (nativeObject) {
 		case HTMLTEXTAREAELEMENT_BLUR: {
 			NativeFunctions.expectParameters(nativeObject, call, c, 0, 0);
-			return Value.makeUndef(new Dependency());
+			return Value.makeUndef(new Dependency(), new DependencyGraphReference());
 		}
 		case HTMLTEXTAREAELEMENT_FOCUS: {
 			NativeFunctions.expectParameters(nativeObject, call, c, 0, 0);
-			return Value.makeUndef(new Dependency());
+			return Value.makeUndef(new Dependency(), new DependencyGraphReference());
 		}
 		case HTMLTEXTAREAELEMENT_SELECT: {
 			NativeFunctions.expectParameters(nativeObject, call, c, 0, 0);
-			return Value.makeUndef(new Dependency());
+			return Value.makeUndef(new Dependency(), new DependencyGraphReference());
 		}
 		default: {
 			throw new RuntimeException("Unsupported Native Object: " + nativeObject);

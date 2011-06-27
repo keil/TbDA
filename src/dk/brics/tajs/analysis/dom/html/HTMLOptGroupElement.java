@@ -5,6 +5,7 @@ import dk.brics.tajs.analysis.dom.DOMObjects;
 import dk.brics.tajs.analysis.dom.DOMSpec;
 import dk.brics.tajs.analysis.dom.DOMWindow;
 import dk.brics.tajs.dependency.Dependency;
+import dk.brics.tajs.dependency.graph.DependencyGraphReference;
 import dk.brics.tajs.flowgraph.ObjectLabel;
 import dk.brics.tajs.flowgraph.ObjectLabel.Kind;
 import dk.brics.tajs.lattice.Value;
@@ -20,19 +21,19 @@ public class HTMLOptGroupElement {
 	public static void build(State s) {
 		// Prototype Object
 		s.newObject(OPTGROUP_PROTOTYPE);
-		createDOMInternalPrototype(s, OPTGROUP_PROTOTYPE, Value.makeObject(HTMLElement.ELEMENT_PROTOTYPE,new Dependency()));
+		createDOMInternalPrototype(s, OPTGROUP_PROTOTYPE, Value.makeObject(HTMLElement.ELEMENT_PROTOTYPE,new Dependency(), new DependencyGraphReference()));
 
 		// Multiplied Object
 		s.newObject(OPTGROUP);
-		createDOMInternalPrototype(s, OPTGROUP, Value.makeObject(OPTGROUP_PROTOTYPE, new Dependency()));
-		createDOMProperty(s, DOMWindow.WINDOW, "HTMLOptGroupElement", Value.makeObject(OPTGROUP, new Dependency()));
+		createDOMInternalPrototype(s, OPTGROUP, Value.makeObject(OPTGROUP_PROTOTYPE, new Dependency(), new DependencyGraphReference()));
+		createDOMProperty(s, DOMWindow.WINDOW, "HTMLOptGroupElement", Value.makeObject(OPTGROUP, new Dependency(), new DependencyGraphReference()));
 
 		/*
 		 * Properties
 		 */
 		// DOM Level 1
-		createDOMProperty(s, OPTGROUP, "disabled", Value.makeAnyBool(new Dependency()), DOMSpec.LEVEL_1);
-		createDOMProperty(s, OPTGROUP, "label", Value.makeAnyStr(new Dependency()), DOMSpec.LEVEL_1);
+		createDOMProperty(s, OPTGROUP, "disabled", Value.makeAnyBool(new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_1);
+		createDOMProperty(s, OPTGROUP, "label", Value.makeAnyStr(new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_1);
 
 		s.multiplyObject(OPTGROUP);
 		OPTGROUP = OPTGROUP.makeSingleton().makeSummary();

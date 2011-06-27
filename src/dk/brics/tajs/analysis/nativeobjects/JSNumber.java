@@ -8,6 +8,7 @@ import dk.brics.tajs.analysis.Solver;
 import dk.brics.tajs.analysis.State;
 import dk.brics.tajs.analysis.FunctionCalls.CallInfo;
 import dk.brics.tajs.dependency.Dependency;
+import dk.brics.tajs.dependency.graph.DependencyGraphReference;
 import dk.brics.tajs.dependency.graph.DependencyNode;
 import dk.brics.tajs.dependency.graph.Label;
 import dk.brics.tajs.dependency.graph.nodes.DependencyExpressionNode;
@@ -30,7 +31,7 @@ public class JSNumber {
 	public static Value evaluate(ECMAScriptObjects nativeobject, CallInfo call, State state, Solver.SolverInterface c) {
 		if (nativeobject != ECMAScriptObjects.NUMBER)
 			if (NativeFunctions.throwTypeErrorIfConstructor(call, state, c))
-				return Value.makeBottom(new Dependency());
+				return Value.makeBottom(new Dependency(), new DependencyGraphReference());
 
 		switch (nativeobject) {
 
@@ -50,7 +51,7 @@ public class JSNumber {
 			else if (call.getNumberOfArgs() >= 1)
 				v = Conversion.toNumber(NativeFunctions.readParameter(call, 0), c);
 			else
-				v = Value.makeNum(+0.0d, dependency);
+				v = Value.makeNum(+0.0d, dependency, node.getReference());
 			
 			// ##################################################
 			dependency.join(v.getDependency());
@@ -64,10 +65,10 @@ public class JSNumber {
 				ObjectLabel objlabel = new ObjectLabel(call.getSourceNode(), Kind.NUMBER);
 				state.newObject(objlabel);
 				state.writeInternalValue(objlabel, v);
-				state.writeInternalPrototype(objlabel, Value.makeObject(InitialStateBuilder.NUMBER_PROTOTYPE, dependency).joinDependencyGraphReference(node));
-				return Value.makeObject(objlabel, dependency).joinDependencyGraphReference(node);
+				state.writeInternalPrototype(objlabel, Value.makeObject(InitialStateBuilder.NUMBER_PROTOTYPE, dependency, node.getReference()));
+				return Value.makeObject(objlabel, dependency, node.getReference());
 			} else // 15.7.1
-				return v.joinDependencyGraphReference(node);
+				return v;
 		}
 
 		case NUMBER_TOFIXED: // 15.7.4.5
@@ -83,7 +84,7 @@ public class JSNumber {
 
 			NativeFunctions.expectParameters(nativeobject, call, c, 0, 1);
 			if (NativeFunctions.throwTypeErrorIfWrongKindOfThis(nativeobject, call, state, c, Kind.NUMBER))
-				return Value.makeBottom(dependency).joinDependencyGraphReference(node);
+				return Value.makeBottom(dependency, node.getReference());
 			
 			Value f;
 			if (call.isUnknownNumberOfArgs())
@@ -91,7 +92,7 @@ public class JSNumber {
 			else if (call.getNumberOfArgs() >= 1)
 				f = Conversion.toInteger(NativeFunctions.readParameter(call, 0), c);
 			else
-				f = Value.makeNum(0, dependency).joinDependencyGraphReference(node);
+				f = Value.makeNum(0, dependency, node.getReference());
 			
 			Value x = state.readInternalValue(state.readThisObjects());
 
@@ -119,11 +120,11 @@ public class JSNumber {
 			c.addMessage(call.getSourceNode(), definitely_rangeerror ? Status.CERTAIN : maybe_rangeerror ? Status.MAYBE : Status.NONE, 
 					Severity.HIGH, "RangeError in Number function");
 			if (definitely_rangeerror)
-				return Value.makeBottom(dependency).joinDependencyGraphReference(node);
+				return Value.makeBottom(dependency, node.getReference());
 			if (x.isMaybeNaN())
-				return Value.makeStr("NaN", dependency).joinDependencyGraphReference(node);
+				return Value.makeStr("NaN", dependency, node.getReference());
 			if (x.isMaybeFuzzyNum() || f.isMaybeFuzzyNum())
-				return Value.makeAnyStr(dependency).joinDependencyGraphReference(node);
+				return Value.makeAnyStr(dependency, node.getReference());
 			double x_num = x.getNum();
 			if (Double.isInfinite(x_num)) {
 				StringBuilder sb = new StringBuilder();
@@ -132,7 +133,7 @@ public class JSNumber {
 					sb.append('-');
 				}
 				sb.append("Infinity");
-				return Value.makeStr(sb.toString(), dependency).joinDependencyGraphReference(node);
+				return Value.makeStr(sb.toString(), dependency, node.getReference());
 			}
 			// rough approximation, best effort with Java formatting
 			// TODO: improve NUMBER_TOEXPONENTIAL, TO_FIXED, TO_PRECISION?
@@ -155,7 +156,7 @@ public class JSNumber {
 			}
 			String flag = String.format(format, f_int);
 			String result = String.format(flag, x_num);
-			return Value.makeStr(result, dependency).joinDependencyGraphReference(node);
+			return Value.makeStr(result, dependency, node.getReference());
 		}		
 		
 		case NUMBER_TOLOCALESTRING: // 15.7.4.3 
@@ -170,7 +171,7 @@ public class JSNumber {
 
 			NativeFunctions.expectParameters(nativeobject, call, c, 0, 1);
 			if (NativeFunctions.throwTypeErrorIfWrongKindOfThis(nativeobject, call, state, c, Kind.NUMBER))
-				return Value.makeBottom(dependency);
+				return Value.makeBottom(dependency, node.getReference());
 			
 			Value val = state.readInternalValue(state.readThisObjects());
 			
@@ -194,9 +195,9 @@ public class JSNumber {
 			}
 			
 			if (!call.isUnknownNumberOfArgs() && call.getNumberOfArgs() == 0)
-				return Conversion.toString(val, c).joinDependencyGraphReference(node);
+				return Conversion.toString(val, c);
 			else
-				return Value.makeAnyStr(dependency).joinDependencyGraphReference(node);
+				return Value.makeAnyStr(dependency, node.getReference());
 			// TODO: assuming that toLocaleString methods behave as toString (also other objects) - OK?
 		}
 		
@@ -211,8 +212,8 @@ public class JSNumber {
 
 			NativeFunctions.expectParameters(nativeobject, call, c, 0, 0);
 			if (NativeFunctions.throwTypeErrorIfWrongKindOfThis(nativeobject, call, state, c, Kind.NUMBER))
-				return Value.makeBottom(dependency).joinDependencyGraphReference(node);
-			return state.readInternalValue(state.readThisObjects()).joinDependencyGraphReference(node);
+				return Value.makeBottom(dependency, node.getReference());
+			return state.readInternalValue(state.readThisObjects());
 		}
 			
 		default:

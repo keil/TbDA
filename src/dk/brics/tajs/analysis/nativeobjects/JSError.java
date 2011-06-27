@@ -7,6 +7,10 @@ import dk.brics.tajs.analysis.Solver;
 import dk.brics.tajs.analysis.State;
 import dk.brics.tajs.analysis.FunctionCalls.CallInfo;
 import dk.brics.tajs.dependency.Dependency;
+import dk.brics.tajs.dependency.graph.DependencyGraphReference;
+import dk.brics.tajs.dependency.graph.DependencyNode;
+import dk.brics.tajs.dependency.graph.Label;
+import dk.brics.tajs.dependency.graph.nodes.DependencyExpressionNode;
 import dk.brics.tajs.flowgraph.ObjectLabel;
 import dk.brics.tajs.flowgraph.ObjectLabel.Kind;
 import dk.brics.tajs.lattice.Value;
@@ -24,7 +28,7 @@ public class JSError {
 	public static Value evaluate(ECMAScriptObjects nativeobject, CallInfo call, State state, Solver.SolverInterface c) {
 		if (nativeobject == ECMAScriptObjects.ERROR_TOSTRING)
 			if (NativeFunctions.throwTypeErrorIfConstructor(call, state, c))
-				return Value.makeBottom(new Dependency());
+				return Value.makeBottom(new Dependency(), new DependencyGraphReference());
 
 		switch (nativeobject) {
 
@@ -68,7 +72,11 @@ public class JSError {
 			dependency.join(val.getDependency());
 			// ##################################################
 			
-			return Value.makeAnyStr(dependency);
+			// ==================================================
+			DependencyExpressionNode node = DependencyNode.link(Label.CALL, call.getSourceNode(), state, val);
+			// ==================================================
+			
+			return Value.makeAnyStr(dependency, node.getReference());
 		}
 			
 		default:
@@ -92,12 +100,17 @@ public class JSError {
 		dependency.join(message.getDependency());
 		// ##################################################
 		
+		// ==================================================
+		DependencyExpressionNode node = DependencyNode.link(Label.CALL, call.getSourceNode(), state, message);
+		// ==================================================
+		
+		
 		ObjectLabel obj = new ObjectLabel(call.getSourceNode(), Kind.ERROR);
 		state.newObject(obj);
-		state.writeInternalPrototype(obj, Value.makeObject(proto, dependency));
+		state.writeInternalPrototype(obj, Value.makeObject(proto, dependency, node.getReference()));
 		
 		if (message.isMaybeOtherThanUndef())
 			state.writeProperty(obj, "message", Conversion.toString(message.restrictToNotUndef(), c).removeAttributes());
-		return Value.makeObject(obj, dependency);
+		return Value.makeObject(obj, dependency, node.getReference());
 	}
 }

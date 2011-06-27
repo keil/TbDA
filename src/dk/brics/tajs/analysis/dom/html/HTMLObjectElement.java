@@ -6,6 +6,7 @@ import dk.brics.tajs.analysis.dom.DOMSpec;
 import dk.brics.tajs.analysis.dom.DOMWindow;
 import dk.brics.tajs.analysis.dom.core.DOMDocument;
 import dk.brics.tajs.dependency.Dependency;
+import dk.brics.tajs.dependency.graph.DependencyGraphReference;
 import dk.brics.tajs.flowgraph.ObjectLabel;
 import dk.brics.tajs.lattice.Value;
 
@@ -27,38 +28,38 @@ public class HTMLObjectElement {
 	public static void build(State s) {
 		// Prototype Object
 		s.newObject(OBJECT_PROTOTYPE);
-		createDOMInternalPrototype(s, OBJECT_PROTOTYPE, Value.makeObject(HTMLElement.ELEMENT_PROTOTYPE, new Dependency()));
+		createDOMInternalPrototype(s, OBJECT_PROTOTYPE, Value.makeObject(HTMLElement.ELEMENT_PROTOTYPE, new Dependency(), new DependencyGraphReference()));
 
 		// Multiplied Object
 		s.newObject(OBJECT);
-		createDOMInternalPrototype(s, OBJECT, Value.makeObject(OBJECT_PROTOTYPE, new Dependency()));
-		createDOMProperty(s, DOMWindow.WINDOW, "HTMLObjectElement", Value.makeObject(OBJECT, new Dependency()));
+		createDOMInternalPrototype(s, OBJECT, Value.makeObject(OBJECT_PROTOTYPE, new Dependency(), new DependencyGraphReference()));
+		createDOMProperty(s, DOMWindow.WINDOW, "HTMLObjectElement", Value.makeObject(OBJECT, new Dependency(), new DependencyGraphReference()));
 
 		/*
 		 * Properties.
 		 */
 		// DOM Level 1
-		createDOMProperty(s, OBJECT, "form", Value.makeObject(HTMLFormElement.FORM, new Dependency()).setReadOnly(), DOMSpec.LEVEL_1);
-		createDOMProperty(s, OBJECT, "code", Value.makeAnyStr(new Dependency()), DOMSpec.LEVEL_1);
-		createDOMProperty(s, OBJECT, "align", Value.makeAnyStr(new Dependency()), DOMSpec.LEVEL_1);
-		createDOMProperty(s, OBJECT, "archive", Value.makeAnyStr(new Dependency()), DOMSpec.LEVEL_1);
-		createDOMProperty(s, OBJECT, "border", Value.makeAnyStr(new Dependency()), DOMSpec.LEVEL_1);
-		createDOMProperty(s, OBJECT, "codeBase", Value.makeAnyStr(new Dependency()), DOMSpec.LEVEL_1);
-		createDOMProperty(s, OBJECT, "codeType", Value.makeAnyStr(new Dependency()), DOMSpec.LEVEL_1);
-		createDOMProperty(s, OBJECT, "data", Value.makeAnyStr(new Dependency()), DOMSpec.LEVEL_1);
-		createDOMProperty(s, OBJECT, "declare", Value.makeAnyBool(new Dependency()), DOMSpec.LEVEL_1);
-		createDOMProperty(s, OBJECT, "height", Value.makeAnyStr(new Dependency()), DOMSpec.LEVEL_1);
-		createDOMProperty(s, OBJECT, "hspace", Value.makeAnyNum(new Dependency()), DOMSpec.LEVEL_1);
-		createDOMProperty(s, OBJECT, "name", Value.makeAnyStr(new Dependency()), DOMSpec.LEVEL_1);
-		createDOMProperty(s, OBJECT, "standby", Value.makeAnyStr(new Dependency()), DOMSpec.LEVEL_1);
-		createDOMProperty(s, OBJECT, "tabIndex", Value.makeAnyNum(new Dependency()), DOMSpec.LEVEL_1);
-		createDOMProperty(s, OBJECT, "type", Value.makeAnyStr(new Dependency()), DOMSpec.LEVEL_1);
-		createDOMProperty(s, OBJECT, "useMap", Value.makeAnyStr(new Dependency()), DOMSpec.LEVEL_1);
-		createDOMProperty(s, OBJECT, "vspace", Value.makeAnyNum(new Dependency()), DOMSpec.LEVEL_1);
-		createDOMProperty(s, OBJECT, "width", Value.makeAnyStr(new Dependency()), DOMSpec.LEVEL_1);
+		createDOMProperty(s, OBJECT, "form", Value.makeObject(HTMLFormElement.FORM, new Dependency(), new DependencyGraphReference()).setReadOnly(), DOMSpec.LEVEL_1);
+		createDOMProperty(s, OBJECT, "code", Value.makeAnyStr(new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_1);
+		createDOMProperty(s, OBJECT, "align", Value.makeAnyStr(new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_1);
+		createDOMProperty(s, OBJECT, "archive", Value.makeAnyStr(new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_1);
+		createDOMProperty(s, OBJECT, "border", Value.makeAnyStr(new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_1);
+		createDOMProperty(s, OBJECT, "codeBase", Value.makeAnyStr(new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_1);
+		createDOMProperty(s, OBJECT, "codeType", Value.makeAnyStr(new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_1);
+		createDOMProperty(s, OBJECT, "data", Value.makeAnyStr(new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_1);
+		createDOMProperty(s, OBJECT, "declare", Value.makeAnyBool(new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_1);
+		createDOMProperty(s, OBJECT, "height", Value.makeAnyStr(new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_1);
+		createDOMProperty(s, OBJECT, "hspace", Value.makeAnyNum(new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_1);
+		createDOMProperty(s, OBJECT, "name", Value.makeAnyStr(new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_1);
+		createDOMProperty(s, OBJECT, "standby", Value.makeAnyStr(new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_1);
+		createDOMProperty(s, OBJECT, "tabIndex", Value.makeAnyNum(new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_1);
+		createDOMProperty(s, OBJECT, "type", Value.makeAnyStr(new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_1);
+		createDOMProperty(s, OBJECT, "useMap", Value.makeAnyStr(new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_1);
+		createDOMProperty(s, OBJECT, "vspace", Value.makeAnyNum(new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_1);
+		createDOMProperty(s, OBJECT, "width", Value.makeAnyStr(new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_1);
 
 		// DOM Level 2
-		createDOMProperty(s, OBJECT, "contentDocument", Value.makeObject(DOMDocument.DOCUMENT, new Dependency()).setReadOnly(), DOMSpec.LEVEL_2);
+		createDOMProperty(s, OBJECT, "contentDocument", Value.makeObject(DOMDocument.DOCUMENT, new Dependency(), new DependencyGraphReference()).setReadOnly(), DOMSpec.LEVEL_2);
 
 		s.multiplyObject(OBJECT);
 		OBJECT = OBJECT.makeSingleton().makeSummary();

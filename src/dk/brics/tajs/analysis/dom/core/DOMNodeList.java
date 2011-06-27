@@ -8,6 +8,7 @@ import dk.brics.tajs.analysis.dom.DOMObjects;
 import dk.brics.tajs.analysis.dom.DOMSpec;
 import dk.brics.tajs.analysis.dom.DOMWindow;
 import dk.brics.tajs.dependency.Dependency;
+import dk.brics.tajs.dependency.graph.DependencyGraphReference;
 import dk.brics.tajs.flowgraph.ObjectLabel;
 import dk.brics.tajs.lattice.Value;
 
@@ -34,17 +35,17 @@ public class DOMNodeList {
 	public static void build(State s) {
 		// Prototype object
 		s.newObject(NODELIST_PROTOTYPE);
-		createDOMInternalPrototype(s, NODELIST_PROTOTYPE, Value.makeObject(InitialStateBuilder.OBJECT_PROTOTYPE, new Dependency()));
+		createDOMInternalPrototype(s, NODELIST_PROTOTYPE, Value.makeObject(InitialStateBuilder.OBJECT_PROTOTYPE, new Dependency(), new DependencyGraphReference()));
 
 		// Multiplied object
 		s.newObject(NODELIST);
-		createDOMInternalPrototype(s, NODELIST, Value.makeObject(NODELIST_PROTOTYPE, new Dependency()));
-		createDOMProperty(s, DOMWindow.WINDOW, "NodeList", Value.makeObject(NODELIST, new Dependency()));
+		createDOMInternalPrototype(s, NODELIST, Value.makeObject(NODELIST_PROTOTYPE, new Dependency(), new DependencyGraphReference()));
+		createDOMProperty(s, DOMWindow.WINDOW, "NodeList", Value.makeObject(NODELIST, new Dependency(), new DependencyGraphReference()));
 
 		/*
 		 * Properties.
 		 */
-		createDOMProperty(s, NODELIST, "length", Value.makeNum(0, new Dependency()).setReadOnly(), DOMSpec.LEVEL_1);
+		createDOMProperty(s, NODELIST, "length", Value.makeNum(0, new Dependency(), new DependencyGraphReference()).setReadOnly(), DOMSpec.LEVEL_1);
 
 		s.multiplyObject(NODELIST);
 		NODELIST = NODELIST.makeSingleton().makeSummary();

@@ -5,6 +5,7 @@ import dk.brics.tajs.analysis.dom.DOMObjects;
 import dk.brics.tajs.analysis.dom.DOMSpec;
 import dk.brics.tajs.analysis.dom.DOMWindow;
 import dk.brics.tajs.dependency.Dependency;
+import dk.brics.tajs.dependency.graph.DependencyGraphReference;
 import dk.brics.tajs.flowgraph.ObjectLabel;
 import dk.brics.tajs.lattice.Value;
 
@@ -22,24 +23,24 @@ public class HTMLScriptElement {
 	public static void build(State s) {
 		// Prototype Object
 		s.newObject(SCRIPT_PROTOTYPE);
-		createDOMInternalPrototype(s, SCRIPT_PROTOTYPE, Value.makeObject(HTMLElement.ELEMENT_PROTOTYPE, new Dependency()));
+		createDOMInternalPrototype(s, SCRIPT_PROTOTYPE, Value.makeObject(HTMLElement.ELEMENT_PROTOTYPE, new Dependency(), new DependencyGraphReference()));
 
 		// Multiplied Object
 		s.newObject(SCRIPT);
-		createDOMInternalPrototype(s, SCRIPT, Value.makeObject(SCRIPT_PROTOTYPE, new Dependency()));
-		createDOMProperty(s, DOMWindow.WINDOW, "HTMLScriptElement", Value.makeObject(SCRIPT, new Dependency()));
+		createDOMInternalPrototype(s, SCRIPT, Value.makeObject(SCRIPT_PROTOTYPE, new Dependency(), new DependencyGraphReference()));
+		createDOMProperty(s, DOMWindow.WINDOW, "HTMLScriptElement", Value.makeObject(SCRIPT, new Dependency(), new DependencyGraphReference()));
 
 		/*
 		 * Properties.
 		 */
 		// DOM Level 1
-		createDOMProperty(s, SCRIPT, "text", Value.makeAnyStr(new Dependency()), DOMSpec.LEVEL_1);
-		createDOMProperty(s, SCRIPT, "htmlFor", Value.makeAnyStr(new Dependency()), DOMSpec.LEVEL_1);
-		createDOMProperty(s, SCRIPT, "event", Value.makeAnyStr(new Dependency()), DOMSpec.LEVEL_1);
-		createDOMProperty(s, SCRIPT, "charset", Value.makeAnyStr(new Dependency()), DOMSpec.LEVEL_1);
-		createDOMProperty(s, SCRIPT, "defer", Value.makeAnyBool(new Dependency()), DOMSpec.LEVEL_1);
-		createDOMProperty(s, SCRIPT, "src", Value.makeAnyStr(new Dependency()), DOMSpec.LEVEL_1);
-		createDOMProperty(s, SCRIPT, "type", Value.makeAnyStr(new Dependency()), DOMSpec.LEVEL_1);
+		createDOMProperty(s, SCRIPT, "text", Value.makeAnyStr(new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_1);
+		createDOMProperty(s, SCRIPT, "htmlFor", Value.makeAnyStr(new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_1);
+		createDOMProperty(s, SCRIPT, "event", Value.makeAnyStr(new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_1);
+		createDOMProperty(s, SCRIPT, "charset", Value.makeAnyStr(new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_1);
+		createDOMProperty(s, SCRIPT, "defer", Value.makeAnyBool(new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_1);
+		createDOMProperty(s, SCRIPT, "src", Value.makeAnyStr(new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_1);
+		createDOMProperty(s, SCRIPT, "type", Value.makeAnyStr(new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_1);
 
 		s.multiplyObject(SCRIPT);
 		SCRIPT = SCRIPT.makeSingleton().makeSummary();

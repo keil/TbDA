@@ -10,6 +10,7 @@ import dk.brics.tajs.analysis.dom.DOMObjects;
 import dk.brics.tajs.analysis.dom.DOMSpec;
 import dk.brics.tajs.analysis.dom.DOMWindow;
 import dk.brics.tajs.dependency.Dependency;
+import dk.brics.tajs.dependency.graph.DependencyGraphReference;
 import dk.brics.tajs.flowgraph.ObjectLabel;
 import dk.brics.tajs.flowgraph.ObjectLabel.Kind;
 import dk.brics.tajs.lattice.Value;
@@ -33,18 +34,18 @@ public class DOMConfiguration {
 	public static void build(State s) {
 		// Prototype object.
 		s.newObject(CONFIGURATION_PROTOTYPE);
-		createDOMInternalPrototype(s, CONFIGURATION_PROTOTYPE, Value.makeObject(InitialStateBuilder.OBJECT_PROTOTYPE, new Dependency()));
+		createDOMInternalPrototype(s, CONFIGURATION_PROTOTYPE, Value.makeObject(InitialStateBuilder.OBJECT_PROTOTYPE, new Dependency(), new DependencyGraphReference()));
 
 		// Multiplied object.
 		s.newObject(CONFIGURATION);
-		createDOMInternalPrototype(s, CONFIGURATION, Value.makeObject(CONFIGURATION_PROTOTYPE, new Dependency()));
-		createDOMProperty(s, DOMWindow.WINDOW, "Configuration", Value.makeObject(CONFIGURATION, new Dependency()));
+		createDOMInternalPrototype(s, CONFIGURATION, Value.makeObject(CONFIGURATION_PROTOTYPE, new Dependency(), new DependencyGraphReference()));
+		createDOMProperty(s, DOMWindow.WINDOW, "Configuration", Value.makeObject(CONFIGURATION, new Dependency(), new DependencyGraphReference()));
 
 		/*
 		 * Properties.
 		 */
 		// DOM Level 3
-		createDOMProperty(s, CONFIGURATION, "parameterNames", Value.makeObject(DOMStringList.STRINGLIST_PROTOTYPE, new Dependency()), DOMSpec.LEVEL_3);
+		createDOMProperty(s, CONFIGURATION, "parameterNames", Value.makeObject(DOMStringList.STRINGLIST_PROTOTYPE, new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_3);
 
 		s.multiplyObject(CONFIGURATION);
 		CONFIGURATION = CONFIGURATION.makeSingleton().makeSummary();
@@ -64,7 +65,7 @@ public class DOMConfiguration {
 		case CONFIGURATION_CAN_SET_PARAMETER: {
 			NativeFunctions.expectParameters(nativeObject, call, c, 2, 2);
 			Value name = Conversion.toString(call.getArg(0), c);
-			return Value.makeAnyBool(new Dependency());
+			return Value.makeAnyBool(new Dependency(), new DependencyGraphReference());
 		}
 		case CONFIGURATION_GET_PARAMETER: {
 			throw new UnsupportedOperationException("CONFIGURATION_GET_PARAMETER not supported");
@@ -72,7 +73,7 @@ public class DOMConfiguration {
 		case CONFIGURATION_SET_PARAMETER: {
 			NativeFunctions.expectParameters(nativeObject, call, c, 2, 2);
 			Value name = Conversion.toString(call.getArg(0), c);
-			return Value.makeUndef(new Dependency());
+			return Value.makeUndef(new Dependency(), new DependencyGraphReference());
 		}
 		default: {
 			throw new UnsupportedOperationException("Unsupported Native Object " + nativeObject);

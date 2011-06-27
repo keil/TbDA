@@ -5,6 +5,7 @@ import dk.brics.tajs.analysis.dom.DOMObjects;
 import dk.brics.tajs.analysis.dom.DOMSpec;
 import dk.brics.tajs.analysis.dom.DOMWindow;
 import dk.brics.tajs.dependency.Dependency;
+import dk.brics.tajs.dependency.graph.DependencyGraphReference;
 import dk.brics.tajs.flowgraph.ObjectLabel;
 import dk.brics.tajs.lattice.Value;
 
@@ -22,18 +23,18 @@ public class HTMLBRElement {
 	public static void build(State s) {
 		// Prototype Object
 		s.newObject(BR_PROTOTYPE);
-		createDOMInternalPrototype(s, BR_PROTOTYPE, Value.makeObject(HTMLElement.ELEMENT_PROTOTYPE, new Dependency()));
+		createDOMInternalPrototype(s, BR_PROTOTYPE, Value.makeObject(HTMLElement.ELEMENT_PROTOTYPE, new Dependency(), new DependencyGraphReference()));
 
 		// Multiplied Object
 		s.newObject(BR);
-		createDOMInternalPrototype(s, BR, Value.makeObject(BR_PROTOTYPE, new Dependency()));
-		createDOMProperty(s, DOMWindow.WINDOW, "HTMLBRElement", Value.makeObject(BR, new Dependency()));
+		createDOMInternalPrototype(s, BR, Value.makeObject(BR_PROTOTYPE, new Dependency(), new DependencyGraphReference()));
+		createDOMProperty(s, DOMWindow.WINDOW, "HTMLBRElement", Value.makeObject(BR, new Dependency(), new DependencyGraphReference()));
 
 		/*
 		 * Properties.
 		 */
 		// DOM LEVEL 1
-		createDOMProperty(s, BR, "clear", Value.makeAnyStr(new Dependency()), DOMSpec.LEVEL_1);
+		createDOMProperty(s, BR, "clear", Value.makeAnyStr(new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_1);
 
 		s.multiplyObject(BR);
 		BR = BR.makeSingleton().makeSummary();

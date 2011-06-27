@@ -60,8 +60,8 @@ public final class Obj {
 		Obj obj = new Obj();
 		obj.properties = Collections.emptyMap();
 		obj.writable_properties = false;
-		obj.default_array_property = obj.default_nonarray_property = obj.internal_prototype = obj.internal_value = Value
-				.makeUnknown(new Dependency());
+		obj.default_array_property = obj.default_nonarray_property = obj.internal_prototype = obj.internal_value = Value.makeUnknown(new Dependency(),
+				new DependencyGraphReference());
 		obj.scope_unknown = true;
 		return obj;
 	}
@@ -106,14 +106,10 @@ public final class Obj {
 				newproperties.put(me.getKey(), me.getValue());
 		properties = newproperties;
 		writable_properties = true;
-		default_array_property = default_array_property
-				.replaceIfNonModified(other.default_array_property);
-		default_nonarray_property = default_nonarray_property
-				.replaceIfNonModified(other.default_nonarray_property);
-		internal_prototype = internal_prototype
-				.replaceIfNonModified(other.internal_prototype);
-		internal_value = internal_value
-				.replaceIfNonModified(other.internal_value);
+		default_array_property = default_array_property.replaceIfNonModified(other.default_array_property);
+		default_nonarray_property = default_nonarray_property.replaceIfNonModified(other.default_nonarray_property);
+		internal_prototype = internal_prototype.replaceIfNonModified(other.internal_prototype);
+		internal_value = internal_value.replaceIfNonModified(other.internal_value);
 		if (scope_unknown && !other.scope_unknown) {
 			scope = other.scope;
 			scope_unknown = other.scope_unknown;
@@ -128,8 +124,8 @@ public final class Obj {
 	public static Obj makeAbsent() {
 		Obj obj = new Obj();
 		obj.properties = Collections.emptyMap();
-		obj.default_nonarray_property = obj.default_array_property = obj.internal_prototype = obj.internal_value = Value
-				.makeAbsent(new Dependency());
+		obj.default_nonarray_property = obj.default_array_property = obj.internal_prototype = obj.internal_value = Value.makeAbsent(new Dependency(),
+				new DependencyGraphReference());
 		return obj;
 	}
 
@@ -140,8 +136,8 @@ public final class Obj {
 	public static Obj makeBottom() {
 		Obj obj = new Obj();
 		obj.properties = Collections.emptyMap();
-		obj.default_nonarray_property = obj.default_array_property = obj.internal_prototype = obj.internal_value = Value
-				.makeBottom(new Dependency());
+		obj.default_nonarray_property = obj.default_array_property = obj.internal_prototype = obj.internal_value = Value.makeBottom(new Dependency(),
+				new DependencyGraphReference());
 		return obj;
 	}
 
@@ -203,9 +199,7 @@ public final class Obj {
 	 * the lattice.
 	 */
 	public int getPosition() {
-		int s = default_nonarray_property.getPosition()
-				+ default_array_property.getPosition()
-				+ internal_prototype.getPosition()
+		int s = default_nonarray_property.getPosition() + default_array_property.getPosition() + internal_prototype.getPosition()
 				+ internal_value.getPosition();
 		for (Value v : properties.values())
 			s += v.getPosition();
@@ -408,8 +402,7 @@ public final class Obj {
 	 */
 	public boolean addToScopeChain(Set<ScopeChain> newscope) {
 		if (scope_unknown)
-			throw new RuntimeException(
-					"Calling addToScopeChain when scope is 'unknown'");
+			throw new RuntimeException("Calling addToScopeChain when scope is 'unknown'");
 		makeWritableScope();
 		if (scope == null)
 			scope = newSet();
@@ -428,8 +421,7 @@ public final class Obj {
 	 * ignored.
 	 */
 	public boolean isSomePropertyUnknown() {
-		if (default_array_property.isUnknown()
-				|| default_nonarray_property.isUnknown())
+		if (default_array_property.isUnknown() || default_nonarray_property.isUnknown())
 			return true;
 		for (Map.Entry<String, Value> me : properties.entrySet())
 			if (me.getValue().isUnknown())
@@ -441,12 +433,10 @@ public final class Obj {
 	 * Replaces all occurrences of oldlabel by newlabel. Does not change
 	 * modified flags. Ignores 'unknown' values.
 	 */
-	public void replaceObjectLabel(ObjectLabel oldlabel, ObjectLabel newlabel,
-			Map<ScopeChain, ScopeChain> cache) {
+	public void replaceObjectLabel(ObjectLabel oldlabel, ObjectLabel newlabel, Map<ScopeChain, ScopeChain> cache) {
 		Map<String, Value> newproperties = newMap();
 		for (Map.Entry<String, Value> me : properties.entrySet())
-			newproperties.put(me.getKey(),
-					me.getValue().replaceObjectLabel(oldlabel, newlabel));
+			newproperties.put(me.getKey(), me.getValue().replaceObjectLabel(oldlabel, newlabel));
 		properties = newproperties;
 		if (scope != null) {
 			Set<ScopeChain> newscope = newSet();
@@ -454,12 +444,9 @@ public final class Obj {
 				newscope.add(e.replaceObjectLabel(oldlabel, newlabel, cache));
 			scope = newscope;
 		}
-		default_nonarray_property = default_nonarray_property
-				.replaceObjectLabel(oldlabel, newlabel);
-		default_array_property = default_array_property.replaceObjectLabel(
-				oldlabel, newlabel);
-		internal_prototype = internal_prototype.replaceObjectLabel(oldlabel,
-				newlabel);
+		default_nonarray_property = default_nonarray_property.replaceObjectLabel(oldlabel, newlabel);
+		default_array_property = default_array_property.replaceObjectLabel(oldlabel, newlabel);
+		internal_prototype = internal_prototype.replaceObjectLabel(oldlabel, newlabel);
 		internal_value = internal_value.replaceObjectLabel(oldlabel, newlabel);
 		writable_properties = writable_scope = true;
 	}
@@ -476,14 +463,9 @@ public final class Obj {
 		Obj x = (Obj) obj;
 		if ((scope == null) != (x.scope == null))
 			return false;
-		return properties.equals(x.properties)
-				&& (scope == null || scope.equals(x.scope))
-				&& (scope_unknown == x.scope_unknown)
-				&& default_nonarray_property
-						.equals(x.default_nonarray_property)
-				&& default_array_property.equals(x.default_array_property)
-				&& internal_prototype.equals(x.internal_prototype)
-				&& internal_value.equals(x.internal_value);
+		return properties.equals(x.properties) && (scope == null || scope.equals(x.scope)) && (scope_unknown == x.scope_unknown)
+				&& default_nonarray_property.equals(x.default_nonarray_property) && default_array_property.equals(x.default_array_property)
+				&& internal_prototype.equals(x.internal_prototype) && internal_value.equals(x.internal_value);
 	}
 
 	/**
@@ -498,8 +480,7 @@ public final class Obj {
 			if (v == null)
 				b.append("\n        new property: ").append(me.getKey());
 			else if (!me.getValue().equals(v)) {
-				b.append("\n        changed property: ").append(me.getKey())
-						.append(": ");
+				b.append("\n        changed property: ").append(me.getKey()).append(": ");
 				me.getValue().diff(v, b);
 			}
 		}
@@ -526,12 +507,8 @@ public final class Obj {
 	 */
 	@Override
 	public int hashCode() {
-		return properties.hashCode() * 3
-				+ (scope != null ? scope.hashCode() * 7 : 0)
-				+ (scope_unknown ? 13 : 0) + internal_prototype.hashCode() * 11
-				+ internal_value.hashCode() * 113
-				+ default_nonarray_property.hashCode() * 23
-				+ default_array_property.hashCode() * 31;
+		return properties.hashCode() * 3 + (scope != null ? scope.hashCode() * 7 : 0) + (scope_unknown ? 13 : 0) + internal_prototype.hashCode() * 11
+				+ internal_value.hashCode() * 113 + default_nonarray_property.hashCode() * 23 + default_array_property.hashCode() * 31;
 	}
 
 	/**
@@ -633,22 +610,15 @@ public final class Obj {
 		for (Map.Entry<String, Value> me : sortedEntries(properties)) {
 			Value v = me.getValue();
 			if (v.isMaybeModified() && v.isMaybeValueOrUnknown())
-				b.append("\n    ").append(Strings.escape(me.getKey()))
-						.append(": ").append(v);
+				b.append("\n    ").append(Strings.escape(me.getKey())).append(": ").append(v);
 		}
-		if ((default_array_property.isMaybeModified())
-				&& default_array_property.isMaybeValueOrUnknown())
-			b.append("\n    ").append("[[DefaultArray]] = ")
-					.append(default_array_property);
-		if ((default_nonarray_property.isMaybeModified())
-				&& default_nonarray_property.isMaybeValueOrUnknown())
-			b.append("\n    ").append("[[DefaultNonArray]] = ")
-					.append(default_nonarray_property);
-		if (internal_prototype.isMaybeModified()
-				&& internal_prototype.isMaybeValueOrUnknown())
+		if ((default_array_property.isMaybeModified()) && default_array_property.isMaybeValueOrUnknown())
+			b.append("\n    ").append("[[DefaultArray]] = ").append(default_array_property);
+		if ((default_nonarray_property.isMaybeModified()) && default_nonarray_property.isMaybeValueOrUnknown())
+			b.append("\n    ").append("[[DefaultNonArray]] = ").append(default_nonarray_property);
+		if (internal_prototype.isMaybeModified() && internal_prototype.isMaybeValueOrUnknown())
 			b.append("\n    [[Prototype]] = ").append(internal_prototype);
-		if (internal_value.isMaybeModified()
-				&& internal_value.isMaybeValueOrUnknown())
+		if (internal_value.isMaybeModified() && internal_value.isMaybeValueOrUnknown())
 			b.append("\n    [[Value]] = ").append(internal_value);
 		return b.toString();
 	}
@@ -685,8 +655,7 @@ public final class Obj {
 			if (dst_v == null || !dst_v.isMaybeModified())
 				changed |= joinProperty(src, propertyname, s);
 		}
-		Value src_v_nonarray = src.getDefaultNonArrayProperty().summarize(s)
-				.clearModified();
+		Value src_v_nonarray = src.getDefaultNonArrayProperty().summarize(s).clearModified();
 		if (src_v_nonarray.isUnknown())
 			throw new RuntimeException("Unexpected 'unknown' value?!");
 		Value dst_v_nonarray = getDefaultNonArrayProperty();
@@ -701,8 +670,7 @@ public final class Obj {
 				changed = true;
 			}
 		}
-		Value src_v_array = src.getDefaultArrayProperty().summarize(s)
-				.clearModified();
+		Value src_v_array = src.getDefaultArrayProperty().summarize(s).clearModified();
 		if (src_v_array.isUnknown())
 			throw new RuntimeException("Unexpected 'unknown' value?!");
 		Value dst_v_array = getDefaultArrayProperty();
@@ -734,14 +702,12 @@ public final class Obj {
 				if (dst_v == null || !dst_v.isMaybeModified())
 					changed |= joinProperty(src, propertyname, s);
 			}
-		Value src_v = src.getDefaultNonArrayProperty().summarize(s)
-				.clearModified();
+		Value src_v = src.getDefaultNonArrayProperty().summarize(s).clearModified();
 		if (src_v.isUnknown())
 			throw new RuntimeException("Unexpected 'unknown' value?!");
 		Value dst_v = getDefaultNonArrayProperty();
 		if (dst_v.isMaybeModified())
-			throw new RuntimeException(
-					"Attempt to join into modified property?!");
+			throw new RuntimeException("Attempt to join into modified property?!");
 		Value new_dst_v;
 		if (dst_v.isUnknown())
 			new_dst_v = src_v;
@@ -768,14 +734,12 @@ public final class Obj {
 				if (dst_v == null || !dst_v.isMaybeModified())
 					changed |= joinProperty(src, propertyname, s);
 			}
-		Value src_v = src.getDefaultArrayProperty().summarize(s)
-				.clearModified();
+		Value src_v = src.getDefaultArrayProperty().summarize(s).clearModified();
 		if (src_v.isUnknown())
 			throw new RuntimeException("Unexpected 'unknown' value?!");
 		Value dst_v = getDefaultArrayProperty();
 		if (dst_v.isMaybeModified())
-			throw new RuntimeException(
-					"Attempt to join into modified property?!");
+			throw new RuntimeException("Attempt to join into modified property?!");
 		Value new_dst_v;
 		if (dst_v.isUnknown())
 			new_dst_v = src_v;
@@ -800,8 +764,7 @@ public final class Obj {
 			throw new RuntimeException("Unexpected 'unknown' value?!");
 		Value dst_v = getInternalValue();
 		if (dst_v.isMaybeModified())
-			throw new RuntimeException(
-					"Attempt to join into modified property?!");
+			throw new RuntimeException("Attempt to join into modified property?!");
 		Value new_dst_v;
 		if (dst_v.isUnknown())
 			new_dst_v = src_v;
@@ -825,8 +788,7 @@ public final class Obj {
 			throw new RuntimeException("Unexpected 'unknown' value?!");
 		Value dst_v = getInternalPrototype();
 		if (dst_v.isMaybeModified())
-			throw new RuntimeException(
-					"Attempt to join into modified property?!");
+			throw new RuntimeException("Attempt to join into modified property?!");
 		Value new_dst_v;
 		if (dst_v.isUnknown())
 			new_dst_v = src_v;
@@ -864,14 +826,12 @@ public final class Obj {
 	 * @return true if changed
 	 */
 	public boolean joinProperty(Obj src, String propertyname, Summarized s) {
-		Value src_v = src.readProperty(propertyname).summarize(s)
-				.clearModified();
+		Value src_v = src.readProperty(propertyname).summarize(s).clearModified();
 		if (src_v.isUnknown())
 			throw new RuntimeException("Unexpected 'unknown' value?!");
 		Value dst_v = readProperty(propertyname);
 		if (dst_v.isMaybeModified())
-			throw new RuntimeException(
-					"Attempt to join into modified property?!");
+			throw new RuntimeException("Attempt to join into modified property?!");
 		Value new_dst_v;
 		if (dst_v.isUnknown())
 			new_dst_v = src_v;
@@ -888,6 +848,7 @@ public final class Obj {
 	public void reduce(Obj obj) {
 		// ##################################################
 		Dependency dependency = new Dependency();
+		DependencyGraphReference reference = new DependencyGraphReference();
 		// ##################################################
 
 		if (obj != null) {
@@ -897,6 +858,7 @@ public final class Obj {
 				String propertyname = me.getKey();
 				Value v = me.getValue();
 				dependency.join(v.getDependency());
+				reference.join(v.getDependencyGraphReference());
 
 				if (!obj.readProperty(propertyname).isUnknown())
 					new_properties.put(propertyname, v);
@@ -904,13 +866,13 @@ public final class Obj {
 			properties = new_properties;
 			writable_properties = true;
 			if (obj.default_array_property.isUnknown())
-				default_array_property = Value.makeUnknown(dependency);
+				default_array_property = Value.makeUnknown(dependency, reference);
 			if (obj.default_nonarray_property.isUnknown())
-				default_nonarray_property = Value.makeUnknown(dependency);
+				default_nonarray_property = Value.makeUnknown(dependency, reference);
 			if (obj.internal_value.isUnknown())
-				internal_value = Value.makeUnknown(dependency);
+				internal_value = Value.makeUnknown(dependency, reference);
 			if (obj.internal_prototype.isUnknown())
-				internal_prototype = Value.makeUnknown(dependency);
+				internal_prototype = Value.makeUnknown(dependency, reference);
 			if (obj.scope_unknown) {
 				scope = null;
 				scope_unknown = true;
@@ -920,8 +882,7 @@ public final class Obj {
 			// reduce all properties
 			properties = Collections.emptyMap();
 			writable_properties = false;
-			default_array_property = default_nonarray_property = internal_value = internal_prototype = Value
-					.makeUnknown(dependency);
+			default_array_property = default_nonarray_property = internal_value = internal_prototype = Value.makeUnknown(dependency, reference);
 			scope = null;
 			scope_unknown = true;
 			writable_scope = false;

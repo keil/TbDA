@@ -41,7 +41,7 @@ public class JSGlobal {
 	 */
 	public static Value evaluate(ECMAScriptObjects nativeobject, CallInfo<CallNode> call, State state, Solver.SolverInterface c) {
 		if (NativeFunctions.throwTypeErrorIfConstructor(call, state, c))
-			return Value.makeBottom(new Dependency());
+			return Value.makeBottom(new Dependency(), new DependencyGraphReference());
 
 		switch (nativeobject) {
 
@@ -65,7 +65,7 @@ public class JSGlobal {
 			if (call.isUnknownNumberOfArgs())
 				basis = NativeFunctions.readParameter(call, 1).joinNum(0);
 			else
-				basis = call.getNumberOfArgs() >= 2 ? Conversion.toNumber(NativeFunctions.readParameter(call, 1), c) : Value.makeNum(0, new Dependency());
+				basis = call.getNumberOfArgs() >= 2 ? Conversion.toNumber(NativeFunctions.readParameter(call, 1), c) : Value.makeNum(0, new Dependency(), node.getReference());
 
 			// ##################################################
 			dependency.join(str.getDependency());
@@ -96,7 +96,7 @@ public class JSGlobal {
 					}
 				}
 				if (radix < 2 || radix > 36)
-					return Value.makeNum(Double.NaN, dependency).joinDependencyGraphReference(node);
+					return Value.makeNum(Double.NaN, dependency, node.getReference());
 				else {
 					int i;
 					String z = s;
@@ -106,12 +106,12 @@ public class JSGlobal {
 							break;
 						}
 					if (z.equals(""))
-						return Value.makeNum(Double.NaN, dependency).joinDependencyGraphReference(node);
+						return Value.makeNum(Double.NaN, dependency, node.getReference());
 					else
-						return Value.makeNum(sign * Integer.parseInt(z, radix), dependency).joinDependencyGraphReference(node);
+						return Value.makeNum(sign * Integer.parseInt(z, radix), dependency, node.getReference());
 				}
 			} else
-				return Value.makeAnyNum(dependency);
+				return Value.makeAnyNum(dependency, node.getReference());
 		}
 
 		case PARSEFLOAT: { // 15.1.2.3
@@ -135,11 +135,11 @@ public class JSGlobal {
 				Pattern p = Pattern.compile("[+-]?(Infinity|([0-9]+\\.[0-9]*|\\.[0-9]+|[0-9]+)([eE][+-]?[0-9]+)?)");
 				Matcher m = p.matcher(s);
 				if (m.lookingAt())
-					return Value.makeNum(Double.parseDouble(m.group(0)), dependency);
+					return Value.makeNum(Double.parseDouble(m.group(0)), dependency, node.getReference());
 				else
-					return Value.makeNum(Double.NaN, dependency);
+					return Value.makeNum(Double.NaN, dependency, node.getReference());
 			} else
-				return Value.makeAnyNum(dependency);
+				return Value.makeAnyNum(dependency, node.getReference());
 		}
 
 		case ISNAN: { // 15.1.2.4
@@ -162,7 +162,7 @@ public class JSGlobal {
 			node.addParent(num);
 			// ==================================================
 
-			Value res = Value.makeBottom(dependency);
+			Value res = Value.makeBottom(dependency, node.getReference());
 			if (num.isMaybeNaN())
 				res = res.joinBool(true);
 			if (num.isMaybeSingleNum() || num.isMaybeInf() || num.isMaybeNumUInt() || num.isMaybeNumNotUInt())
@@ -191,8 +191,8 @@ public class JSGlobal {
 			// ==================================================
 
 			if (num.isMaybeSingleNum())
-				return Value.makeBool(!num.getNum().isInfinite(), dependency);
-			Value res = Value.makeBottom(dependency);
+				return Value.makeBool(!num.getNum().isInfinite(), dependency, node.getReference());
+			Value res = Value.makeBottom(dependency, node.getReference());
 			if (num.isMaybeNaN() || num.isMaybeInf())
 				res = res.joinBool(false);
 			if (num.isMaybeNumUInt() || num.isMaybeNumNotUInt())
@@ -211,7 +211,7 @@ public class JSGlobal {
 			DependencyExpressionNode node = DependencyNode.link(Label.CALL, call.getSourceNode(), state);
 			// ==================================================
 
-			return Value.makeUndef(dependency);
+			return Value.makeUndef(dependency, node.getReference());
 		}
 
 		case DECODEURI: // 15.1.3.1
@@ -239,7 +239,7 @@ public class JSGlobal {
 			node.addParent(str);
 			// ==================================================
 
-			return Value.makeAnyStr(dependency); // TODO: could improve
+			return Value.makeAnyStr(dependency, node.getReference()); // TODO: could improve
 													// precision for constant
 													// strings
 		}
@@ -301,7 +301,7 @@ public class JSGlobal {
 				}
 			}
 
-			return Value.makeUndef(new Dependency());
+			return Value.makeUndef(new Dependency(), new DependencyGraphReference());
 		}
 
 		case ASSERT: {
@@ -325,7 +325,7 @@ public class JSGlobal {
 			// ==================================================
 
 			c.addMessage(x.isMaybeFalseButNotTrue() ? Status.CERTAIN : x.isMaybeFalse() ? Status.MAYBE : Status.NONE, Severity.HIGH, "Assertion fails");
-			return Value.makeUndef(dependency);
+			return Value.makeUndef(dependency, node.getReference());
 		}
 
 		case DUMPVALUE: {
@@ -360,7 +360,7 @@ public class JSGlobal {
 																			 * +
 																			 * ")"
 																			 */);
-			return Value.makeUndef(dependency);
+			return Value.makeUndef(dependency, node.getReference());
 		}
 
 		case DUMPPROTOTYPE: {
@@ -394,7 +394,7 @@ public class JSGlobal {
 			}
 
 			c.addMessage(Status.INFO, Severity.HIGH, "Prototype: " + sb);
-			return Value.makeUndef(dependency);
+			return Value.makeUndef(dependency, node.getReference());
 		}
 
 		case DUMPOBJECT: {
@@ -429,7 +429,7 @@ public class JSGlobal {
 																								 * +
 																								 * ")"
 																								 */);
-			return Value.makeUndef(dependency);
+			return Value.makeUndef(dependency, node.getReference());
 		}
 
 		case DUMPSTATE: {
@@ -459,7 +459,7 @@ public class JSGlobal {
 			 * fw.write(state.toDot(false)); fw.close(); } catch (IOException e)
 			 * { throw new RuntimeException(e); }
 			 */
-			return Value.makeUndef(dependency);
+			return Value.makeUndef(dependency, node.getReference());
 		}
 
 		case DUMPMODIFIEDSTATE: {
@@ -485,7 +485,7 @@ public class JSGlobal {
 																						 * ")"
 																						 */
 					+ state.toStringModified());
-			return Value.makeUndef(dependency);
+			return Value.makeUndef(dependency, node.getReference());
 		}
 
 		case DUMPATTRIBUTES: {
@@ -529,7 +529,7 @@ public class JSGlobal {
 																										 * ")"
 																										 */);
 			}
-			return Value.makeUndef(dependency);
+			return Value.makeUndef(dependency, node.getReference());
 		}
 
 		case DUMPOBJECTORIGIN: { // TODO: remove dumpObjectOrigin? (use
@@ -565,7 +565,7 @@ public class JSGlobal {
 																										 * +
 																										 * ")"
 																										 */);
-			return Value.makeUndef(dependency);
+			return Value.makeUndef(dependency, node.getReference());
 		}
 
 		case CONVERSION_TO_PRIMITIVE: {
@@ -592,10 +592,10 @@ public class JSGlobal {
 			if (call.isUnknownNumberOfArgs())
 				vhint = NativeFunctions.readParameter(call, 1).joinStr("NONE");
 			else
-				vhint = call.getNumberOfArgs() >= 2 ? NativeFunctions.readParameter(call, 1) : Value.makeStr("NONE", dependency);
+				vhint = call.getNumberOfArgs() >= 2 ? NativeFunctions.readParameter(call, 1) : Value.makeStr("NONE", dependency, node.getReference());
 			if (!vhint.isMaybeSingleStr()) {
 				c.addMessage(Status.INFO, Severity.HIGH, "Calling conversionToPrimitive with non-constant hint string");
-				return Value.makeUndef(dependency);
+				return Value.makeUndef(dependency, node.getReference());
 			} else {
 				String shint = vhint.getStr();
 				return Conversion.toPrimitive(varg, shint.equals("NONE") ? Conversion.Hint.NONE : shint.equals("NUM") ? Conversion.Hint.NUM
@@ -644,7 +644,7 @@ public class JSGlobal {
 
 						v = v.restrictToNotNullNotUndef().clearAbsent();
 						if (v.isNoValue())
-							return Value.makeBottom(dependency);
+							return Value.makeBottom(dependency, node.getReference());
 						state.writeVariable(varname, v);
 					}
 				} else if (call.getNumberOfArgs() == 2) {
@@ -652,7 +652,7 @@ public class JSGlobal {
 																											// assumeNonNullUndef
 				}
 			}
-			return Value.makeUndef(dependency);
+			return Value.makeUndef(dependency, node.getReference());
 		}
 
 		case TAJS_GET_UI_EVENT: {
@@ -664,7 +664,7 @@ public class JSGlobal {
 			DependencyExpressionNode node = DependencyNode.link(Label.CALL, call.getSourceNode(), state);
 			// ==================================================
 
-			return Value.makeObject(UIEvent.UI_EVENT, dependency).joinDependencyGraphReference(node);
+			return Value.makeObject(UIEvent.UI_EVENT, dependency, node.getReference());
 		}
 
 		case TAJS_GET_DOCUMENT_EVENT: {
@@ -676,7 +676,7 @@ public class JSGlobal {
 			DependencyExpressionNode node = DependencyNode.link(Label.CALL, call.getSourceNode(), state);
 			// ==================================================
 
-			return Value.makeObject(DocumentEvent.DOCUMENT_EVENT, dependency).joinDependencyGraphReference(node);
+			return Value.makeObject(DocumentEvent.DOCUMENT_EVENT, dependency, node.getReference());
 		}
 
 		case TAJS_GET_MOUSE_EVENT: {
@@ -688,7 +688,7 @@ public class JSGlobal {
 			DependencyExpressionNode node = DependencyNode.link(Label.CALL, call.getSourceNode(), state);
 			// ==================================================
 
-			return Value.makeObject(MouseEvent.MOUSE_EVENT, dependency).joinDependencyGraphReference(node);
+			return Value.makeObject(MouseEvent.MOUSE_EVENT, dependency, node.getReference());
 		}
 
 		case TAJS_GET_KEYBOARD_EVENT: {
@@ -700,7 +700,7 @@ public class JSGlobal {
 			DependencyExpressionNode node = DependencyNode.link(Label.CALL, call.getSourceNode(), state);
 			// ==================================================
 
-			return Value.makeObject(KeyboardEvent.KEYBOARD_EVENT, dependency).joinDependencyGraphReference(node);
+			return Value.makeObject(KeyboardEvent.KEYBOARD_EVENT, dependency, node.getReference());
 		}
 
 		case TAJS_GET_EVENT_LISTENER: {
@@ -712,7 +712,7 @@ public class JSGlobal {
 			DependencyExpressionNode node = DependencyNode.link(Label.CALL, call.getSourceNode(), state);
 			// ==================================================
 
-			return Value.makeObject(EventListener.EVENT_LISTENER, dependency).joinDependencyGraphReference(node);
+			return Value.makeObject(EventListener.EVENT_LISTENER, dependency, node.getReference());
 		}
 
 		case TAJS_GET_WHEEL_EVENT: {
@@ -724,7 +724,7 @@ public class JSGlobal {
 			DependencyExpressionNode node = DependencyNode.link(Label.CALL, call.getSourceNode(), state);
 			// ==================================================
 
-			return Value.makeObject(WheelEvent.WHEEL_EVENT, dependency).joinDependencyGraphReference(node);
+			return Value.makeObject(WheelEvent.WHEEL_EVENT, dependency, node.getReference());
 		}
 
 		default:

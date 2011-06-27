@@ -1,11 +1,14 @@
 package dk.brics.tajs.analysis.nativeobjects;
 
+import com.sun.xml.internal.bind.v2.model.core.Ref;
+
 import dk.brics.tajs.analysis.Conversion;
 import dk.brics.tajs.analysis.FunctionCalls.CallInfo;
 import dk.brics.tajs.analysis.NativeFunctions;
 import dk.brics.tajs.analysis.Solver;
 import dk.brics.tajs.analysis.State;
 import dk.brics.tajs.dependency.Dependency;
+import dk.brics.tajs.dependency.graph.DependencyGraphReference;
 import dk.brics.tajs.dependency.graph.DependencyNode;
 import dk.brics.tajs.dependency.graph.Label;
 import dk.brics.tajs.dependency.graph.nodes.DependencyExpressionNode;
@@ -24,7 +27,7 @@ public class JSMath {
 	 */
 	public static Value evaluate(ECMAScriptObjects nativeobject, CallInfo call, State state, Solver.SolverInterface c) {
 		if (NativeFunctions.throwTypeErrorIfConstructor(call, state, c))
-			return Value.makeBottom(new Dependency());
+			return Value.makeBottom(new Dependency(), new DependencyGraphReference());
 
 		switch (nativeobject) {
 
@@ -102,11 +105,11 @@ public class JSMath {
 				default:
 					throw new RuntimeException();
 				}
-				return Value.makeNum(res, dependency).joinDependencyGraphReference(node.getReference());
+				return Value.makeNum(res, dependency, node.getReference());
 			} else if (!num.isNotNum())
-				return Value.makeAnyNum(dependency).joinDependencyGraphReference(node.getReference());
+				return Value.makeAnyNum(dependency, node.getReference());
 			else
-				return Value.makeBottom(dependency).joinDependencyGraphReference(node.getReference());
+				return Value.makeBottom(dependency, node.getReference());
 		}
 
 		case MATH_ATAN2: // 15.8.2.5
@@ -142,11 +145,11 @@ public class JSMath {
 				default:
 					throw new RuntimeException();
 				}
-				return Value.makeNum(res, dependency).joinDependencyGraphReference(node.getReference());
+				return Value.makeNum(res, dependency, node.getReference());
 			} else if (!num1.isNotNum() && !num2.isNotNum())
-				return Value.makeAnyNum(dependency).joinDependencyGraphReference(node.getReference());
+				return Value.makeAnyNum(dependency, node.getReference());
 			else
-				return Value.makeBottom(dependency).joinDependencyGraphReference(node.getReference());
+				return Value.makeBottom(dependency, node.getReference());
 		}
 
 		case MATH_MAX: { // 15.8.2.11
@@ -174,9 +177,9 @@ public class JSMath {
 				if (num.isMaybeSingleNum())
 					res = num.getNum();
 				else if (!num.isNotNum())
-					return Value.makeAnyNum(dependency).joinDependencyGraphReference(node.getReference());
+					return Value.makeAnyNum(dependency, node.getReference());
 				else
-					return Value.makeBottom(dependency).joinDependencyGraphReference(node.getReference());
+					return Value.makeBottom(dependency, node.getReference());
 			} else
 				for (int i = 0; i < call.getNumberOfArgs(); i++) {
 					Value num = Conversion.toNumber(NativeFunctions.readParameter(call, i), c);
@@ -192,11 +195,11 @@ public class JSMath {
 					if (num.isMaybeSingleNum())
 						res = Math.max(res, num.getNum());
 					else if (!num.isNotNum())
-						return Value.makeAnyNum(dependency).joinDependencyGraphReference(node.getReference());
+						return Value.makeAnyNum(dependency, node.getReference());
 					else
-						return Value.makeBottom(dependency).joinDependencyGraphReference(node.getReference());
+						return Value.makeBottom(dependency, node.getReference());
 				}
-			return Value.makeNum(res, dependency).joinDependencyGraphReference(node.getReference());
+			return Value.makeNum(res, dependency, node.getReference());
 		}
 
 		case MATH_MIN: { // 15.8.2.12
@@ -224,9 +227,9 @@ public class JSMath {
 				if (num.isMaybeSingleNum())
 					res = num.getNum();
 				else if (!num.isNotNum())
-					return Value.makeAnyNum(dependency).joinDependencyGraphReference(node.getReference());
+					return Value.makeAnyNum(dependency, node.getReference());
 				else
-					return Value.makeBottom(dependency).joinDependencyGraphReference(node.getReference());
+					return Value.makeBottom(dependency, node.getReference());
 			} else
 				for (int i = 0; i < call.getNumberOfArgs(); i++) {
 					Value num = Conversion.toNumber(NativeFunctions.readParameter(call, i), c);
@@ -242,11 +245,11 @@ public class JSMath {
 					if (num.isMaybeSingleNum())
 						res = Math.min(res, num.getNum());
 					else if (!num.isNotNum())
-						return Value.makeAnyNum(dependency).joinDependencyGraphReference(node.getReference());
+						return Value.makeAnyNum(dependency, node.getReference());
 					else
-						return Value.makeBottom(dependency).joinDependencyGraphReference(node.getReference());
+						return Value.makeBottom(dependency, node.getReference());
 				}
-			return Value.makeNum(res, dependency).joinDependencyGraphReference(node.getReference());
+			return Value.makeNum(res, dependency, node.getReference());
 		}
 
 		case MATH_RANDOM: { // 15.8.2.14
@@ -259,7 +262,7 @@ public class JSMath {
 			// ==================================================
 
 			NativeFunctions.expectParameters(nativeobject, call, c, 0, 0);
-			return Value.makeAnyNumNotNaNInf(dependency).joinDependencyGraphReference(node.getReference());
+			return Value.makeAnyNumNotNaNInf(dependency, node.getReference());
 		}
 
 		default:

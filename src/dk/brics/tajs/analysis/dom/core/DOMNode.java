@@ -8,6 +8,7 @@ import dk.brics.tajs.analysis.Solver;
 import dk.brics.tajs.analysis.State;
 import dk.brics.tajs.analysis.dom.*;
 import dk.brics.tajs.dependency.Dependency;
+import dk.brics.tajs.dependency.graph.DependencyGraphReference;
 import dk.brics.tajs.flowgraph.ObjectLabel;
 import dk.brics.tajs.lattice.Value;
 
@@ -28,49 +29,49 @@ public class DOMNode {
 	public static void build(State s) {
 		// Prototype object.
 		s.newObject(NODE_PROTOTYPE);
-		createDOMInternalPrototype(s, NODE_PROTOTYPE, Value.makeObject(InitialStateBuilder.OBJECT_PROTOTYPE, new Dependency()));
+		createDOMInternalPrototype(s, NODE_PROTOTYPE, Value.makeObject(InitialStateBuilder.OBJECT_PROTOTYPE, new Dependency(), new DependencyGraphReference()));
 
 		// Multiplied object
 		s.newObject(NODE);
-		createDOMInternalPrototype(s, NODE, Value.makeObject(NODE_PROTOTYPE, new Dependency()));
-		createDOMProperty(s, DOMWindow.WINDOW, "Node", Value.makeObject(NODE, new Dependency()));
+		createDOMInternalPrototype(s, NODE, Value.makeObject(NODE_PROTOTYPE, new Dependency(), new DependencyGraphReference()));
+		createDOMProperty(s, DOMWindow.WINDOW, "Node", Value.makeObject(NODE, new Dependency(), new DependencyGraphReference()));
 
 		/*
 		 * Constants.
 		 */
-		createDOMProperty(s, NODE, "ELEMENT_NODE", Value.makeNum(1, new Dependency()).setReadOnly(), DOMSpec.LEVEL_1);
-		createDOMProperty(s, NODE, "ATTRIBUTE_NODE", Value.makeNum(2, new Dependency()).setReadOnly(), DOMSpec.LEVEL_1);
-		createDOMProperty(s, NODE, "TEXT_NODE", Value.makeNum(3, new Dependency()).setReadOnly(), DOMSpec.LEVEL_1);
-		createDOMProperty(s, NODE, "CDATA_SECTION_NODE", Value.makeNum(4, new Dependency()).setReadOnly(), DOMSpec.LEVEL_1);
-		createDOMProperty(s, NODE, "ENTITY_REFERENCE_NODE", Value.makeNum(5, new Dependency()).setReadOnly(), DOMSpec.LEVEL_1);
-		createDOMProperty(s, NODE, "ENTITY_NODE", Value.makeNum(6, new Dependency()).setReadOnly(), DOMSpec.LEVEL_1);
-		createDOMProperty(s, NODE, "PROCESSING_INSTRUCTION_NODE", Value.makeNum(7, new Dependency()).setReadOnly(), DOMSpec.LEVEL_1);
-		createDOMProperty(s, NODE, "COMMENT_NODE", Value.makeNum(8, new Dependency()).setReadOnly(), DOMSpec.LEVEL_1);
-		createDOMProperty(s, NODE, "DOCUMENT_NODE", Value.makeNum(9, new Dependency()).setReadOnly(), DOMSpec.LEVEL_1);
-		createDOMProperty(s, NODE, "DOCUMENT_TYPE_NODE", Value.makeNum(10, new Dependency()).setReadOnly(), DOMSpec.LEVEL_1);
-		createDOMProperty(s, NODE, "DOCUMENT_FRAGMENT_NODE", Value.makeNum(11, new Dependency()).setReadOnly(), DOMSpec.LEVEL_1);
-		createDOMProperty(s, NODE, "NOTATION_NODE", Value.makeNum(12, new Dependency()).setReadOnly(), DOMSpec.LEVEL_1);
+		createDOMProperty(s, NODE, "ELEMENT_NODE", Value.makeNum(1, new Dependency(), new DependencyGraphReference()).setReadOnly(), DOMSpec.LEVEL_1);
+		createDOMProperty(s, NODE, "ATTRIBUTE_NODE", Value.makeNum(2, new Dependency(), new DependencyGraphReference()).setReadOnly(), DOMSpec.LEVEL_1);
+		createDOMProperty(s, NODE, "TEXT_NODE", Value.makeNum(3, new Dependency(), new DependencyGraphReference()).setReadOnly(), DOMSpec.LEVEL_1);
+		createDOMProperty(s, NODE, "CDATA_SECTION_NODE", Value.makeNum(4, new Dependency(), new DependencyGraphReference()).setReadOnly(), DOMSpec.LEVEL_1);
+		createDOMProperty(s, NODE, "ENTITY_REFERENCE_NODE", Value.makeNum(5, new Dependency(), new DependencyGraphReference()).setReadOnly(), DOMSpec.LEVEL_1);
+		createDOMProperty(s, NODE, "ENTITY_NODE", Value.makeNum(6, new Dependency(), new DependencyGraphReference()).setReadOnly(), DOMSpec.LEVEL_1);
+		createDOMProperty(s, NODE, "PROCESSING_INSTRUCTION_NODE", Value.makeNum(7, new Dependency(), new DependencyGraphReference()).setReadOnly(), DOMSpec.LEVEL_1);
+		createDOMProperty(s, NODE, "COMMENT_NODE", Value.makeNum(8, new Dependency(), new DependencyGraphReference()).setReadOnly(), DOMSpec.LEVEL_1);
+		createDOMProperty(s, NODE, "DOCUMENT_NODE", Value.makeNum(9, new Dependency(), new DependencyGraphReference()).setReadOnly(), DOMSpec.LEVEL_1);
+		createDOMProperty(s, NODE, "DOCUMENT_TYPE_NODE", Value.makeNum(10, new Dependency(), new DependencyGraphReference()).setReadOnly(), DOMSpec.LEVEL_1);
+		createDOMProperty(s, NODE, "DOCUMENT_FRAGMENT_NODE", Value.makeNum(11, new Dependency(), new DependencyGraphReference()).setReadOnly(), DOMSpec.LEVEL_1);
+		createDOMProperty(s, NODE, "NOTATION_NODE", Value.makeNum(12, new Dependency(), new DependencyGraphReference()).setReadOnly(), DOMSpec.LEVEL_1);
 
 		/*
 		 * Properties.
 		 */
 		// DOM LEVEL 1
-		createDOMProperty(s, NODE, "nodeName", Value.makeAnyStr(new Dependency()), DOMSpec.LEVEL_1);
-		createDOMProperty(s, NODE, "nodeValue", Value.makeAnyStr(new Dependency()), DOMSpec.LEVEL_1);
-		createDOMProperty(s, NODE, "nodeType", Value.makeAnyNum(new Dependency()), DOMSpec.LEVEL_1);
-		createDOMProperty(s, NODE, "parentNode", Value.makeObject(NODE, new Dependency()), DOMSpec.LEVEL_1);
-		createDOMProperty(s, NODE, "childNodes", Value.makeObject(DOMNodeList.NODELIST, new Dependency()), DOMSpec.LEVEL_1);
-		createDOMProperty(s, NODE, "firstChild", Value.makeObject(NODE, new Dependency()), DOMSpec.LEVEL_1);
-		createDOMProperty(s, NODE, "lastChild", Value.makeObject(NODE, new Dependency()), DOMSpec.LEVEL_1);
-		createDOMProperty(s, NODE, "previousSibling", Value.makeObject(NODE, new Dependency()), DOMSpec.LEVEL_1);
-		createDOMProperty(s, NODE, "nextSibling", Value.makeObject(NODE, new Dependency()), DOMSpec.LEVEL_1);
-		createDOMProperty(s, NODE, "attributes", Value.makeObject(DOMNamedNodeMap.NAMED_NODE_MAP, new Dependency()), DOMSpec.LEVEL_1);
-		createDOMProperty(s, NODE, "ownerDocument", Value.makeObject(DOMDocument.DOCUMENT, new Dependency()), DOMSpec.LEVEL_1);
+		createDOMProperty(s, NODE, "nodeName", Value.makeAnyStr(new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_1);
+		createDOMProperty(s, NODE, "nodeValue", Value.makeAnyStr(new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_1);
+		createDOMProperty(s, NODE, "nodeType", Value.makeAnyNum(new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_1);
+		createDOMProperty(s, NODE, "parentNode", Value.makeObject(NODE, new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_1);
+		createDOMProperty(s, NODE, "childNodes", Value.makeObject(DOMNodeList.NODELIST, new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_1);
+		createDOMProperty(s, NODE, "firstChild", Value.makeObject(NODE, new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_1);
+		createDOMProperty(s, NODE, "lastChild", Value.makeObject(NODE, new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_1);
+		createDOMProperty(s, NODE, "previousSibling", Value.makeObject(NODE, new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_1);
+		createDOMProperty(s, NODE, "nextSibling", Value.makeObject(NODE, new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_1);
+		createDOMProperty(s, NODE, "attributes", Value.makeObject(DOMNamedNodeMap.NAMED_NODE_MAP, new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_1);
+		createDOMProperty(s, NODE, "ownerDocument", Value.makeObject(DOMDocument.DOCUMENT, new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_1);
 
 		// DOM LEVEL 2
-		createDOMProperty(s, NODE, "prefix", Value.makeAnyStr(new Dependency()), DOMSpec.LEVEL_2);
-		createDOMProperty(s, NODE, "localName", Value.makeAnyStr(new Dependency()), DOMSpec.LEVEL_2);
-		createDOMProperty(s, NODE, "namespaceURI", Value.makeAnyStr(new Dependency()), DOMSpec.LEVEL_2);
+		createDOMProperty(s, NODE, "prefix", Value.makeAnyStr(new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_2);
+		createDOMProperty(s, NODE, "localName", Value.makeAnyStr(new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_2);
+		createDOMProperty(s, NODE, "namespaceURI", Value.makeAnyStr(new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_2);
 
 		s.multiplyObject(NODE);
 		NODE = NODE.makeSingleton().makeSummary();
@@ -105,11 +106,11 @@ public class DOMNode {
 		case NODE_CLONE_NODE: {
 			NativeFunctions.expectParameters(nativeObject, call, c, 1, 1);
 			Value deep = Conversion.toBoolean(call.getArg(0));
-			return Value.makeObject(NODE, new Dependency());
+			return Value.makeObject(NODE, new Dependency(), new DependencyGraphReference());
 		}
 		case NODE_HAS_CHILD_NODES: {
 			NativeFunctions.expectParameters(nativeObject, call, c, 0, 0);
-			return Value.makeAnyBool(new Dependency());
+			return Value.makeAnyBool(new Dependency(), new DependencyGraphReference());
 		}
 		case NODE_INSERT_BEFORE: {
 			NativeFunctions.expectParameters(nativeObject, call, c, 2, 2);
@@ -132,15 +133,15 @@ public class DOMNode {
 			NativeFunctions.expectParameters(nativeObject, call, c, 2, 2);
 			Value feature = Conversion.toString(call.getArg(0), c);
 			Value version = Conversion.toString(call.getArg(0), c);
-			return Value.makeAnyBool(new Dependency());
+			return Value.makeAnyBool(new Dependency(), new DependencyGraphReference());
 		}
 		case NODE_HAS_ATTRIBUTES: {
 			NativeFunctions.expectParameters(nativeObject, call, c, 0, 0);
-			return Value.makeAnyBool(new Dependency());
+			return Value.makeAnyBool(new Dependency(), new DependencyGraphReference());
 		}
 		case NODE_NORMALIZE: {
 			NativeFunctions.expectParameters(nativeObject, call, c, 0, 0);
-			return Value.makeUndef(new Dependency());
+			return Value.makeUndef(new Dependency(), new DependencyGraphReference());
 		}
 		default: {
 			throw new RuntimeException("Unsupported Native Object: " + nativeObject);

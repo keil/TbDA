@@ -13,6 +13,7 @@ import dk.brics.tajs.analysis.Solver;
 import dk.brics.tajs.analysis.State;
 import dk.brics.tajs.analysis.FunctionCalls.CallInfo;
 import dk.brics.tajs.dependency.Dependency;
+import dk.brics.tajs.dependency.graph.DependencyGraphReference;
 import dk.brics.tajs.dependency.graph.DependencyNode;
 import dk.brics.tajs.dependency.graph.Label;
 import dk.brics.tajs.dependency.graph.nodes.DependencyExpressionNode;
@@ -37,13 +38,13 @@ public class JSFunction {
 	public static Value evaluate(ECMAScriptObjects nativeobject, final CallInfo call, final State state, final Solver.SolverInterface c) {
 		if (nativeobject != ECMAScriptObjects.FUNCTION && nativeobject != ECMAScriptObjects.FUNCTION_PROTOTYPE)
 			if (NativeFunctions.throwTypeErrorIfConstructor(call, state, c))
-				return Value.makeBottom(new Dependency());
+				return Value.makeBottom(new Dependency(), new DependencyGraphReference());
 
 		switch (nativeobject) {
 
 		case FUNCTION: { // 15.3.1 / 15.3.2 (no difference between function and
 							// constructor)
-			return Value.makeUndef(new Dependency()); // XXX throw new
+			return Value.makeUndef(new Dependency(), new DependencyGraphReference()); // XXX throw new
 														// RuntimeException("Don't know how to handle call to 'Function' :-(");
 														// // TODO: call to
 														// 'Function' (just
@@ -53,7 +54,7 @@ public class JSFunction {
 		}
 
 		case FUNCTION_PROTOTYPE: { // 15.3.4
-			return Value.makeUndef(new Dependency());
+			return Value.makeUndef(new Dependency(), new DependencyGraphReference());
 		}
 
 		case FUNCTION_TOSTRING: { // 15.3.4.2
@@ -77,8 +78,8 @@ public class JSFunction {
 			// ==================================================
 
 			if (NativeFunctions.throwTypeErrorIfWrongKindOfThis(nativeobject, call, state, c, Kind.FUNCTION))
-				return Value.makeBottom(dependency).joinDependencyGraphReference(node);
-			return Value.makeAnyStr(dependency).joinDependencyGraphReference(node);
+				return Value.makeBottom(dependency, node.getReference());
+			return Value.makeAnyStr(dependency, node.getReference());
 		}
 
 		case FUNCTION_APPLY: { // 15.3.4.3
@@ -131,7 +132,7 @@ public class JSFunction {
 			if (maybe_ok || maybe_typeerror)
 				c.addMessage(maybe_typeerror ? maybe_ok ? Status.MAYBE : Status.CERTAIN : Status.NONE, Severity.HIGH, "TypeError, invalid arguments to 'apply'");
 			if (!maybe_ok)
-				return Value.makeBottom(dependency).joinDependencyGraphReference(node);
+				return Value.makeBottom(dependency, node.getReference());
 			final boolean unknown_length__final = unknown_length;
 			final int fixed_length__final = fixed_length;
 			FunctionCalls.callFunction(new FunctionCalls.CallInfo() { // TODO:
@@ -175,7 +176,7 @@ public class JSFunction {
 									v = v.joinUndef();
 								return v;
 							} else
-								return Value.makeUndef(new Dependency());
+								return Value.makeUndef(new Dependency(), new DependencyGraphReference());
 						}
 
 						@Override
@@ -206,7 +207,7 @@ public class JSFunction {
 							return call.getResultVar();
 						}
 					}, state, c);
-			return Value.makeBottom(dependency).joinDependencyGraphReference(node);
+			return Value.makeBottom(dependency, node.getReference());
 		}
 
 		case FUNCTION_CALL: { // 15.3.4.4
@@ -280,7 +281,7 @@ public class JSFunction {
 					return call.getBaseVar();
 				}
 			}, state, c);
-			return Value.makeBottom(dependency).joinDependencyGraphReference(node); // no
+			return Value.makeBottom(dependency, node.getReference()); // no
 																					// direct
 																					// flow
 																					// to

@@ -9,6 +9,7 @@ import dk.brics.tajs.analysis.State;
 import dk.brics.tajs.analysis.dom.core.DOMDocument;
 import dk.brics.tajs.analysis.dom.html.HTMLDocument;
 import dk.brics.tajs.dependency.Dependency;
+import dk.brics.tajs.dependency.graph.DependencyGraphReference;
 import dk.brics.tajs.flowgraph.Function;
 import dk.brics.tajs.flowgraph.ObjectLabel;
 import dk.brics.tajs.flowgraph.ObjectLabel.Kind;
@@ -39,26 +40,26 @@ public class DOMWindow {
 		 * Properties.
 		 */
 		// DOM LEVEL 0
-		createDOMProperty(s, WINDOW, "document", Value.makeObject(HTMLDocument.DOCUMENT, new Dependency()), DOMSpec.LEVEL_0);
-		createDOMProperty(s, WINDOW, "innerHeight", Value.makeAnyNumUInt(new Dependency()), DOMSpec.LEVEL_0);
-		createDOMProperty(s, WINDOW, "innerWidth", Value.makeAnyNumUInt(new Dependency()), DOMSpec.LEVEL_0);
-		createDOMProperty(s, WINDOW, "length", Value.makeAnyNumUInt(new Dependency()), DOMSpec.LEVEL_0);
-		createDOMProperty(s, WINDOW, "name", Value.makeAnyStr(new Dependency()), DOMSpec.LEVEL_0);
-		createDOMProperty(s, WINDOW, "outerHeight", Value.makeAnyNumUInt(new Dependency()), DOMSpec.LEVEL_0);
-		createDOMProperty(s, WINDOW, "outerWidth", Value.makeAnyNumUInt(new Dependency()), DOMSpec.LEVEL_0);
-		createDOMProperty(s, WINDOW, "pageXOffset", Value.makeAnyNumUInt(new Dependency()), DOMSpec.LEVEL_0);
-		createDOMProperty(s, WINDOW, "pageYOffset", Value.makeAnyNumUInt(new Dependency()), DOMSpec.LEVEL_0);
-		createDOMProperty(s, WINDOW, "parent", Value.makeObject(WINDOW, new Dependency()), DOMSpec.LEVEL_0);
-		createDOMProperty(s, WINDOW, "self", Value.makeObject(WINDOW, new Dependency()), DOMSpec.LEVEL_0);
-		createDOMProperty(s, WINDOW, "scrollMaxX", Value.makeAnyNumUInt(new Dependency()), DOMSpec.LEVEL_0);
-		createDOMProperty(s, WINDOW, "scrollMaxY", Value.makeAnyNumUInt(new Dependency()), DOMSpec.LEVEL_0);
-		createDOMProperty(s, WINDOW, "scrollX", Value.makeAnyNumUInt(new Dependency()), DOMSpec.LEVEL_0);
-		createDOMProperty(s, WINDOW, "scrollY", Value.makeAnyNumUInt(new Dependency()), DOMSpec.LEVEL_0);
-		createDOMProperty(s, WINDOW, "screenX", Value.makeAnyNumUInt(new Dependency()), DOMSpec.LEVEL_0);
-		createDOMProperty(s, WINDOW, "screenY", Value.makeAnyNumUInt(new Dependency()), DOMSpec.LEVEL_0);
-		createDOMProperty(s, WINDOW, "status", Value.makeAnyStr(new Dependency()), DOMSpec.LEVEL_0);
-		createDOMProperty(s, WINDOW, "top", Value.makeObject(WINDOW, new Dependency()), DOMSpec.LEVEL_0);
-		createDOMProperty(s, WINDOW, "window", Value.makeObject(WINDOW, new Dependency()), DOMSpec.LEVEL_0);
+		createDOMProperty(s, WINDOW, "document", Value.makeObject(HTMLDocument.DOCUMENT, new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_0);
+		createDOMProperty(s, WINDOW, "innerHeight", Value.makeAnyNumUInt(new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_0);
+		createDOMProperty(s, WINDOW, "innerWidth", Value.makeAnyNumUInt(new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_0);
+		createDOMProperty(s, WINDOW, "length", Value.makeAnyNumUInt(new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_0);
+		createDOMProperty(s, WINDOW, "name", Value.makeAnyStr(new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_0);
+		createDOMProperty(s, WINDOW, "outerHeight", Value.makeAnyNumUInt(new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_0);
+		createDOMProperty(s, WINDOW, "outerWidth", Value.makeAnyNumUInt(new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_0);
+		createDOMProperty(s, WINDOW, "pageXOffset", Value.makeAnyNumUInt(new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_0);
+		createDOMProperty(s, WINDOW, "pageYOffset", Value.makeAnyNumUInt(new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_0);
+		createDOMProperty(s, WINDOW, "parent", Value.makeObject(WINDOW, new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_0);
+		createDOMProperty(s, WINDOW, "self", Value.makeObject(WINDOW, new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_0);
+		createDOMProperty(s, WINDOW, "scrollMaxX", Value.makeAnyNumUInt(new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_0);
+		createDOMProperty(s, WINDOW, "scrollMaxY", Value.makeAnyNumUInt(new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_0);
+		createDOMProperty(s, WINDOW, "scrollX", Value.makeAnyNumUInt(new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_0);
+		createDOMProperty(s, WINDOW, "scrollY", Value.makeAnyNumUInt(new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_0);
+		createDOMProperty(s, WINDOW, "screenX", Value.makeAnyNumUInt(new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_0);
+		createDOMProperty(s, WINDOW, "screenY", Value.makeAnyNumUInt(new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_0);
+		createDOMProperty(s, WINDOW, "status", Value.makeAnyStr(new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_0);
+		createDOMProperty(s, WINDOW, "top", Value.makeObject(WINDOW, new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_0);
+		createDOMProperty(s, WINDOW, "window", Value.makeObject(WINDOW, new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_0);
 
 		/*
 		 * Functions.
@@ -100,10 +101,10 @@ public class DOMWindow {
 		 * WINDOW HISTORY object
 		 */
 		s.newObject(HISTORY);
-		createDOMInternalPrototype(s, HISTORY, Value.makeObject(InitialStateBuilder.OBJECT_PROTOTYPE, new Dependency()));
+		createDOMInternalPrototype(s, HISTORY, Value.makeObject(InitialStateBuilder.OBJECT_PROTOTYPE, new Dependency(), new DependencyGraphReference()));
 		// Properties.
-		createDOMProperty(s, HISTORY, "length", Value.makeAnyNumUInt(new Dependency()), DOMSpec.LEVEL_0);
-		createDOMProperty(s, WINDOW, "history", Value.makeObject(HISTORY, new Dependency()), DOMSpec.LEVEL_0);
+		createDOMProperty(s, HISTORY, "length", Value.makeAnyNumUInt(new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_0);
+		createDOMProperty(s, WINDOW, "history", Value.makeObject(HISTORY, new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_0);
 		// Functions.
 		createDOMFunction(s, HISTORY, DOMObjects.WINDOW_HISTORY_BACK, "back", 0, DOMSpec.LEVEL_0);
 		createDOMFunction(s, HISTORY, DOMObjects.WINDOW_HISTORY_FORWARD, "forward", 0, DOMSpec.LEVEL_0);
@@ -113,19 +114,19 @@ public class DOMWindow {
 		 * WINDOW LOCATION object
 		 */
 		s.newObject(LOCATION);
-		createDOMInternalPrototype(s, LOCATION, Value.makeObject(InitialStateBuilder.OBJECT_PROTOTYPE, new Dependency()));
-		createDOMProperty(s, WINDOW, "location", Value.makeObject(LOCATION, new Dependency()), DOMSpec.LEVEL_0);
-		createDOMProperty(s, DOMDocument.DOCUMENT, "location", Value.makeObject(LOCATION, new Dependency()), DOMSpec.LEVEL_0);
+		createDOMInternalPrototype(s, LOCATION, Value.makeObject(InitialStateBuilder.OBJECT_PROTOTYPE, new Dependency(), new DependencyGraphReference()));
+		createDOMProperty(s, WINDOW, "location", Value.makeObject(LOCATION, new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_0);
+		createDOMProperty(s, DOMDocument.DOCUMENT, "location", Value.makeObject(LOCATION, new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_0);
 		// Properties.
-		createDOMProperty(s, LOCATION, "hash", Value.makeAnyStr(new Dependency()), DOMSpec.LEVEL_0);
-		createDOMProperty(s, LOCATION, "host", Value.makeAnyStr(new Dependency()), DOMSpec.LEVEL_0);
-		createDOMProperty(s, LOCATION, "hostname", Value.makeAnyStr(new Dependency()), DOMSpec.LEVEL_0);
-		createDOMProperty(s, LOCATION, "href", Value.makeAnyStr(new Dependency()), DOMSpec.LEVEL_0);
-		createDOMProperty(s, LOCATION, "pathname", Value.makeAnyStr(new Dependency()), DOMSpec.LEVEL_0);
-		createDOMProperty(s, LOCATION, "port", Value.makeAnyStr(new Dependency()), DOMSpec.LEVEL_0);
-		createDOMProperty(s, LOCATION, "protocol", Value.makeAnyStr(new Dependency()), DOMSpec.LEVEL_0);
-		createDOMProperty(s, LOCATION, "search", Value.makeAnyStr(new Dependency()), DOMSpec.LEVEL_0);
-		createDOMProperty(s, LOCATION, "hash", Value.makeAnyStr(new Dependency()), DOMSpec.LEVEL_0);
+		createDOMProperty(s, LOCATION, "hash", Value.makeAnyStr(new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_0);
+		createDOMProperty(s, LOCATION, "host", Value.makeAnyStr(new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_0);
+		createDOMProperty(s, LOCATION, "hostname", Value.makeAnyStr(new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_0);
+		createDOMProperty(s, LOCATION, "href", Value.makeAnyStr(new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_0);
+		createDOMProperty(s, LOCATION, "pathname", Value.makeAnyStr(new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_0);
+		createDOMProperty(s, LOCATION, "port", Value.makeAnyStr(new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_0);
+		createDOMProperty(s, LOCATION, "protocol", Value.makeAnyStr(new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_0);
+		createDOMProperty(s, LOCATION, "search", Value.makeAnyStr(new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_0);
+		createDOMProperty(s, LOCATION, "hash", Value.makeAnyStr(new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_0);
 		// Functions.
 		createDOMFunction(s, LOCATION, DOMObjects.WINDOW_LOCATION_ASSIGN, "assign", 1, DOMSpec.LEVEL_0);
 		createDOMFunction(s, LOCATION, DOMObjects.WINDOW_LOCATION_RELOAD, "reload", 1, DOMSpec.LEVEL_0);
@@ -136,31 +137,31 @@ public class DOMWindow {
 		 * WINDOW NAVIGATOR object
 		 */
 		s.newObject(NAVIGATOR);
-		createDOMInternalPrototype(s, NAVIGATOR, Value.makeObject(InitialStateBuilder.OBJECT_PROTOTYPE, new Dependency()));
-		createDOMProperty(s, WINDOW, "navigator", Value.makeObject(NAVIGATOR, new Dependency()), DOMSpec.LEVEL_0);
+		createDOMInternalPrototype(s, NAVIGATOR, Value.makeObject(InitialStateBuilder.OBJECT_PROTOTYPE, new Dependency(), new DependencyGraphReference()));
+		createDOMProperty(s, WINDOW, "navigator", Value.makeObject(NAVIGATOR, new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_0);
 		// Properties.
-		createDOMProperty(s, NAVIGATOR, "product", Value.makeAnyStr(new Dependency()), DOMSpec.LEVEL_0);
-		createDOMProperty(s, NAVIGATOR, "appName", Value.makeAnyStr(new Dependency()), DOMSpec.LEVEL_0);
-		createDOMProperty(s, NAVIGATOR, "appVersion", Value.makeAnyStr(new Dependency()), DOMSpec.LEVEL_0);
-		createDOMProperty(s, NAVIGATOR, "userAgent", Value.makeAnyStr(new Dependency()), DOMSpec.LEVEL_0);
+		createDOMProperty(s, NAVIGATOR, "product", Value.makeAnyStr(new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_0);
+		createDOMProperty(s, NAVIGATOR, "appName", Value.makeAnyStr(new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_0);
+		createDOMProperty(s, NAVIGATOR, "appVersion", Value.makeAnyStr(new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_0);
+		createDOMProperty(s, NAVIGATOR, "userAgent", Value.makeAnyStr(new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_0);
 
 		/**
 		 * WINDOW SCREEN object
 		 */
 		s.newObject(SCREEN);
-		createDOMInternalPrototype(s, SCREEN, Value.makeObject(InitialStateBuilder.OBJECT_PROTOTYPE, new Dependency()));
-		createDOMProperty(s, WINDOW, "screen", Value.makeObject(SCREEN, new Dependency()), DOMSpec.LEVEL_0);
+		createDOMInternalPrototype(s, SCREEN, Value.makeObject(InitialStateBuilder.OBJECT_PROTOTYPE, new Dependency(), new DependencyGraphReference()));
+		createDOMProperty(s, WINDOW, "screen", Value.makeObject(SCREEN, new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_0);
 		// Properties.
-		createDOMProperty(s, SCREEN, "availTop", Value.makeAnyNumUInt(new Dependency()), DOMSpec.LEVEL_0);
-		createDOMProperty(s, SCREEN, "availLeft", Value.makeAnyNumUInt(new Dependency()), DOMSpec.LEVEL_0);
-		createDOMProperty(s, SCREEN, "availHeight", Value.makeAnyNumUInt(new Dependency()), DOMSpec.LEVEL_0);
-		createDOMProperty(s, SCREEN, "availWidth", Value.makeAnyNumUInt(new Dependency()), DOMSpec.LEVEL_0);
-		createDOMProperty(s, SCREEN, "colorDepth", Value.makeAnyNumUInt(new Dependency()), DOMSpec.LEVEL_0);
-		createDOMProperty(s, SCREEN, "height", Value.makeAnyNumUInt(new Dependency()), DOMSpec.LEVEL_0);
-		createDOMProperty(s, SCREEN, "left", Value.makeAnyNumUInt(new Dependency()), DOMSpec.LEVEL_0);
-		createDOMProperty(s, SCREEN, "pixelDepth", Value.makeAnyNumUInt(new Dependency()), DOMSpec.LEVEL_0);
-		createDOMProperty(s, SCREEN, "top", Value.makeAnyNumUInt(new Dependency()), DOMSpec.LEVEL_0);
-		createDOMProperty(s, SCREEN, "width", Value.makeAnyNumUInt(new Dependency()), DOMSpec.LEVEL_0);
+		createDOMProperty(s, SCREEN, "availTop", Value.makeAnyNumUInt(new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_0);
+		createDOMProperty(s, SCREEN, "availLeft", Value.makeAnyNumUInt(new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_0);
+		createDOMProperty(s, SCREEN, "availHeight", Value.makeAnyNumUInt(new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_0);
+		createDOMProperty(s, SCREEN, "availWidth", Value.makeAnyNumUInt(new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_0);
+		createDOMProperty(s, SCREEN, "colorDepth", Value.makeAnyNumUInt(new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_0);
+		createDOMProperty(s, SCREEN, "height", Value.makeAnyNumUInt(new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_0);
+		createDOMProperty(s, SCREEN, "left", Value.makeAnyNumUInt(new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_0);
+		createDOMProperty(s, SCREEN, "pixelDepth", Value.makeAnyNumUInt(new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_0);
+		createDOMProperty(s, SCREEN, "top", Value.makeAnyNumUInt(new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_0);
+		createDOMProperty(s, SCREEN, "width", Value.makeAnyNumUInt(new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_0);
 	}
 
 	public static Value evaluate(DOMObjects nativeObject, final CallInfo call, State s, Solver.SolverInterface c) {
@@ -168,175 +169,175 @@ public class DOMWindow {
 		case WINDOW_ALERT: {
 			NativeFunctions.expectParameters(nativeObject, call, c, 1, 1);
 			Conversion.toString(NativeFunctions.readParameter(call, 0), c);
-			return Value.makeUndef(new Dependency());
+			return Value.makeUndef(new Dependency(), new DependencyGraphReference());
 		}
 		case WINDOW_ATOB: {
 			NativeFunctions.expectParameters(nativeObject, call, c, 1, 1);
 			Conversion.toString(NativeFunctions.readParameter(call, 0), c);
-			return Value.makeAnyStr(new Dependency());
+			return Value.makeAnyStr(new Dependency(), new DependencyGraphReference());
 		}
 		case WINDOW_BACK: {
 			NativeFunctions.expectParameters(nativeObject, call, c, 0, 0);
-			return Value.makeUndef(new Dependency());
+			return Value.makeUndef(new Dependency(), new DependencyGraphReference());
 		}
 		case WINDOW_BLUR: {
 			NativeFunctions.expectParameters(nativeObject, call, c, 0, 0);
-			return Value.makeUndef(new Dependency());
+			return Value.makeUndef(new Dependency(), new DependencyGraphReference());
 		}
 		case WINDOW_BTOA: {
 			NativeFunctions.expectParameters(nativeObject, call, c, 1, 1);
 			Conversion.toString(NativeFunctions.readParameter(call, 0), c);
-			return Value.makeAnyStr(new Dependency());
+			return Value.makeAnyStr(new Dependency(), new DependencyGraphReference());
 		}
 		case WINDOW_CLOSE: {
 			NativeFunctions.expectParameters(nativeObject, call, c, 0, 0);
-			return Value.makeUndef(new Dependency());
+			return Value.makeUndef(new Dependency(), new DependencyGraphReference());
 		}
 		case WINDOW_CLEAR_INTERVAL: {
 			NativeFunctions.expectParameters(nativeObject, call, c, 1, 1);
 			Conversion.toInteger(NativeFunctions.readParameter(call, 0), c);
 			// TODO: Fix Later: Event Handlers cannot be removed.
-			return Value.makeUndef(new Dependency());
+			return Value.makeUndef(new Dependency(), new DependencyGraphReference());
 		}
 		case WINDOW_CLEAR_TIMEOUT: {
 			NativeFunctions.expectParameters(nativeObject, call, c, 1, 1);
 			Conversion.toInteger(NativeFunctions.readParameter(call, 0), c);
 			// TODO: Fix Later: Event Handlers cannot be removed.
-			return Value.makeUndef(new Dependency());
+			return Value.makeUndef(new Dependency(), new DependencyGraphReference());
 		}
 		case WINDOW_CONFIRM: {
 			NativeFunctions.expectParameters(nativeObject, call, c, 1, 1);
 			Conversion.toString(NativeFunctions.readParameter(call, 0), c);
-			return Value.makeAnyBool(new Dependency());
+			return Value.makeAnyBool(new Dependency(), new DependencyGraphReference());
 		}
 		case WINDOW_ESCAPE: {
 			NativeFunctions.expectParameters(nativeObject, call, c, 1, 1);
 			Conversion.toString(NativeFunctions.readParameter(call, 0), c);
-			return Value.makeAnyStr(new Dependency());
+			return Value.makeAnyStr(new Dependency(), new DependencyGraphReference());
 		}
 		case WINDOW_FOCUS: {
 			NativeFunctions.expectParameters(nativeObject, call, c, 0, 0);
-			return Value.makeUndef(new Dependency());
+			return Value.makeUndef(new Dependency(), new DependencyGraphReference());
 		}
 		case WINDOW_FORWARD: {
 			NativeFunctions.expectParameters(nativeObject, call, c, 0, 0);
-			return Value.makeUndef(new Dependency());
+			return Value.makeUndef(new Dependency(), new DependencyGraphReference());
 		}
 		case WINDOW_HISTORY_BACK: {
 			NativeFunctions.expectParameters(nativeObject, call, c, 0, 0);
-			return Value.makeUndef(new Dependency());
+			return Value.makeUndef(new Dependency(), new DependencyGraphReference());
 		}
 		case WINDOW_HISTORY_FORWARD: {
 			NativeFunctions.expectParameters(nativeObject, call, c, 0, 0);
-			return Value.makeUndef(new Dependency());
+			return Value.makeUndef(new Dependency(), new DependencyGraphReference());
 		}
 		case WINDOW_HISTORY_GO: {
 			NativeFunctions.expectParameters(nativeObject, call, c, 1, 1);
 			Value v = Conversion.toNumber(call.getArg(0), c);
-			return Value.makeUndef(new Dependency());
+			return Value.makeUndef(new Dependency(), new DependencyGraphReference());
 		}
 		case WINDOW_HOME: {
 			NativeFunctions.expectParameters(nativeObject, call, c, 0, 0);
-			return Value.makeUndef(new Dependency());
+			return Value.makeUndef(new Dependency(), new DependencyGraphReference());
 		}
 		case WINDOW_LOCATION_ASSIGN: {
 			NativeFunctions.expectParameters(nativeObject, call, c, 1, 1);
 			Value url = Conversion.toString(call.getArg(0), c);
-			return Value.makeUndef(new Dependency());
+			return Value.makeUndef(new Dependency(), new DependencyGraphReference());
 		}
 		case WINDOW_LOCATION_RELOAD: {
 			NativeFunctions.expectParameters(nativeObject, call, c, 1, 1);
 			Value url = Conversion.toBoolean(call.getArg(0));
-			return Value.makeUndef(new Dependency());
+			return Value.makeUndef(new Dependency(), new DependencyGraphReference());
 		}
 		case WINDOW_LOCATION_REPLACE: {
 			NativeFunctions.expectParameters(nativeObject, call, c, 1, 1);
 			Value url = Conversion.toString(call.getArg(0), c);
-			return Value.makeUndef(new Dependency());
+			return Value.makeUndef(new Dependency(), new DependencyGraphReference());
 		}
 		case WINDOW_LOCATION_TOSTRING: {
 			NativeFunctions.expectParameters(nativeObject, call, c, 0, 0);
-			return Value.makeAnyStr(new Dependency());
+			return Value.makeAnyStr(new Dependency(), new DependencyGraphReference());
 		}
 		case WINDOW_MAXIMIZE: {
 			NativeFunctions.expectParameters(nativeObject, call, c, 0, 0);
-			return Value.makeUndef(new Dependency());
+			return Value.makeUndef(new Dependency(), new DependencyGraphReference());
 		}
 		case WINDOW_MINIMIZE: {
 			NativeFunctions.expectParameters(nativeObject, call, c, 0, 0);
-			return Value.makeUndef(new Dependency());
+			return Value.makeUndef(new Dependency(), new DependencyGraphReference());
 		}
 		case WINDOW_MOVEBY: {
 			NativeFunctions.expectParameters(nativeObject, call, c, 2, 2);
 			Conversion.toNumber(NativeFunctions.readParameter(call, 0), c);
 			Conversion.toNumber(NativeFunctions.readParameter(call, 1), c);
-			return Value.makeUndef(new Dependency());
+			return Value.makeUndef(new Dependency(), new DependencyGraphReference());
 		}
 		case WINDOW_MOVETO: {
 			NativeFunctions.expectParameters(nativeObject, call, c, 2, 2);
 			Conversion.toNumber(NativeFunctions.readParameter(call, 0), c);
 			Conversion.toNumber(NativeFunctions.readParameter(call, 1), c);
-			return Value.makeUndef(new Dependency());
+			return Value.makeUndef(new Dependency(), new DependencyGraphReference());
 		}
 		case WINDOW_OPEN: {
 			if (Options.isDebugEnabled()) {
 				System.out.println("WARNING: WINDOW_OPEN not supported");
 			}
-			return Value.makeObject(DOMWindow.WINDOW, new Dependency());
+			return Value.makeObject(DOMWindow.WINDOW, new Dependency(), new DependencyGraphReference());
 		}
 		case WINDOW_PRINT: {
 			NativeFunctions.expectParameters(nativeObject, call, c, 0, 0);
-			return Value.makeUndef(new Dependency());
+			return Value.makeUndef(new Dependency(), new DependencyGraphReference());
 		}
 		case WINDOW_PROMPT: {
 			NativeFunctions.expectParameters(nativeObject, call, c, 1, 2);
 			Conversion.toString(NativeFunctions.readParameter(call, 0), c);
 			Conversion.toString(NativeFunctions.readParameter(call, 1), c);
-			return Value.makeAnyStr(new Dependency());
+			return Value.makeAnyStr(new Dependency(), new DependencyGraphReference());
 		}
 		case WINDOW_RESIZEBY: {
 			NativeFunctions.expectParameters(nativeObject, call, c, 2, 2);
 			Conversion.toNumber(NativeFunctions.readParameter(call, 0), c);
 			Conversion.toNumber(NativeFunctions.readParameter(call, 1), c);
-			return Value.makeUndef(new Dependency());
+			return Value.makeUndef(new Dependency(), new DependencyGraphReference());
 		}
 		case WINDOW_RESIZETO: {
 			NativeFunctions.expectParameters(nativeObject, call, c, 2, 2);
 			Conversion.toNumber(NativeFunctions.readParameter(call, 0), c);
 			Conversion.toNumber(NativeFunctions.readParameter(call, 1), c);
-			return Value.makeUndef(new Dependency());
+			return Value.makeUndef(new Dependency(), new DependencyGraphReference());
 		}
 		case WINDOW_SCROLL: {
 			NativeFunctions.expectParameters(nativeObject, call, c, 2, 2);
 			Conversion.toNumber(NativeFunctions.readParameter(call, 0), c);
 			Conversion.toNumber(NativeFunctions.readParameter(call, 1), c);
-			return Value.makeUndef(new Dependency());
+			return Value.makeUndef(new Dependency(), new DependencyGraphReference());
 		}
 		case WINDOW_SCROLLBY: {
 			NativeFunctions.expectParameters(nativeObject, call, c, 2, 2);
 			Conversion.toNumber(NativeFunctions.readParameter(call, 0), c);
 			Conversion.toNumber(NativeFunctions.readParameter(call, 1), c);
-			return Value.makeUndef(new Dependency());
+			return Value.makeUndef(new Dependency(), new DependencyGraphReference());
 		}
 		case WINDOW_SCROLLBYLINES: {
 			NativeFunctions.expectParameters(nativeObject, call, c, 1, 1);
 			Conversion.toNumber(NativeFunctions.readParameter(call, 0), c);
-			return Value.makeUndef(new Dependency());
+			return Value.makeUndef(new Dependency(), new DependencyGraphReference());
 		}
 		case WINDOW_SCROLLBYPAGES: {
 			NativeFunctions.expectParameters(nativeObject, call, c, 1, 1);
 			Conversion.toNumber(NativeFunctions.readParameter(call, 0), c);
-			return Value.makeUndef(new Dependency());
+			return Value.makeUndef(new Dependency(), new DependencyGraphReference());
 		}
 		case WINDOW_SCROLLTO: {
 			NativeFunctions.expectParameters(nativeObject, call, c, 2, 2);
 			Conversion.toNumber(NativeFunctions.readParameter(call, 0), c);
 			Conversion.toNumber(NativeFunctions.readParameter(call, 1), c);
-			return Value.makeUndef(new Dependency());
+			return Value.makeUndef(new Dependency(), new DependencyGraphReference());
 		}
 		case WINDOW_STOP: {
 			s.setToBottom();
-			return Value.makeBottom(new Dependency());
+			return Value.makeBottom(new Dependency(), new DependencyGraphReference());
 		}
 		case WINDOW_SET_INTERVAL:
 		case WINDOW_SET_TIMEOUT: {
@@ -346,11 +347,11 @@ public class DOMWindow {
 			// Handle string lattice before passing to DOMFunctions.addTimeoutHandler
 			if (functionOrCode.isMaybeSingleStr()) {
 				// FIXME: only works if no parameters?!
-						// Hack, to get somewhat better precision (to handle cases where some writes 'foo(new Dependency())')
+						// Hack, to get somewhat better precision (to handle cases where some writes 'foo(new Dependency(), new DependencyGraphReference())')
 			String functionName = functionOrCode.getStr();
-			if (functionName.endsWith("(new Dependency())")) {
+			if (functionName.endsWith("(new Dependency(), new DependencyGraphReference())")) {
 				functionName = functionName.substring(0, functionName.length() - 2);
-			} else if (functionName.endsWith("(new Dependency());")) {
+			} else if (functionName.endsWith("(new Dependency(), new DependencyGraphReference());")) {
 				functionName = functionName.substring(0, functionName.length() - 3);
 			}
 
@@ -358,7 +359,7 @@ public class DOMWindow {
 			if (f != null) {
 				// We got lucky, found a matching function
 				s.addTimeoutHandler(new ObjectLabel(f));
-				return Value.makeAnyNumUInt(new Dependency());
+				return Value.makeAnyNumUInt(new Dependency(), new DependencyGraphReference());
 			}
 			throw new UnsupportedOperationException("setInterval/setTimeout expects an existing function with no arguments as argument.");
 			} else if (functionOrCode.isMaybeAnyStr()) {
@@ -366,12 +367,12 @@ public class DOMWindow {
 			}
 
 			DOMEvents.addTimeoutEventHandler(s, functionOrCode, c);
-			return Value.makeAnyNumUInt(new Dependency());
+			return Value.makeAnyNumUInt(new Dependency(), new DependencyGraphReference());
 		}
 		case WINDOW_UNESCAPE: {
 			NativeFunctions.expectParameters(nativeObject, call, c, 1, 1);
 			Conversion.toString(NativeFunctions.readParameter(call, 0), c);
-			return Value.makeAnyStr(new Dependency());
+			return Value.makeAnyStr(new Dependency(), new DependencyGraphReference());
 		}
 		default: {
 			throw new RuntimeException("Unsupported Native Object: " + nativeObject);

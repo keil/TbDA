@@ -7,6 +7,7 @@ import dk.brics.tajs.analysis.Solver;
 import dk.brics.tajs.analysis.State;
 import dk.brics.tajs.analysis.FunctionCalls.CallInfo;
 import dk.brics.tajs.dependency.Dependency;
+import dk.brics.tajs.dependency.graph.DependencyGraphReference;
 import dk.brics.tajs.dependency.graph.DependencyNode;
 import dk.brics.tajs.dependency.graph.Label;
 import dk.brics.tajs.dependency.graph.nodes.DependencyExpressionNode;
@@ -27,7 +28,7 @@ public class JSString {
 	public static Value evaluate(ECMAScriptObjects nativeobject, CallInfo call, State state, Solver.SolverInterface c) {
 		if (nativeobject != ECMAScriptObjects.STRING)
 			if (NativeFunctions.throwTypeErrorIfConstructor(call, state, c))
-				return Value.makeBottom(new Dependency());
+				return Value.makeBottom(new Dependency(), new DependencyGraphReference());
 
 		switch (nativeobject) {
 
@@ -45,7 +46,7 @@ public class JSString {
 			if (call.isUnknownNumberOfArgs())
 				s = Conversion.toString(NativeFunctions.readParameter(call, 0), c).joinStr("");
 			else
-				s = call.getNumberOfArgs() >= 1 ? Conversion.toString(NativeFunctions.readParameter(call, 0), c) : Value.makeStr("", dependency);
+				s = call.getNumberOfArgs() >= 1 ? Conversion.toString(NativeFunctions.readParameter(call, 0), c) : Value.makeStr("", dependency, node.getReference());
 
 			// ##################################################
 			dependency.join(s.getDependency());
@@ -59,12 +60,12 @@ public class JSString {
 				ObjectLabel objlabel = new ObjectLabel(call.getSourceNode(), Kind.STRING);
 				state.newObject(objlabel);
 				state.writeInternalValue(objlabel, s);
-				state.writeInternalPrototype(objlabel, Value.makeObject(InitialStateBuilder.STRING_PROTOTYPE, dependency).joinDependencyGraphReference(node));
-				Value len = s.isMaybeSingleStr() ? Value.makeNum(s.getStr().length(), s.getDependency()).joinDependencyGraphReference(node) : Value.makeAnyNumUInt(dependency).joinDependencyGraphReference(node);
+				state.writeInternalPrototype(objlabel, Value.makeObject(InitialStateBuilder.STRING_PROTOTYPE, dependency, node.getReference()));
+				Value len = s.isMaybeSingleStr() ? Value.makeNum(s.getStr().length(), s.getDependency(), node.getReference()) : Value.makeAnyNumUInt(dependency, node.getReference());
 				state.writeSpecialProperty(objlabel, "length", len.setAttributes(true, true, true));
-				return Value.makeObject(objlabel, dependency).joinDependencyGraphReference(node);
+				return Value.makeObject(objlabel, dependency, node.getReference());
 			} else // 15.5.1
-				return s.joinDependencyGraphReference(node);
+				return s;
 		}
 
 		case STRING_FROMCHARCODE: { // 15.5.3.2
@@ -77,7 +78,7 @@ public class JSString {
 			// ==================================================
 			
 			if (call.isUnknownNumberOfArgs())
-				return Value.makeAnyStr(dependency);
+				return Value.makeAnyStr(dependency, node.getReference());
 			StringBuilder b = new StringBuilder(call.getNumberOfArgs());
 			for (int i = 0; i < call.getNumberOfArgs(); i++) {
 				Value v = Conversion.toNumber(call.getArg(i), c);
@@ -94,9 +95,9 @@ public class JSString {
 					long codepoint = Conversion.toUInt16(v.getNum());
 					b.append((char)codepoint);
 				} else
-					return Value.makeAnyStr(dependency);
+					return Value.makeAnyStr(dependency, node.getReference());
 			}
-			return Value.makeStr(b.toString(), dependency);
+			return Value.makeStr(b.toString(), dependency, node.getReference());
 		}
 					
 		case STRING_TOSTRING: // 15.5.4.2
@@ -121,7 +122,7 @@ public class JSString {
 			// ==================================================
 			
 			if (NativeFunctions.throwTypeErrorIfWrongKindOfThis(nativeobject, call, state, c, Kind.STRING))
-				return Value.makeBottom(dependency);
+				return Value.makeBottom(dependency, node.getReference());
 			return state.readInternalValue(state.readThisObjects());
 		}
 
@@ -136,7 +137,7 @@ public class JSString {
 			// ==================================================
 			
 			NativeFunctions.expectParameters(nativeobject, call, c, 1, 1);
-			Value receiver = Conversion.toString(Value.makeObject(state.readThisObjects(), dependency), c);
+			Value receiver = Conversion.toString(Value.makeObject(state.readThisObjects(), dependency, node.getReference()), c);
 			Value str = Conversion.toString(receiver, c);
 			Value pos = Conversion.toInteger(call.getArg(0), c);
 			
@@ -158,17 +159,17 @@ public class JSString {
 				try {
 					char ch = s.charAt((int)Math.round(p));
 					if (nativeobject == ECMAScriptObjects.STRING_CHARAT)
-						return Value.makeStr(new String(new char[]{ch}), dependency);
+						return Value.makeStr(new String(new char[]{ch}), dependency, node.getReference());
 					else
-						return Value.makeNum(ch, dependency);
+						return Value.makeNum(ch, dependency, node.getReference());
 				} catch (IndexOutOfBoundsException e) {
 					if (nativeobject == ECMAScriptObjects.STRING_CHARAT)
-						return Value.makeStr("", dependency);
+						return Value.makeStr("", dependency, node.getReference());
 					else
-						return Value.makeNum(Double.NaN, dependency);
+						return Value.makeNum(Double.NaN, dependency, node.getReference());
 				}
 			} else
-				return Value.makeAnyStr(dependency);
+				return Value.makeAnyStr(dependency, node.getReference());
 		}
 			
 		case STRING_CONCAT: { // 15.5.4.6
@@ -192,19 +193,19 @@ public class JSString {
 		
 			// return Value.makeAnyStr(); // TODO: improve precision?
 			if (call.isUnknownNumberOfArgs())
-				return Value.makeAnyStr(dependency);
+				return Value.makeAnyStr(dependency, node.getReference());
 			String r = "";
 			for (int i = 0; i < call.getNumberOfArgs(); i++) {
 				Value argi = Conversion.toString(call.getArg(i),c);
 				dependency.join(call.getArg(i).getDependency());
 				
 				if (argi.isMaybeAnyStr())
-					return Value.makeAnyStr(dependency);
+					return Value.makeAnyStr(dependency, node.getReference());
 				if (argi.isNoValue()) 
-					return Value.makeBottom(dependency);
+					return Value.makeBottom(dependency, node.getReference());
 				r = r + argi.getStr();
 			}
-			return Value.makeStr(r, dependency);
+			return Value.makeStr(r, dependency, node.getReference());
 		}
 					
 		case STRING_INDEXOF: // 15.5.4.7
@@ -249,7 +250,7 @@ public class JSString {
 				// ==================================================
 			}
 			
-			return Value.makeAnyNumNotNaNInf(dependency); // TODO: improve precision?
+			return Value.makeAnyNumNotNaNInf(dependency, node.getReference()); // TODO: improve precision?
 
 			
 //			Value vthis = Conversion.toString(Value.makeObject(call.getThis(state)),c);
@@ -311,7 +312,7 @@ public class JSString {
 			node.addParent(call.getArg(0));
 			// ==================================================
 
-			return Value.makeAnyNum(dependency); // TODO: improve precision?
+			return Value.makeAnyNum(dependency, node.getReference()); // TODO: improve precision?
 		}
 					
 		case STRING_MATCH: { // 15.5.4.10 (see REGEXP_EXEC)
@@ -338,12 +339,12 @@ public class JSString {
 			
 			ObjectLabel objlabel = new ObjectLabel(call.getSourceNode(), Kind.ARRAY);
 			state.newObject(objlabel);
-			Value res = Value.makeObject(objlabel, dependency);
-			state.writeInternalPrototype(objlabel, Value.makeObject(InitialStateBuilder.ARRAY_PROTOTYPE, dependency));
-			state.writeUnknownArrayProperty(objlabel, Value.makeAnyStr(dependency).joinAbsent());
-			state.writeSpecialProperty(objlabel, "length", Value.makeAnyNumUInt(dependency).setAttributes(true, true, false));
-			state.writeProperty(objlabel, "index", Value.makeAnyNumUInt(dependency));
-			state.writeProperty(objlabel, "input", Value.makeAnyStr(dependency)); // TODO: improve precision?
+			Value res = Value.makeObject(objlabel, dependency, node.getReference());
+			state.writeInternalPrototype(objlabel, Value.makeObject(InitialStateBuilder.ARRAY_PROTOTYPE, dependency, node.getReference()));
+			state.writeUnknownArrayProperty(objlabel, Value.makeAnyStr(dependency, node.getReference()).joinAbsent());
+			state.writeSpecialProperty(objlabel, "length", Value.makeAnyNumUInt(dependency, node.getReference()).setAttributes(true, true, false));
+			state.writeProperty(objlabel, "index", Value.makeAnyNumUInt(dependency, node.getReference()));
+			state.writeProperty(objlabel, "input", Value.makeAnyStr(dependency, node.getReference())); // TODO: improve precision?
 			return res.joinNull();
 		}
 					
@@ -372,7 +373,7 @@ public class JSString {
 			// ==================================================
 			
 			// FIXME: if second param to 'replace' is a function, it may be called, even several times!
-			return Value.makeAnyStr(dependency); // complicated regexp stuff
+			return Value.makeAnyStr(dependency, node.getReference()); // complicated regexp stuff
 		}
 
 		case STRING_SEARCH: { // 15.5.4.12
@@ -397,7 +398,7 @@ public class JSString {
 			node.addParent(call.getArg(1));
 			// ==================================================
 			
-			return Value.makeAnyNumNotNaNInf(dependency); // TODO: improve precision?
+			return Value.makeAnyNumNotNaNInf(dependency, node.getReference()); // TODO: improve precision?
 		}
 		
 		case STRING_SLICE: { // 15.5.4.13
@@ -441,7 +442,7 @@ public class JSString {
 				// ==================================================
 			}
 			
-			return Value.makeAnyStr(dependency); // TODO: improve precision?
+			return Value.makeAnyStr(dependency, node.getReference()); // TODO: improve precision?
 //			NativeFunctions.expectParameters(nativeobject, call, c, 2, 2);
 //			Value vthis = Conversion.toString(Value.makeObject(call.getThis(state)),c);
 //			if (vthis.isMaybeAnyStr() || call.isUnknownNumberOfArgs())
@@ -507,10 +508,10 @@ public class JSString {
 			
 			ObjectLabel aobj = new ObjectLabel(call.getSourceNode(), Kind.ARRAY);
 			state.newObject(aobj);
-			state.writeInternalPrototype(aobj, Value.makeObject(InitialStateBuilder.ARRAY_PROTOTYPE, dependency));
-			state.writeUnknownArrayProperty(aobj, Value.makeAnyStr(dependency));
-			state.writeSpecialProperty(aobj, "length", Value.makeAnyNumUInt(dependency).setAttributes(true, true, false));
-			return Value.makeObject(aobj, dependency); // TODO: improve precision?		
+			state.writeInternalPrototype(aobj, Value.makeObject(InitialStateBuilder.ARRAY_PROTOTYPE, dependency, node.getReference()));
+			state.writeUnknownArrayProperty(aobj, Value.makeAnyStr(dependency, node.getReference()));
+			state.writeSpecialProperty(aobj, "length", Value.makeAnyNumUInt(dependency, node.getReference()).setAttributes(true, true, false));
+			return Value.makeObject(aobj, dependency, node.getReference()); // TODO: improve precision?		
 		}
 
 		case STRING_SUBSTRING: { // 15.5.4.15
@@ -555,7 +556,7 @@ public class JSString {
 			node.addParent(vthisstring);
 			// ==================================================
 			
-			return Value.makeAnyStr(dependency); // TODO: improve precision?
+			return Value.makeAnyStr(dependency, node.getReference()); // TODO: improve precision?
 //			NativeFunctions.expectParameters(nativeobject, call, c, 2, 2);
 //			Value vthisStr = Conversion.toString(Value.makeObject(call.getThis(state)),c);
 //			if (vthisStr.isMaybeAnyStr() || call.isUnknownNumberOfArgs())
@@ -602,11 +603,11 @@ public class JSString {
 				String sthis = vthisstring.getStr();
 				if (nativeobject.equals(ECMAScriptObjects.STRING_TOLOWERCASE)
 						|| nativeobject.equals(ECMAScriptObjects.STRING_TOLOCALELOWERCASE))
-					return Value.makeStr(sthis.toLowerCase(), dependency);
+					return Value.makeStr(sthis.toLowerCase(), dependency, node.getReference());
 				else
-					return Value.makeStr(sthis.toUpperCase(), dependency);
+					return Value.makeStr(sthis.toUpperCase(), dependency, node.getReference());
 			} else
-				return Value.makeAnyStr(dependency);
+				return Value.makeAnyStr(dependency, node.getReference());
 		}
 
 		case STRING_TOLOCALELOWERCASE: // 15.5.4.17
@@ -630,7 +631,7 @@ public class JSString {
 			node.addParent(vthisstring);
 			// ==================================================
 			
-			return Value.makeAnyStr(dependency);
+			return Value.makeAnyStr(dependency, node.getReference());
 		}
 		
 		case STRING_SUBSTR: { // B.2.3
@@ -671,7 +672,7 @@ public class JSString {
 				// ==================================================
 			}
 			
-			return Value.makeAnyStr(dependency); // TODO: improve precision?
+			return Value.makeAnyStr(dependency, node.getReference()); // TODO: improve precision?
 		}
 		
 		default:

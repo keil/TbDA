@@ -4,6 +4,7 @@ import dk.brics.tajs.analysis.*;
 import dk.brics.tajs.analysis.dom.*;
 import dk.brics.tajs.analysis.dom.core.DOMNode;
 import dk.brics.tajs.dependency.Dependency;
+import dk.brics.tajs.dependency.graph.DependencyGraphReference;
 import dk.brics.tajs.lattice.Value;
 import dk.brics.tajs.options.Options;
 
@@ -57,7 +58,7 @@ public class EventTarget {
 			} else {
 				DOMEvents.addUnknownEventHandler(s, function, c);
 			}
-			return Value.makeUndef(new Dependency());
+			return Value.makeUndef(new Dependency(), new DependencyGraphReference());
 		}
 		case EVENT_TARGET_REMOVE_EVENT_LISTENER:
 		case WINDOW_REMOVE_EVENT_LISTENER: {
@@ -73,14 +74,14 @@ public class EventTarget {
 					System.out.println("WARN: EVENT_TARGET_REMOVE_EVENT_LISTENER not implemented.");
 				}
 			}
-			return Value.makeUndef(new Dependency());
+			return Value.makeUndef(new Dependency(), new DependencyGraphReference());
 		}
 		case EVENT_TARGET_DISPATCH_EVENT: {
 			NativeFunctions.expectParameters(nativeObject, call, c, 1, 1);
 			if (Options.isDebugEnabled()) {
 				System.out.println("WARN: EVENT_TARGET_DISPATCH_EVENT not implemented.");
 			}
-			return Value.makeUndef(new Dependency());
+			return Value.makeUndef(new Dependency(), new DependencyGraphReference());
 		}
 		default: {
 			throw new RuntimeException("Unsupported Native Object: " + nativeObject);

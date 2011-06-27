@@ -5,6 +5,7 @@ import dk.brics.tajs.analysis.dom.DOMObjects;
 import dk.brics.tajs.analysis.dom.DOMSpec;
 import dk.brics.tajs.analysis.dom.DOMWindow;
 import dk.brics.tajs.dependency.Dependency;
+import dk.brics.tajs.dependency.graph.DependencyGraphReference;
 import dk.brics.tajs.flowgraph.ObjectLabel;
 import dk.brics.tajs.lattice.Value;
 
@@ -19,20 +20,20 @@ public class HTMLOListElement {
 	public static void build(State s) {
 		// Prototype Object
 		s.newObject(OLIST_PROTOTYPE);
-		createDOMInternalPrototype(s, OLIST_PROTOTYPE, Value.makeObject(HTMLElement.ELEMENT_PROTOTYPE, new Dependency()));
+		createDOMInternalPrototype(s, OLIST_PROTOTYPE, Value.makeObject(HTMLElement.ELEMENT_PROTOTYPE, new Dependency(), new DependencyGraphReference()));
 
 		// Multiplied Object
 		s.newObject(OLIST);
-		createDOMInternalPrototype(s, OLIST, Value.makeObject(OLIST_PROTOTYPE, new Dependency()));
-		createDOMProperty(s, DOMWindow.WINDOW, "HTMLOListElement", Value.makeObject(OLIST, new Dependency()));
+		createDOMInternalPrototype(s, OLIST, Value.makeObject(OLIST_PROTOTYPE, new Dependency(), new DependencyGraphReference()));
+		createDOMProperty(s, DOMWindow.WINDOW, "HTMLOListElement", Value.makeObject(OLIST, new Dependency(), new DependencyGraphReference()));
 
 		/*
 		 * Properties.
 		 */
 		// DOM Level 1
-		createDOMProperty(s, OLIST, "compact", Value.makeAnyBool(new Dependency()), DOMSpec.LEVEL_1);
-		createDOMProperty(s, OLIST, "start", Value.makeAnyNum(new Dependency()), DOMSpec.LEVEL_1);
-		createDOMProperty(s, OLIST, "type", Value.makeAnyStr(new Dependency()), DOMSpec.LEVEL_1);
+		createDOMProperty(s, OLIST, "compact", Value.makeAnyBool(new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_1);
+		createDOMProperty(s, OLIST, "start", Value.makeAnyNum(new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_1);
+		createDOMProperty(s, OLIST, "type", Value.makeAnyStr(new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_1);
 
 		s.multiplyObject(OLIST);
 		OLIST = OLIST.makeSingleton().makeSummary();

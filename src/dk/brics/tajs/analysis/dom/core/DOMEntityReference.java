@@ -4,6 +4,7 @@ import dk.brics.tajs.analysis.State;
 import dk.brics.tajs.analysis.dom.DOMObjects;
 import dk.brics.tajs.analysis.dom.DOMWindow;
 import dk.brics.tajs.dependency.Dependency;
+import dk.brics.tajs.dependency.graph.DependencyGraphReference;
 import dk.brics.tajs.flowgraph.ObjectLabel;
 import dk.brics.tajs.lattice.Value;
 
@@ -24,12 +25,12 @@ public class DOMEntityReference {
 	public static void build(State s) {
 		// Prototype object.
 		s.newObject(ENTITYREFERENCE_PROTOTYPE);
-		createDOMInternalPrototype(s, ENTITYREFERENCE_PROTOTYPE, Value.makeObject(DOMNode.NODE_PROTOTYPE, new Dependency()));
+		createDOMInternalPrototype(s, ENTITYREFERENCE_PROTOTYPE, Value.makeObject(DOMNode.NODE_PROTOTYPE, new Dependency(), new DependencyGraphReference()));
 
 		// Multiplied object.
 		s.newObject(ENTITYREFERENCE);
-		createDOMInternalPrototype(s, ENTITYREFERENCE, Value.makeObject(ENTITYREFERENCE_PROTOTYPE, new Dependency()));
-		createDOMProperty(s, DOMWindow.WINDOW, "EntityReference", Value.makeObject(ENTITYREFERENCE, new Dependency()));
+		createDOMInternalPrototype(s, ENTITYREFERENCE, Value.makeObject(ENTITYREFERENCE_PROTOTYPE, new Dependency(), new DependencyGraphReference()));
+		createDOMProperty(s, DOMWindow.WINDOW, "EntityReference", Value.makeObject(ENTITYREFERENCE, new Dependency(), new DependencyGraphReference()));
 		s.multiplyObject(ENTITYREFERENCE);
 		ENTITYREFERENCE = ENTITYREFERENCE.makeSingleton().makeSummary();
 

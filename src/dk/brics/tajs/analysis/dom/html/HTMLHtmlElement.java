@@ -5,6 +5,7 @@ import dk.brics.tajs.analysis.dom.DOMObjects;
 import dk.brics.tajs.analysis.dom.DOMSpec;
 import dk.brics.tajs.analysis.dom.DOMWindow;
 import dk.brics.tajs.dependency.Dependency;
+import dk.brics.tajs.dependency.graph.DependencyGraphReference;
 import dk.brics.tajs.flowgraph.ObjectLabel;
 import dk.brics.tajs.lattice.Value;
 
@@ -22,22 +23,22 @@ public class HTMLHtmlElement {
 	public static void build(State s) {
 		// Prototype Object
 		s.newObject(HTML_PROTOTYPE);
-		createDOMInternalPrototype(s, HTML_PROTOTYPE, Value.makeObject(HTMLElement.ELEMENT_PROTOTYPE, new Dependency()));
+		createDOMInternalPrototype(s, HTML_PROTOTYPE, Value.makeObject(HTMLElement.ELEMENT_PROTOTYPE, new Dependency(), new DependencyGraphReference()));
 
 		// Multiplied Object
 		s.newObject(HTML);
-		createDOMInternalPrototype(s, HTML, Value.makeObject(HTML_PROTOTYPE, new Dependency()));
-		createDOMProperty(s, DOMWindow.WINDOW, "HTMLHtmlElement", Value.makeObject(HTML, new Dependency()));
+		createDOMInternalPrototype(s, HTML, Value.makeObject(HTML_PROTOTYPE, new Dependency(), new DependencyGraphReference()));
+		createDOMProperty(s, DOMWindow.WINDOW, "HTMLHtmlElement", Value.makeObject(HTML, new Dependency(), new DependencyGraphReference()));
 
 		/*
 		 * Properties.
 		 */
 		// DOM Level 0
-		createDOMProperty(s, HTML, "clientWidth", Value.makeAnyStr(new Dependency()), DOMSpec.LEVEL_0);
-		createDOMProperty(s, HTML, "clientHeight", Value.makeAnyStr(new Dependency()), DOMSpec.LEVEL_0);
+		createDOMProperty(s, HTML, "clientWidth", Value.makeAnyStr(new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_0);
+		createDOMProperty(s, HTML, "clientHeight", Value.makeAnyStr(new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_0);
 
 		// DOM Level 1
-		createDOMProperty(s, HTML, "version", Value.makeAnyStr(new Dependency()), DOMSpec.LEVEL_1);
+		createDOMProperty(s, HTML, "version", Value.makeAnyStr(new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_1);
 
 		s.multiplyObject(HTML);
 		HTML = HTML.makeSingleton().makeSummary();

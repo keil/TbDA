@@ -7,6 +7,7 @@ import dk.brics.tajs.analysis.dom.DOMSpec;
 import dk.brics.tajs.analysis.dom.DOMWindow;
 import dk.brics.tajs.analysis.dom.core.DOMDocument;
 import dk.brics.tajs.dependency.Dependency;
+import dk.brics.tajs.dependency.graph.DependencyGraphReference;
 import dk.brics.tajs.flowgraph.ObjectLabel;
 import dk.brics.tajs.lattice.Value;
 
@@ -30,32 +31,32 @@ public class HTMLDocument {
 	public static void build(State s) {
 		// Prototype Object
 		s.newObject(DOCUMENT_PROTOTYPE);
-		createDOMInternalPrototype(s, DOCUMENT_PROTOTYPE, Value.makeObject(DOMDocument.DOCUMENT, new Dependency()));
+		createDOMInternalPrototype(s, DOCUMENT_PROTOTYPE, Value.makeObject(DOMDocument.DOCUMENT, new Dependency(), new DependencyGraphReference()));
 
 		// Multiplied Object
 		s.newObject(DOCUMENT);
-		createDOMInternalPrototype(s, DOCUMENT, Value.makeObject(DOCUMENT_PROTOTYPE, new Dependency()));
-		createDOMProperty(s, DOMWindow.WINDOW, "HTMLDocument", Value.makeObject(DOCUMENT, new Dependency()));
+		createDOMInternalPrototype(s, DOCUMENT, Value.makeObject(DOCUMENT_PROTOTYPE, new Dependency(), new DependencyGraphReference()));
+		createDOMProperty(s, DOMWindow.WINDOW, "HTMLDocument", Value.makeObject(DOCUMENT, new Dependency(), new DependencyGraphReference()));
 
 		/*
 		 * Properties.
 		 */
 		// DOM Level 1
-		createDOMProperty(s, DOCUMENT, "title", Value.makeAnyStr(new Dependency()), DOMSpec.LEVEL_1);
-		createDOMProperty(s, DOCUMENT, "referrer", Value.makeAnyStr(new Dependency()).setReadOnly(), DOMSpec.LEVEL_1);
-		createDOMProperty(s, DOCUMENT, "domain", Value.makeAnyStr(new Dependency()).setReadOnly(), DOMSpec.LEVEL_1);
-		createDOMProperty(s, DOCUMENT, "URL", Value.makeAnyStr(new Dependency()).setReadOnly(), DOMSpec.LEVEL_1);
-		createDOMProperty(s, DOCUMENT, "body", Value.makeObject(HTMLBodyElement.BODY, new Dependency()), DOMSpec.LEVEL_1);
-		createDOMProperty(s, DOCUMENT, "images", Value.makeObject(HTMLCollection.COLLECTION, new Dependency()).setReadOnly(), DOMSpec.LEVEL_1);
-		createDOMProperty(s, DOCUMENT, "applets", Value.makeObject(HTMLCollection.COLLECTION, new Dependency()).setReadOnly(), DOMSpec.LEVEL_1);
-		createDOMProperty(s, DOCUMENT, "links", Value.makeObject(HTMLCollection.COLLECTION, new Dependency()).setReadOnly(), DOMSpec.LEVEL_1);
-		createDOMProperty(s, DOCUMENT, "forms", Value.makeObject(HTMLCollection.COLLECTION, new Dependency()).setReadOnly(), DOMSpec.LEVEL_1);
-		createDOMProperty(s, DOCUMENT, "anchors", Value.makeObject(HTMLCollection.COLLECTION, new Dependency()).setReadOnly(), DOMSpec.LEVEL_1);
-		createDOMProperty(s, DOCUMENT, "cookie", Value.makeAnyStr(new Dependency()), DOMSpec.LEVEL_1);
+		createDOMProperty(s, DOCUMENT, "title", Value.makeAnyStr(new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_1);
+		createDOMProperty(s, DOCUMENT, "referrer", Value.makeAnyStr(new Dependency(), new DependencyGraphReference()).setReadOnly(), DOMSpec.LEVEL_1);
+		createDOMProperty(s, DOCUMENT, "domain", Value.makeAnyStr(new Dependency(), new DependencyGraphReference()).setReadOnly(), DOMSpec.LEVEL_1);
+		createDOMProperty(s, DOCUMENT, "URL", Value.makeAnyStr(new Dependency(), new DependencyGraphReference()).setReadOnly(), DOMSpec.LEVEL_1);
+		createDOMProperty(s, DOCUMENT, "body", Value.makeObject(HTMLBodyElement.BODY, new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_1);
+		createDOMProperty(s, DOCUMENT, "images", Value.makeObject(HTMLCollection.COLLECTION, new Dependency(), new DependencyGraphReference()).setReadOnly(), DOMSpec.LEVEL_1);
+		createDOMProperty(s, DOCUMENT, "applets", Value.makeObject(HTMLCollection.COLLECTION, new Dependency(), new DependencyGraphReference()).setReadOnly(), DOMSpec.LEVEL_1);
+		createDOMProperty(s, DOCUMENT, "links", Value.makeObject(HTMLCollection.COLLECTION, new Dependency(), new DependencyGraphReference()).setReadOnly(), DOMSpec.LEVEL_1);
+		createDOMProperty(s, DOCUMENT, "forms", Value.makeObject(HTMLCollection.COLLECTION, new Dependency(), new DependencyGraphReference()).setReadOnly(), DOMSpec.LEVEL_1);
+		createDOMProperty(s, DOCUMENT, "anchors", Value.makeObject(HTMLCollection.COLLECTION, new Dependency(), new DependencyGraphReference()).setReadOnly(), DOMSpec.LEVEL_1);
+		createDOMProperty(s, DOCUMENT, "cookie", Value.makeAnyStr(new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_1);
 
 		// DOM LEVEL 0 / UNKNOWN
-		createDOMProperty(s, DOCUMENT, "width", Value.makeAnyNumUInt(new Dependency()), DOMSpec.LEVEL_0);
-		createDOMProperty(s, DOCUMENT, "height", Value.makeAnyNumUInt(new Dependency()), DOMSpec.LEVEL_0);
+		createDOMProperty(s, DOCUMENT, "width", Value.makeAnyNumUInt(new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_0);
+		createDOMProperty(s, DOCUMENT, "height", Value.makeAnyNumUInt(new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_0);
 
 		s.multiplyObject(DOCUMENT);
 		DOCUMENT = DOCUMENT.makeSingleton().makeSummary();
@@ -79,46 +80,46 @@ public class HTMLDocument {
 		switch (nativeObject) {
 		case HTMLDOCUMENT_OPEN: {
 			NativeFunctions.expectParameters(nativeObject, call, c, 0, 0);
-			return Value.makeUndef(new Dependency());
+			return Value.makeUndef(new Dependency(), new DependencyGraphReference());
 		}
 		case HTMLDOCUMENT_CLOSE: {
 			NativeFunctions.expectParameters(nativeObject, call, c, 0, 0);
-			return Value.makeUndef(new Dependency());
+			return Value.makeUndef(new Dependency(), new DependencyGraphReference());
 		}
 		case HTMLDOCUMENT_WRITE: {
 			NativeFunctions.expectParameters(nativeObject, call, c, 1, 1);
 			Conversion.toString(NativeFunctions.readParameter(call, 0), c);
-			return Value.makeUndef(new Dependency());
+			return Value.makeUndef(new Dependency(), new DependencyGraphReference());
 		}
 		case HTMLDOCUMENT_WRITELN: {
 			NativeFunctions.expectParameters(nativeObject, call, c, 1, 1);
 			Conversion.toString(NativeFunctions.readParameter(call, 0), c);
-			return Value.makeUndef(new Dependency());
+			return Value.makeUndef(new Dependency(), new DependencyGraphReference());
 		}
 		case HTMLDOCUMENT_GET_ELEMENTS_BY_NAME: {
 			NativeFunctions.expectParameters(nativeObject, call, c, 1, 1);
 			Value name = Conversion.toString(call.getArg(0), c);
 			if (name.isMaybeSingleStr()) {
 				Set<ObjectLabel> labels = s.getElementsByName(name.getStr());
-				Value v = Value.makeObject(labels, new Dependency());
+				Value v = Value.makeObject(labels, new Dependency(), new DependencyGraphReference());
 				ObjectLabel nodeList = DOMFunctions.makeEmptyNodeList(s);
 				if (labels.size() > 0) {
 					s.writeUnknownArrayProperty(nodeList, v);
 				}
-				return Value.makeObject(nodeList, new Dependency());
+				return Value.makeObject(nodeList, new Dependency(), new DependencyGraphReference());
 			} else if (name.isMaybeFuzzyStr()) {
 				Set<ObjectLabel> labels = s.getAllElementsByName();
-				Value v = Value.makeObject(labels, new Dependency());
+				Value v = Value.makeObject(labels, new Dependency(), new DependencyGraphReference());
 				ObjectLabel nodeList = DOMFunctions.makeEmptyNodeList(s);
 				if (labels.size() > 0) {
 					s.writeUnknownArrayProperty(nodeList, v);
 				}
-				return Value.makeObject(nodeList, new Dependency());
+				return Value.makeObject(nodeList, new Dependency(), new DependencyGraphReference());
 			} else {
-				Value v = Value.makeObject(DOMFunctions.makeAnyHTMLElement().getObjectLabels(), new Dependency());
+				Value v = Value.makeObject(DOMFunctions.makeAnyHTMLElement().getObjectLabels(), new Dependency(), new DependencyGraphReference());
 				ObjectLabel nodeList = DOMFunctions.makeEmptyNodeList(s);
 				s.writeUnknownArrayProperty(nodeList, v);
-				return Value.makeObject(nodeList, new Dependency());
+				return Value.makeObject(nodeList, new Dependency(), new DependencyGraphReference());
 			}
 		}
 		case HTMLDOCUMENT_GET_ELEMENTS_BY_CLASS_NAME: {

@@ -5,6 +5,7 @@ import dk.brics.tajs.analysis.dom.DOMObjects;
 import dk.brics.tajs.analysis.dom.DOMSpec;
 import dk.brics.tajs.analysis.dom.DOMWindow;
 import dk.brics.tajs.dependency.Dependency;
+import dk.brics.tajs.dependency.graph.DependencyGraphReference;
 import dk.brics.tajs.flowgraph.ObjectLabel;
 import dk.brics.tajs.lattice.Value;
 
@@ -29,26 +30,26 @@ public class DOMAttr {
 	public static void build(State s) {
 		// Prototype object.
 		s.newObject(ATTR_PROTOTYPE);
-		createDOMInternalPrototype(s, ATTR_PROTOTYPE, Value.makeObject(DOMNode.NODE_PROTOTYPE, new Dependency()));
+		createDOMInternalPrototype(s, ATTR_PROTOTYPE, Value.makeObject(DOMNode.NODE_PROTOTYPE, new Dependency(), new DependencyGraphReference()));
 
 		// Multiplied object.
 		s.newObject(ATTR);
-		createDOMInternalPrototype(s, ATTR, Value.makeObject(ATTR_PROTOTYPE, new Dependency()));
-		createDOMProperty(s, DOMWindow.WINDOW, "Attr", Value.makeObject(ATTR, new Dependency()));
+		createDOMInternalPrototype(s, ATTR, Value.makeObject(ATTR_PROTOTYPE, new Dependency(), new DependencyGraphReference()));
+		createDOMProperty(s, DOMWindow.WINDOW, "Attr", Value.makeObject(ATTR, new Dependency(), new DependencyGraphReference()));
 
 		/*
 		 * Properties.
 		 */
 		// DOM Level 1
-		createDOMProperty(s, ATTR, "name", Value.makeAnyStr(new Dependency()).setReadOnly(), DOMSpec.LEVEL_1);
-		createDOMProperty(s, ATTR, "specified", Value.makeAnyBool(new Dependency()).setReadOnly(), DOMSpec.LEVEL_1);
-		createDOMProperty(s, ATTR, "value", Value.makeAnyStr(new Dependency()).setReadOnly(), DOMSpec.LEVEL_1);
+		createDOMProperty(s, ATTR, "name", Value.makeAnyStr(new Dependency(), new DependencyGraphReference()).setReadOnly(), DOMSpec.LEVEL_1);
+		createDOMProperty(s, ATTR, "specified", Value.makeAnyBool(new Dependency(), new DependencyGraphReference()).setReadOnly(), DOMSpec.LEVEL_1);
+		createDOMProperty(s, ATTR, "value", Value.makeAnyStr(new Dependency(), new DependencyGraphReference()).setReadOnly(), DOMSpec.LEVEL_1);
 
 		// DOM Level 2
-		createDOMProperty(s, ATTR, "ownerElement", Value.makeObject(DOMElement.ELEMENT, new Dependency()).setReadOnly(), DOMSpec.LEVEL_2);
+		createDOMProperty(s, ATTR, "ownerElement", Value.makeObject(DOMElement.ELEMENT, new Dependency(), new DependencyGraphReference()).setReadOnly(), DOMSpec.LEVEL_2);
 
 		// DOM Level 3
-		createDOMProperty(s, ATTR, "isId", Value.makeAnyBool(new Dependency()), DOMSpec.LEVEL_3);
+		createDOMProperty(s, ATTR, "isId", Value.makeAnyBool(new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_3);
 
 		s.multiplyObject(ATTR);
 		ATTR = ATTR.makeSingleton().makeSummary();

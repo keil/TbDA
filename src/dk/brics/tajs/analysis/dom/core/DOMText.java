@@ -9,6 +9,7 @@ import dk.brics.tajs.analysis.dom.DOMObjects;
 import dk.brics.tajs.analysis.dom.DOMSpec;
 import dk.brics.tajs.analysis.dom.DOMWindow;
 import dk.brics.tajs.dependency.Dependency;
+import dk.brics.tajs.dependency.graph.DependencyGraphReference;
 import dk.brics.tajs.flowgraph.ObjectLabel;
 import dk.brics.tajs.lattice.Value;
 
@@ -33,18 +34,18 @@ public class DOMText {
 	public static void build(State s) {
 		// Prototype Object
 		s.newObject(TEXT_PROTOTYPE);
-		createDOMInternalPrototype(s, TEXT_PROTOTYPE, Value.makeObject(DOMCharacterData.CHARACTER_DATA_PROTOTYPE, new Dependency()));
+		createDOMInternalPrototype(s, TEXT_PROTOTYPE, Value.makeObject(DOMCharacterData.CHARACTER_DATA_PROTOTYPE, new Dependency(), new DependencyGraphReference()));
 
 		// Multiplied Object
 		s.newObject(TEXT);
-		createDOMInternalPrototype(s, TEXT, Value.makeObject(TEXT_PROTOTYPE, new Dependency()));
-		createDOMProperty(s, DOMWindow.WINDOW, "Text", Value.makeObject(TEXT, new Dependency()));
+		createDOMInternalPrototype(s, TEXT, Value.makeObject(TEXT_PROTOTYPE, new Dependency(), new DependencyGraphReference()));
+		createDOMProperty(s, DOMWindow.WINDOW, "Text", Value.makeObject(TEXT, new Dependency(), new DependencyGraphReference()));
 
 		/*
 		 * Properties.
 		 */
-		createDOMProperty(s, TEXT, "isElementContentWhitespace", Value.makeAnyBool(new Dependency()).setReadOnly(), DOMSpec.LEVEL_3);
-		createDOMProperty(s, TEXT, "wholeText", Value.makeAnyStr(new Dependency()).setReadOnly(), DOMSpec.LEVEL_3);
+		createDOMProperty(s, TEXT, "isElementContentWhitespace", Value.makeAnyBool(new Dependency(), new DependencyGraphReference()).setReadOnly(), DOMSpec.LEVEL_3);
+		createDOMProperty(s, TEXT, "wholeText", Value.makeAnyStr(new Dependency(), new DependencyGraphReference()).setReadOnly(), DOMSpec.LEVEL_3);
 
 		s.multiplyObject(TEXT);
 		TEXT = TEXT.makeSingleton().makeSummary();
@@ -64,12 +65,12 @@ public class DOMText {
 		case TEXT_SPLIT_TEXT: {
 			NativeFunctions.expectParameters(nativeObjects, call, c, 1, 1);
 			Value offset = Conversion.toNumber(call.getArg(0), c);
-			return Value.makeObject(TEXT_PROTOTYPE, new Dependency());
+			return Value.makeObject(TEXT_PROTOTYPE, new Dependency(), new DependencyGraphReference());
 		}
 		case TEXT_REPLACE_WHOLE_TEXT: {
 			NativeFunctions.expectParameters(nativeObjects, call, c, 1, 1);
 			Value content = Conversion.toString(call.getArg(0), c);
-			return Value.makeObject(TEXT_PROTOTYPE, new Dependency()).joinNull();
+			return Value.makeObject(TEXT_PROTOTYPE, new Dependency(), new DependencyGraphReference()).joinNull();
 		}
 		default: {
 			throw new RuntimeException("Unknown Native Object: " + nativeObjects);

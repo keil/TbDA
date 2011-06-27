@@ -11,6 +11,7 @@ import dk.brics.tajs.analysis.dom.DOMObjects;
 import dk.brics.tajs.analysis.dom.DOMSpec;
 import dk.brics.tajs.analysis.dom.DOMWindow;
 import dk.brics.tajs.dependency.Dependency;
+import dk.brics.tajs.dependency.graph.DependencyGraphReference;
 import dk.brics.tajs.flowgraph.ObjectLabel;
 import dk.brics.tajs.lattice.Value;
 
@@ -32,18 +33,18 @@ public class HTMLCollection {
 	public static void build(State s) {
 		// Prototype Object
 		s.newObject(COLLECTION_PROTOTYPE);
-		createDOMInternalPrototype(s, COLLECTION_PROTOTYPE, Value.makeObject(InitialStateBuilder.OBJECT_PROTOTYPE, new Dependency()));
+		createDOMInternalPrototype(s, COLLECTION_PROTOTYPE, Value.makeObject(InitialStateBuilder.OBJECT_PROTOTYPE, new Dependency(), new DependencyGraphReference()));
 
 		// Multiplied Object
 		s.newObject(COLLECTION);
-		createDOMInternalPrototype(s, COLLECTION, Value.makeObject(COLLECTION_PROTOTYPE, new Dependency()));
-		createDOMProperty(s, DOMWindow.WINDOW, "HTMLCollection", Value.makeObject(COLLECTION, new Dependency()));
+		createDOMInternalPrototype(s, COLLECTION, Value.makeObject(COLLECTION_PROTOTYPE, new Dependency(), new DependencyGraphReference()));
+		createDOMProperty(s, DOMWindow.WINDOW, "HTMLCollection", Value.makeObject(COLLECTION, new Dependency(), new DependencyGraphReference()));
 
 		/*
 		 * Properties.
 		 */
 		// DOM LEVEL 1
-		createDOMProperty(s, COLLECTION, "length", Value.makeAnyNumUInt(new Dependency()).setReadOnly(), DOMSpec.LEVEL_1);
+		createDOMProperty(s, COLLECTION, "length", Value.makeAnyNumUInt(new Dependency(), new DependencyGraphReference()).setReadOnly(), DOMSpec.LEVEL_1);
 
 		s.multiplyObject(COLLECTION);
 		COLLECTION = COLLECTION.makeSingleton().makeSummary();

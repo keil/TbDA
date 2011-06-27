@@ -6,6 +6,7 @@ import java.util.Collection;
 import java.util.Set;
 
 import dk.brics.tajs.dependency.Dependency;
+import dk.brics.tajs.dependency.graph.DependencyGraphReference;
 import dk.brics.tajs.dependency.graph.DependencyLabel;
 import dk.brics.tajs.flowgraph.ObjectLabel;
 import dk.brics.tajs.flowgraph.ObjectLabel.Kind;
@@ -50,11 +51,10 @@ public class Operators {
 				maybe_function = true;
 			else
 				maybe_object = true;
-		int count = (maybe_boolean ? 1 : 0) + (maybe_number ? 1 : 0)
-				+ (maybe_string ? 1 : 0) + (maybe_undefined ? 1 : 0)
-				+ (maybe_object ? 1 : 0) + (maybe_function ? 1 : 0);
+		int count = (maybe_boolean ? 1 : 0) + (maybe_number ? 1 : 0) + (maybe_string ? 1 : 0) + (maybe_undefined ? 1 : 0) + (maybe_object ? 1 : 0)
+				+ (maybe_function ? 1 : 0);
 		if (count > 1)
-			return Value.makeAnyStr(v.getDependency());
+			return Value.makeAnyStr(v.getDependency(), v.getDependencyGraphReference());
 		else { // table p. 47
 			String s;
 			if (maybe_boolean)
@@ -70,8 +70,8 @@ public class Operators {
 			else if (maybe_function)
 				s = "function";
 			else
-				return Value.makeBottom(v.getDependency());
-			return Value.makeStr(s, v.getDependency());
+				return Value.makeBottom(v.getDependency(), v.getDependencyGraphReference());
+			return Value.makeStr(s, v.getDependency(), v.getDependencyGraphReference());
 		}
 	}
 
@@ -88,9 +88,9 @@ public class Operators {
 	public static Value uminus(Value v, Solver.SolverInterface c) {
 		Value nm = Conversion.toNumber(v, c);
 		if (nm.isNotNum())
-			return Value.makeBottom(v.getDependency());
+			return Value.makeBottom(v.getDependency(), v.getDependencyGraphReference());
 		else if (nm.isMaybeSingleNum())
-			return Value.makeNum(-nm.getNum(), v.getDependency());
+			return Value.makeNum(-nm.getNum(), v.getDependency(), v.getDependencyGraphReference());
 		else
 			return nm;
 	}
@@ -101,12 +101,11 @@ public class Operators {
 	public static Value complement(Value v, Solver.SolverInterface c) {
 		Value nm = Conversion.toNumber(v, c);
 		if (nm.isNotNum())
-			return Value.makeBottom(v.getDependency());
+			return Value.makeBottom(v.getDependency(), v.getDependencyGraphReference());
 		else if (nm.isMaybeSingleNum())
-			return Value.makeNum(~Conversion.toInt32(nm.getNum()),
-					v.getDependency());
+			return Value.makeNum(~Conversion.toInt32(nm.getNum()), v.getDependency(), v.getDependencyGraphReference());
 		else
-			return Value.makeAnyNumNotNaNInf(v.getDependency());
+			return Value.makeAnyNumNotNaNInf(v.getDependency(), v.getDependencyGraphReference());
 	}
 
 	/**
@@ -115,12 +114,12 @@ public class Operators {
 	public static Value not(Value v, Solver.SolverInterface c) {
 		Bool bv = Conversion.toBoolean(v);
 		if (bv.isNotBool())
-			return Value.makeBottom(v.getDependency());
+			return Value.makeBottom(v.getDependency(), v.getDependencyGraphReference());
 		else if (bv.isMaybeTrueButNotFalse())
-			return Value.makeBool(false, v.getDependency());
+			return Value.makeBool(false, v.getDependency(), v.getDependencyGraphReference());
 		else if (bv.isMaybeFalseButNotTrue())
-			return Value.makeBool(true, v.getDependency());
-		return Value.makeAnyBool(v.getDependency());
+			return Value.makeBool(true, v.getDependency(), v.getDependencyGraphReference());
+		return Value.makeAnyBool(v.getDependency(), v.getDependencyGraphReference());
 	}
 
 	/**
@@ -148,8 +147,7 @@ public class Operators {
 	 * 11.5 Multiplicative operators and 11.6.3 Applying the Additive operators
 	 * to numbers
 	 */
-	private static Value numeric(NumericOp op, Value v1, Value v2,
-			Solver.SolverInterface c) {
+	private static Value numeric(NumericOp op, Value v1, Value v2, Solver.SolverInterface c) {
 
 		// ##################################################
 		Dependency dependency = new Dependency();
@@ -157,22 +155,14 @@ public class Operators {
 		dependency.join(v2.getDependency());
 		// ##################################################
 
-		// FIXME
-		switch (op) {
-		case ADD:
-			break;
-		case SUB:
-			break;
-		case MUL:
-			break;
-		case DIV:
-			break;
-		case MOD:
-			break;
-		}
+		// ==================================================
+		DependencyGraphReference reference = new DependencyGraphReference();
+		reference.join(v1.getDependencyGraphReference());
+		reference.join(v2.getDependencyGraphReference());
+		// ==================================================
 
 		if (v1.isNoValue() || v2.isNoValue())
-			return Value.makeBottom(dependency);
+			return Value.makeBottom(dependency, reference);
 		Value arg1 = Conversion.toNumber(v1, c);
 		Value arg2 = Conversion.toNumber(v2, c);
 		if (arg1.isMaybeSingleNum() && arg2.isMaybeSingleNum()) {
@@ -196,9 +186,9 @@ public class Operators {
 				r = d1 % d2;
 				break;
 			}
-			return Value.makeNum(r, dependency);
+			return Value.makeNum(r, dependency, reference);
 		}
-		Value r = Value.makeBottom(dependency);
+		Value r = Value.makeBottom(dependency, reference);
 		Value zero = r.joinNum(0.0).joinNum(-0.0); // TODO: bad for precision?
 		if (arg1.isMaybeNaN() || arg2.isMaybeNaN()) {
 			r = r.joinNumNaN();
@@ -236,10 +226,17 @@ public class Operators {
 			if (!arg1.isNotNum() && arg2.isMaybeInf())
 				r = r.join(zero);
 			if (!arg1.isNotNum() && !arg2.isNotNum())
-				r = r.joinAnyNumUInt().joinAnyNumNotUInt().joinNumNaN()
-						.joinNumInf(); // TODO: (use Options.isUnsound()) - can
-										// avoid NaN here sometimes! requires
-										// isZero
+				r = r.joinAnyNumUInt().joinAnyNumNotUInt().joinNumNaN().joinNumInf(); // TODO:
+																						// (use
+																						// Options.isUnsound())
+																						// -
+																						// can
+																						// avoid
+																						// NaN
+																						// here
+																						// sometimes!
+																						// requires
+																						// isZero
 			break;
 		case MOD:
 			if (arg1.isMaybeInf() && arg2.isMaybeInf())
@@ -284,6 +281,12 @@ public class Operators {
 		dependency.join(v2.getDependency());
 		// ##################################################
 
+		// ==================================================
+		DependencyGraphReference reference = new DependencyGraphReference();
+		reference.join(v1.getDependencyGraphReference());
+		reference.join(v2.getDependencyGraphReference());
+		// ==================================================
+
 		Value p1 = Conversion.toPrimitive(v1, Conversion.Hint.NONE, c);
 		Value p2 = Conversion.toPrimitive(v2, Conversion.Hint.NONE, c);
 		// is neither p1 nor p2 a string?
@@ -292,7 +295,7 @@ public class Operators {
 			return addNumbers(p1, p2, c);
 		}
 		// at least one operand *may be* a string
-		Value r = Value.makeBottom(dependency);
+		Value r = Value.makeBottom(dependency, reference);
 		if (p1.isMaybeFuzzyStr() || p2.isMaybeFuzzyStr()) {
 			// TODO: could improve precision for concatenation of uint /
 			// non-uint strings
@@ -319,15 +322,11 @@ public class Operators {
 			}
 		}
 		// now we are done, if one argument is definitively a string
-		if (p1.isNotNull() && p1.isNotBool() && p1.isNotNum()
-				&& p1.isNotUndef() || p2.isNotNull() && p2.isNotBool()
-				&& p2.isNotNum() && p2.isNotUndef())
+		if (p1.isNotNull() && p1.isNotBool() && p1.isNotNum() && p1.isNotUndef() || p2.isNotNull() && p2.isNotBool() && p2.isNotNum() && p2.isNotUndef())
 			return r;
 		// otherwise + might be interpreted as a numeric add, too
-		Value n1 = Value.join(p1.restrictToBool(), p1.restrictToNull(),
-				p1.restrictToNum(), p1.restrictToUndef());
-		Value n2 = Value.join(p2.restrictToBool(), p2.restrictToNull(),
-				p2.restrictToNum(), p2.restrictToUndef());
+		Value n1 = Value.join(p1.restrictToBool(), p1.restrictToNull(), p1.restrictToNum(), p1.restrictToUndef());
+		Value n2 = Value.join(p2.restrictToBool(), p2.restrictToNull(), p2.restrictToNum(), p2.restrictToUndef());
 		return r.join(addNumbers(n1, n2, c));
 	}
 
@@ -341,8 +340,7 @@ public class Operators {
 	/**
 	 * 11.7 Bitwise Shift Operators
 	 */
-	private static Value shiftop(ShiftOp op, Value v1, Value v2,
-			Solver.SolverInterface c) {
+	private static Value shiftop(ShiftOp op, Value v1, Value v2, Solver.SolverInterface c) {
 
 		// ##################################################
 		Dependency dependency = new Dependency();
@@ -350,18 +348,14 @@ public class Operators {
 		dependency.join(v2.getDependency());
 		// ##################################################
 
-		// FIXME
-		switch (op) {
-		case LEFTSHIFT:
-			break;
-		case SIGNEDRIGHTSHIFT:
-			break;
-		case UNSIGNEDRIGHTSHIFT:
-			break;
-		}
-		
+		// ==================================================
+		DependencyGraphReference reference = new DependencyGraphReference();
+		reference.join(v1.getDependencyGraphReference());
+		reference.join(v2.getDependencyGraphReference());
+		// ==================================================
+
 		if (v1.isNoValue() || v2.isNoValue())
-			return Value.makeBottom(dependency);
+			return Value.makeBottom(dependency, reference);
 		Value arg1 = Conversion.toNumber(v1, c);
 		Value arg2 = Conversion.toNumber(v2, c);
 		if (arg1.isMaybeSingleNum() && arg2.isMaybeSingleNum()) {
@@ -379,9 +373,9 @@ public class Operators {
 				r = Conversion.toUInt32(d1) >>> Conversion.toUInt32(d2);
 				break;
 			}
-			return Value.makeNum(r, dependency);
+			return Value.makeNum(r, dependency, reference);
 		} else
-			return Value.makeBottom(dependency).joinAnyNumUInt();
+			return Value.makeBottom(dependency,reference).joinAnyNumUInt();
 	}
 
 	/**
@@ -436,8 +430,7 @@ public class Operators {
 	/**
 	 * 11.8.5 The Abstract Relational Comparison Algorithm.
 	 */
-	private static Value abstractRelationalComparison(Value v1, Value v2,
-			Solver.SolverInterface c) {
+	private static Value abstractRelationalComparison(Value v1, Value v2, Solver.SolverInterface c) {
 
 		// ##################################################
 		Dependency dependency = new Dependency();
@@ -445,15 +438,17 @@ public class Operators {
 		dependency.join(v2.getDependency());
 		// ##################################################
 
+		// ==================================================
+		DependencyGraphReference reference = new DependencyGraphReference();
+		reference.join(v1.getDependencyGraphReference());
+		reference.join(v2.getDependencyGraphReference());
+		// ==================================================
+
 		Value p1 = Conversion.toPrimitive(v1, Conversion.Hint.NUM, c);
 		Value p2 = Conversion.toPrimitive(v2, Conversion.Hint.NUM, c);
-		if (p1.isMaybeFuzzyStr() || p2.isMaybeFuzzyStr() || p1.isMaybeAnyBool()
-				|| p2.isMaybeAnyBool() || p1.isMaybeFuzzyNum()
-				|| p2.isMaybeFuzzyNum()) {
-			Value r = Value.makeAnyBool(dependency);
-			if ((p1.isMaybeOtherThanStr() || p2.isMaybeOtherThanStr())
-					&& (Conversion.toNumber(p1, c).isMaybeNaN() || Conversion
-							.toNumber(p2, c).isMaybeNaN()))
+		if (p1.isMaybeFuzzyStr() || p2.isMaybeFuzzyStr() || p1.isMaybeAnyBool() || p2.isMaybeAnyBool() || p1.isMaybeFuzzyNum() || p2.isMaybeFuzzyNum()) {
+			Value r = Value.makeAnyBool(dependency, reference);
+			if ((p1.isMaybeOtherThanStr() || p2.isMaybeOtherThanStr()) && (Conversion.toNumber(p1, c).isMaybeNaN() || Conversion.toNumber(p2, c).isMaybeNaN()))
 				r = r.joinUndef(); // undefined is the correct outcome. see
 									// items 6 and 7!
 			return r;
@@ -468,11 +463,11 @@ public class Operators {
 			String st2 = p2.getStr();
 			if (st1 != null && st2 != null) {
 				if (st1.compareTo(st2) < 0)
-					r = Value.makeBool(true, dependency);
+					r = Value.makeBool(true, dependency, reference);
 				else
-					r = Value.makeBool(false, dependency);
+					r = Value.makeBool(false, dependency, reference);
 			} else
-				r = Value.makeBottom(dependency);
+				r = Value.makeBottom(dependency, reference);
 			if (p1.isMaybeOtherThanStr() || p2.isMaybeOtherThanStr())
 				r = r.join(numericComparison(p1, p2, c));
 			return r;
@@ -482,8 +477,7 @@ public class Operators {
 	/**
 	 * Numeric comparison, used by abstractRelationalComparison.
 	 */
-	private static Value numericComparison(Value p1, Value p2,
-			Solver.SolverInterface c) {
+	private static Value numericComparison(Value p1, Value p2, Solver.SolverInterface c) {
 
 		// ##################################################
 		Dependency dependency = new Dependency();
@@ -491,21 +485,27 @@ public class Operators {
 		dependency.join(p2.getDependency());
 		// ##################################################
 
+		// ==================================================
+		DependencyGraphReference reference = new DependencyGraphReference();
+		reference.join(p1.getDependencyGraphReference());
+		reference.join(p2.getDependencyGraphReference());
+		// ==================================================
+
 		if (p1.isNoValue() || p2.isNoValue())
-			return Value.makeBottom(dependency);
+			return Value.makeBottom(dependency, reference);
 		Value n1 = Conversion.toNumber(p1, c);
 		Value n2 = Conversion.toNumber(p2, c);
 		if (n1.isMaybeSingleNum() && n2.isMaybeSingleNum()) {
 			Double d1 = n1.getNum();
 			Double d2 = n2.getNum();
 			if (d1.isNaN() || d2.isNaN())
-				return Value.makeUndef(dependency);
+				return Value.makeUndef(dependency, reference);
 			if (d1 < d2)
-				return Value.makeBool(true, dependency);
+				return Value.makeBool(true, dependency, reference);
 			else
-				return Value.makeBool(false, dependency);
+				return Value.makeBool(false, dependency, reference);
 		} else {
-			Value r = Value.makeAnyBool(dependency);
+			Value r = Value.makeAnyBool(dependency, reference);
 			if (n1.isMaybeNaN() || n2.isMaybeNaN())
 				r = r.joinUndef();
 			return r;
@@ -515,14 +515,19 @@ public class Operators {
 	/**
 	 * 11.8.6 <code>instanceof</code>
 	 */
-	public static Value instof(State state, Value v1, Value v2,
-			Solver.SolverInterface c) {
+	public static Value instof(State state, Value v1, Value v2, Solver.SolverInterface c) {
 
 		// ##################################################
 		Dependency dependency = new Dependency();
 		dependency.join(v1.getDependency());
 		dependency.join(v2.getDependency());
 		// ##################################################
+
+		// ==================================================
+		DependencyGraphReference reference = new DependencyGraphReference();
+		reference.join(v1.getDependencyGraphReference());
+		reference.join(v2.getDependencyGraphReference());
+		// ==================================================
 
 		// 11.8.6 step 5-6
 		boolean maybe_v2_non_function = v2.isMaybePrimitive();
@@ -534,9 +539,7 @@ public class Operators {
 			else
 				maybe_v2_non_function = true;
 		if (maybe_v2_function || maybe_v2_non_function)
-			c.addMessage(
-					maybe_v2_function ? maybe_v2_non_function ? Status.MAYBE
-							: Status.NONE : Status.CERTAIN, Severity.HIGH,
+			c.addMessage(maybe_v2_function ? maybe_v2_non_function ? Status.MAYBE : Status.NONE : Status.CERTAIN, Severity.HIGH,
 					"TypeError, non-function-object at 'instanceof'");
 		// 15.3.5.3 step 1-4
 		Value v2_prototype = state.readProperty(v2_objlabels, "prototype");
@@ -547,16 +550,12 @@ public class Operators {
 		if (v2_prototype.isMaybePrimitive())
 			maybe_v2_prototype_primitive = true;
 		if (maybe_v2_prototype_nonprimitive || maybe_v2_prototype_primitive)
-			c.addMessage(
-					maybe_v2_prototype_nonprimitive ? maybe_v2_prototype_primitive ? Status.MAYBE
-							: Status.NONE
-							: Status.CERTAIN, Severity.HIGH,
+			c.addMessage(maybe_v2_prototype_nonprimitive ? maybe_v2_prototype_primitive ? Status.MAYBE : Status.NONE : Status.CERTAIN, Severity.HIGH,
 					"TypeError, non-object prototype at 'instanceof'");
 		if (maybe_v2_non_function || maybe_v2_prototype_primitive) {
 			Exceptions.throwTypeError(state, c);
-			if ((maybe_v2_non_function && !maybe_v2_function)
-					|| (maybe_v2_prototype_nonprimitive && !maybe_v2_prototype_primitive))
-				return Value.makeBottom(dependency);
+			if ((maybe_v2_non_function && !maybe_v2_function) || (maybe_v2_prototype_nonprimitive && !maybe_v2_prototype_primitive))
+				return Value.makeBottom(dependency, reference);
 		}
 		return state.hasInstance(v2_prototype.getObjectLabels(), v1);
 	}
@@ -564,8 +563,7 @@ public class Operators {
 	/**
 	 * 11.8.7 <code>in</code>
 	 */
-	public static Value in(State state, Value v1, Value v2,
-			Solver.SolverInterface c) {
+	public static Value in(State state, Value v1, Value v2, Solver.SolverInterface c) {
 
 		// ##################################################
 		Dependency dependency = new Dependency();
@@ -573,25 +571,28 @@ public class Operators {
 		dependency.join(v2.getDependency());
 		// ##################################################
 
+		// ==================================================
+		DependencyGraphReference reference = new DependencyGraphReference();
+		reference.join(v1.getDependencyGraphReference());
+		reference.join(v2.getDependencyGraphReference());
+		// ==================================================
+
 		// 11.8.7 step 5
 		boolean maybe_v2_object = v2.isMaybeObject();
 		boolean maybe_v2_nonobject = v2.isMaybePrimitive();
 		if (maybe_v2_object || maybe_v2_nonobject)
-			c.addMessage(maybe_v2_object ? maybe_v2_nonobject ? Status.MAYBE
-					: Status.NONE : Status.CERTAIN, Severity.HIGH,
-					"TypeError, non-object at 'in'");
+			c.addMessage(maybe_v2_object ? maybe_v2_nonobject ? Status.MAYBE : Status.NONE : Status.CERTAIN, Severity.HIGH, "TypeError, non-object at 'in'");
 		if (maybe_v2_nonobject) {
 			Exceptions.throwTypeError(state, c);
 			if (!maybe_v2_object)
-				return Value.makeBottom(dependency);
+				return Value.makeBottom(dependency, reference);
 		}
 		// 11.8.7 step 6-8
 		Value v1_str = Conversion.toString(v1, c);
 		if (v1_str.isMaybeSingleStr())
-			return state.hasProperty(v2.getObjectLabels(), v1_str.getStr())
-					.joinDependency(dependency);
+			return state.hasProperty(v2.getObjectLabels(), v1_str.getStr()).joinDependency(dependency).joinDependencyGraphReference(reference);
 		else
-			return Value.makeAnyBool(dependency);
+			return Value.makeAnyBool(dependency, reference);
 	}
 
 	/**
@@ -611,8 +612,7 @@ public class Operators {
 	/**
 	 * 11.9.3 The Abstract Equality Comparison Algorithm.
 	 */
-	private static Value abstractEqualityComparison(Value v1, Value v2,
-			Solver.SolverInterface c) {
+	private static Value abstractEqualityComparison(Value v1, Value v2, Solver.SolverInterface c) {
 
 		// ##################################################
 		Dependency dependency = new Dependency();
@@ -620,7 +620,13 @@ public class Operators {
 		dependency.join(v2.getDependency());
 		// ##################################################
 
-		Value r = Value.makeBottom(dependency);
+		// ==================================================
+		DependencyGraphReference reference = new DependencyGraphReference();
+		reference.join(v1.getDependencyGraphReference());
+		reference.join(v2.getDependencyGraphReference());
+		// ==================================================
+
+		Value r = Value.makeBottom(dependency, reference);
 		if (v1.isMaybeUndef()) {
 			if (v2.isMaybeUndef())
 				r = r.joinBool(true);
@@ -671,9 +677,7 @@ public class Operators {
 			}
 			if (v2.isMaybeObject()) {
 				Num n1 = Conversion.fromBooltoNum(v1);
-				Num n2 = Conversion.toNumber(Conversion.toPrimitive(
-						Value.makeObject(v2.getObjectLabels(), dependency),
-						Conversion.Hint.NUM, c), c);
+				Num n2 = Conversion.toNumber(Conversion.toPrimitive(Value.makeObject(v2.getObjectLabels(), dependency, reference), Conversion.Hint.NUM, c), c);
 				r = abstractNumberEquality(r, n1, n2);
 			}
 		}
@@ -699,9 +703,7 @@ public class Operators {
 			}
 			if (v2.isMaybeObject()) {
 				Value arg1 = v1.restrictToNum();
-				Value arg2 = Conversion.toPrimitive(
-						Value.makeObject(v2.getObjectLabels(), dependency),
-						Conversion.Hint.NONE, c);
+				Value arg2 = Conversion.toPrimitive(Value.makeObject(v2.getObjectLabels(), dependency, reference), Conversion.Hint.NONE, c);
 				r = r.join(abstractEqualityComparison(arg1, arg2, c));
 			}
 		}
@@ -722,7 +724,7 @@ public class Operators {
 			}
 			if (!v2.isNotStr()) {
 				if (v1.isMaybeFuzzyStr() || v2.isMaybeFuzzyStr())
-					r = Value.makeAnyBool(dependency);
+					r = Value.makeAnyBool(dependency, reference);
 				else {
 					String s1 = v1.getStr();
 					String s2 = v2.getStr();
@@ -733,9 +735,7 @@ public class Operators {
 			}
 			if (v2.isMaybeObject()) {
 				Value arg1 = v1.restrictToStr();
-				Value arg2 = Conversion.toPrimitive(
-						Value.makeObject(v2.getObjectLabels(), dependency),
-						Conversion.Hint.NONE, c);
+				Value arg2 = Conversion.toPrimitive(Value.makeObject(v2.getObjectLabels(), dependency, reference), Conversion.Hint.NONE, c);
 				r = r.join(abstractEqualityComparison(arg1, arg2, c));
 			}
 		}
@@ -744,22 +744,19 @@ public class Operators {
 				r = r.joinBool(false);
 			if (v2.isMaybeNull())
 				r = r.joinBool(false);
-			Value vv1 = Value.makeObject(v1.getObjectLabels(), dependency);
+			Value vv1 = Value.makeObject(v1.getObjectLabels(), dependency, reference);
 			if (!v2.isNotBool()) {
-				Num n1 = Conversion.toNumber(
-						Conversion.toPrimitive(vv1, Conversion.Hint.NUM, c), c);
+				Num n1 = Conversion.toNumber(Conversion.toPrimitive(vv1, Conversion.Hint.NUM, c), c);
 				Num n2 = Conversion.fromBooltoNum(v2);
 				r = abstractNumberEquality(r, n1, n2);
 			}
 			if (!v2.isNotNum()) {
-				Value arg1 = Conversion.toPrimitive(vv1, Conversion.Hint.NONE,
-						c);
+				Value arg1 = Conversion.toPrimitive(vv1, Conversion.Hint.NONE, c);
 				Value arg2 = v2.restrictToNum();
 				r = r.join(abstractEqualityComparison(arg1, arg2, c));
 			}
 			if (!v2.isNotStr()) {
-				Value arg1 = Conversion.toPrimitive(vv1, Conversion.Hint.NONE,
-						c);
+				Value arg1 = Conversion.toPrimitive(vv1, Conversion.Hint.NONE, c);
 				Value arg2 = v2.restrictToStr();
 				r = r.join(abstractEqualityComparison(arg1, arg2, c));
 			}
@@ -767,22 +764,20 @@ public class Operators {
 				r = eqObject(r, v1.getObjectLabels(), v2.getObjectLabels());
 			}
 		}
-		return r.joinDependency(dependency);
+		return r.joinDependency(dependency).joinDependencyGraphReference(reference);
 	}
 
 	/**
 	 * Part of 11.9.3 The Abstract Equality Comparison Algorithm and 11.9.6 The
 	 * Strict Equality Comparison Algorithm.
 	 */
-	private static Value eqObject(Bool r, Collection<ObjectLabel> labels1,
-			Collection<ObjectLabel> labels2) {
+	private static Value eqObject(Bool r, Collection<ObjectLabel> labels1, Collection<ObjectLabel> labels2) {
 		Set<ObjectLabel> labelsInBoth = newSet();
 		labelsInBoth.addAll(labels1);
 		labelsInBoth.retainAll(labels2);
 		if (labelsInBoth.isEmpty())
 			return r.joinBool(false);
-		else if (labels1.size() == 1 && labels2.size() == 1
-				&& labelsInBoth.iterator().next().isSingleton())
+		else if (labels1.size() == 1 && labels2.size() == 1 && labelsInBoth.iterator().next().isSingleton())
 			return r.joinBool(true);
 		else
 			return r.joinAnyBool();
@@ -798,6 +793,11 @@ public class Operators {
 		Dependency dependency = new Dependency();
 		dependency.join(r.getDependency());
 		// ##################################################
+
+		// ==================================================
+		DependencyGraphReference reference = new DependencyGraphReference();
+		reference.join(r.getDependencyGraphReference());
+		// ==================================================
 
 		if (r.isMaybeAnyBool())
 			return r;
@@ -816,7 +816,7 @@ public class Operators {
 			else
 				return r.joinBool(false);
 		}
-		return Value.makeAnyBool(dependency);
+		return Value.makeAnyBool(dependency, reference);
 	}
 
 	/**
@@ -844,7 +844,13 @@ public class Operators {
 		dependency.join(v2.getDependency());
 		// ##################################################
 
-		Value r = Value.makeBottom(dependency);
+		// ==================================================
+		DependencyGraphReference reference = new DependencyGraphReference();
+		reference.join(v1.getDependencyGraphReference());
+		reference.join(v2.getDependencyGraphReference());
+		// ==================================================
+
+		Value r = Value.makeBottom(dependency, reference);
 		if (v1.isMaybeUndef()) {
 			if (v2.isMaybeUndef())
 				r = r.joinBool(true);
@@ -880,12 +886,10 @@ public class Operators {
 				r = r.joinBool(false);
 			if (!v2.isNotBool()) {
 				if (v1.isMaybeAnyBool() || v2.isMaybeAnyBool())
-					return Value.makeAnyBool(dependency);
-				else if (v1.isMaybeTrueButNotFalse()
-						&& v2.isMaybeTrueButNotFalse())
+					return Value.makeAnyBool(dependency, reference);
+				else if (v1.isMaybeTrueButNotFalse() && v2.isMaybeTrueButNotFalse())
 					r = r.joinBool(true);
-				else if (v1.isMaybeFalseButNotTrue()
-						&& v2.isMaybeFalseButNotTrue())
+				else if (v1.isMaybeFalseButNotTrue() && v2.isMaybeFalseButNotTrue())
 					r = r.joinBool(true);
 				else
 					r = r.joinBool(false);
@@ -922,7 +926,7 @@ public class Operators {
 				r = r.joinBool(false);
 			if (!v2.isNotStr()) {
 				if (v1.isMaybeFuzzyStr() || v2.isMaybeFuzzyStr())
-					return Value.makeAnyBool(dependency);
+					return Value.makeAnyBool(dependency, reference);
 				else {
 					String s1 = v1.getStr();
 					String s2 = v2.getStr();
@@ -947,14 +951,13 @@ public class Operators {
 			if (v2.isMaybeObject())
 				r = eqObject(r, v1.getObjectLabels(), v2.getObjectLabels());
 		}
-		return r.joinDependency(dependency);
+		return r.joinDependency(dependency).joinDependencyGraphReference(reference);
 	}
 
 	/**
 	 * 11.10 Binary Bitwise Operators
 	 */
-	private static Value bitwise(BitwiseOp op, Value arg1, Value arg2,
-			Solver.SolverInterface c) {
+	private static Value bitwise(BitwiseOp op, Value arg1, Value arg2, Solver.SolverInterface c) {
 
 		// ##################################################
 		Dependency dependency = new Dependency();
@@ -962,20 +965,16 @@ public class Operators {
 		dependency.join(arg2.getDependency());
 		// ##################################################
 
-		// FIXME
-		switch (op) {
-		case AND:
-			break;
-		case OR:
-			break;
-		case XOR:
-			break;
-		}
-		
+		// ==================================================
+		DependencyGraphReference reference = new DependencyGraphReference();
+		reference.join(arg1.getDependencyGraphReference());
+		reference.join(arg2.getDependencyGraphReference());
+		// ==================================================
+
 		arg1 = Conversion.toNumber(arg1, c);
 		arg2 = Conversion.toNumber(arg2, c);
 		if (arg1.isNoValue() || arg2.isNoValue())
-			return Value.makeBottom(dependency);
+			return Value.makeBottom(dependency, reference);
 		else if (arg1.isMaybeSingleNum() && arg2.isMaybeSingleNum()) {
 			int i1 = Conversion.toInt32(arg1.getNum());
 			int i2 = Conversion.toInt32(arg2.getNum());
@@ -991,9 +990,9 @@ public class Operators {
 				r = i1 ^ i2;
 				break;
 			}
-			return Value.makeNum(r, dependency);
+			return Value.makeNum(r, dependency, reference);
 		} else
-			return Value.makeAnyNumUInt(dependency);
+			return Value.makeAnyNumUInt(dependency, reference);
 	}
 
 	/**

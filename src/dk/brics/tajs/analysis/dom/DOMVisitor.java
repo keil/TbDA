@@ -2,6 +2,7 @@ package dk.brics.tajs.analysis.dom;
 
 import dk.brics.tajs.analysis.State;
 import dk.brics.tajs.dependency.Dependency;
+import dk.brics.tajs.dependency.graph.DependencyGraphReference;
 import dk.brics.tajs.flowgraph.ObjectLabel;
 
 import java.util.Collections;
@@ -36,7 +37,7 @@ public class DOMVisitor extends HTMLVisitorImpl {
 
 				// TODO: What about clashes?
 				// An element with id FOO is available as FOO
-				createDOMProperty(s, DOMWindow.WINDOW, id, Value.makeObject(label, new Dependency()));
+				createDOMProperty(s, DOMWindow.WINDOW, id, Value.makeObject(label, new Dependency(), new DependencyGraphReference()));
 			}
 
 			// Special Property: name

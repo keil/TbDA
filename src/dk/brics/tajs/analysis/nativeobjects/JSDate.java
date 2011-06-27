@@ -6,6 +6,10 @@ import dk.brics.tajs.analysis.Solver;
 import dk.brics.tajs.analysis.State;
 import dk.brics.tajs.analysis.FunctionCalls.CallInfo;
 import dk.brics.tajs.dependency.Dependency;
+import dk.brics.tajs.dependency.graph.DependencyGraphReference;
+import dk.brics.tajs.dependency.graph.DependencyNode;
+import dk.brics.tajs.dependency.graph.Label;
+import dk.brics.tajs.dependency.graph.nodes.DependencyExpressionNode;
 import dk.brics.tajs.flowgraph.Node;
 import dk.brics.tajs.flowgraph.ObjectLabel;
 import dk.brics.tajs.flowgraph.ObjectLabel.Kind;
@@ -24,7 +28,7 @@ public class JSDate {
 	public static Value evaluate(ECMAScriptObjects nativeobject, CallInfo call, State state, Solver.SolverInterface c) {
 		if (nativeobject != ECMAScriptObjects.DATE)
 			if (NativeFunctions.throwTypeErrorIfConstructor(call, state, c))
-				return Value.makeBottom(new Dependency());
+				return Value.makeBottom(new Dependency(), new DependencyGraphReference());
 		
 		// TODO: warn about year 2000 problem for getYear/setYear?
 
@@ -35,17 +39,25 @@ public class JSDate {
 			Dependency dependency = new Dependency();
 			// ##################################################
 			
+			// ==================================================
+			DependencyExpressionNode node = DependencyNode.link(Label.CALL, call.getSourceNode(), state);
+			// ==================================================
+			
 			NativeFunctions.expectParameters(nativeobject, call, c, 0, 7);
 			for (int i = 0; i < call.getNumberOfArgs(); i++) {
 				// ##################################################
 				dependency.join(call.getArg(i).getDependency());
 				// ##################################################
+				
+				// ==================================================
+				node.addParent(call.getArg(i));
+				// ==================================================
 			}
 			
 			if (call.isConstructorCall()) {
-				return createDateObject(call.getSourceNode(), state, dependency);
+				return createDateObject(call.getSourceNode(), state, dependency, node.getReference());
 			} else // 15.9.2
-				return Value.makeAnyStr(dependency);
+				return Value.makeAnyStr(dependency, node.getReference());
 		}
 		
 		case DATE_GETFULLYEAR: // 15.9.5.10
@@ -70,6 +82,10 @@ public class JSDate {
 			Dependency dependency = new Dependency();
 			// ##################################################
 			
+			// ==================================================
+			DependencyExpressionNode node = DependencyNode.link(Label.CALL, call.getSourceNode(), state);
+			// ==================================================
+			
 			NativeFunctions.expectParameters(nativeobject, call, c, 0, 0);
 			Value val = state.readInternalValue(state.readThisObjects());
 
@@ -77,7 +93,11 @@ public class JSDate {
 			dependency.join(val.getDependency());
 			// ##################################################
 			
-			return Value.makeAnyNum(dependency);
+			// ==================================================
+			node.addParent(val);
+			// ==================================================
+			
+			return Value.makeAnyNum(dependency, node.getReference());
 		}
 		
 		case DATE_GETTIME: { // 15.9.5.9
@@ -85,6 +105,10 @@ public class JSDate {
 			Dependency dependency = new Dependency();
 			// ##################################################
 			
+			// ==================================================
+			DependencyExpressionNode node = DependencyNode.link(Label.CALL, call.getSourceNode(), state);
+			// ==================================================
+			
 			NativeFunctions.expectParameters(nativeobject, call, c, 0, 0);
 			Value val = state.readInternalValue(state.readThisObjects());
 
@@ -92,9 +116,13 @@ public class JSDate {
 			dependency.join(val.getDependency());
 			// ##################################################
 			
+			// ==================================================
+			node.addParent(val);
+			// ==================================================
+			
 			if (NativeFunctions.throwTypeErrorIfWrongKindOfThis(nativeobject, call, state, c, Kind.DATE))
-				return Value.makeBottom(dependency);
-			return Value.makeAnyNum(dependency);
+				return Value.makeBottom(dependency, node.getReference());
+			return Value.makeAnyNum(dependency, node.getReference());
 		}
 		
 		case DATE_PARSE: // 15.9.4.2
@@ -105,6 +133,10 @@ public class JSDate {
 			Dependency dependency = new Dependency();
 			// ##################################################
 			
+			// ==================================================
+			DependencyExpressionNode node = DependencyNode.link(Label.CALL, call.getSourceNode(), state);
+			// ==================================================
+			
 			NativeFunctions.expectParameters(nativeobject, call, c, 1, 1);
 			Value val = state.readInternalValue(state.readThisObjects());
 
@@ -112,18 +144,26 @@ public class JSDate {
 			dependency.join(val.getDependency());
 			// ##################################################
 			
+			// ==================================================
+			node.addParent(val);
+			// ==================================================
+			
 			for (int i = 0; i < call.getNumberOfArgs(); i++) {
 				// ##################################################
 				dependency.join(call.getArg(i).getDependency());
 				// ##################################################
+				
+				// ==================================================
+				node.addParent(call.getArg(i));
+				// ==================================================
 			}
 			
-			Value thisValue = state.readThis().joinDependency(dependency);
+			Value thisValue = state.readThis().joinDependency(dependency).joinDependencyGraphReference(node);
 			for (ObjectLabel objectLabel : state.readThisObjects()) {
 				state.writeInternalValue(objectLabel, thisValue);
 			}
 			
-			return Value.makeAnyNum(dependency);
+			return Value.makeAnyNum(dependency, node.getReference());
 		}
 		
 		case DATE_SETHOURS: // 15.9.5.35
@@ -132,6 +172,10 @@ public class JSDate {
 			Dependency dependency = new Dependency();
 			// ##################################################
 			
+			// ==================================================
+			DependencyExpressionNode node = DependencyNode.link(Label.CALL, call.getSourceNode(), state);
+			// ==================================================
+			
 			NativeFunctions.expectParameters(nativeobject, call, c, 1, 4);
 			Value val = state.readInternalValue(state.readThisObjects());
 
@@ -139,18 +183,26 @@ public class JSDate {
 			dependency.join(val.getDependency());
 			// ##################################################
 			
+			// ==================================================
+			node.addParent(val);
+			// ==================================================
+			
 			for (int i = 0; i < call.getNumberOfArgs(); i++) {
 				// ##################################################
 				dependency.join(call.getArg(i).getDependency());
 				// ##################################################
+				
+				// ==================================================
+				node.addParent(call.getArg(i));
+				// ==================================================
 			}
 			
-			Value thisValue = state.readThis().joinDependency(dependency);
+			Value thisValue = state.readThis().joinDependency(dependency).joinDependencyGraphReference(node);
 			for (ObjectLabel objectLabel : state.readThisObjects()) {
 				state.writeInternalValue(objectLabel, thisValue);
 			}
 			
-			return Value.makeAnyNum(dependency);
+			return Value.makeAnyNum(dependency, node.getReference());
 		}
 		
 		case DATE_SETMILLISECONDS: // 15.9.5.28
@@ -159,6 +211,10 @@ public class JSDate {
 			Dependency dependency = new Dependency();
 			// ##################################################
 			
+			// ==================================================
+			DependencyExpressionNode node = DependencyNode.link(Label.CALL, call.getSourceNode(), state);
+			// ==================================================
+			
 			NativeFunctions.expectParameters(nativeobject, call, c, 1, 1);
 			Value val = state.readInternalValue(state.readThisObjects());
 
@@ -166,18 +222,26 @@ public class JSDate {
 			dependency.join(val.getDependency());
 			// ##################################################
 			
+			// ==================================================
+			node.addParent(val);
+			// ==================================================
+			
 			for (int i = 0; i < call.getNumberOfArgs(); i++) {
 				// ##################################################
 				dependency.join(call.getArg(i).getDependency());
 				// ##################################################
+				
+				// ==================================================
+				node.addParent(call.getArg(i));
+				// ==================================================
 			}
 			
-			Value thisValue = state.readThis().joinDependency(dependency);
+			Value thisValue = state.readThis().joinDependency(dependency).joinDependencyGraphReference(node);
 			for (ObjectLabel objectLabel : state.readThisObjects()) {
 				state.writeInternalValue(objectLabel, thisValue);
 			}
 			
-			return Value.makeAnyNum(dependency);
+			return Value.makeAnyNum(dependency, node.getReference());
 		}
 		
 		case DATE_SETMINUTES: // 15.9.5.33
@@ -188,6 +252,10 @@ public class JSDate {
 			Dependency dependency = new Dependency();
 			// ##################################################
 			
+			// ==================================================
+			DependencyExpressionNode node = DependencyNode.link(Label.CALL, call.getSourceNode(), state);
+			// ==================================================
+			
 			NativeFunctions.expectParameters(nativeobject, call, c, 1, 3);
 			Value val = state.readInternalValue(state.readThisObjects());
 
@@ -195,18 +263,26 @@ public class JSDate {
 			dependency.join(val.getDependency());
 			// ##################################################
 			
+			// ==================================================
+			node.addParent(val);
+			// ==================================================
+			
 			for (int i = 0; i < call.getNumberOfArgs(); i++) {
 				// ##################################################
 				dependency.join(call.getArg(i).getDependency());
 				// ##################################################
+				
+				// ==================================================
+				node.addParent(call.getArg(i));
+				// ==================================================
 			}
 			
-			Value thisValue = state.readThis().joinDependency(dependency);
+			Value thisValue = state.readThis().joinDependency(dependency).joinDependencyGraphReference(node);
 			for (ObjectLabel objectLabel : state.readThisObjects()) {
 				state.writeInternalValue(objectLabel, thisValue);
 			}
 			
-			return Value.makeAnyNum(dependency);
+			return Value.makeAnyNum(dependency, node.getReference());
 		}
 		
 		case DATE_SETSECONDS: // 15.9.5.30
@@ -217,6 +293,10 @@ public class JSDate {
 			Dependency dependency = new Dependency();
 			// ##################################################
 			
+			// ==================================================
+			DependencyExpressionNode node = DependencyNode.link(Label.CALL, call.getSourceNode(), state);
+			// ==================================================
+			
 			NativeFunctions.expectParameters(nativeobject, call, c, 1, 2);
 			Value val = state.readInternalValue(state.readThisObjects());
 
@@ -224,24 +304,36 @@ public class JSDate {
 			dependency.join(val.getDependency());
 			// ##################################################
 			
+			// ==================================================
+			node.addParent(val);
+			// ==================================================
+			
 			for (int i = 0; i < call.getNumberOfArgs(); i++) {
 				// ##################################################
 				dependency.join(call.getArg(i).getDependency());
 				// ##################################################
+				
+				// ==================================================
+				node.addParent(call.getArg(i));
+				// ==================================================
 			}
 			
-			Value thisValue = state.readThis().joinDependency(dependency);
+			Value thisValue = state.readThis().joinDependency(dependency).joinDependencyGraphReference(node);
 			for (ObjectLabel objectLabel : state.readThisObjects()) {
 				state.writeInternalValue(objectLabel, thisValue);
 			}
 			
-			return Value.makeAnyNum(dependency);
+			return Value.makeAnyNum(dependency, node.getReference());
 		}
 		
 		case DATE_SETTIME: { // 15.9.5.27
 			// ##################################################
 			Dependency dependency = new Dependency();
 			// ##################################################
+			
+			// ==================================================
+			DependencyExpressionNode node = DependencyNode.link(Label.CALL, call.getSourceNode(), state);
+			// ==================================================
 			
 			NativeFunctions.expectParameters(nativeobject, call, c, 1, 1);
 			Value val = state.readInternalValue(state.readThisObjects());
@@ -250,20 +342,28 @@ public class JSDate {
 			dependency.join(val.getDependency());
 			// ##################################################
 			
+			// ==================================================
+			node.addParent(val);
+			// ==================================================
+			
 			for (int i = 0; i < call.getNumberOfArgs(); i++) {
 				// ##################################################
 				dependency.join(call.getArg(i).getDependency());
 				// ##################################################
+				
+				// ==================================================
+				node.addParent(call.getArg(i));
+				// ==================================================
 			}
 			
-			Value thisValue = state.readThis().joinDependency(dependency);
+			Value thisValue = state.readThis().joinDependency(dependency).joinDependencyGraphReference(node);
 			for (ObjectLabel objectLabel : state.readThisObjects()) {
 				state.writeInternalValue(objectLabel, thisValue);
 			}
 			
 			if (NativeFunctions.throwTypeErrorIfWrongKindOfThis(nativeobject, call, state, c, Kind.DATE))
-				return Value.makeBottom(dependency);
-			return Value.makeAnyNum(dependency);
+				return Value.makeBottom(dependency, node.getReference());
+			return Value.makeAnyNum(dependency, node.getReference());
 		}
 		
 		case DATE_TOSTRING: // 15.9.5.2
@@ -276,14 +376,22 @@ public class JSDate {
 			Dependency dependency = new Dependency();
 			// ##################################################
 			
+			// ==================================================
+			DependencyExpressionNode node = DependencyNode.link(Label.CALL, call.getSourceNode(), state);
+			// ==================================================
+			
 			Value val = state.readInternalValue(state.readThisObjects());
 
 			// ##################################################
 			dependency.join(val.getDependency());
 			// ##################################################
 			
+			// ==================================================
+			node.addParent(val);
+			// ==================================================
+			
 			NativeFunctions.expectParameters(nativeobject, call, c, 0, 0);
-			return Value.makeAnyStr(dependency);
+			return Value.makeAnyStr(dependency, node.getReference());
 		}
 		
 		case DATE_TOUTCSTRING: // 15.9.5.42
@@ -292,14 +400,22 @@ public class JSDate {
 			Dependency dependency = new Dependency();
 			// ##################################################
 			
+			// ==================================================
+			DependencyExpressionNode node = DependencyNode.link(Label.CALL, call.getSourceNode(), state);
+			// ==================================================
+			
 			Value val = state.readInternalValue(state.readThisObjects());
 
 			// ##################################################
 			dependency.join(val.getDependency());
 			// ##################################################
 			
+			// ==================================================
+			node.addParent(val);
+			// ==================================================
+			
 			NativeFunctions.expectParameters(nativeobject, call, c, 0, 0);
-			return Value.makeAnyStr(dependency);
+			return Value.makeAnyStr(dependency, node.getReference());
 		}
 		
 		case DATE_UTC: { // 15.9.4.3
@@ -307,23 +423,35 @@ public class JSDate {
 			Dependency dependency = new Dependency();
 			// ##################################################
 			
+			// ==================================================
+			DependencyExpressionNode node = DependencyNode.link(Label.CALL, call.getSourceNode(), state);
+			// ==================================================
+			
 			NativeFunctions.expectParameters(nativeobject, call, c, 2, 7);
-			return createDateObject(call.getSourceNode(), state, dependency);
+			return createDateObject(call.getSourceNode(), state, dependency, node.getReference());
 		}
 		
 		case DATE_VALUEOF: { // 15.9.5.8
 			// ##################################################
 			Dependency dependency = new Dependency();
 			// ##################################################
+
+			// ==================================================
+			DependencyExpressionNode node = DependencyNode.link(Label.CALL, call.getSourceNode(), state);
+			// ==================================================
 			
 			Value val = state.readInternalValue(state.readThisObjects());
 
 			// ##################################################
 			dependency.join(val.getDependency());
 			// ##################################################
+			
+			// ==================================================
+			node.addParent(val);
+			// ==================================================
 
 			NativeFunctions.expectParameters(nativeobject, call, c, 0, 0);
-			return Value.makeAnyNum(dependency);
+			return Value.makeAnyNum(dependency, node.getReference());
 		}
 		
 		default:
@@ -334,11 +462,11 @@ public class JSDate {
 	/**
 	 * Creates a new Date object.
 	 */
-	private static Value createDateObject(Node n, State state, Dependency dependency) {	
+	private static Value createDateObject(Node n, State state, Dependency dependency, DependencyGraphReference reference) {	
 		ObjectLabel objlabel = new ObjectLabel(n, Kind.DATE);
 		state.newObject(objlabel);
-		state.writeInternalValue(objlabel, Value.makeAnyNum(dependency));
-		state.writeInternalPrototype(objlabel, Value.makeObject(InitialStateBuilder.DATE_PROTOTYPE, dependency));
-		return Value.makeObject(objlabel, dependency);
+		state.writeInternalValue(objlabel, Value.makeAnyNum(dependency, reference));
+		state.writeInternalPrototype(objlabel, Value.makeObject(InitialStateBuilder.DATE_PROTOTYPE, dependency, reference));
+		return Value.makeObject(objlabel, dependency, reference);
 	}
 }

@@ -5,6 +5,7 @@ import dk.brics.tajs.analysis.dom.DOMObjects;
 import dk.brics.tajs.analysis.dom.DOMSpec;
 import dk.brics.tajs.analysis.dom.DOMWindow;
 import dk.brics.tajs.dependency.Dependency;
+import dk.brics.tajs.dependency.graph.DependencyGraphReference;
 import dk.brics.tajs.flowgraph.ObjectLabel;
 import dk.brics.tajs.lattice.Value;
 
@@ -22,19 +23,19 @@ public class HTMLMapElement {
 	public static void build(State s) {
 		// Prototype Object
 		s.newObject(MAP_PROTOTYPE);
-		createDOMInternalPrototype(s, MAP_PROTOTYPE, Value.makeObject(HTMLElement.ELEMENT_PROTOTYPE, new Dependency()));
+		createDOMInternalPrototype(s, MAP_PROTOTYPE, Value.makeObject(HTMLElement.ELEMENT_PROTOTYPE, new Dependency(), new DependencyGraphReference()));
 
 		// Multiplied Object
 		s.newObject(MAP);
-		createDOMInternalPrototype(s, MAP, Value.makeObject(MAP_PROTOTYPE, new Dependency()));
-		createDOMProperty(s, DOMWindow.WINDOW, "HTMLMapElement", Value.makeObject(MAP, new Dependency()));
+		createDOMInternalPrototype(s, MAP, Value.makeObject(MAP_PROTOTYPE, new Dependency(), new DependencyGraphReference()));
+		createDOMProperty(s, DOMWindow.WINDOW, "HTMLMapElement", Value.makeObject(MAP, new Dependency(), new DependencyGraphReference()));
 
 		/*
 		 * Properties.
 		 */
 		// DOM Level 1
-		createDOMProperty(s, MAP, "areas", Value.makeObject(HTMLCollection.COLLECTION, new Dependency()).setReadOnly(), DOMSpec.LEVEL_1);
-		createDOMProperty(s, MAP, "name", Value.makeAnyStr(new Dependency()), DOMSpec.LEVEL_1);
+		createDOMProperty(s, MAP, "areas", Value.makeObject(HTMLCollection.COLLECTION, new Dependency(), new DependencyGraphReference()).setReadOnly(), DOMSpec.LEVEL_1);
+		createDOMProperty(s, MAP, "name", Value.makeAnyStr(new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_1);
 
 		s.multiplyObject(MAP);
 		MAP = MAP.makeSingleton().makeSummary();

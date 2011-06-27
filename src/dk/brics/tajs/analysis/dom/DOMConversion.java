@@ -5,6 +5,7 @@ import java.util.Set;
 import dk.brics.tajs.analysis.Solver;
 import dk.brics.tajs.analysis.State;
 import dk.brics.tajs.dependency.Dependency;
+import dk.brics.tajs.dependency.graph.DependencyGraphReference;
 import dk.brics.tajs.flowgraph.NativeObject;
 import dk.brics.tajs.flowgraph.ObjectLabel;
 import dk.brics.tajs.lattice.Value;
@@ -73,7 +74,7 @@ public class DOMConversion {
 			c.addMessage(status, Message.Severity.HIGH, message);
 		}
 
-		return Value.makeObject(result, value.getDependency());
+		return Value.makeObject(result, value.getDependency(), new DependencyGraphReference());
 	}
 
 	/**
@@ -90,6 +91,9 @@ public class DOMConversion {
 		// ##################################################
 		Dependency dependency = new Dependency() ;
 		dependency.join(value.getDependency());
+
+		DependencyGraphReference reference = new DependencyGraphReference();
+		reference.join(value.getDependencyGraphReference());
 		// ##################################################
 
 		State state = solverInterface.getCurrentState();
@@ -111,6 +115,7 @@ public class DOMConversion {
 
 						// ##################################################
 						dependency.join(prototypeValue.getDependency());
+						reference.join(prototypeValue.getDependencyGraphReference());
 						// ##################################################
 
 						if (objectLabel.getNativeObjectID().toString().equals(nativeObject.toString()) || objectLabel.getNativeObjectID().toString().equals(nativeObject.toString() + ".prototype")) {
@@ -164,7 +169,7 @@ public class DOMConversion {
 		}
 		}
 
-		return Value.makeObject(matches, dependency);
+		return Value.makeObject(matches, dependency, reference);
 	}
 
 }

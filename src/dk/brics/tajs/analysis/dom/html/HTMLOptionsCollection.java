@@ -11,6 +11,7 @@ import dk.brics.tajs.analysis.dom.DOMObjects;
 import dk.brics.tajs.analysis.dom.DOMSpec;
 import dk.brics.tajs.analysis.dom.DOMWindow;
 import dk.brics.tajs.dependency.Dependency;
+import dk.brics.tajs.dependency.graph.DependencyGraphReference;
 import dk.brics.tajs.flowgraph.ObjectLabel;
 import dk.brics.tajs.lattice.Value;
 
@@ -31,18 +32,18 @@ public class HTMLOptionsCollection {
 	public static void build(State s) {
 		// Prototype Object
 		s.newObject(OPTIONSCOLLECTION_PROTOTYPE);
-		createDOMInternalPrototype(s, OPTIONSCOLLECTION_PROTOTYPE, Value.makeObject(InitialStateBuilder.OBJECT_PROTOTYPE, new Dependency()));
+		createDOMInternalPrototype(s, OPTIONSCOLLECTION_PROTOTYPE, Value.makeObject(InitialStateBuilder.OBJECT_PROTOTYPE, new Dependency(), new DependencyGraphReference()));
 
 		// Multiplied Object
 		s.newObject(OPTIONSCOLLECTION);
-		createDOMInternalPrototype(s, OPTIONSCOLLECTION, Value.makeObject(OPTIONSCOLLECTION_PROTOTYPE, new Dependency()));
-		createDOMProperty(s, DOMWindow.WINDOW, "HTMLOptionsCollection", Value.makeObject(OPTIONSCOLLECTION, new Dependency()));
+		createDOMInternalPrototype(s, OPTIONSCOLLECTION, Value.makeObject(OPTIONSCOLLECTION_PROTOTYPE, new Dependency(), new DependencyGraphReference()));
+		createDOMProperty(s, DOMWindow.WINDOW, "HTMLOptionsCollection", Value.makeObject(OPTIONSCOLLECTION, new Dependency(), new DependencyGraphReference()));
 
 		/*
 		 * Properties.
 		 */
 		// DOM Level 2
-		createDOMProperty(s, OPTIONSCOLLECTION, "length", Value.makeAnyNumUInt(new Dependency()).setReadOnly(), DOMSpec.LEVEL_2);
+		createDOMProperty(s, OPTIONSCOLLECTION, "length", Value.makeAnyNumUInt(new Dependency(), new DependencyGraphReference()).setReadOnly(), DOMSpec.LEVEL_2);
 
 		s.multiplyObject(OPTIONSCOLLECTION);
 		OPTIONSCOLLECTION = OPTIONSCOLLECTION.makeSingleton().makeSummary();

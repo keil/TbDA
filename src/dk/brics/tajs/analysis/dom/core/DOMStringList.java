@@ -10,6 +10,7 @@ import dk.brics.tajs.analysis.dom.DOMObjects;
 import dk.brics.tajs.analysis.dom.DOMSpec;
 import dk.brics.tajs.analysis.dom.DOMWindow;
 import dk.brics.tajs.dependency.Dependency;
+import dk.brics.tajs.dependency.graph.DependencyGraphReference;
 import dk.brics.tajs.flowgraph.ObjectLabel;
 import dk.brics.tajs.lattice.Value;
 
@@ -33,18 +34,18 @@ public class DOMStringList {
 	public static void build(State s) {
 		// Prototype object.
 		s.newObject(STRINGLIST_PROTOTYPE);
-		createDOMInternalPrototype(s, STRINGLIST_PROTOTYPE, Value.makeObject(InitialStateBuilder.OBJECT_PROTOTYPE, new Dependency()));
+		createDOMInternalPrototype(s, STRINGLIST_PROTOTYPE, Value.makeObject(InitialStateBuilder.OBJECT_PROTOTYPE, new Dependency(), new DependencyGraphReference()));
 
 		// Multiplied object.
 		s.newObject(STRINGLIST);
-		createDOMInternalPrototype(s, STRINGLIST, Value.makeObject(STRINGLIST_PROTOTYPE, new Dependency()));
-		createDOMProperty(s, DOMWindow.WINDOW, "StringList", Value.makeObject(STRINGLIST, new Dependency()));
+		createDOMInternalPrototype(s, STRINGLIST, Value.makeObject(STRINGLIST_PROTOTYPE, new Dependency(), new DependencyGraphReference()));
+		createDOMProperty(s, DOMWindow.WINDOW, "StringList", Value.makeObject(STRINGLIST, new Dependency(), new DependencyGraphReference()));
 
 		/*
 		 * Properties.
 		 */
 		// DOM Level 3
-		createDOMProperty(s, STRINGLIST, "length", Value.makeAnyNumUInt(new Dependency()).setReadOnly(), DOMSpec.LEVEL_3);
+		createDOMProperty(s, STRINGLIST, "length", Value.makeAnyNumUInt(new Dependency(), new DependencyGraphReference()).setReadOnly(), DOMSpec.LEVEL_3);
 
 		s.multiplyObject(STRINGLIST);
 		STRINGLIST = STRINGLIST.makeSingleton().makeSummary();
@@ -62,12 +63,12 @@ public class DOMStringList {
 		case STRINGLIST_ITEM: {
 			NativeFunctions.expectParameters(nativeObject, call, c, 1, 1);
 			Value index = Conversion.toInteger(call.getArg(0), c);
-			return Value.makeAnyStr(new Dependency()).joinNull();
+			return Value.makeAnyStr(new Dependency(), new DependencyGraphReference()).joinNull();
 		}
 		case STRINGLIST_CONTAINS: {
 			NativeFunctions.expectParameters(nativeObject, call, c, 1, 1);
 			Value str = Conversion.toString(call.getArg(0), c);
-			return Value.makeAnyBool(new Dependency());
+			return Value.makeAnyBool(new Dependency(), new DependencyGraphReference());
 		}
 		default: {
 			throw new UnsupportedOperationException("Unsupported Native Object " + nativeObject);

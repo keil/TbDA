@@ -88,6 +88,7 @@ import dk.brics.tajs.analysis.dom.html.HTMLUListElement;
 import dk.brics.tajs.analysis.dom.html5.CanvasRenderingContext2D;
 import dk.brics.tajs.analysis.dom.html5.HTMLCanvasElement;
 import dk.brics.tajs.dependency.Dependency;
+import dk.brics.tajs.dependency.graph.DependencyGraphReference;
 import dk.brics.tajs.flowgraph.NativeObject;
 import dk.brics.tajs.flowgraph.ObjectLabel;
 import dk.brics.tajs.lattice.Value;
@@ -249,7 +250,7 @@ public class DOMFunctions {
 	 * Returns a Value representing all possible HTML elements.
 	 */
 	public static Value makeAnyHTMLElement() {
-		return Value.makeObject(HTMLBuilder.HTML_OBJECT_LABELS, new Dependency());
+		return Value.makeObject(HTMLBuilder.HTML_OBJECT_LABELS, new Dependency(), new DependencyGraphReference());
 	}
 
 	/**
@@ -259,7 +260,7 @@ public class DOMFunctions {
 	public static Value makeAnyHTMLNodeList(State s) {
 		ObjectLabel nodeList = makeEmptyNodeList(s);
 		s.writeUnknownArrayProperty(nodeList, makeAnyHTMLElement());
-		return Value.makeObject(nodeList, new Dependency());
+		return Value.makeObject(nodeList, new Dependency(), new DependencyGraphReference());
 	}
 
 	/**
@@ -268,7 +269,7 @@ public class DOMFunctions {
 	public static ObjectLabel makeEmptyNodeList(State s) {
 		ObjectLabel nodeList = new ObjectLabel(DOMObjects.NODELIST, ObjectLabel.Kind.OBJECT);
 		s.newObject(nodeList);
-		s.writeInternalPrototype(nodeList, Value.makeObject(InitialStateBuilder.OBJECT_PROTOTYPE, new Dependency()));
+		s.writeInternalPrototype(nodeList, Value.makeObject(InitialStateBuilder.OBJECT_PROTOTYPE, new Dependency(), new DependencyGraphReference()));
 		return nodeList;
 	}
 

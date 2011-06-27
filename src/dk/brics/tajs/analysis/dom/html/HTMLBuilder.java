@@ -8,6 +8,7 @@ import dk.brics.tajs.analysis.State;
 import dk.brics.tajs.analysis.dom.DOMSpec;
 import dk.brics.tajs.analysis.dom.core.DOMDocument;
 import dk.brics.tajs.dependency.Dependency;
+import dk.brics.tajs.dependency.graph.DependencyGraphReference;
 import dk.brics.tajs.flowgraph.ObjectLabel;
 import dk.brics.tajs.lattice.Value;
 import dk.brics.tajs.util.Collections;
@@ -136,7 +137,7 @@ public class HTMLBuilder {
 		HTML_OBJECT_LABELS.add(HTMLUListElement.ULIST);
 
 		// Write documentElement (due to cyclic dependency)
-		createDOMProperty(s, DOMDocument.DOCUMENT, "documentElement", Value.makeObject(HTMLHtmlElement.HTML, new Dependency()), DOMSpec.LEVEL_1);
+		createDOMProperty(s, DOMDocument.DOCUMENT, "documentElement", Value.makeObject(HTMLHtmlElement.HTML, new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_1);
 	}
 
 }

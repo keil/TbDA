@@ -9,6 +9,7 @@ import dk.brics.tajs.analysis.State;
 import dk.brics.tajs.analysis.dom.DOMObjects;
 import dk.brics.tajs.analysis.dom.DOMSpec;
 import dk.brics.tajs.dependency.Dependency;
+import dk.brics.tajs.dependency.graph.DependencyGraphReference;
 import dk.brics.tajs.flowgraph.ObjectLabel;
 import dk.brics.tajs.lattice.Value;
 
@@ -28,11 +29,11 @@ public class DocumentEvent {
 	public static void build(State s) {
 		// Prototype object.
 		s.newObject(DOCUMENT_EVENT_PROTOTYPE);
-		createDOMInternalPrototype(s, DOCUMENT_EVENT_PROTOTYPE, Value.makeObject(InitialStateBuilder.OBJECT_PROTOTYPE, new Dependency()));
+		createDOMInternalPrototype(s, DOCUMENT_EVENT_PROTOTYPE, Value.makeObject(InitialStateBuilder.OBJECT_PROTOTYPE, new Dependency(), new DependencyGraphReference()));
 
 		// Multiplied object.
 		s.newObject(DOCUMENT_EVENT);
-		createDOMInternalPrototype(s, DOCUMENT_EVENT, Value.makeObject(DOCUMENT_EVENT_PROTOTYPE, new Dependency()));
+		createDOMInternalPrototype(s, DOCUMENT_EVENT, Value.makeObject(DOCUMENT_EVENT_PROTOTYPE, new Dependency(), new DependencyGraphReference()));
 		s.multiplyObject(DOCUMENT_EVENT);
 		DOCUMENT_EVENT = DOCUMENT_EVENT.makeSingleton().makeSummary();
 
@@ -52,7 +53,7 @@ public class DocumentEvent {
 		case DOCUMENT_EVENT_CREATE_EVENT: {
 			NativeFunctions.expectParameters(nativeObject, call, c, 1, 1);
 			Value eventType = Conversion.toString(call.getArg(0), c);
-			return Value.makeObject(Event.EVENT, new Dependency());
+			return Value.makeObject(Event.EVENT, new Dependency(), new DependencyGraphReference());
 		}
 		default:
 			throw new RuntimeException("Unsupported Native Object: " + nativeObject);

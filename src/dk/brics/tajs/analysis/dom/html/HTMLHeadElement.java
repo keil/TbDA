@@ -5,6 +5,7 @@ import dk.brics.tajs.analysis.dom.DOMObjects;
 import dk.brics.tajs.analysis.dom.DOMSpec;
 import dk.brics.tajs.analysis.dom.DOMWindow;
 import dk.brics.tajs.dependency.Dependency;
+import dk.brics.tajs.dependency.graph.DependencyGraphReference;
 import dk.brics.tajs.flowgraph.ObjectLabel;
 import dk.brics.tajs.lattice.Value;
 
@@ -22,18 +23,18 @@ public class HTMLHeadElement {
 	public static void build(State s) {
 		// Prototype Object
 		s.newObject(HEAD_PROTOTPE);
-		createDOMInternalPrototype(s, HEAD_PROTOTPE, Value.makeObject(HTMLElement.ELEMENT_PROTOTYPE, new Dependency()));
+		createDOMInternalPrototype(s, HEAD_PROTOTPE, Value.makeObject(HTMLElement.ELEMENT_PROTOTYPE, new Dependency(), new DependencyGraphReference()));
 
 		// Multiplied Object
 		s.newObject(HEAD);
-		createDOMInternalPrototype(s, HEAD, Value.makeObject(HEAD_PROTOTPE, new Dependency()));
-		createDOMProperty(s, DOMWindow.WINDOW, "HTMLHeadElement", Value.makeObject(HEAD, new Dependency()));
+		createDOMInternalPrototype(s, HEAD, Value.makeObject(HEAD_PROTOTPE, new Dependency(), new DependencyGraphReference()));
+		createDOMProperty(s, DOMWindow.WINDOW, "HTMLHeadElement", Value.makeObject(HEAD, new Dependency(), new DependencyGraphReference()));
 
 		/*
 		 * Properties.
 		 */
 		// DOM Level 1
-		createDOMProperty(s, HEAD, "profile", Value.makeAnyStr(new Dependency()), DOMSpec.LEVEL_1);
+		createDOMProperty(s, HEAD, "profile", Value.makeAnyStr(new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_1);
 
 		s.multiplyObject(HEAD);
 		HEAD = HEAD.makeSingleton().makeSummary();

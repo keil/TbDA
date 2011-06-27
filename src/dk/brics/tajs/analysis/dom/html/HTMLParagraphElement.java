@@ -5,6 +5,7 @@ import dk.brics.tajs.analysis.dom.DOMObjects;
 import dk.brics.tajs.analysis.dom.DOMSpec;
 import dk.brics.tajs.analysis.dom.DOMWindow;
 import dk.brics.tajs.dependency.Dependency;
+import dk.brics.tajs.dependency.graph.DependencyGraphReference;
 import dk.brics.tajs.flowgraph.ObjectLabel;
 import dk.brics.tajs.lattice.Value;
 
@@ -19,18 +20,18 @@ public class HTMLParagraphElement {
 	public static void build(State s) {
 		// Prototype Object
 		s.newObject(PARAGRAPH_PROTOTYPE);
-		createDOMInternalPrototype(s, PARAGRAPH_PROTOTYPE, Value.makeObject(HTMLElement.ELEMENT_PROTOTYPE, new Dependency()));
+		createDOMInternalPrototype(s, PARAGRAPH_PROTOTYPE, Value.makeObject(HTMLElement.ELEMENT_PROTOTYPE, new Dependency(), new DependencyGraphReference()));
 
 		// Multiplied Object
 		s.newObject(PARAGRAPH);
-		createDOMInternalPrototype(s, PARAGRAPH, Value.makeObject(PARAGRAPH_PROTOTYPE, new Dependency()));
-		createDOMProperty(s, DOMWindow.WINDOW, "HTMLParagraphElement", Value.makeObject(PARAGRAPH, new Dependency()));
+		createDOMInternalPrototype(s, PARAGRAPH, Value.makeObject(PARAGRAPH_PROTOTYPE, new Dependency(), new DependencyGraphReference()));
+		createDOMProperty(s, DOMWindow.WINDOW, "HTMLParagraphElement", Value.makeObject(PARAGRAPH, new Dependency(), new DependencyGraphReference()));
 
 		/*
 		 * Properties.
 		 */
 		// DOM Level 1
-		createDOMProperty(s, PARAGRAPH, "align", Value.makeAnyStr(new Dependency()), DOMSpec.LEVEL_1);
+		createDOMProperty(s, PARAGRAPH, "align", Value.makeAnyStr(new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_1);
 
 		s.multiplyObject(PARAGRAPH);
 		PARAGRAPH = PARAGRAPH.makeSingleton().makeSummary();

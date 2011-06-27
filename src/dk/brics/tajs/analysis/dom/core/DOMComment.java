@@ -4,6 +4,7 @@ import dk.brics.tajs.analysis.State;
 import dk.brics.tajs.analysis.dom.DOMObjects;
 import dk.brics.tajs.analysis.dom.DOMWindow;
 import dk.brics.tajs.dependency.Dependency;
+import dk.brics.tajs.dependency.graph.DependencyGraphReference;
 import dk.brics.tajs.flowgraph.ObjectLabel;
 import dk.brics.tajs.lattice.Value;
 
@@ -25,12 +26,12 @@ public class DOMComment {
 	public static void build(State s) {
 		// Prototype object.
 		s.newObject(COMMENT_PROTOTYPE);
-		createDOMInternalPrototype(s, COMMENT_PROTOTYPE, Value.makeObject(DOMCharacterData.CHARACTER_DATA_PROTOTYPE, new Dependency()));
+		createDOMInternalPrototype(s, COMMENT_PROTOTYPE, Value.makeObject(DOMCharacterData.CHARACTER_DATA_PROTOTYPE, new Dependency(), new DependencyGraphReference()));
 
 		// Multiplied object.
 		s.newObject(COMMENT);
-		createDOMInternalPrototype(s, COMMENT, Value.makeObject(COMMENT_PROTOTYPE, new Dependency()));
-		createDOMProperty(s, DOMWindow.WINDOW, "Comment", Value.makeObject(COMMENT, new Dependency()));
+		createDOMInternalPrototype(s, COMMENT, Value.makeObject(COMMENT_PROTOTYPE, new Dependency(), new DependencyGraphReference()));
+		createDOMProperty(s, DOMWindow.WINDOW, "Comment", Value.makeObject(COMMENT, new Dependency(), new DependencyGraphReference()));
 		s.multiplyObject(COMMENT);
 		COMMENT = COMMENT.makeSingleton().makeSummary();
 

@@ -8,6 +8,7 @@ import dk.brics.tajs.analysis.State;
 import dk.brics.tajs.analysis.dom.DOMObjects;
 import dk.brics.tajs.analysis.dom.DOMSpec;
 import dk.brics.tajs.dependency.Dependency;
+import dk.brics.tajs.dependency.graph.DependencyGraphReference;
 import dk.brics.tajs.flowgraph.ObjectLabel;
 import dk.brics.tajs.lattice.Value;
 
@@ -28,11 +29,11 @@ public class EventListener {
 	public static void build(State s) {
 		// Prototype object.
 		s.newObject(EVENT_LISTENER_PROTOTYPE);
-		createDOMInternalPrototype(s, EVENT_LISTENER_PROTOTYPE, Value.makeObject(InitialStateBuilder.OBJECT_PROTOTYPE, new Dependency()));
+		createDOMInternalPrototype(s, EVENT_LISTENER_PROTOTYPE, Value.makeObject(InitialStateBuilder.OBJECT_PROTOTYPE, new Dependency(), new DependencyGraphReference()));
 
 		// Multiplied object.
 		s.newObject(EVENT_LISTENER);
-		createDOMInternalPrototype(s, EVENT_LISTENER, Value.makeObject(EVENT_LISTENER_PROTOTYPE, new Dependency()));
+		createDOMInternalPrototype(s, EVENT_LISTENER, Value.makeObject(EVENT_LISTENER_PROTOTYPE, new Dependency(), new DependencyGraphReference()));
 		s.multiplyObject(EVENT_LISTENER);
 		EVENT_LISTENER = EVENT_LISTENER.makeSingleton().makeSummary();
 
@@ -51,7 +52,7 @@ public class EventListener {
 		switch (nativeObject) {
 		case EVENT_LISTENER_HANDLE_EVENT: {
 			NativeFunctions.expectParameters(nativeObject, call, c, 1, 1);
-			return Value.makeUndef(new Dependency());
+			return Value.makeUndef(new Dependency(), new DependencyGraphReference());
 		}
 		default:
 			throw new RuntimeException("Unsupported Native Object: " + nativeObject);

@@ -7,6 +7,7 @@ import dk.brics.tajs.analysis.Solver;
 import dk.brics.tajs.analysis.State;
 import dk.brics.tajs.analysis.dom.*;
 import dk.brics.tajs.dependency.Dependency;
+import dk.brics.tajs.dependency.graph.DependencyGraphReference;
 import dk.brics.tajs.flowgraph.ObjectLabel;
 import dk.brics.tajs.lattice.Value;
 
@@ -27,28 +28,28 @@ public class MutationEvent {
 	public static void build(State s) {
 		// Prototype object.
 		s.newObject(MUTATION_EVENT_PROTOTYPE);
-		createDOMInternalPrototype(s, MUTATION_EVENT_PROTOTYPE, Value.makeObject(Event.EVENT_PROTOTYPE, new Dependency()));
+		createDOMInternalPrototype(s, MUTATION_EVENT_PROTOTYPE, Value.makeObject(Event.EVENT_PROTOTYPE, new Dependency(), new DependencyGraphReference()));
 
 		// Multiplied object.
 		s.newObject(MUTATION_EVENT);
-		createDOMInternalPrototype(s, MUTATION_EVENT, Value.makeObject(MUTATION_EVENT_PROTOTYPE, new Dependency()));
-		createDOMProperty(s, DOMWindow.WINDOW, "MutationEvent", Value.makeObject(MUTATION_EVENT, new Dependency()));
+		createDOMInternalPrototype(s, MUTATION_EVENT, Value.makeObject(MUTATION_EVENT_PROTOTYPE, new Dependency(), new DependencyGraphReference()));
+		createDOMProperty(s, DOMWindow.WINDOW, "MutationEvent", Value.makeObject(MUTATION_EVENT, new Dependency(), new DependencyGraphReference()));
 
 		/*
 		 * Properties.
 		 */
-		createDOMProperty(s, MUTATION_EVENT, "relatedNode", Value.makeAnyStr(new Dependency()).setReadOnly(), DOMSpec.LEVEL_2);
-		createDOMProperty(s, MUTATION_EVENT, "prevValue", Value.makeAnyStr(new Dependency()).setReadOnly(), DOMSpec.LEVEL_2);
-		createDOMProperty(s, MUTATION_EVENT, "newValue", Value.makeAnyStr(new Dependency()).setReadOnly(), DOMSpec.LEVEL_2);
-		createDOMProperty(s, MUTATION_EVENT, "attrName", Value.makeAnyStr(new Dependency()).setReadOnly(), DOMSpec.LEVEL_2);
-		createDOMProperty(s, MUTATION_EVENT, "attrChange", Value.makeAnyNumUInt(new Dependency()).setReadOnly(), DOMSpec.LEVEL_2);
+		createDOMProperty(s, MUTATION_EVENT, "relatedNode", Value.makeAnyStr(new Dependency(), new DependencyGraphReference()).setReadOnly(), DOMSpec.LEVEL_2);
+		createDOMProperty(s, MUTATION_EVENT, "prevValue", Value.makeAnyStr(new Dependency(), new DependencyGraphReference()).setReadOnly(), DOMSpec.LEVEL_2);
+		createDOMProperty(s, MUTATION_EVENT, "newValue", Value.makeAnyStr(new Dependency(), new DependencyGraphReference()).setReadOnly(), DOMSpec.LEVEL_2);
+		createDOMProperty(s, MUTATION_EVENT, "attrName", Value.makeAnyStr(new Dependency(), new DependencyGraphReference()).setReadOnly(), DOMSpec.LEVEL_2);
+		createDOMProperty(s, MUTATION_EVENT, "attrChange", Value.makeAnyNumUInt(new Dependency(), new DependencyGraphReference()).setReadOnly(), DOMSpec.LEVEL_2);
 
 		/*
 		 * Constants (attrChangeType).
 		 */
-		createDOMProperty(s, MUTATION_EVENT_PROTOTYPE, "MODIFICATION", Value.makeNum(1, new Dependency()), DOMSpec.LEVEL_2);
-		createDOMProperty(s, MUTATION_EVENT_PROTOTYPE, "ADDITION", Value.makeNum(2, new Dependency()), DOMSpec.LEVEL_2);
-		createDOMProperty(s, MUTATION_EVENT_PROTOTYPE, "REMOVAL", Value.makeNum(3, new Dependency()), DOMSpec.LEVEL_2);
+		createDOMProperty(s, MUTATION_EVENT_PROTOTYPE, "MODIFICATION", Value.makeNum(1, new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_2);
+		createDOMProperty(s, MUTATION_EVENT_PROTOTYPE, "ADDITION", Value.makeNum(2, new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_2);
+		createDOMProperty(s, MUTATION_EVENT_PROTOTYPE, "REMOVAL", Value.makeNum(3, new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_2);
 
 		/*
 		 * Functions.
@@ -72,7 +73,7 @@ public class MutationEvent {
 			Value newValue = Conversion.toString(call.getArg(5), c);
 			Value attrName = Conversion.toString(call.getArg(6), c);
 			Value attrChange = Conversion.toNumber(call.getArg(7), c);
-			return Value.makeUndef(new Dependency());
+			return Value.makeUndef(new Dependency(), new DependencyGraphReference());
 		}
 		default:
 			throw new RuntimeException("Unsupported Native Object: " + nativeObject);

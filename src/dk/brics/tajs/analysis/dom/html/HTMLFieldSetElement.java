@@ -5,6 +5,7 @@ import dk.brics.tajs.analysis.dom.DOMObjects;
 import dk.brics.tajs.analysis.dom.DOMSpec;
 import dk.brics.tajs.analysis.dom.DOMWindow;
 import dk.brics.tajs.dependency.Dependency;
+import dk.brics.tajs.dependency.graph.DependencyGraphReference;
 import dk.brics.tajs.flowgraph.ObjectLabel;
 import dk.brics.tajs.lattice.Value;
 
@@ -23,18 +24,18 @@ public class HTMLFieldSetElement {
 	public static void build(State s) {
 		// Prototype Object
 		s.newObject(FIELDSET_PROTOTYPE);
-		createDOMInternalPrototype(s, FIELDSET_PROTOTYPE, Value.makeObject(HTMLElement.ELEMENT_PROTOTYPE, new Dependency()));
+		createDOMInternalPrototype(s, FIELDSET_PROTOTYPE, Value.makeObject(HTMLElement.ELEMENT_PROTOTYPE, new Dependency(), new DependencyGraphReference()));
 
 		// Multiplied Object
 		s.newObject(FIELDSET);
-		createDOMInternalPrototype(s, FIELDSET, Value.makeObject(FIELDSET_PROTOTYPE, new Dependency()));
-		createDOMProperty(s, DOMWindow.WINDOW, "HTMLFieldSetElement", Value.makeObject(FIELDSET, new Dependency()));
+		createDOMInternalPrototype(s, FIELDSET, Value.makeObject(FIELDSET_PROTOTYPE, new Dependency(), new DependencyGraphReference()));
+		createDOMProperty(s, DOMWindow.WINDOW, "HTMLFieldSetElement", Value.makeObject(FIELDSET, new Dependency(), new DependencyGraphReference()));
 
 		/*
 		 * Properties.
 		 */
 		// DOM Level 1
-		createDOMProperty(s, FIELDSET, "form", Value.makeObject(HTMLFormElement.FORM, new Dependency()).setReadOnly(), DOMSpec.LEVEL_1);
+		createDOMProperty(s, FIELDSET, "form", Value.makeObject(HTMLFormElement.FORM, new Dependency(), new DependencyGraphReference()).setReadOnly(), DOMSpec.LEVEL_1);
 
 		s.multiplyObject(FIELDSET);
 		FIELDSET = FIELDSET.makeSingleton().makeSummary();

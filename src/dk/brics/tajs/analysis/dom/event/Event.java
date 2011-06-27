@@ -6,6 +6,7 @@ import dk.brics.tajs.analysis.dom.DOMObjects;
 import dk.brics.tajs.analysis.dom.DOMSpec;
 import dk.brics.tajs.analysis.dom.DOMWindow;
 import dk.brics.tajs.dependency.Dependency;
+import dk.brics.tajs.dependency.graph.DependencyGraphReference;
 import dk.brics.tajs.flowgraph.ObjectLabel;
 import dk.brics.tajs.lattice.Value;
 
@@ -31,27 +32,27 @@ public class Event {
 	public static void build(State s) {
 		// Prototype object
 		s.newObject(EVENT_PROTOTYPE);
-		createDOMInternalPrototype(s, EVENT_PROTOTYPE, Value.makeObject(InitialStateBuilder.OBJECT_PROTOTYPE, new Dependency()));
+		createDOMInternalPrototype(s, EVENT_PROTOTYPE, Value.makeObject(InitialStateBuilder.OBJECT_PROTOTYPE, new Dependency(), new DependencyGraphReference()));
 
 		// Multiplied object
 		s.newObject(EVENT);
-		createDOMInternalPrototype(s, EVENT, Value.makeObject(EVENT_PROTOTYPE, new Dependency()));
-		createDOMProperty(s, DOMWindow.WINDOW, "Event", Value.makeObject(EVENT, new Dependency()));
+		createDOMInternalPrototype(s, EVENT, Value.makeObject(EVENT_PROTOTYPE, new Dependency(), new DependencyGraphReference()));
+		createDOMProperty(s, DOMWindow.WINDOW, "Event", Value.makeObject(EVENT, new Dependency(), new DependencyGraphReference()));
 
 		/*
 		 * Properties.
 		 */
-		createDOMProperty(s, EVENT_PROTOTYPE, "type", Value.makeAnyStr(new Dependency()).setReadOnly(), DOMSpec.LEVEL_2);
+		createDOMProperty(s, EVENT_PROTOTYPE, "type", Value.makeAnyStr(new Dependency(), new DependencyGraphReference()).setReadOnly(), DOMSpec.LEVEL_2);
 		createDOMProperty(s, EVENT_PROTOTYPE, "target", DOMFunctions.makeAnyHTMLElement().setReadOnly(), DOMSpec.LEVEL_2);
 		createDOMProperty(s, EVENT_PROTOTYPE, "currentTarget", DOMFunctions.makeAnyHTMLElement().setReadOnly(), DOMSpec.LEVEL_2);
-		createDOMProperty(s, EVENT_PROTOTYPE, "eventPhase", Value.makeAnyNumUInt(new Dependency()).setReadOnly(), DOMSpec.LEVEL_2);
-		createDOMProperty(s, EVENT_PROTOTYPE, "bubbles", Value.makeAnyBool(new Dependency()).setReadOnly(), DOMSpec.LEVEL_2);
-		createDOMProperty(s, EVENT_PROTOTYPE, "cancelable", Value.makeAnyBool(new Dependency()).setReadOnly(), DOMSpec.LEVEL_2);
-		createDOMProperty(s, EVENT_PROTOTYPE, "timeStamp", Value.makeAnyNumUInt(new Dependency()).setReadOnly(), DOMSpec.LEVEL_2);
+		createDOMProperty(s, EVENT_PROTOTYPE, "eventPhase", Value.makeAnyNumUInt(new Dependency(), new DependencyGraphReference()).setReadOnly(), DOMSpec.LEVEL_2);
+		createDOMProperty(s, EVENT_PROTOTYPE, "bubbles", Value.makeAnyBool(new Dependency(), new DependencyGraphReference()).setReadOnly(), DOMSpec.LEVEL_2);
+		createDOMProperty(s, EVENT_PROTOTYPE, "cancelable", Value.makeAnyBool(new Dependency(), new DependencyGraphReference()).setReadOnly(), DOMSpec.LEVEL_2);
+		createDOMProperty(s, EVENT_PROTOTYPE, "timeStamp", Value.makeAnyNumUInt(new Dependency(), new DependencyGraphReference()).setReadOnly(), DOMSpec.LEVEL_2);
 
 		// DOM LEVEL 0
-		createDOMProperty(s, EVENT_PROTOTYPE, "pageX", Value.makeAnyNumUInt(new Dependency()), DOMSpec.LEVEL_0);
-		createDOMProperty(s, EVENT_PROTOTYPE, "pageY", Value.makeAnyNumUInt(new Dependency()), DOMSpec.LEVEL_0);
+		createDOMProperty(s, EVENT_PROTOTYPE, "pageX", Value.makeAnyNumUInt(new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_0);
+		createDOMProperty(s, EVENT_PROTOTYPE, "pageY", Value.makeAnyNumUInt(new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_0);
 
 		s.multiplyObject(EVENT);
 		EVENT = EVENT.makeSingleton().makeSummary();
@@ -59,9 +60,9 @@ public class Event {
 		/*
 		 * Constants (PhaseType).
 		 */
-		createDOMProperty(s, EVENT_PROTOTYPE, "CAPTURING_PHASE", Value.makeNum(1, new Dependency()), DOMSpec.LEVEL_2);
-		createDOMProperty(s, EVENT_PROTOTYPE, "AT_TARGET", Value.makeNum(2, new Dependency()), DOMSpec.LEVEL_2);
-		createDOMProperty(s, EVENT_PROTOTYPE, "BUBBLING_PHASE", Value.makeNum(3, new Dependency()), DOMSpec.LEVEL_2);
+		createDOMProperty(s, EVENT_PROTOTYPE, "CAPTURING_PHASE", Value.makeNum(1, new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_2);
+		createDOMProperty(s, EVENT_PROTOTYPE, "AT_TARGET", Value.makeNum(2, new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_2);
+		createDOMProperty(s, EVENT_PROTOTYPE, "BUBBLING_PHASE", Value.makeNum(3, new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_2);
 
 		/*
 		 * Functions.
@@ -83,11 +84,11 @@ public class Event {
 			Value eventType = Conversion.toString(call.getArg(0), c);
 			Value canBubble = Conversion.toBoolean(call.getArg(0));
 			Value cancelable = Conversion.toBoolean(call.getArg(0));
-			return Value.makeUndef(new Dependency());
+			return Value.makeUndef(new Dependency(), new DependencyGraphReference());
 		}
 		case EVENT_PREVENT_DEFAULT: {
 			NativeFunctions.expectParameters(nativeObject, call, c, 0, 0);
-			return Value.makeUndef(new Dependency());
+			return Value.makeUndef(new Dependency(), new DependencyGraphReference());
 		}
 		case EVENT_STOP_PROPAGATION: {
 			throw new UnsupportedOperationException("EVENT_STOP_PROPAGATION not supported");

@@ -9,6 +9,7 @@ import java.util.TreeSet;
 
 import dk.brics.tajs.analysis.dom.html.HTMLBuilder;
 import dk.brics.tajs.dependency.Dependency;
+import dk.brics.tajs.dependency.graph.DependencyGraphReference;
 import dk.brics.tajs.flowgraph.Function;
 import dk.brics.tajs.flowgraph.Node;
 import dk.brics.tajs.flowgraph.ObjectLabel;
@@ -132,7 +133,7 @@ public class FunctionCalls {
 
 		@Override
 		public Value getArg(int i) {
-			return arg1 != null ? arg1 : Value.makeUndef(new Dependency());
+			return arg1 != null ? arg1 : Value.makeUndef(new Dependency(), new DependencyGraphReference());
 		}
 
 		@Override
@@ -171,6 +172,11 @@ public class FunctionCalls {
 		Dependency dependency = new Dependency();
 		dependency.join(caller_state.getDependency());
 		// ##################################################
+		
+		// ==================================================
+		DependencyGraphReference reference = new DependencyGraphReference();
+		reference.join(caller_state.getDependencyGraphReference());
+		// ==================================================
 
 		Value funval = call.getFunction();
 
@@ -178,6 +184,10 @@ public class FunctionCalls {
 		dependency.join(funval.getDependency());
 		// ##################################################
 
+		// ==================================================
+		reference.join(funval.getDependencyGraphReference());
+		// ==================================================
+		
 		boolean maybe_non_function = funval.isMaybePrimitive();
 		boolean maybe_function = false;
 		for (ObjectLabel objlabel : funval.getObjectLabels()) {
@@ -199,8 +209,10 @@ public class FunctionCalls {
 					res = res.joinDependency(dependency);
 					// ##################################################
 
-					res = res.joinDependencyGraphReference(funval.getDependencyGraphReference());
-
+					// ==================================================
+					res = res.joinDependencyGraphReference(reference);
+					// ==================================================
+					
 					c.setCurrentState(ts);
 					if ((!res.isBottom() && !newstate.isEmpty()) || Options.isPropagateDeadFlow()) {
 						if (old_ec != null)
@@ -219,7 +231,7 @@ public class FunctionCalls {
 		if (funval.getObjectLabels().isEmpty() && Options.isPropagateDeadFlow()) {
 			State newstate = caller_state.clone();
 			if (call.getResultVar() != CallNode.NO_VALUE)
-				newstate.writeTemporary(call.getResultVar(), Value.makeBottom(dependency));
+				newstate.writeTemporary(call.getResultVar(), Value.makeBottom(dependency, reference));
 			c.joinBlockEntry(newstate, call.getSourceNode().getBlock().getSingleSuccessor(), c.getCurrentContext());
 		}
 		Status s = maybe_non_function ? (maybe_function ? Status.MAYBE : Status.CERTAIN) : Status.NONE;
@@ -240,6 +252,11 @@ public class FunctionCalls {
 		Dependency dependency = new Dependency();
 		dependency.join(caller_state.getDependency());
 		// ##################################################
+
+		// ==================================================
+		DependencyGraphReference reference = new DependencyGraphReference();
+		reference.join(caller_state.getDependencyGraphReference());
+		// ==================================================
 
 		Function f = c.getFlowGraph().getFunction(obj_f);
 		Node n = call.getSourceNode();
@@ -270,6 +287,10 @@ public class FunctionCalls {
 			dependency.join(prototype.getDependency());
 			// ##################################################
 
+			// ==================================================
+			reference.join(prototype.getDependencyGraphReference());
+			// ==================================================
+			
 			if (prototype.isMaybePrimitive())
 				prototype = prototype.restrictToObject().joinObject(InitialStateBuilder.OBJECT_PROTOTYPE);
 			callee_state.writeInternalPrototype(new_obj, prototype);
@@ -294,14 +315,14 @@ public class FunctionCalls {
 			return; // test/wala/upward.js
 		}
 		callee_state.setExecutionContext(ExecutionContext.make(sc, varobj, this_objs));
-		callee_state.declareAndWriteVariable("arguments", Value.makeObject(argobj, dependency));
-		callee_state.writeInternalPrototype(argobj, Value.makeObject(InitialStateBuilder.OBJECT_PROTOTYPE, dependency));
-		callee_state.writeSpecialProperty(argobj, "callee", Value.makeObject(obj_f, dependency).setAttributes(true, false, false));
+		callee_state.declareAndWriteVariable("arguments", Value.makeObject(argobj, dependency, reference));
+		callee_state.writeInternalPrototype(argobj, Value.makeObject(InitialStateBuilder.OBJECT_PROTOTYPE, dependency, reference));
+		callee_state.writeSpecialProperty(argobj, "callee", Value.makeObject(obj_f, dependency, reference).setAttributes(true, false, false));
 		int num_formals = f.getParameterNames().size();
 		int num_actuals = call.getNumberOfArgs();
 		boolean num_actuals_unknown = call.isUnknownNumberOfArgs();
 		callee_state.writeSpecialProperty(argobj, "length",
-				(num_actuals_unknown ? Value.makeAnyNumUInt(dependency) : Value.makeNum(num_actuals, new Dependency())).setAttributes(true, false, false));
+				(num_actuals_unknown ? Value.makeAnyNumUInt(dependency, reference) : Value.makeNum(num_actuals, new Dependency(), new DependencyGraphReference())).setAttributes(true, false, false));
 		if (num_actuals_unknown)
 			callee_state.writeSpecialUnknownArrayProperty(argobj, call.getUnknownArg().setAttributes(true, false, false));
 		for (int i = 0; i < num_formals || (!num_actuals_unknown && i < num_actuals); i++) {
@@ -310,7 +331,7 @@ public class FunctionCalls {
 				v = call.getArg(i).summarize(s);
 				callee_state.writeSpecialProperty(argobj, Integer.toString(i), v.setAttributes(true, false, false));
 			} else
-				v = Value.makeUndef(dependency);
+				v = Value.makeUndef(dependency, reference);
 			if (i < num_formals)
 				callee_state.declareAndWriteVariable(f.getParameterNames().get(i), v);
 		}

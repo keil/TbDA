@@ -5,6 +5,7 @@ import dk.brics.tajs.analysis.dom.DOMObjects;
 import dk.brics.tajs.analysis.dom.DOMSpec;
 import dk.brics.tajs.analysis.dom.DOMWindow;
 import dk.brics.tajs.dependency.Dependency;
+import dk.brics.tajs.dependency.graph.DependencyGraphReference;
 import dk.brics.tajs.flowgraph.ObjectLabel;
 import dk.brics.tajs.lattice.Value;
 
@@ -19,18 +20,18 @@ public class HTMLDirectoryElement {
 	public static void build(State s) {
 		// Prototype Object
 		s.newObject(DIRECTORY_PROTOTYPE);
-		createDOMInternalPrototype(s, DIRECTORY_PROTOTYPE, Value.makeObject(HTMLElement.ELEMENT_PROTOTYPE, new Dependency()));
+		createDOMInternalPrototype(s, DIRECTORY_PROTOTYPE, Value.makeObject(HTMLElement.ELEMENT_PROTOTYPE, new Dependency(), new DependencyGraphReference()));
 
 		// Multiplied Object
 		s.newObject(DIRECTORY);
-		createDOMInternalPrototype(s, DIRECTORY, Value.makeObject(DIRECTORY_PROTOTYPE, new Dependency()));
-		createDOMProperty(s, DOMWindow.WINDOW, "HTMLDirectoryElement", Value.makeObject(DIRECTORY, new Dependency()));
+		createDOMInternalPrototype(s, DIRECTORY, Value.makeObject(DIRECTORY_PROTOTYPE, new Dependency(), new DependencyGraphReference()));
+		createDOMProperty(s, DOMWindow.WINDOW, "HTMLDirectoryElement", Value.makeObject(DIRECTORY, new Dependency(), new DependencyGraphReference()));
 
 		/*
 		 * Properties.
 		 */
 		// DOM Level 1
-		createDOMProperty(s, DIRECTORY, "compact", Value.makeAnyBool(new Dependency()), DOMSpec.LEVEL_1);
+		createDOMProperty(s, DIRECTORY, "compact", Value.makeAnyBool(new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_1);
 
 		s.multiplyObject(DIRECTORY);
 		DIRECTORY = DIRECTORY.makeSingleton().makeSummary();

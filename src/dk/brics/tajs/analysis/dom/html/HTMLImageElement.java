@@ -8,6 +8,7 @@ import dk.brics.tajs.analysis.dom.DOMObjects;
 import dk.brics.tajs.analysis.dom.DOMSpec;
 import dk.brics.tajs.analysis.dom.DOMWindow;
 import dk.brics.tajs.dependency.Dependency;
+import dk.brics.tajs.dependency.graph.DependencyGraphReference;
 import dk.brics.tajs.flowgraph.ObjectLabel;
 import dk.brics.tajs.lattice.Value;
 
@@ -26,41 +27,41 @@ public class HTMLImageElement {
 
 		// Prototype Object
 		s.newObject(IMAGE_PROTOTYPE);
-		createDOMInternalPrototype(s, IMAGE_PROTOTYPE, Value.makeObject(HTMLElement.ELEMENT_PROTOTYPE, new Dependency()));
+		createDOMInternalPrototype(s, IMAGE_PROTOTYPE, Value.makeObject(HTMLElement.ELEMENT_PROTOTYPE, new Dependency(), new DependencyGraphReference()));
 
 		// Multiplied Object
 		s.newObject(IMAGE);
-		createDOMInternalPrototype(s, IMAGE, Value.makeObject(IMAGE_PROTOTYPE, new Dependency()));
-		createDOMProperty(s, DOMWindow.WINDOW, "HTMLImageElement", Value.makeObject(IMAGE, new Dependency()));
+		createDOMInternalPrototype(s, IMAGE, Value.makeObject(IMAGE_PROTOTYPE, new Dependency(), new DependencyGraphReference()));
+		createDOMProperty(s, DOMWindow.WINDOW, "HTMLImageElement", Value.makeObject(IMAGE, new Dependency(), new DependencyGraphReference()));
 
 		/*
 		 * Properties.
 		 */
 		// DOM LEVEL 0
-		createDOMProperty(s, IMAGE, "complete", Value.makeAnyBool(new Dependency()), DOMSpec.LEVEL_0);
+		createDOMProperty(s, IMAGE, "complete", Value.makeAnyBool(new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_0);
 
 		// DOM Level 1
-		createDOMProperty(s, IMAGE, "lowSrc", Value.makeAnyStr(new Dependency()), DOMSpec.LEVEL_1);
-		createDOMProperty(s, IMAGE, "name", Value.makeAnyStr(new Dependency()), DOMSpec.LEVEL_1);
-		createDOMProperty(s, IMAGE, "align", Value.makeAnyStr(new Dependency()), DOMSpec.LEVEL_1);
-		createDOMProperty(s, IMAGE, "alt", Value.makeAnyStr(new Dependency()), DOMSpec.LEVEL_1);
-		createDOMProperty(s, IMAGE, "border", Value.makeAnyStr(new Dependency()), DOMSpec.LEVEL_1);
-		createDOMProperty(s, IMAGE, "isMap", Value.makeAnyBool(new Dependency()), DOMSpec.LEVEL_1);
-		createDOMProperty(s, IMAGE, "longDesc", Value.makeAnyStr(new Dependency()), DOMSpec.LEVEL_1);
-		createDOMProperty(s, IMAGE, "src", Value.makeAnyStr(new Dependency()), DOMSpec.LEVEL_1);
-		createDOMProperty(s, IMAGE, "useMap", Value.makeAnyStr(new Dependency()), DOMSpec.LEVEL_1);
+		createDOMProperty(s, IMAGE, "lowSrc", Value.makeAnyStr(new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_1);
+		createDOMProperty(s, IMAGE, "name", Value.makeAnyStr(new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_1);
+		createDOMProperty(s, IMAGE, "align", Value.makeAnyStr(new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_1);
+		createDOMProperty(s, IMAGE, "alt", Value.makeAnyStr(new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_1);
+		createDOMProperty(s, IMAGE, "border", Value.makeAnyStr(new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_1);
+		createDOMProperty(s, IMAGE, "isMap", Value.makeAnyBool(new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_1);
+		createDOMProperty(s, IMAGE, "longDesc", Value.makeAnyStr(new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_1);
+		createDOMProperty(s, IMAGE, "src", Value.makeAnyStr(new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_1);
+		createDOMProperty(s, IMAGE, "useMap", Value.makeAnyStr(new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_1);
 
 		// DOM Level 2
-		createDOMProperty(s, IMAGE, "height", Value.makeAnyNum(new Dependency()), DOMSpec.LEVEL_2);
-		createDOMProperty(s, IMAGE, "hspace", Value.makeAnyNum(new Dependency()), DOMSpec.LEVEL_2);
-		createDOMProperty(s, IMAGE, "vspace", Value.makeAnyNum(new Dependency()), DOMSpec.LEVEL_2);
-		createDOMProperty(s, IMAGE, "width", Value.makeAnyNum(new Dependency()), DOMSpec.LEVEL_2);
+		createDOMProperty(s, IMAGE, "height", Value.makeAnyNum(new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_2);
+		createDOMProperty(s, IMAGE, "hspace", Value.makeAnyNum(new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_2);
+		createDOMProperty(s, IMAGE, "vspace", Value.makeAnyNum(new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_2);
+		createDOMProperty(s, IMAGE, "width", Value.makeAnyNum(new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_2);
 
 		s.multiplyObject(IMAGE);
 		IMAGE = IMAGE.makeSingleton().makeSummary();
 
 		// DOM LEVEL 0
-		createDOMProperty(s, DOMWindow.WINDOW, "Image", Value.makeObject(IMAGE_CONSTRUCTOR, new Dependency()), DOMSpec.LEVEL_0);
+		createDOMProperty(s, DOMWindow.WINDOW, "Image", Value.makeObject(IMAGE_CONSTRUCTOR, new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_0);
 
 		/*
 		 * Functions.
@@ -75,7 +76,7 @@ public class HTMLImageElement {
 		switch (nativeObject) {
 		case HTMLIMAGEELEMENT_CONSTRUCTOR: {
 			NativeFunctions.expectParameters(nativeObject, call, c, 0, 0);
-			return Value.makeObject(IMAGE, new Dependency());
+			return Value.makeObject(IMAGE, new Dependency(), new DependencyGraphReference());
 		}
 		default: {
 			throw new RuntimeException("Unsupported Native Object: " + nativeObject);

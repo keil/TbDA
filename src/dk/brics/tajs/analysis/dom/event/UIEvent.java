@@ -5,6 +5,7 @@ import dk.brics.tajs.analysis.dom.DOMObjects;
 import dk.brics.tajs.analysis.dom.DOMSpec;
 import dk.brics.tajs.analysis.dom.DOMWindow;
 import dk.brics.tajs.dependency.Dependency;
+import dk.brics.tajs.dependency.graph.DependencyGraphReference;
 import dk.brics.tajs.flowgraph.ObjectLabel;
 import dk.brics.tajs.lattice.Value;
 
@@ -25,17 +26,17 @@ public class UIEvent {
 	public static void build(State s) {
 		// Prototype object.
 		s.newObject(UI_EVENT_PROTOTYPE);
-		createDOMInternalPrototype(s, UI_EVENT_PROTOTYPE, Value.makeObject(Event.EVENT_PROTOTYPE, new Dependency()));
+		createDOMInternalPrototype(s, UI_EVENT_PROTOTYPE, Value.makeObject(Event.EVENT_PROTOTYPE, new Dependency(), new DependencyGraphReference()));
 
 		// Multiplied object.
 		s.newObject(UI_EVENT);
-		createDOMInternalPrototype(s, UI_EVENT, Value.makeObject(UI_EVENT_PROTOTYPE, new Dependency()));
+		createDOMInternalPrototype(s, UI_EVENT, Value.makeObject(UI_EVENT_PROTOTYPE, new Dependency(), new DependencyGraphReference()));
 
 		/*
 		 * Properties.
 		 */
-		createDOMProperty(s, UI_EVENT, "detail", Value.makeAnyNum(new Dependency()).setReadOnly(), DOMSpec.LEVEL_2);
-		createDOMProperty(s, UI_EVENT, "view", Value.makeObject(DOMWindow.WINDOW, new Dependency()).setReadOnly(), DOMSpec.LEVEL_2);
+		createDOMProperty(s, UI_EVENT, "detail", Value.makeAnyNum(new Dependency(), new DependencyGraphReference()).setReadOnly(), DOMSpec.LEVEL_2);
+		createDOMProperty(s, UI_EVENT, "view", Value.makeObject(DOMWindow.WINDOW, new Dependency(), new DependencyGraphReference()).setReadOnly(), DOMSpec.LEVEL_2);
 
 		/*
 		 * Functions.
@@ -52,7 +53,7 @@ public class UIEvent {
 			Value cancelableArg = Conversion.toBoolean(call.getArg(2));
 			// View arg not modelled...
 			Value detailArg = Conversion.toNumber(call.getArg(4), c);
-			return Value.makeUndef(new Dependency());
+			return Value.makeUndef(new Dependency(), new DependencyGraphReference());
 		}
 		default:
 			throw new UnsupportedOperationException("Unsupported Native Object: "

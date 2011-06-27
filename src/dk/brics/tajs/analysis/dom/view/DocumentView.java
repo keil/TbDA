@@ -5,6 +5,7 @@ import dk.brics.tajs.analysis.dom.DOMSpec;
 import dk.brics.tajs.analysis.dom.DOMWindow;
 import dk.brics.tajs.analysis.dom.core.DOMNode;
 import dk.brics.tajs.dependency.Dependency;
+import dk.brics.tajs.dependency.graph.DependencyGraphReference;
 import dk.brics.tajs.lattice.Value;
 
 import static dk.brics.tajs.analysis.dom.DOMFunctions.createDOMProperty;
@@ -21,6 +22,6 @@ public class DocumentView {
         /*
          * Properties.
          */
-        createDOMProperty(s, DOMNode.NODE, "defaultView", Value.makeObject(DOMWindow.WINDOW, new Dependency()).setReadOnly(), DOMSpec.LEVEL_2);
+        createDOMProperty(s, DOMNode.NODE, "defaultView", Value.makeObject(DOMWindow.WINDOW, new Dependency(), new DependencyGraphReference()).setReadOnly(), DOMSpec.LEVEL_2);
     }
 }

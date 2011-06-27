@@ -5,6 +5,7 @@ import dk.brics.tajs.analysis.dom.DOMObjects;
 import dk.brics.tajs.analysis.dom.DOMSpec;
 import dk.brics.tajs.analysis.dom.DOMWindow;
 import dk.brics.tajs.dependency.Dependency;
+import dk.brics.tajs.dependency.graph.DependencyGraphReference;
 import dk.brics.tajs.flowgraph.ObjectLabel;
 import dk.brics.tajs.lattice.Value;
 
@@ -22,18 +23,18 @@ public class HTMLQuoteElement {
 	public static void build(State s) {
 		// Prototype Object
 		s.newObject(QUOTE_PROTOTYPE);
-		createDOMInternalPrototype(s, QUOTE_PROTOTYPE, Value.makeObject(HTMLElement.ELEMENT_PROTOTYPE, new Dependency()));
+		createDOMInternalPrototype(s, QUOTE_PROTOTYPE, Value.makeObject(HTMLElement.ELEMENT_PROTOTYPE, new Dependency(), new DependencyGraphReference()));
 
 		// Multiplied Object
 		s.newObject(QUOTE);
-		createDOMInternalPrototype(s, QUOTE, Value.makeObject(QUOTE_PROTOTYPE, new Dependency()));
-		createDOMProperty(s, DOMWindow.WINDOW, "HTMLQuoteElement", Value.makeObject(QUOTE, new Dependency()));
+		createDOMInternalPrototype(s, QUOTE, Value.makeObject(QUOTE_PROTOTYPE, new Dependency(), new DependencyGraphReference()));
+		createDOMProperty(s, DOMWindow.WINDOW, "HTMLQuoteElement", Value.makeObject(QUOTE, new Dependency(), new DependencyGraphReference()));
 
 		/*
 		 * Properties.
 		 */
 		// DOM Level 1
-		createDOMProperty(s, QUOTE, "cite", Value.makeAnyStr(new Dependency()), DOMSpec.LEVEL_1);
+		createDOMProperty(s, QUOTE, "cite", Value.makeAnyStr(new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_1);
 
 		s.multiplyObject(QUOTE);
 		QUOTE = QUOTE.makeSingleton().makeSummary();

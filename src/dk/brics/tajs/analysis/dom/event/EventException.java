@@ -6,6 +6,7 @@ import dk.brics.tajs.analysis.dom.DOMObjects;
 import dk.brics.tajs.analysis.dom.DOMSpec;
 import dk.brics.tajs.analysis.dom.DOMWindow;
 import dk.brics.tajs.dependency.Dependency;
+import dk.brics.tajs.dependency.graph.DependencyGraphReference;
 import dk.brics.tajs.flowgraph.ObjectLabel;
 import dk.brics.tajs.lattice.Value;
 
@@ -21,17 +22,17 @@ public class EventException {
 	public static void build(State s) {
 		// Prototype object.
 		s.newObject(EVENT_EXCEPTION_PROTOTYPE);
-		createDOMInternalPrototype(s, EVENT_EXCEPTION_PROTOTYPE, Value.makeObject(InitialStateBuilder.OBJECT_PROTOTYPE, new Dependency()));
+		createDOMInternalPrototype(s, EVENT_EXCEPTION_PROTOTYPE, Value.makeObject(InitialStateBuilder.OBJECT_PROTOTYPE, new Dependency(), new DependencyGraphReference()));
 
 		// Multiplied object.
 		s.newObject(EVENT_EXCEPTION);
-		createDOMInternalPrototype(s, EVENT_EXCEPTION, Value.makeObject(EVENT_EXCEPTION_PROTOTYPE, new Dependency()));
-		createDOMProperty(s, DOMWindow.WINDOW, "EventException", Value.makeObject(EVENT_EXCEPTION, new Dependency()));
+		createDOMInternalPrototype(s, EVENT_EXCEPTION, Value.makeObject(EVENT_EXCEPTION_PROTOTYPE, new Dependency(), new DependencyGraphReference()));
+		createDOMProperty(s, DOMWindow.WINDOW, "EventException", Value.makeObject(EVENT_EXCEPTION, new Dependency(), new DependencyGraphReference()));
 
 		/*
 		 * Properties.
 		 */
-		createDOMProperty(s, EVENT_EXCEPTION, "code", Value.makeAnyNumUInt(new Dependency()), DOMSpec.LEVEL_2);
+		createDOMProperty(s, EVENT_EXCEPTION, "code", Value.makeAnyNumUInt(new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_2);
 
 		s.multiplyObject(EVENT_EXCEPTION);
 		EVENT_EXCEPTION = EVENT_EXCEPTION.makeSingleton().makeSummary();
@@ -39,7 +40,7 @@ public class EventException {
 		/*
 		 * Constants.
 		 */
-		createDOMProperty(s, EVENT_EXCEPTION_PROTOTYPE, "UNSPECIFIED_EVENT_TYPE_ERR", Value.makeNum(0, new Dependency()), DOMSpec.LEVEL_2);
+		createDOMProperty(s, EVENT_EXCEPTION_PROTOTYPE, "UNSPECIFIED_EVENT_TYPE_ERR", Value.makeNum(0, new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_2);
 
 		/*
 		 * Functions.

@@ -5,6 +5,7 @@ import dk.brics.tajs.analysis.dom.DOMConversion;
 import dk.brics.tajs.analysis.dom.DOMObjects;
 import dk.brics.tajs.analysis.dom.DOMSpec;
 import dk.brics.tajs.dependency.Dependency;
+import dk.brics.tajs.dependency.graph.DependencyGraphReference;
 import dk.brics.tajs.flowgraph.ObjectLabel;
 import dk.brics.tajs.lattice.Value;
 
@@ -20,26 +21,26 @@ public class WheelEvent {
 	public static void build(State s) {
 		// Prototype object
 		s.newObject(WHEEL_EVENT_PROTOTYPE);
-		createDOMInternalPrototype(s, WHEEL_EVENT_PROTOTYPE, Value.makeObject(MouseEvent.MOUSE_EVENT_PROTOTYPE, new Dependency()));
+		createDOMInternalPrototype(s, WHEEL_EVENT_PROTOTYPE, Value.makeObject(MouseEvent.MOUSE_EVENT_PROTOTYPE, new Dependency(), new DependencyGraphReference()));
 
 		// Multiplied object
 		s.newObject(WHEEL_EVENT);
-		createDOMInternalPrototype(s, WHEEL_EVENT, Value.makeObject(WHEEL_EVENT_PROTOTYPE, new Dependency()));
+		createDOMInternalPrototype(s, WHEEL_EVENT, Value.makeObject(WHEEL_EVENT_PROTOTYPE, new Dependency(), new DependencyGraphReference()));
 
 		/*
 		 * Constants.
 		 */
-		createDOMProperty(s, WHEEL_EVENT_PROTOTYPE, "DOM_DELTA_PIXEL", Value.makeNum(0, new Dependency()), DOMSpec.LEVEL_3);
-		createDOMProperty(s, WHEEL_EVENT_PROTOTYPE, "DOM_DELTA_LINE", Value.makeNum(1, new Dependency()), DOMSpec.LEVEL_3);
-		createDOMProperty(s, WHEEL_EVENT_PROTOTYPE, "DOM_DELTA_PAGE", Value.makeNum(2, new Dependency()), DOMSpec.LEVEL_3);
+		createDOMProperty(s, WHEEL_EVENT_PROTOTYPE, "DOM_DELTA_PIXEL", Value.makeNum(0, new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_3);
+		createDOMProperty(s, WHEEL_EVENT_PROTOTYPE, "DOM_DELTA_LINE", Value.makeNum(1, new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_3);
+		createDOMProperty(s, WHEEL_EVENT_PROTOTYPE, "DOM_DELTA_PAGE", Value.makeNum(2, new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_3);
 
 		/*
 		 * Properties.
 		 */
-		createDOMProperty(s, WHEEL_EVENT, "deltaX", Value.makeAnyNum(new Dependency()).setReadOnly(), DOMSpec.LEVEL_3);
-		createDOMProperty(s, WHEEL_EVENT, "deltaY", Value.makeAnyNum(new Dependency()).setReadOnly(), DOMSpec.LEVEL_3);
-		createDOMProperty(s, WHEEL_EVENT, "deltaZ", Value.makeAnyNum(new Dependency()).setReadOnly(), DOMSpec.LEVEL_3);
-		createDOMProperty(s, WHEEL_EVENT, "deltaMode", Value.makeAnyNumUInt(new Dependency()).setReadOnly(), DOMSpec.LEVEL_3);
+		createDOMProperty(s, WHEEL_EVENT, "deltaX", Value.makeAnyNum(new Dependency(), new DependencyGraphReference()).setReadOnly(), DOMSpec.LEVEL_3);
+		createDOMProperty(s, WHEEL_EVENT, "deltaY", Value.makeAnyNum(new Dependency(), new DependencyGraphReference()).setReadOnly(), DOMSpec.LEVEL_3);
+		createDOMProperty(s, WHEEL_EVENT, "deltaZ", Value.makeAnyNum(new Dependency(), new DependencyGraphReference()).setReadOnly(), DOMSpec.LEVEL_3);
+		createDOMProperty(s, WHEEL_EVENT, "deltaMode", Value.makeAnyNumUInt(new Dependency(), new DependencyGraphReference()).setReadOnly(), DOMSpec.LEVEL_3);
 
 		/*
 		 * Functions.
@@ -72,7 +73,7 @@ public class WheelEvent {
 			Value deltaYArg = Conversion.toNumber(call.getArg(13), c);
 			Value deltaZArg = Conversion.toNumber(call.getArg(14), c);
 			Value deltaMode = Conversion.toNumber(call.getArg(15), c);
-			return Value.makeUndef(new Dependency());
+			return Value.makeUndef(new Dependency(), new DependencyGraphReference());
 		}
 		default: {
 			throw new UnsupportedOperationException("Unsupported Native Object: " + nativeObject);

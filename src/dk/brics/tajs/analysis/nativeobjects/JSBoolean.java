@@ -7,6 +7,7 @@ import dk.brics.tajs.analysis.Solver;
 import dk.brics.tajs.analysis.State;
 import dk.brics.tajs.analysis.FunctionCalls.CallInfo;
 import dk.brics.tajs.dependency.Dependency;
+import dk.brics.tajs.dependency.graph.DependencyGraphReference;
 import dk.brics.tajs.dependency.graph.DependencyNode;
 import dk.brics.tajs.dependency.graph.Label;
 import dk.brics.tajs.dependency.graph.nodes.DependencyExpressionNode;
@@ -27,7 +28,7 @@ public class JSBoolean {
 	public static Value evaluate(ECMAScriptObjects nativeobject, CallInfo call, State state, Solver.SolverInterface c) {
 		if (nativeobject != ECMAScriptObjects.BOOLEAN)
 			if (NativeFunctions.throwTypeErrorIfConstructor(call, state, c))
-				return Value.makeBottom(new Dependency());
+				return Value.makeBottom(new Dependency(), new DependencyGraphReference());
 
 		switch (nativeobject) {
 
@@ -51,8 +52,8 @@ public class JSBoolean {
 				ObjectLabel objlabel = new ObjectLabel(call.getSourceNode(), Kind.BOOLEAN);
 				state.newObject(objlabel);
 				state.writeInternalValue(objlabel, b);
-				state.writeInternalPrototype(objlabel, Value.makeObject(InitialStateBuilder.BOOLEAN_PROTOTYPE, dependency).joinDependencyGraphReference(node));
-				return Value.makeObject(objlabel, dependency).joinDependencyGraphReference(node);
+				state.writeInternalPrototype(objlabel, Value.makeObject(InitialStateBuilder.BOOLEAN_PROTOTYPE, dependency, node.getReference()));
+				return Value.makeObject(objlabel, dependency, node.getReference());
 			} else // 15.6.1
 				return b;
 		}
@@ -64,7 +65,7 @@ public class JSBoolean {
 			
 			NativeFunctions.expectParameters(nativeobject, call, c, 0, 0);
 			if (NativeFunctions.throwTypeErrorIfWrongKindOfThis(nativeobject, call, state, c, Kind.BOOLEAN))
-				return Value.makeBottom(dependency);
+				return Value.makeBottom(new Dependency(), new DependencyGraphReference());
 			Value val = state.readInternalValue(state.readThisObjects());
 			
 			// ##################################################
@@ -76,13 +77,13 @@ public class JSBoolean {
 			// ==================================================
 			
 			if (val.isMaybeTrueButNotFalse())
-				return Value.makeStr("true", dependency).joinDependencyGraphReference(node);
+				return Value.makeStr("true", dependency, node.getReference());
 			else if (val.isMaybeFalseButNotTrue())
-				return Value.makeStr("false", dependency).joinDependencyGraphReference(node);
+				return Value.makeStr("false", dependency, node.getReference());
 			else if (val.isMaybeAnyBool()) 
-				return Value.makeAnyStr(dependency).joinDependencyGraphReference(node); // TODO: treat {"true","false"} specially in Value?
+				return Value.makeAnyStr(dependency, node.getReference()); // TODO: treat {"true","false"} specially in Value?
 			else
-				return Value.makeBottom(dependency).joinDependencyGraphReference(node);
+				return Value.makeBottom(dependency, node.getReference());
 		}
 		
 		case BOOLEAN_VALUEOF: { // 15.6.4.3
@@ -96,8 +97,8 @@ public class JSBoolean {
 			
 			NativeFunctions.expectParameters(nativeobject, call, c, 0, 0);
 			if (NativeFunctions.throwTypeErrorIfWrongKindOfThis(nativeobject, call, state, c, Kind.BOOLEAN))
-				return Value.makeBottom(dependency).joinDependencyGraphReference(node);
-			return state.readInternalValue(state.readThisObjects()).joinDependencyGraphReference(node);
+				return Value.makeBottom(dependency, node.getReference());
+			return state.readInternalValue(state.readThisObjects());
 		}
 			
 		default:

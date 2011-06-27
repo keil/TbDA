@@ -7,6 +7,7 @@ import dk.brics.tajs.analysis.dom.event.MouseEvent;
 import dk.brics.tajs.analysis.dom.event.MutationEvent;
 import dk.brics.tajs.analysis.dom.event.WheelEvent;
 import dk.brics.tajs.dependency.Dependency;
+import dk.brics.tajs.dependency.graph.DependencyGraphReference;
 import dk.brics.tajs.flowgraph.ObjectLabel;
 import dk.brics.tajs.lattice.Value;
 import dk.brics.tajs.options.Options;
@@ -22,7 +23,7 @@ public class DOMEvents {
 	public static Value createAnyKeyboardEvent(State s) {
 		Set<ObjectLabel> labels = Collections.newSet();
 		labels.add(KeyboardEvent.KEYBOARD_EVENT);
-		return Value.makeObject(labels, new Dependency());
+		return Value.makeObject(labels, new Dependency(), new DependencyGraphReference());
 	}
 
 	/**
@@ -31,7 +32,7 @@ public class DOMEvents {
 	public static Value createAnyMouseEvent(State s) {
 		Set<ObjectLabel> labels = Collections.newSet();
 		labels.add(MouseEvent.MOUSE_EVENT);
-		return Value.makeObject(labels, new Dependency());
+		return Value.makeObject(labels, new Dependency(), new DependencyGraphReference());
 	}
 
 	/**
@@ -43,7 +44,7 @@ public class DOMEvents {
 		labels.add(MouseEvent.MOUSE_EVENT);
 		labels.add(MutationEvent.MUTATION_EVENT);
 		labels.add(WheelEvent.WHEEL_EVENT);
-		return Value.makeObject(labels, new Dependency());
+		return Value.makeObject(labels, new Dependency(), new DependencyGraphReference());
 	}
 
 	/**

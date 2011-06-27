@@ -11,6 +11,7 @@ import dk.brics.tajs.analysis.dom.DOMSpec;
 import dk.brics.tajs.analysis.dom.DOMWindow;
 import dk.brics.tajs.analysis.dom.html.HTMLBuilder;
 import dk.brics.tajs.dependency.Dependency;
+import dk.brics.tajs.dependency.graph.DependencyGraphReference;
 import dk.brics.tajs.flowgraph.ObjectLabel;
 import dk.brics.tajs.flowgraph.ObjectLabel.Kind;
 import dk.brics.tajs.lattice.Value;
@@ -36,32 +37,32 @@ public class DOMDocument {
 	public static void build(State s) {
 		// Prototype object.
 		s.newObject(DOCUMENT_PROTOTYPE);
-		createDOMInternalPrototype(s, DOCUMENT_PROTOTYPE, Value.makeObject(DOMNode.NODE_PROTOTYPE, new Dependency()));
+		createDOMInternalPrototype(s, DOCUMENT_PROTOTYPE, Value.makeObject(DOMNode.NODE_PROTOTYPE, new Dependency(), new DependencyGraphReference()));
 
 		// Multiplied object.
 		s.newObject(DOCUMENT);
-		createDOMInternalPrototype(s, DOCUMENT, Value.makeObject(DOCUMENT_PROTOTYPE, new Dependency()));
-		createDOMProperty(s, DOMWindow.WINDOW, "Document", Value.makeObject(DOCUMENT, new Dependency()));
+		createDOMInternalPrototype(s, DOCUMENT, Value.makeObject(DOCUMENT_PROTOTYPE, new Dependency(), new DependencyGraphReference()));
+		createDOMProperty(s, DOMWindow.WINDOW, "Document", Value.makeObject(DOCUMENT, new Dependency(), new DependencyGraphReference()));
 
 		/**
 		 * Properties.
 		 */
 		// DOM LEVEL 1
-		createDOMProperty(s, DOCUMENT, "doctype", Value.makeObject(DOMDocumentType.TYPE, new Dependency()), DOMSpec.LEVEL_1);
-		createDOMProperty(s, DOCUMENT, "implementation", Value.makeObject(DOMImplementation.IMPLEMENTATION, new Dependency()), DOMSpec.LEVEL_1);
+		createDOMProperty(s, DOCUMENT, "doctype", Value.makeObject(DOMDocumentType.TYPE, new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_1);
+		createDOMProperty(s, DOCUMENT, "implementation", Value.makeObject(DOMImplementation.IMPLEMENTATION, new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_1);
 		// NB: The documentElement property is written by HTMLBuilder (due to cyclic dependency).
 
 		// DOM LEVEL 2
 		// None.
 
 		// DOM LEVEL 3
-		createDOMProperty(s, DOCUMENT, "inputEncoding", Value.makeAnyStr(new Dependency()).setReadOnly(), DOMSpec.LEVEL_3);
-		createDOMProperty(s, DOCUMENT, "xmlEncoding", Value.makeAnyStr(new Dependency()).setReadOnly(), DOMSpec.LEVEL_3);
-		createDOMProperty(s, DOCUMENT, "xmlStandalone", Value.makeAnyBool(new Dependency()), DOMSpec.LEVEL_3);
-		createDOMProperty(s, DOCUMENT, "xmlVersion", Value.makeAnyStr(new Dependency()), DOMSpec.LEVEL_3);
-		createDOMProperty(s, DOCUMENT, "strictErrorChecking", Value.makeAnyBool(new Dependency()), DOMSpec.LEVEL_3);
-		createDOMProperty(s, DOCUMENT, "documentURI", Value.makeAnyStr(new Dependency()), DOMSpec.LEVEL_3);
-		createDOMProperty(s, DOCUMENT, "domConfig", Value.makeObject(DOMConfiguration.CONFIGURATION, new Dependency()), DOMSpec.LEVEL_3);
+		createDOMProperty(s, DOCUMENT, "inputEncoding", Value.makeAnyStr(new Dependency(), new DependencyGraphReference()).setReadOnly(), DOMSpec.LEVEL_3);
+		createDOMProperty(s, DOCUMENT, "xmlEncoding", Value.makeAnyStr(new Dependency(), new DependencyGraphReference()).setReadOnly(), DOMSpec.LEVEL_3);
+		createDOMProperty(s, DOCUMENT, "xmlStandalone", Value.makeAnyBool(new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_3);
+		createDOMProperty(s, DOCUMENT, "xmlVersion", Value.makeAnyStr(new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_3);
+		createDOMProperty(s, DOCUMENT, "strictErrorChecking", Value.makeAnyBool(new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_3);
+		createDOMProperty(s, DOCUMENT, "documentURI", Value.makeAnyStr(new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_3);
+		createDOMProperty(s, DOCUMENT, "domConfig", Value.makeObject(DOMConfiguration.CONFIGURATION, new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_3);
 
 		s.multiplyObject(DOCUMENT);
 		DOCUMENT = DOCUMENT.makeSingleton().makeSummary();
@@ -104,7 +105,7 @@ public class DOMDocument {
 		case DOCUMENT_CREATE_ATTRIBUTE: {
 			NativeFunctions.expectParameters(nativeobject, call, c, 1, 1);
 			Value name = Conversion.toString(NativeFunctions.readParameter(call, 0), c);
-			return Value.makeObject(DOMAttr.ATTR, new Dependency());
+			return Value.makeObject(DOMAttr.ATTR, new Dependency(), new DependencyGraphReference());
 		}
 		case DOCUMENT_CREATE_ATTRIBUTE_NS: {
 			throw new UnsupportedOperationException("DOCUMENT_CREATE_ATTRIBUTE_NS not supported.");
@@ -114,23 +115,23 @@ public class DOMDocument {
 			Conversion.toString(NativeFunctions.readParameter(call, 0), c);
 			ObjectLabel label = new ObjectLabel(DOMObjects.CDATASECTION, Kind.OBJECT);
 			s.newObject(label);
-			return Value.makeObject(label, new Dependency());
+			return Value.makeObject(label, new Dependency(), new DependencyGraphReference());
 		}
 		case DOCUMENT_CREATE_COMMENT: {
 			NativeFunctions.expectParameters(nativeobject, call, c, 1, 1);
 			Conversion.toString(NativeFunctions.readParameter(call, 0), c);
 			ObjectLabel label = new ObjectLabel(DOMObjects.COMMENT, Kind.OBJECT);
 			s.newObject(label);
-			return Value.makeObject(label, new Dependency());
+			return Value.makeObject(label, new Dependency(), new DependencyGraphReference());
 		}
 		case DOCUMENT_CREATE_ELEMENT: {
 			NativeFunctions.expectParameters(nativeobject, call, c, 1, 1);
 			Value tagname = Conversion.toString(call.getArg(0), c);
 			if (tagname.isMaybeSingleStr()) {
 				String t = tagname.getStr();
-				return Value.makeObject(DOMFunctions.getHTMLObjectLabel(t), new Dependency());
+				return Value.makeObject(DOMFunctions.getHTMLObjectLabel(t), new Dependency(), new DependencyGraphReference());
 			} else if (tagname.isMaybeFuzzyStr()) {
-				return Value.makeObject(HTMLBuilder.HTML_OBJECT_LABELS, new Dependency());
+				return Value.makeObject(HTMLBuilder.HTML_OBJECT_LABELS, new Dependency(), new DependencyGraphReference());
 			} else {
 				return DOMFunctions.makeAnyHTMLElement();
 			}
@@ -141,22 +142,22 @@ public class DOMDocument {
 		case DOCUMENT_CREATE_ENTITYREFERENCE: {
 			NativeFunctions.expectParameters(nativeobject, call, c, 1, 1);
 			Value name = Conversion.toString(call.getArg(0), c);
-			return Value.makeObject(DOMEntityReference.ENTITYREFERENCE, new Dependency());
+			return Value.makeObject(DOMEntityReference.ENTITYREFERENCE, new Dependency(), new DependencyGraphReference());
 		}
 		case DOCUMENT_CREATEPROCESSINGINSTRUCTION: {
 			NativeFunctions.expectParameters(nativeobject, call, c, 2, 2);
 			Value target = Conversion.toString(NativeFunctions.readParameter(call, 0), c);
 			Value data = Conversion.toString(NativeFunctions.readParameter(call, 1), c);
-			return Value.makeObject(DOMProcessingInstruction.PROCESSINGINSTRUCTION, new Dependency());
+			return Value.makeObject(DOMProcessingInstruction.PROCESSINGINSTRUCTION, new Dependency(), new DependencyGraphReference());
 		}
 		case DOCUMENT_CREATE_TEXTNODE: {
 			NativeFunctions.expectParameters(nativeobject, call, c, 1, 1);
 			Value data = Conversion.toString(NativeFunctions.readParameter(call, 0), c);
-			return Value.makeObject(DOMText.TEXT, new Dependency());
+			return Value.makeObject(DOMText.TEXT, new Dependency(), new DependencyGraphReference());
 		}
 		case DOCUMENT_CREATE_DOCUMENTFRAGMENT: {
 			NativeFunctions.expectParameters(nativeobject, call, c, 0, 0);
-			return Value.makeObject(DOMDocumentFragment.DOCUMENTFRAGMENT, new Dependency());
+			return Value.makeObject(DOMDocumentFragment.DOCUMENTFRAGMENT, new Dependency(), new DependencyGraphReference());
 		}
 		case DOCUMENT_GET_ELEMENT_BY_ID: {
 			NativeFunctions.expectParameters(nativeobject, call, c, 1, 1);
@@ -164,11 +165,11 @@ public class DOMDocument {
 			if (id.isMaybeSingleStr()) {
 				Set<ObjectLabel> labels = s.getElementById(id.getStr());
 				if (labels.size() > 0) {
-					return Value.makeObject(labels, new Dependency());
+					return Value.makeObject(labels, new Dependency(), new DependencyGraphReference());
 				}
-				return Value.makeNull(new Dependency());
+				return Value.makeNull(new Dependency(), new DependencyGraphReference());
 			} else if (id.isMaybeFuzzyStr()) {
-				return Value.makeObject(s.getAllElementById(), new Dependency());
+				return Value.makeObject(s.getAllElementById(), new Dependency(), new DependencyGraphReference());
 			} else {
 				return DOMFunctions.makeAnyHTMLElement();
 			}
@@ -178,20 +179,20 @@ public class DOMDocument {
 			Value tagname = Conversion.toString(call.getArg(0), c);
 			if (tagname.isMaybeSingleStr()) {
 				Set<ObjectLabel> labels = s.getElementsByTagName(tagname.getStr());
-				Value v = Value.makeObject(labels, new Dependency());
+				Value v = Value.makeObject(labels, new Dependency(), new DependencyGraphReference());
 				ObjectLabel nodeList = DOMFunctions.makeEmptyNodeList(s);
 				if (labels.size() > 0) {
 					s.writeUnknownArrayProperty(nodeList, v);
 				}
-				return Value.makeObject(nodeList, new Dependency());
+				return Value.makeObject(nodeList, new Dependency(), new DependencyGraphReference());
 			} else if (tagname.isMaybeFuzzyStr()) {
 				Set<ObjectLabel> labels = s.getAllElementsByTagName();
-				Value v = Value.makeObject(labels, new Dependency());
+				Value v = Value.makeObject(labels, new Dependency(), new DependencyGraphReference());
 				ObjectLabel nodeList = DOMFunctions.makeEmptyNodeList(s);
 				if (labels.size() > 0) {
 					s.writeUnknownArrayProperty(nodeList, v);
 				}
-				return Value.makeObject(nodeList, new Dependency());
+				return Value.makeObject(nodeList, new Dependency(), new DependencyGraphReference());
 			} else {
 				return DOMFunctions.makeAnyHTMLElement();
 			}

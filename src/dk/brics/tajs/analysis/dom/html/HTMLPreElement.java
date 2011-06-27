@@ -5,6 +5,7 @@ import dk.brics.tajs.analysis.dom.DOMObjects;
 import dk.brics.tajs.analysis.dom.DOMSpec;
 import dk.brics.tajs.analysis.dom.DOMWindow;
 import dk.brics.tajs.dependency.Dependency;
+import dk.brics.tajs.dependency.graph.DependencyGraphReference;
 import dk.brics.tajs.flowgraph.ObjectLabel;
 import dk.brics.tajs.lattice.Value;
 
@@ -19,18 +20,18 @@ public class HTMLPreElement {
 	public static void build(State s) {
 		// Prototype Object
 		s.newObject(PRE_PROTOTYPE);
-		createDOMInternalPrototype(s, PRE_PROTOTYPE, Value.makeObject(HTMLElement.ELEMENT_PROTOTYPE, new Dependency()));
+		createDOMInternalPrototype(s, PRE_PROTOTYPE, Value.makeObject(HTMLElement.ELEMENT_PROTOTYPE, new Dependency(), new DependencyGraphReference()));
 
 		// Multiplied Object
 		s.newObject(PRE);
-		createDOMInternalPrototype(s, PRE, Value.makeObject(PRE_PROTOTYPE, new Dependency()));
-		createDOMProperty(s, DOMWindow.WINDOW, "HTMLPreElement", Value.makeObject(PRE, new Dependency()));
+		createDOMInternalPrototype(s, PRE, Value.makeObject(PRE_PROTOTYPE, new Dependency(), new DependencyGraphReference()));
+		createDOMProperty(s, DOMWindow.WINDOW, "HTMLPreElement", Value.makeObject(PRE, new Dependency(), new DependencyGraphReference()));
 
 		/*
 		 * Properties.
 		 */
 		// DOM Level 1
-		createDOMProperty(s, PRE, "width", Value.makeAnyNum(new Dependency()), DOMSpec.LEVEL_1);
+		createDOMProperty(s, PRE, "width", Value.makeAnyNum(new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_1);
 
 		s.multiplyObject(PRE);
 		PRE = PRE.makeSingleton().makeSummary();

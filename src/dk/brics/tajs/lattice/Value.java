@@ -70,22 +70,22 @@ public final class Value implements Undef, Null, Bool, Num, Str, IDependency<Val
 	private static int objset_cache_hits;
 	private static int objset_cache_misses;
 
-	private static Value theBottom = reallyMakeBottom(new Dependency());
+	private static Value theBottom = reallyMakeBottom(new Dependency(), new DependencyGraphReference());
 	private static Value theUndef = reallyMakeUndef(null);
 	private static Value theNull = reallyMakeNull(null);
-	private static Value theBoolTrue = reallyMakeBool(true, new Dependency());
-	private static Value theBoolFalse = reallyMakeBool(false, new Dependency());
-	private static Value theBoolAny = reallyMakeBool(null, new Dependency());
-	private static Value theStrAny = reallyMakeAnyStr(new Dependency());
-	private static Value theNumAny = reallyMakeAnyNum(new Dependency());
-	private static Value theNumUInt = reallyMakeAnyUInt(new Dependency());
-	private static Value theNumNotUInt = reallyMakeAnyNotUInt(new Dependency());
-	private static Value theNumNotNaNInf = reallyMakeAnyNumNotNaNInf(new Dependency());
-	private static Value theNumNaN = reallyMakeNumNaN(new Dependency());
-	private static Value theNumInf = reallyMakeNumInf(new Dependency());
-	private static Value theAbsent = reallyMakeAbsent(new Dependency());
-	private static Value theAbsentModified = reallyMakeAbsentModified(new Dependency());
-	private static Value theUnknown = reallyMakeUnknown(new Dependency());
+	private static Value theBoolTrue = reallyMakeBool(true, new Dependency(), new DependencyGraphReference());
+	private static Value theBoolFalse = reallyMakeBool(false, new Dependency(), new DependencyGraphReference());
+	private static Value theBoolAny = reallyMakeBool(null, new Dependency(), new DependencyGraphReference());
+	private static Value theStrAny = reallyMakeAnyStr(new Dependency(), new DependencyGraphReference());
+	private static Value theNumAny = reallyMakeAnyNum(new Dependency(), new DependencyGraphReference());
+	private static Value theNumUInt = reallyMakeAnyUInt(new Dependency(), new DependencyGraphReference());
+	private static Value theNumNotUInt = reallyMakeAnyNotUInt(new Dependency(), new DependencyGraphReference());
+	private static Value theNumNotNaNInf = reallyMakeAnyNumNotNaNInf(new Dependency(), new DependencyGraphReference());
+	private static Value theNumNaN = reallyMakeNumNaN(new Dependency(), new DependencyGraphReference());
+	private static Value theNumInf = reallyMakeNumInf(new Dependency(), new DependencyGraphReference());
+	private static Value theAbsent = reallyMakeAbsent(new Dependency(), new DependencyGraphReference());
+	private static Value theAbsentModified = reallyMakeAbsentModified(new Dependency(), new DependencyGraphReference());
+	private static Value theUnknown = reallyMakeUnknown(new Dependency(), new DependencyGraphReference());
 
 	/*
 	 * Representation invariant: !((flags & STR_ANY) != 0 && str != null) &&
@@ -127,19 +127,34 @@ public final class Value implements Undef, Null, Bool, Num, Str, IDependency<Val
 	/**
 	 * Constructs a new value with given dependency object.
 	 */
-	private Value(DependencyObject dependencyObject) {
-		this(dependencyObject.getDependency());
+	private Value(DependencyObject dependencyObject, DependencyNode node) {
+		this(dependencyObject.getDependency(), node.getReference());
+	}
+
+	/**
+	 * Constructs a new value with given dependency object.
+	 */
+	private Value(DependencyObject dependencyObject, DependencyGraphReference reference) {
+		this(dependencyObject.getDependency(), reference);
 	}
 
 	/**
 	 * Constructs a new bottom value with given dependency.
 	 */
-	private Value(Dependency dependency) {
+	private Value(Dependency dependency, DependencyNode node) {
+		this(dependency, node.getReference());
+	}
+	
+	/**
+	 * Constructs a new bottom value with given dependency.
+	 */
+	private Value(Dependency dependency, DependencyGraphReference reference) {
 		flags = 0;
 		num = null;
 		str = null;
 		object_labels = null;
 		mDependency = new Dependency(dependency);
+		mDependencyGraphReference = new DependencyGraphReference(reference);
 	}
 
 	/**
@@ -158,7 +173,7 @@ public final class Value implements Undef, Null, Bool, Num, Str, IDependency<Val
 	 * Constructs a empty value.
 	 */
 	private Value() {
-		this(new Dependency());
+		this(new Dependency(), new DependencyGraphReference());
 	}
 
 	private static Value canonicalize(Value v) {
@@ -288,15 +303,15 @@ public final class Value implements Undef, Null, Bool, Num, Str, IDependency<Val
 		return (flags & MODIFIED) != 0;
 	}
 
-	private static Value reallyMakeBottom(Dependency dependency) {
-		return canonicalize(new Value(dependency));
+	private static Value reallyMakeBottom(Dependency dependency, DependencyGraphReference reference) {
+		return canonicalize(new Value(dependency, reference));
 	}
 
 	/**
 	 * Constructs the bottom value.
 	 */
-	public static Value makeBottom(Dependency dependency) {
-		return theBottom.joinDependency(dependency);
+	public static Value makeBottom(Dependency dependency, DependencyGraphReference reference) {
+		return theBottom.joinDependency(dependency).joinDependencyGraphReference(reference);
 	}
 
 	/**
@@ -358,22 +373,22 @@ public final class Value implements Undef, Null, Bool, Num, Str, IDependency<Val
 	/**
 	 * Constructs the absent value.
 	 */
-	public static Value makeAbsent(Dependency dependency) {
-		return theAbsent.joinDependency(dependency);
+	public static Value makeAbsent(Dependency dependency, DependencyGraphReference reference) {
+		return theAbsent.joinDependency(dependency).joinDependencyGraphReference(reference);
 	}
 
 	/**
 	 * Constructs the absent modified value.
 	 */
-	public static Value makeAbsentModified(Dependency dependency) {
-		return theAbsentModified.joinDependency(dependency);
+	public static Value makeAbsentModified(Dependency dependency, DependencyGraphReference reference) {
+		return theAbsentModified.joinDependency(dependency).joinDependencyGraphReference(reference);
 	}
 
 	/**
 	 * Constructs the unknown value.
 	 */
-	public static Value makeUnknown(Dependency dependency) {
-		return theUnknown.joinDependency(dependency);
+	public static Value makeUnknown(Dependency dependency, DependencyGraphReference reference) {
+		return theUnknown.joinDependency(dependency).joinDependencyGraphReference(reference);
 	}
 
 	/**
@@ -437,20 +452,20 @@ public final class Value implements Undef, Null, Bool, Num, Str, IDependency<Val
 		}
 	}
 
-	private static Value reallyMakeAbsent(Dependency dependency) {
-		Value r = new Value(dependency);
+	private static Value reallyMakeAbsent(Dependency dependency, DependencyGraphReference reference) {
+		Value r = new Value(dependency, reference);
 		r.flags |= ABSENT;
 		return canonicalize(r);
 	}
 
-	private static Value reallyMakeAbsentModified(Dependency dependency) {
-		Value r = new Value(dependency);
+	private static Value reallyMakeAbsentModified(Dependency dependency, DependencyGraphReference reference) {
+		Value r = new Value(dependency, reference);
 		r.flags |= ABSENT | MODIFIED;
 		return canonicalize(r);
 	}
 
-	private static Value reallyMakeUnknown(Dependency dependency) {
-		Value r = new Value(dependency);
+	private static Value reallyMakeUnknown(Dependency dependency, DependencyGraphReference reference) {
+		Value r = new Value(dependency, reference);
 		r.flags |= UNKNOWN;
 		return canonicalize(r);
 	}
@@ -796,7 +811,7 @@ public final class Value implements Undef, Null, Bool, Num, Str, IDependency<Val
 	 * Constructs a value as the join of the given collection of values.
 	 */
 	public static Value join(Iterable<Value> values) {
-		Value r = new Value(new Dependency());
+		Value r = new Value(new Dependency(), new DependencyGraphReference());
 		for (Value v : values)
 			r.joinMutable(v);
 		return canonicalize(r);
@@ -806,7 +821,7 @@ public final class Value implements Undef, Null, Bool, Num, Str, IDependency<Val
 	 * Constructs a value as the join of the given collection of values.
 	 */
 	public static Value join(Value... values) {
-		Value r = new Value(new Dependency());
+		Value r = new Value(new Dependency(), new DependencyGraphReference());
 		for (Value v : values)
 			r.joinMutable(v);
 		return canonicalize(r);
@@ -1174,12 +1189,12 @@ public final class Value implements Undef, Null, Bool, Num, Str, IDependency<Val
 	@Override
 	public Value restrictToUndef() {
 		if (isNotUndef())
-			return theBottom.joinDependency(mDependency);
-		return theUndef.joinDependency(mDependency);
+			return theBottom.joinDependency(mDependency).joinDependencyGraphReference(mDependencyGraphReference);
+		return theUndef.joinDependency(mDependency).joinDependencyGraphReference(mDependencyGraphReference);
 	}
 
 	private static Value reallyMakeUndef(Value prototype) {
-		Value r = (prototype == null) ? new Value(new Dependency()) : new Value(prototype);
+		Value r = (prototype == null) ? new Value(new Dependency(), new DependencyGraphReference()) : new Value(prototype);
 		r.flags |= UNDEF;
 		return canonicalize(r);
 	}
@@ -1187,8 +1202,8 @@ public final class Value implements Undef, Null, Bool, Num, Str, IDependency<Val
 	/**
 	 * Constructs the value describing definitely undefined.
 	 */
-	public static Value makeUndef(Dependency dependency) {
-		return theUndef.joinDependency(dependency);
+	public static Value makeUndef(Dependency dependency, DependencyGraphReference reference) {
+		return theUndef.joinDependency(dependency).joinDependencyGraphReference(reference);
 	}
 
 	/* the Null facet */
@@ -1228,8 +1243,8 @@ public final class Value implements Undef, Null, Bool, Num, Str, IDependency<Val
 	@Override
 	public Value restrictToNull() {
 		if (isNotNull())
-			return theBottom.joinDependency(mDependency);
-		return theNull.joinDependency(mDependency);
+			return theBottom.joinDependency(mDependency).joinDependencyGraphReference(mDependencyGraphReference);
+		return theNull.joinDependency(mDependency).joinDependencyGraphReference(mDependencyGraphReference);
 	}
 
 	/**
@@ -1252,7 +1267,7 @@ public final class Value implements Undef, Null, Bool, Num, Str, IDependency<Val
 	}
 
 	private static Value reallyMakeNull(Value prototype) {
-		Value r = (prototype == null) ? new Value(new Dependency()) : new Value(prototype);
+		Value r = (prototype == null) ? new Value(new Dependency(), new DependencyGraphReference()) : new Value(prototype);
 		r.flags |= NULL;
 		return canonicalize(r);
 	}
@@ -1260,8 +1275,8 @@ public final class Value implements Undef, Null, Bool, Num, Str, IDependency<Val
 	/**
 	 * Constructs the value describing definitely null.
 	 */
-	public static Value makeNull(Dependency dependency) {
-		return theNull.joinDependency(dependency);
+	public static Value makeNull(Dependency dependency, DependencyGraphReference reference) {
+		return theNull.joinDependency(dependency).joinDependencyGraphReference(reference);
 	}
 
 	/* the Bool facet */
@@ -1323,8 +1338,8 @@ public final class Value implements Undef, Null, Bool, Num, Str, IDependency<Val
 		}
 	}
 
-	private static Value reallyMakeBool(Boolean b, Dependency dependency) {
-		Value r = new Value(dependency);
+	private static Value reallyMakeBool(Boolean b, Dependency dependency, DependencyGraphReference reference) {
+		Value r = new Value(dependency, reference);
 		if (b == null)
 			r.flags |= BOOL_ANY;
 		else if (b)
@@ -1337,18 +1352,18 @@ public final class Value implements Undef, Null, Bool, Num, Str, IDependency<Val
 	/**
 	 * Constructs the value representing any boolean.
 	 */
-	public static Value makeAnyBool(Dependency dependency) {
-		return theBoolAny.joinDependency(dependency);
+	public static Value makeAnyBool(Dependency dependency, DependencyGraphReference reference) {
+		return theBoolAny.joinDependency(dependency).joinDependencyGraphReference(reference);
 	}
 
 	/**
 	 * Constructs the value describing the given boolean.
 	 */
-	public static Value makeBool(boolean b, Dependency dependenc) {
+	public static Value makeBool(boolean b, Dependency dependenc, DependencyGraphReference reference) {
 		if (b)
-			return reallyMakeBool(true, dependenc); // return theBoolTrue;
+			return reallyMakeBool(true, dependenc, reference); // return theBoolTrue;
 		else
-			return reallyMakeBool(false, dependenc);// return theBoolFalse;
+			return reallyMakeBool(false, dependenc, reference);// return theBoolFalse;
 	}
 
 	/**
@@ -1357,13 +1372,13 @@ public final class Value implements Undef, Null, Bool, Num, Str, IDependency<Val
 	 */
 	public Value restrictToBool() {
 		if (isMaybeAnyBool())
-			return theBoolAny.joinDependency(mDependency);
+			return theBoolAny.joinDependency(mDependency).joinDependencyGraphReference(mDependencyGraphReference);
 		else if (isMaybeTrueButNotFalse())
-			return theBoolTrue.joinDependency(mDependency);
+			return theBoolTrue.joinDependency(mDependency).joinDependencyGraphReference(mDependencyGraphReference);
 		else if (isMaybeFalseButNotTrue())
-			return theBoolFalse.joinDependency(mDependency);
+			return theBoolFalse.joinDependency(mDependency).joinDependencyGraphReference(mDependencyGraphReference);
 		else
-			return theBottom.joinDependency(mDependency);
+			return theBottom.joinDependency(mDependency).joinDependencyGraphReference(mDependencyGraphReference);
 	}
 
 	/**
@@ -1544,38 +1559,38 @@ public final class Value implements Undef, Null, Bool, Num, Str, IDependency<Val
 		return canonicalize(r);
 	}
 
-	private static Value reallyMakeAnyUInt(Dependency dependency) {
-		Value r = new Value(dependency);
+	private static Value reallyMakeAnyUInt(Dependency dependency, DependencyGraphReference reference) {
+		Value r = new Value(dependency, reference);
 		r.flags = NUM_UINT;
 		return canonicalize(r);
 	}
 
-	private static Value reallyMakeAnyNotUInt(Dependency dependency) {
-		Value r = new Value(dependency);
+	private static Value reallyMakeAnyNotUInt(Dependency dependency, DependencyGraphReference reference) {
+		Value r = new Value(dependency, reference);
 		r.flags = NUM_NOTUINT;
 		return canonicalize(r);
 	}
 
-	private static Value reallyMakeAnyNumNotNaNInf(Dependency dependency) {
-		Value r = new Value(dependency);
+	private static Value reallyMakeAnyNumNotNaNInf(Dependency dependency, DependencyGraphReference reference) {
+		Value r = new Value(dependency, reference);
 		r.flags = NUM_UINT | NUM_NOTUINT;
 		return canonicalize(r);
 	}
 
-	private static Value reallyMakeNumNaN(Dependency dependency) {
-		Value r = new Value(dependency);
+	private static Value reallyMakeNumNaN(Dependency dependency, DependencyGraphReference reference) {
+		Value r = new Value(dependency, reference);
 		r.flags = NUM_NAN;
 		return canonicalize(r);
 	}
 
-	private static Value reallyMakeNumInf(Dependency dependency) {
-		Value r = new Value(dependency);
+	private static Value reallyMakeNumInf(Dependency dependency, DependencyGraphReference reference) {
+		Value r = new Value(dependency, reference);
 		r.flags = NUM_INF;
 		return canonicalize(r);
 	}
 
-	private static Value reallyMakeAnyNum(Dependency dependency) {
-		Value r = new Value(dependency);
+	private static Value reallyMakeAnyNum(Dependency dependency, DependencyGraphReference reference) {
+		Value r = new Value(dependency, reference);
 		r.flags = NUM_ANY;
 		return canonicalize(r);
 	}
@@ -1583,8 +1598,8 @@ public final class Value implements Undef, Null, Bool, Num, Str, IDependency<Val
 	/**
 	 * Constructs the value describing the given number.
 	 */
-	public static Value makeNum(double d, Dependency dependency) {
-		Value r = new Value(dependency);
+	public static Value makeNum(double d, Dependency dependency, DependencyGraphReference reference) {
+		Value r = new Value(dependency, reference);
 		if (Double.isNaN(d))
 			r.flags |= NUM_NAN;
 		else
@@ -1595,43 +1610,43 @@ public final class Value implements Undef, Null, Bool, Num, Str, IDependency<Val
 	/**
 	 * Constructs the value describing NaN.
 	 */
-	public static Value makeNumNaN(Dependency dependency) {
-		return theNumNaN.joinDependency(dependency);
+	public static Value makeNumNaN(Dependency dependency, DependencyGraphReference reference) {
+		return theNumNaN.joinDependency(dependency).joinDependencyGraphReference(reference);
 	}
 
 	/**
 	 * Constructs the value describing +/-Inf.
 	 */
-	public static Value makeNumInf(Dependency dependency) {
-		return theNumInf.joinDependency(dependency);
+	public static Value makeNumInf(Dependency dependency, DependencyGraphReference reference) {
+		return theNumInf.joinDependency(dependency).joinDependencyGraphReference(reference);
 	}
 
 	/**
 	 * Constructs the value describing any number.
 	 */
-	public static Value makeAnyNum(Dependency dependency) {
-		return theNumAny.joinDependency(dependency);
+	public static Value makeAnyNum(Dependency dependency, DependencyGraphReference reference) {
+		return theNumAny.joinDependency(dependency).joinDependencyGraphReference(reference);
 	}
 
 	/**
 	 * Constructs the value describing any UInt number.
 	 */
-	public static Value makeAnyNumUInt(Dependency dependency) {
-		return theNumUInt.joinDependency(dependency);
+	public static Value makeAnyNumUInt(Dependency dependency, DependencyGraphReference reference) {
+		return theNumUInt.joinDependency(dependency).joinDependencyGraphReference(reference);
 	}
 
 	/**
 	 * Constructs the value describing any non-UInt number.
 	 */
-	public static Value makeAnyNumNotUInt(Dependency dependency) {
-		return theNumNotUInt.joinDependency(dependency);
+	public static Value makeAnyNumNotUInt(Dependency dependency, DependencyGraphReference reference) {
+		return theNumNotUInt.joinDependency(dependency).joinDependencyGraphReference(reference);
 	}
 
 	/**
 	 * Constructs the value describing number except NaN and infinity.
 	 */
-	public static Value makeAnyNumNotNaNInf(Dependency dependency) {
-		return theNumNotNaNInf.joinDependency(dependency);
+	public static Value makeAnyNumNotNaNInf(Dependency dependency, DependencyGraphReference reference) {
+		return theNumNotNaNInf.joinDependency(dependency).joinDependencyGraphReference(reference);
 	}
 
 	@Override
@@ -1747,8 +1762,8 @@ public final class Value implements Undef, Null, Bool, Num, Str, IDependency<Val
 		str = null;
 	}
 
-	private static Value reallyMakeAnyStr(Dependency dependency) {
-		Value r = new Value(dependency);
+	private static Value reallyMakeAnyStr(Dependency dependency, DependencyGraphReference reference) {
+		Value r = new Value(dependency, reference);
 		r.flags |= STR_ANY;
 		return canonicalize(r);
 	}
@@ -1756,15 +1771,15 @@ public final class Value implements Undef, Null, Bool, Num, Str, IDependency<Val
 	/**
 	 * Constructs the value describing any string.
 	 */
-	public static Value makeAnyStr(Dependency dependency) {
-		return theStrAny.joinDependency(dependency);
+	public static Value makeAnyStr(Dependency dependency, DependencyGraphReference reference) {
+		return theStrAny.joinDependency(dependency).joinDependencyGraphReference(reference);
 	}
 
 	/**
 	 * Constructs the value describing the given string.
 	 */
-	public static Value makeStr(String s, Dependency dependency) {
-		Value r = new Value(dependency);
+	public static Value makeStr(String s, Dependency dependency, DependencyGraphReference reference) {
+		Value r = new Value(dependency, reference);
 		r.str = s;
 		return canonicalize(r);
 	}
@@ -1772,11 +1787,11 @@ public final class Value implements Undef, Null, Bool, Num, Str, IDependency<Val
 	@Override
 	public Value restrictToStr() {
 		if (isNotStr())
-			return theBottom.joinDependency(mDependency);
+			return theBottom.joinDependency(mDependency).joinDependencyGraphReference(mDependencyGraphReference);
 		else if (isMaybeSingleStr())
-			return makeStr(getStr(), mDependency);
+			return makeStr(getStr(), mDependency, null).joinDependencyGraphReference(mDependencyGraphReference);
 		else {
-			Value r = new Value(mDependency);
+			Value r = new Value(mDependency, mDependencyGraphReference);
 			if (isMaybeStrUInt())
 				r.flags |= Value.STR_UINT;
 			if (isMaybeStrNotUInt())
@@ -1790,8 +1805,8 @@ public final class Value implements Undef, Null, Bool, Num, Str, IDependency<Val
 	/**
 	 * Constructs the value describing the given object label.
 	 */
-	public static Value makeObject(ObjectLabel v, Dependency dependency) {
-		Value r = new Value(dependency);
+	public static Value makeObject(ObjectLabel v, Dependency dependency, DependencyGraphReference reference) {
+		Value r = new Value(dependency, reference);
 		r.object_labels = newSet();
 		r.object_labels.add(v);
 		return canonicalize(r);
@@ -1800,8 +1815,8 @@ public final class Value implements Undef, Null, Bool, Num, Str, IDependency<Val
 	/**
 	 * Constructs the value describing the given object labels.
 	 */
-	public static Value makeObject(Set<ObjectLabel> v, Dependency dependency) {
-		Value r = new Value(dependency);
+	public static Value makeObject(Set<ObjectLabel> v, Dependency dependency, DependencyGraphReference reference) {
+		Value r = new Value(dependency, reference);
 		if (!v.isEmpty()) {
 			r.object_labels = newSet();
 			r.object_labels.addAll(v);

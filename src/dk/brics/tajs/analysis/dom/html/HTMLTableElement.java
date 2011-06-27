@@ -9,6 +9,7 @@ import dk.brics.tajs.analysis.dom.DOMObjects;
 import dk.brics.tajs.analysis.dom.DOMSpec;
 import dk.brics.tajs.analysis.dom.DOMWindow;
 import dk.brics.tajs.dependency.Dependency;
+import dk.brics.tajs.dependency.graph.DependencyGraphReference;
 import dk.brics.tajs.flowgraph.ObjectLabel;
 import dk.brics.tajs.lattice.Value;
 
@@ -32,33 +33,33 @@ public class HTMLTableElement {
 	public static void build(State s) {
 		// Prototype Object
 		s.newObject(TABLE_PROTOTYPE);
-		createDOMInternalPrototype(s, TABLE_PROTOTYPE, Value.makeObject(HTMLElement.ELEMENT_PROTOTYPE, new Dependency()));
+		createDOMInternalPrototype(s, TABLE_PROTOTYPE, Value.makeObject(HTMLElement.ELEMENT_PROTOTYPE, new Dependency(), new DependencyGraphReference()));
 
 		// Multiplied Object
 		s.newObject(TABLE);
-		createDOMInternalPrototype(s, TABLE, Value.makeObject(TABLE_PROTOTYPE, new Dependency()));
-		createDOMProperty(s, DOMWindow.WINDOW, "HTMLTableElement", Value.makeObject(TABLE, new Dependency()));
+		createDOMInternalPrototype(s, TABLE, Value.makeObject(TABLE_PROTOTYPE, new Dependency(), new DependencyGraphReference()));
+		createDOMProperty(s, DOMWindow.WINDOW, "HTMLTableElement", Value.makeObject(TABLE, new Dependency(), new DependencyGraphReference()));
 
 		/*
 		 * Properties.
 		 */
 		// DOM Level 1
-		createDOMProperty(s, TABLE, "rows", Value.makeObject(HTMLCollection.COLLECTION, new Dependency()).setReadOnly(), DOMSpec.LEVEL_1);
-		createDOMProperty(s, TABLE, "tBodies", Value.makeObject(HTMLCollection.COLLECTION, new Dependency()).setReadOnly(), DOMSpec.LEVEL_1);
-		createDOMProperty(s, TABLE, "align", Value.makeAnyStr(new Dependency()), DOMSpec.LEVEL_1);
-		createDOMProperty(s, TABLE, "bgColor", Value.makeAnyStr(new Dependency()), DOMSpec.LEVEL_1);
-		createDOMProperty(s, TABLE, "border", Value.makeAnyStr(new Dependency()), DOMSpec.LEVEL_1);
-		createDOMProperty(s, TABLE, "cellPadding", Value.makeAnyStr(new Dependency()), DOMSpec.LEVEL_1);
-		createDOMProperty(s, TABLE, "cellSpacing", Value.makeAnyStr(new Dependency()), DOMSpec.LEVEL_1);
-		createDOMProperty(s, TABLE, "frame", Value.makeAnyStr(new Dependency()), DOMSpec.LEVEL_1);
-		createDOMProperty(s, TABLE, "rules", Value.makeAnyStr(new Dependency()), DOMSpec.LEVEL_1);
-		createDOMProperty(s, TABLE, "summary", Value.makeAnyStr(new Dependency()), DOMSpec.LEVEL_1);
-		createDOMProperty(s, TABLE, "width", Value.makeAnyStr(new Dependency()), DOMSpec.LEVEL_1);
+		createDOMProperty(s, TABLE, "rows", Value.makeObject(HTMLCollection.COLLECTION, new Dependency(), new DependencyGraphReference()).setReadOnly(), DOMSpec.LEVEL_1);
+		createDOMProperty(s, TABLE, "tBodies", Value.makeObject(HTMLCollection.COLLECTION, new Dependency(), new DependencyGraphReference()).setReadOnly(), DOMSpec.LEVEL_1);
+		createDOMProperty(s, TABLE, "align", Value.makeAnyStr(new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_1);
+		createDOMProperty(s, TABLE, "bgColor", Value.makeAnyStr(new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_1);
+		createDOMProperty(s, TABLE, "border", Value.makeAnyStr(new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_1);
+		createDOMProperty(s, TABLE, "cellPadding", Value.makeAnyStr(new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_1);
+		createDOMProperty(s, TABLE, "cellSpacing", Value.makeAnyStr(new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_1);
+		createDOMProperty(s, TABLE, "frame", Value.makeAnyStr(new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_1);
+		createDOMProperty(s, TABLE, "rules", Value.makeAnyStr(new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_1);
+		createDOMProperty(s, TABLE, "summary", Value.makeAnyStr(new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_1);
+		createDOMProperty(s, TABLE, "width", Value.makeAnyStr(new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_1);
 
 		// DOM Level 2
-		createDOMProperty(s, TABLE, "caption", Value.makeObject(HTMLTableCaptionElement.TABLECAPTION, new Dependency()), DOMSpec.LEVEL_2);
-		createDOMProperty(s, TABLE, "tHead", Value.makeObject(HTMLTableSectionElement.TABLESECTION, new Dependency()), DOMSpec.LEVEL_2);
-		createDOMProperty(s, TABLE, "tFoot", Value.makeObject(HTMLTableSectionElement.TABLESECTION, new Dependency()), DOMSpec.LEVEL_2);
+		createDOMProperty(s, TABLE, "caption", Value.makeObject(HTMLTableCaptionElement.TABLECAPTION, new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_2);
+		createDOMProperty(s, TABLE, "tHead", Value.makeObject(HTMLTableSectionElement.TABLESECTION, new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_2);
+		createDOMProperty(s, TABLE, "tFoot", Value.makeObject(HTMLTableSectionElement.TABLESECTION, new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_2);
 
 		s.multiplyObject(TABLE);
 		TABLE = TABLE.makeSingleton().makeSummary();
@@ -85,23 +86,23 @@ public class HTMLTableElement {
 		case HTMLTABLEELEMENT_CREATETFOOT:
 		case HTMLTABLEELEMENT_CREATECAPTION: {
 			NativeFunctions.expectParameters(nativeObject, call, c, 0, 0);
-			return Value.makeObject(HTMLElement.ELEMENT_PROTOTYPE, new Dependency());
+			return Value.makeObject(HTMLElement.ELEMENT_PROTOTYPE, new Dependency(), new DependencyGraphReference());
 		}
 		case HTMLTABLEELEMENT_DELETETHEAD:
 		case HTMLTABLEELEMENT_DELETETFOOT:
 		case HTMLTABLEELEMENT_DELETECAPTION: {
 			NativeFunctions.expectParameters(nativeObject, call, c, 0, 0);
-			return Value.makeUndef(new Dependency());
+			return Value.makeUndef(new Dependency(), new DependencyGraphReference());
 		}
 		case HTMLTABLEELEMENT_INSERTROW: {
 			NativeFunctions.expectParameters(nativeObject, call, c, 1, 1);
 			Value index = Conversion.toNumber(call.getArg(0), c);
-			return Value.makeObject(HTMLElement.ELEMENT_PROTOTYPE, new Dependency());
+			return Value.makeObject(HTMLElement.ELEMENT_PROTOTYPE, new Dependency(), new DependencyGraphReference());
 		}
 		case HTMLTABLEELEMENT_DELETEROW: {
 			NativeFunctions.expectParameters(nativeObject, call, c, 1, 1);
 			Value index = Conversion.toNumber(call.getArg(0), c);
-			return Value.makeUndef(new Dependency());
+			return Value.makeUndef(new Dependency(), new DependencyGraphReference());
 		}
 		default: {
 			throw new RuntimeException("Unsupported Native Object " + nativeObject);

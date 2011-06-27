@@ -1,6 +1,7 @@
 package dk.brics.tajs.analysis;
 
 import dk.brics.tajs.dependency.Dependency;
+import dk.brics.tajs.dependency.graph.DependencyGraphReference;
 import dk.brics.tajs.flowgraph.BasicBlock;
 import dk.brics.tajs.flowgraph.Node;
 import dk.brics.tajs.flowgraph.ObjectLabel;
@@ -70,9 +71,9 @@ public class Exceptions {
 	private static Value makeException(State state, ObjectLabel prototype, Solver.SolverInterface c) {
 		ObjectLabel ex = new ObjectLabel(c.getCurrentNode(), Kind.ERROR);
 		state.newObject(ex);
-		state.writeInternalPrototype(ex, Value.makeObject(prototype, new Dependency()));
-		state.writeProperty(ex, "message", Value.makeAnyStr(new Dependency()));
-		return Value.makeObject(ex, new Dependency());
+		state.writeInternalPrototype(ex, Value.makeObject(prototype, new Dependency(), new DependencyGraphReference()));
+		state.writeProperty(ex, "message", Value.makeAnyStr(new Dependency(), new DependencyGraphReference()));
+		return Value.makeObject(ex, new Dependency(), new DependencyGraphReference());
 	}
 	
 	/**

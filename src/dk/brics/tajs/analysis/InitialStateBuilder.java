@@ -207,14 +207,15 @@ public class InitialStateBuilder implements IInitialStateBuilder<State, CallCont
 		createObject(s, lURIErrorProto);
 
 		// 15.1.1 value properties of the global object
-		createSpecialProperty(s, global, "NaN", Value.makeNum(Double.NaN, new Dependency()).setAttributes(true, true, false));
-		createSpecialProperty(s, global, "Infinity", Value.makeNum(Double.POSITIVE_INFINITY, new Dependency()).setAttributes(true, true, false));
-		createSpecialProperty(s, global, "undefined", Value.makeUndef(new Dependency()).setAttributes(true, true, false));
+		createSpecialProperty(s, global, "NaN", Value.makeNum(Double.NaN, new Dependency(), new DependencyGraphReference()).setAttributes(true, true, false));
+		createSpecialProperty(s, global, "Infinity",
+				Value.makeNum(Double.POSITIVE_INFINITY, new Dependency(), new DependencyGraphReference()).setAttributes(true, true, false));
+		createSpecialProperty(s, global, "undefined", Value.makeUndef(new Dependency(), new DependencyGraphReference()).setAttributes(true, true, false));
 		// TODO: 15.1 the values of the [[Prototype]] and [[Class]] properties
 		// of the global object are implementation-dependent
-		createInternalPrototype(s, global, Value.makeObject(lObjectPrototype, new Dependency())); // Rhino's
-																									// implementation
-																									// choice
+		createInternalPrototype(s, global, Value.makeObject(lObjectPrototype, new Dependency(), new DependencyGraphReference())); // Rhino's
+		// implementation
+		// choice
 
 		// 15.1.2 function properties of the global object
 		createPrimitiveFunction(s, global, lFunProto, ECMAScriptObjects.EVAL, "eval", 1);
@@ -251,8 +252,9 @@ public class InitialStateBuilder implements IInitialStateBuilder<State, CallCont
 		createPrimitiveConstructor(s, global, lFunProto, lURIErrorProto, lURIError, "URIError", 1);
 
 		// 15.2.4 properties of the Object prototype object
-		createInternalPrototype(s, lObjectPrototype, Value.makeNull(new Dependency()));
-		createSpecialProperty(s, lObjectPrototype, "constructor", Value.makeObject(lObject, new Dependency()).setAttributes(true, false, false));
+		createInternalPrototype(s, lObjectPrototype, Value.makeNull(new Dependency(), new DependencyGraphReference()));
+		createSpecialProperty(s, lObjectPrototype, "constructor",
+				Value.makeObject(lObject, new Dependency(), new DependencyGraphReference()).setAttributes(true, false, false));
 		createPrimitiveFunction(s, lObjectPrototype, lFunProto, ECMAScriptObjects.OBJECT_TOSTRING, "toString", 0);
 		createPrimitiveFunction(s, lObjectPrototype, lFunProto, ECMAScriptObjects.OBJECT_TOLOCALESTRING, "toLocaleString", 0);
 		createPrimitiveFunction(s, lObjectPrototype, lFunProto, ECMAScriptObjects.OBJECT_VALUEOF, "valueOf", 0);
@@ -261,20 +263,24 @@ public class InitialStateBuilder implements IInitialStateBuilder<State, CallCont
 		createPrimitiveFunction(s, lObjectPrototype, lFunProto, ECMAScriptObjects.OBJECT_PROPERTYISENUMERABLE, "propertyIsEnumerable", 1);
 
 		// 15.3.4 properties of the Function prototype object
-		createInternalPrototype(s, lFunProto, Value.makeObject(lObjectPrototype, new Dependency()));
-		createSpecialProperty(s, lFunProto, "valueOf", Value.makeObject(new ObjectLabel(ECMAScriptObjects.OBJECT_VALUEOF, Kind.FUNCTION), new Dependency())
-				.setAttributes(true, false, false));
-		createSpecialProperty(s, lFunProto, "constructor", Value.makeObject(lFunction, new Dependency()).setAttributes(true, false, false));
+		createInternalPrototype(s, lFunProto, Value.makeObject(lObjectPrototype, new Dependency(), new DependencyGraphReference()));
+		createSpecialProperty(s, lFunProto, "valueOf",
+				Value.makeObject(new ObjectLabel(ECMAScriptObjects.OBJECT_VALUEOF, Kind.FUNCTION), new Dependency(), new DependencyGraphReference())
+						.setAttributes(true, false, false));
+		createSpecialProperty(s, lFunProto, "constructor",
+				Value.makeObject(lFunction, new Dependency(), new DependencyGraphReference()).setAttributes(true, false, false));
 		createPrimitiveFunction(s, lFunProto, lFunProto, ECMAScriptObjects.FUNCTION_TOSTRING, "toString", 0);
 		createPrimitiveFunction(s, lFunProto, lFunProto, ECMAScriptObjects.FUNCTION_APPLY, "apply", 2);
 		createPrimitiveFunction(s, lFunProto, lFunProto, ECMAScriptObjects.FUNCTION_CALL, "call", 1);
 
 		// 15.4.4 properties of the Array prototype object
-		createInternalPrototype(s, lArrayProto, Value.makeObject(lObjectPrototype, new Dependency()));
-		createSpecialProperty(s, lArrayProto, "length", Value.makeNum(0, new Dependency()).setAttributes(true, false, false));
-		createSpecialProperty(s, lArrayProto, "valueOf", Value.makeObject(new ObjectLabel(ECMAScriptObjects.OBJECT_VALUEOF, Kind.FUNCTION), new Dependency())
-				.setAttributes(true, false, false));
-		createSpecialProperty(s, lArrayProto, "constructor", Value.makeObject(lArray, new Dependency()).setAttributes(true, false, false));
+		createInternalPrototype(s, lArrayProto, Value.makeObject(lObjectPrototype, new Dependency(), new DependencyGraphReference()));
+		createSpecialProperty(s, lArrayProto, "length", Value.makeNum(0, new Dependency(), new DependencyGraphReference()).setAttributes(true, false, false));
+		createSpecialProperty(s, lArrayProto, "valueOf",
+				Value.makeObject(new ObjectLabel(ECMAScriptObjects.OBJECT_VALUEOF, Kind.FUNCTION), new Dependency(), new DependencyGraphReference())
+						.setAttributes(true, false, false));
+		createSpecialProperty(s, lArrayProto, "constructor",
+				Value.makeObject(lArray, new Dependency(), new DependencyGraphReference()).setAttributes(true, false, false));
 		createPrimitiveFunction(s, lArrayProto, lFunProto, ECMAScriptObjects.ARRAY_TOSTRING, "toString", 0);
 		createPrimitiveFunction(s, lArrayProto, lFunProto, ECMAScriptObjects.ARRAY_TOLOCALESTRING, "toLocaleString", 0);
 		createPrimitiveFunction(s, lArrayProto, lFunProto, ECMAScriptObjects.ARRAY_CONCAT, "concat", 1);
@@ -292,9 +298,10 @@ public class InitialStateBuilder implements IInitialStateBuilder<State, CallCont
 		createPrimitiveFunction(s, lString, lFunProto, ECMAScriptObjects.STRING_FROMCHARCODE, "fromCharCode", 1);
 
 		// 15.5.4 properties of the String prototype object
-		createInternalPrototype(s, lStringProto, Value.makeObject(lObjectPrototype, new Dependency()));
-		createSpecialProperty(s, lStringProto, "constructor", Value.makeObject(lString, new Dependency()).setAttributes(true, false, false));
-		createInternalValue(s, lStringProto, Value.makeStr("", new Dependency()));
+		createInternalPrototype(s, lStringProto, Value.makeObject(lObjectPrototype, new Dependency(), new DependencyGraphReference()));
+		createSpecialProperty(s, lStringProto, "constructor",
+				Value.makeObject(lString, new Dependency(), new DependencyGraphReference()).setAttributes(true, false, false));
+		createInternalValue(s, lStringProto, Value.makeStr("", new Dependency(), new DependencyGraphReference()));
 		createPrimitiveFunction(s, lStringProto, lFunProto, ECMAScriptObjects.STRING_TOSTRING, "toString", 0);
 		createPrimitiveFunction(s, lStringProto, lFunProto, ECMAScriptObjects.STRING_VALUEOF, "valueOf", 0);
 		createPrimitiveFunction(s, lStringProto, lFunProto, ECMAScriptObjects.STRING_CHARAT, "charAt", 1);
@@ -315,23 +322,29 @@ public class InitialStateBuilder implements IInitialStateBuilder<State, CallCont
 		createPrimitiveFunction(s, lStringProto, lFunProto, ECMAScriptObjects.STRING_TOLOCALEUPPERCASE, "toLocaleUpperCase", 0);
 
 		// 15.6.4 properties of the Boolean prototype object
-		createInternalPrototype(s, lBooleanProto, Value.makeObject(lObjectPrototype, new Dependency()));
-		createInternalValue(s, lBooleanProto, Value.makeBool(false, new Dependency()));
-		createSpecialProperty(s, lBooleanProto, "constructor", Value.makeObject(lBoolean, new Dependency()).setAttributes(true, false, false));
+		createInternalPrototype(s, lBooleanProto, Value.makeObject(lObjectPrototype, new Dependency(), new DependencyGraphReference()));
+		createInternalValue(s, lBooleanProto, Value.makeBool(false, new Dependency(), new DependencyGraphReference()));
+		createSpecialProperty(s, lBooleanProto, "constructor",
+				Value.makeObject(lBoolean, new Dependency(), new DependencyGraphReference()).setAttributes(true, false, false));
 		createPrimitiveFunction(s, lBooleanProto, lFunProto, ECMAScriptObjects.BOOLEAN_TOSTRING, "toString", 0);
 		createPrimitiveFunction(s, lBooleanProto, lFunProto, ECMAScriptObjects.BOOLEAN_VALUEOF, "valueOf", 0);
 
 		// 15.7.3 properties of the Number constructor
-		createSpecialProperty(s, lNumber, "MAX_VALUE", Value.makeNum(Double.MAX_VALUE, new Dependency()).setAttributes(true, true, true));
-		createSpecialProperty(s, lNumber, "MIN_VALUE", Value.makeNum(Double.MIN_VALUE, new Dependency()).setAttributes(true, true, true));
-		createSpecialProperty(s, lNumber, "NaN", Value.makeNum(Double.NaN, new Dependency()).setAttributes(true, true, true));
-		createSpecialProperty(s, lNumber, "POSITIVE_INFINITY", Value.makeNum(Double.POSITIVE_INFINITY, new Dependency()).setAttributes(true, true, true));
-		createSpecialProperty(s, lNumber, "NEGATIVE_INFINITY", Value.makeNum(Double.NEGATIVE_INFINITY, new Dependency()).setAttributes(true, true, true));
+		createSpecialProperty(s, lNumber, "MAX_VALUE",
+				Value.makeNum(Double.MAX_VALUE, new Dependency(), new DependencyGraphReference()).setAttributes(true, true, true));
+		createSpecialProperty(s, lNumber, "MIN_VALUE",
+				Value.makeNum(Double.MIN_VALUE, new Dependency(), new DependencyGraphReference()).setAttributes(true, true, true));
+		createSpecialProperty(s, lNumber, "NaN", Value.makeNum(Double.NaN, new Dependency(), new DependencyGraphReference()).setAttributes(true, true, true));
+		createSpecialProperty(s, lNumber, "POSITIVE_INFINITY", Value.makeNum(Double.POSITIVE_INFINITY, new Dependency(), new DependencyGraphReference())
+				.setAttributes(true, true, true));
+		createSpecialProperty(s, lNumber, "NEGATIVE_INFINITY", Value.makeNum(Double.NEGATIVE_INFINITY, new Dependency(), new DependencyGraphReference())
+				.setAttributes(true, true, true));
 
 		// 15.7.4 properties of the Number prototype object
-		createInternalPrototype(s, lNumberProto, Value.makeObject(lObjectPrototype, new Dependency()));
-		createInternalValue(s, lNumberProto, Value.makeNum(0, new Dependency()));
-		createSpecialProperty(s, lNumberProto, "constructor", Value.makeObject(lNumber, new Dependency()).setAttributes(true, false, false));
+		createInternalPrototype(s, lNumberProto, Value.makeObject(lObjectPrototype, new Dependency(), new DependencyGraphReference()));
+		createInternalValue(s, lNumberProto, Value.makeNum(0, new Dependency(), new DependencyGraphReference()));
+		createSpecialProperty(s, lNumberProto, "constructor",
+				Value.makeObject(lNumber, new Dependency(), new DependencyGraphReference()).setAttributes(true, false, false));
 		createPrimitiveFunction(s, lNumberProto, lFunProto, ECMAScriptObjects.NUMBER_TOSTRING, "toString", 1);
 		createPrimitiveFunction(s, lNumberProto, lFunProto, ECMAScriptObjects.NUMBER_TOLOCALESTRING, "toLocaleString", 0);
 		createPrimitiveFunction(s, lNumberProto, lFunProto, ECMAScriptObjects.NUMBER_VALUEOF, "valueOf", 0);
@@ -340,16 +353,19 @@ public class InitialStateBuilder implements IInitialStateBuilder<State, CallCont
 		createPrimitiveFunction(s, lNumberProto, lFunProto, ECMAScriptObjects.NUMBER_TOPRECISION, "toPrecision", 1);
 
 		// 15.8 the Math object
-		createSpecialProperty(s, global, "Math", Value.makeObject(lMath, new Dependency()).setAttributes(true, false, false));
-		createInternalPrototype(s, lMath, Value.makeObject(lObjectPrototype, new Dependency()));
-		createSpecialProperty(s, lMath, "E", Value.makeNum(Math.E, new Dependency()).setAttributes(true, true, true));
-		createSpecialProperty(s, lMath, "LN10", Value.makeNum(Math.log(10), new Dependency()).setAttributes(true, true, true));
-		createSpecialProperty(s, lMath, "LN2", Value.makeNum(Math.log(2), new Dependency()).setAttributes(true, true, true));
-		createSpecialProperty(s, lMath, "LOG2E", Value.makeNum(1 / Math.log(2), new Dependency()).setAttributes(true, true, true));
-		createSpecialProperty(s, lMath, "LOG10E", Value.makeNum(1 / Math.log(10), new Dependency()).setAttributes(true, true, true));
-		createSpecialProperty(s, lMath, "PI", Value.makeNum(Math.PI, new Dependency()).setAttributes(true, true, true));
-		createSpecialProperty(s, lMath, "SQRT1_2", Value.makeNum(Math.sqrt(0.5), new Dependency()).setAttributes(true, true, true));
-		createSpecialProperty(s, lMath, "SQRT2", Value.makeNum(Math.sqrt(2), new Dependency()).setAttributes(true, true, true));
+		createSpecialProperty(s, global, "Math", Value.makeObject(lMath, new Dependency(), new DependencyGraphReference()).setAttributes(true, false, false));
+		createInternalPrototype(s, lMath, Value.makeObject(lObjectPrototype, new Dependency(), new DependencyGraphReference()));
+		createSpecialProperty(s, lMath, "E", Value.makeNum(Math.E, new Dependency(), new DependencyGraphReference()).setAttributes(true, true, true));
+		createSpecialProperty(s, lMath, "LN10", Value.makeNum(Math.log(10), new Dependency(), new DependencyGraphReference()).setAttributes(true, true, true));
+		createSpecialProperty(s, lMath, "LN2", Value.makeNum(Math.log(2), new Dependency(), new DependencyGraphReference()).setAttributes(true, true, true));
+		createSpecialProperty(s, lMath, "LOG2E",
+				Value.makeNum(1 / Math.log(2), new Dependency(), new DependencyGraphReference()).setAttributes(true, true, true));
+		createSpecialProperty(s, lMath, "LOG10E",
+				Value.makeNum(1 / Math.log(10), new Dependency(), new DependencyGraphReference()).setAttributes(true, true, true));
+		createSpecialProperty(s, lMath, "PI", Value.makeNum(Math.PI, new Dependency(), new DependencyGraphReference()).setAttributes(true, true, true));
+		createSpecialProperty(s, lMath, "SQRT1_2",
+				Value.makeNum(Math.sqrt(0.5), new Dependency(), new DependencyGraphReference()).setAttributes(true, true, true));
+		createSpecialProperty(s, lMath, "SQRT2", Value.makeNum(Math.sqrt(2), new Dependency(), new DependencyGraphReference()).setAttributes(true, true, true));
 		createPrimitiveFunction(s, lMath, lFunProto, ECMAScriptObjects.MATH_ABS, "abs", 1);
 		createPrimitiveFunction(s, lMath, lFunProto, ECMAScriptObjects.MATH_ACOS, "acos", 1);
 		createPrimitiveFunction(s, lMath, lFunProto, ECMAScriptObjects.MATH_ASIN, "asin", 1);
@@ -374,9 +390,10 @@ public class InitialStateBuilder implements IInitialStateBuilder<State, CallCont
 		createPrimitiveFunction(s, lDate, lFunProto, ECMAScriptObjects.DATE_UTC, "UTC", 7);
 
 		// 15.9.5 properties of the Date prototype object
-		createInternalPrototype(s, lDateProto, Value.makeObject(lObjectPrototype, new Dependency()));
-		createSpecialProperty(s, lDateProto, "constructor", Value.makeObject(lDate, new Dependency()).setAttributes(true, false, false));
-		createInternalValue(s, lDateProto, Value.makeNum(Double.NaN, new Dependency()));
+		createInternalPrototype(s, lDateProto, Value.makeObject(lObjectPrototype, new Dependency(), new DependencyGraphReference()));
+		createSpecialProperty(s, lDateProto, "constructor",
+				Value.makeObject(lDate, new Dependency(), new DependencyGraphReference()).setAttributes(true, false, false));
+		createInternalValue(s, lDateProto, Value.makeNum(Double.NaN, new Dependency(), new DependencyGraphReference()));
 		createPrimitiveFunction(s, lDateProto, lFunProto, ECMAScriptObjects.DATE_TOSTRING, "toString", 0);
 		createPrimitiveFunction(s, lDateProto, lFunProto, ECMAScriptObjects.DATE_TODATESTRING, "toDateString", 0);
 		createPrimitiveFunction(s, lDateProto, lFunProto, ECMAScriptObjects.DATE_TOTIMESTRING, "toTimeString", 0);
@@ -420,48 +437,70 @@ public class InitialStateBuilder implements IInitialStateBuilder<State, CallCont
 		createPrimitiveFunction(s, lDateProto, lFunProto, ECMAScriptObjects.DATE_TOUTCSTRING, "toUTCFullString", 0);
 
 		// 15.10.6 properties of the RegExp prototype object
-		createInternalPrototype(s, lDateProto, Value.makeObject(lObjectPrototype, new Dependency()));
-		createSpecialProperty(s, lRegExpProto, "valueOf", Value.makeObject(new ObjectLabel(ECMAScriptObjects.OBJECT_VALUEOF, Kind.FUNCTION), new Dependency())
-				.setAttributes(true, false, false));
-		createSpecialProperty(s, lRegExpProto, "constructor", Value.makeObject(lRegExp, new Dependency()).setAttributes(true, false, false));
+		createInternalPrototype(s, lDateProto, Value.makeObject(lObjectPrototype, new Dependency(), new DependencyGraphReference()));
+		createSpecialProperty(s, lRegExpProto, "valueOf",
+				Value.makeObject(new ObjectLabel(ECMAScriptObjects.OBJECT_VALUEOF, Kind.FUNCTION), new Dependency(), new DependencyGraphReference())
+						.setAttributes(true, false, false));
+		createSpecialProperty(s, lRegExpProto, "constructor",
+				Value.makeObject(lRegExp, new Dependency(), new DependencyGraphReference()).setAttributes(true, false, false));
 		createPrimitiveFunction(s, lRegExpProto, lFunProto, ECMAScriptObjects.REGEXP_EXEC, "exec", 1);
 		createPrimitiveFunction(s, lRegExpProto, lFunProto, ECMAScriptObjects.REGEXP_TEST, "test", 1);
 		createPrimitiveFunction(s, lRegExpProto, lFunProto, ECMAScriptObjects.REGEXP_TOSTRING, "toString", 0);
 
 		// 15.11.4 properties of the Error prototype object
-		createInternalPrototype(s, lErrorProto, Value.makeObject(lObjectPrototype, new Dependency()));
-		createSpecialProperty(s, lErrorProto, "constructor", Value.makeObject(lError, new Dependency()).setAttributes(true, false, false));
-		createSpecialProperty(s, lErrorProto, "name", Value.makeStr("Error", new Dependency()).setAttributes(true, false, false));
-		createSpecialProperty(s, lErrorProto, "message", Value.makeAnyStr(new Dependency()).setAttributes(true, false, false)); // implementation
-																																// dependent
-																																// string
+		createInternalPrototype(s, lErrorProto, Value.makeObject(lObjectPrototype, new Dependency(), new DependencyGraphReference()));
+		createSpecialProperty(s, lErrorProto, "constructor",
+				Value.makeObject(lError, new Dependency(), new DependencyGraphReference()).setAttributes(true, false, false));
+		createSpecialProperty(s, lErrorProto, "name", Value.makeStr("Error", new Dependency(), new DependencyGraphReference())
+				.setAttributes(true, false, false));
+		createSpecialProperty(s, lErrorProto, "message", Value.makeAnyStr(new Dependency(), new DependencyGraphReference()).setAttributes(true, false, false)); // implementation
+		// dependent
+		// string
 		createPrimitiveFunction(s, lErrorProto, lFunProto, ECMAScriptObjects.ERROR_TOSTRING, "toString", 0);
 
 		// 15.11.7 native error objects
-		createInternalPrototype(s, lEvalErrorProto, Value.makeObject(lErrorProto, new Dependency()));
-		createSpecialProperty(s, lEvalErrorProto, "constructor", Value.makeObject(lEvalError, new Dependency()).setAttributes(true, false, false));
-		createSpecialProperty(s, lEvalErrorProto, "name", Value.makeStr("EvalError", new Dependency()).setAttributes(true, false, false));
-		createSpecialProperty(s, lEvalErrorProto, "message", Value.makeAnyStr(new Dependency()).setAttributes(true, false, false));
-		createInternalPrototype(s, lRangeErrorProto, Value.makeObject(lErrorProto, new Dependency()));
-		createSpecialProperty(s, lRangeErrorProto, "constructor", Value.makeObject(lRangeError, new Dependency()).setAttributes(true, false, false));
-		createSpecialProperty(s, lRangeErrorProto, "name", Value.makeStr("RangeError", new Dependency()).setAttributes(true, false, false));
-		createSpecialProperty(s, lRangeErrorProto, "message", Value.makeAnyStr(new Dependency()).setAttributes(true, false, false));
-		createInternalPrototype(s, lReferenceErrorProto, Value.makeObject(lErrorProto, new Dependency()));
-		createSpecialProperty(s, lReferenceErrorProto, "constructor", Value.makeObject(lReferenceError, new Dependency()).setAttributes(true, false, false));
-		createSpecialProperty(s, lReferenceErrorProto, "name", Value.makeStr("ReferenceError", new Dependency()).setAttributes(true, false, false));
-		createSpecialProperty(s, lReferenceErrorProto, "message", Value.makeAnyStr(new Dependency()).setAttributes(true, false, false));
-		createInternalPrototype(s, lSyntaxErrorProto, Value.makeObject(lErrorProto, new Dependency()));
-		createSpecialProperty(s, lSyntaxErrorProto, "constructor", Value.makeObject(lSyntaxError, new Dependency()).setAttributes(true, false, false));
-		createSpecialProperty(s, lSyntaxErrorProto, "name", Value.makeStr("SyntaxError", new Dependency()).setAttributes(true, false, false));
-		createSpecialProperty(s, lSyntaxErrorProto, "message", Value.makeAnyStr(new Dependency()).setAttributes(true, false, false));
-		createInternalPrototype(s, lTypeErrorProto, Value.makeObject(lErrorProto, new Dependency()));
-		createSpecialProperty(s, lTypeErrorProto, "constructor", Value.makeObject(lTypeError, new Dependency()).setAttributes(true, false, false));
-		createSpecialProperty(s, lTypeErrorProto, "name", Value.makeStr("TypeError", new Dependency()).setAttributes(true, false, false));
-		createSpecialProperty(s, lTypeErrorProto, "message", Value.makeAnyStr(new Dependency()).setAttributes(true, false, false));
-		createInternalPrototype(s, lURIErrorProto, Value.makeObject(lErrorProto, new Dependency()));
-		createSpecialProperty(s, lURIErrorProto, "constructor", Value.makeObject(lURIError, new Dependency()).setAttributes(true, false, false));
-		createSpecialProperty(s, lURIErrorProto, "name", Value.makeStr("URIError", new Dependency()).setAttributes(true, false, false));
-		createSpecialProperty(s, lURIErrorProto, "message", Value.makeAnyStr(new Dependency()).setAttributes(true, false, false));
+		createInternalPrototype(s, lEvalErrorProto, Value.makeObject(lErrorProto, new Dependency(), new DependencyGraphReference()));
+		createSpecialProperty(s, lEvalErrorProto, "constructor",
+				Value.makeObject(lEvalError, new Dependency(), new DependencyGraphReference()).setAttributes(true, false, false));
+		createSpecialProperty(s, lEvalErrorProto, "name",
+				Value.makeStr("EvalError", new Dependency(), new DependencyGraphReference()).setAttributes(true, false, false));
+		createSpecialProperty(s, lEvalErrorProto, "message",
+				Value.makeAnyStr(new Dependency(), new DependencyGraphReference()).setAttributes(true, false, false));
+		createInternalPrototype(s, lRangeErrorProto, Value.makeObject(lErrorProto, new Dependency(), new DependencyGraphReference()));
+		createSpecialProperty(s, lRangeErrorProto, "constructor", Value.makeObject(lRangeError, new Dependency(), new DependencyGraphReference())
+				.setAttributes(true, false, false));
+		createSpecialProperty(s, lRangeErrorProto, "name",
+				Value.makeStr("RangeError", new Dependency(), new DependencyGraphReference()).setAttributes(true, false, false));
+		createSpecialProperty(s, lRangeErrorProto, "message",
+				Value.makeAnyStr(new Dependency(), new DependencyGraphReference()).setAttributes(true, false, false));
+		createInternalPrototype(s, lReferenceErrorProto, Value.makeObject(lErrorProto, new Dependency(), new DependencyGraphReference()));
+		createSpecialProperty(s, lReferenceErrorProto, "constructor", Value.makeObject(lReferenceError, new Dependency(), new DependencyGraphReference())
+				.setAttributes(true, false, false));
+		createSpecialProperty(s, lReferenceErrorProto, "name",
+				Value.makeStr("ReferenceError", new Dependency(), new DependencyGraphReference()).setAttributes(true, false, false));
+		createSpecialProperty(s, lReferenceErrorProto, "message",
+				Value.makeAnyStr(new Dependency(), new DependencyGraphReference()).setAttributes(true, false, false));
+		createInternalPrototype(s, lSyntaxErrorProto, Value.makeObject(lErrorProto, new Dependency(), new DependencyGraphReference()));
+		createSpecialProperty(s, lSyntaxErrorProto, "constructor", Value.makeObject(lSyntaxError, new Dependency(), new DependencyGraphReference())
+				.setAttributes(true, false, false));
+		createSpecialProperty(s, lSyntaxErrorProto, "name",
+				Value.makeStr("SyntaxError", new Dependency(), new DependencyGraphReference()).setAttributes(true, false, false));
+		createSpecialProperty(s, lSyntaxErrorProto, "message",
+				Value.makeAnyStr(new Dependency(), new DependencyGraphReference()).setAttributes(true, false, false));
+		createInternalPrototype(s, lTypeErrorProto, Value.makeObject(lErrorProto, new Dependency(), new DependencyGraphReference()));
+		createSpecialProperty(s, lTypeErrorProto, "constructor",
+				Value.makeObject(lTypeError, new Dependency(), new DependencyGraphReference()).setAttributes(true, false, false));
+		createSpecialProperty(s, lTypeErrorProto, "name",
+				Value.makeStr("TypeError", new Dependency(), new DependencyGraphReference()).setAttributes(true, false, false));
+		createSpecialProperty(s, lTypeErrorProto, "message",
+				Value.makeAnyStr(new Dependency(), new DependencyGraphReference()).setAttributes(true, false, false));
+		createInternalPrototype(s, lURIErrorProto, Value.makeObject(lErrorProto, new Dependency(), new DependencyGraphReference()));
+		createSpecialProperty(s, lURIErrorProto, "constructor",
+				Value.makeObject(lURIError, new Dependency(), new DependencyGraphReference()).setAttributes(true, false, false));
+		createSpecialProperty(s, lURIErrorProto, "name",
+				Value.makeStr("URIError", new Dependency(), new DependencyGraphReference()).setAttributes(true, false, false));
+		createSpecialProperty(s, lURIErrorProto, "message", Value.makeAnyStr(new Dependency(), new DependencyGraphReference())
+				.setAttributes(true, false, false));
 
 		// Annex B functions
 		createPrimitiveFunction(s, global, lFunProto, ECMAScriptObjects.ESCAPE, "escape", 1);
@@ -652,21 +691,22 @@ public class InitialStateBuilder implements IInitialStateBuilder<State, CallCont
 		dependency = trace.contains(string_objlabel2) ? DependencyObject.getInitialStateDependencyObject(string_objlabel2).getDependency() : new Dependency();
 		s.newObject(objlabel);
 		reference = createDependencyGraphReference(dependency);
-		s.writeInternalPrototype(objlabel, Value.makeObject(internal_proto, new Dependency()).setDependencyGraphReference(reference));
+		s.writeInternalPrototype(objlabel,
+				Value.makeObject(internal_proto, new Dependency(), new DependencyGraphReference()));
 		DependencyAnalyzer.initialstate.add(string_objlabel2);
 
 		// string_target + string_name
 		dependency = trace.contains(string_target + string_name) ? DependencyObject.getInitialStateDependencyObject(string_target + string_name)
 				.getDependency() : new Dependency();
 		reference = createDependencyGraphReference(dependency);
-		s.writeSpecialProperty(target, name, Value.makeObject(objlabel, dependency).setDependencyGraphReference(reference).setAttributes(true, false, false));
+		s.writeSpecialProperty(target, name, Value.makeObject(objlabel, dependency, reference).setAttributes(true, false, false));
 		DependencyAnalyzer.initialstate.add(string_target + string_name);
 
 		// string_objlabel + string_length
 		dependency = trace.contains(string_objlabel + string_length) ? DependencyObject.getInitialStateDependencyObject(string_objlabel + string_length)
 				.getDependency() : new Dependency();
 		reference = createDependencyGraphReference(dependency);
-		s.writeSpecialProperty(objlabel, "length", Value.makeNum(arity, dependency).setDependencyGraphReference(reference).setAttributes(true, true, true));
+		s.writeSpecialProperty(objlabel, "length", Value.makeNum(arity, dependency, reference).setAttributes(true, true, true));
 		DependencyAnalyzer.initialstate.add(string_objlabel + string_length);
 	}
 
@@ -688,14 +728,14 @@ public class InitialStateBuilder implements IInitialStateBuilder<State, CallCont
 		dependency = trace.contains(string_target + string_name) ? DependencyObject.getInitialStateDependencyObject(string_target + string_name)
 				.getDependency() : new Dependency();
 		reference = createDependencyGraphReference(dependency);
-		s.writeSpecialProperty(target, name, Value.makeObject(objlabel, dependency).setDependencyGraphReference(reference).setAttributes(true, false, false));
+		s.writeSpecialProperty(target, name, Value.makeObject(objlabel, dependency, reference).setAttributes(true, false, false));
 		DependencyAnalyzer.initialstate.add(string_target + string_name);
 
 		// string_objlabel + string_length
 		dependency = trace.contains(string_objlabel + string_length) ? DependencyObject.getInitialStateDependencyObject(string_objlabel + string_length)
 				.getDependency() : new Dependency();
 		reference = createDependencyGraphReference(dependency);
-		s.writeSpecialProperty(objlabel, "length", Value.makeNum(arity, dependency).setDependencyGraphReference(reference).setAttributes(true, true, true));
+		s.writeSpecialProperty(objlabel, "length", Value.makeNum(arity, dependency, reference).setAttributes(true, true, true));
 		DependencyAnalyzer.initialstate.add(string_objlabel + string_length);
 
 		// string_objlabel + string_prototype
@@ -703,8 +743,8 @@ public class InitialStateBuilder implements IInitialStateBuilder<State, CallCont
 				.getDependency() : new Dependency();
 		reference = createDependencyGraphReference(dependency);
 		s.writeSpecialProperty(objlabel, "prototype",
-				Value.makeObject(prototype, dependency).setDependencyGraphReference(reference).setAttributes(true, true, true));
-		s.writeInternalPrototype(objlabel, Value.makeObject(internal_proto, dependency).setDependencyGraphReference(reference));
+				Value.makeObject(prototype, dependency, reference).setAttributes(true, true, true));
+		s.writeInternalPrototype(objlabel, Value.makeObject(internal_proto, dependency, reference));
 		DependencyAnalyzer.initialstate.add(string_objlabel + string_prototype);
 	}
 

@@ -5,6 +5,7 @@ import dk.brics.tajs.analysis.dom.DOMObjects;
 import dk.brics.tajs.analysis.dom.DOMSpec;
 import dk.brics.tajs.analysis.dom.DOMWindow;
 import dk.brics.tajs.dependency.Dependency;
+import dk.brics.tajs.dependency.graph.DependencyGraphReference;
 import dk.brics.tajs.flowgraph.ObjectLabel;
 import dk.brics.tajs.lattice.Value;
 
@@ -19,18 +20,18 @@ public class HTMLTableCaptionElement {
 	public static void build(State s) {
 		// Prototype Object
 		s.newObject(TABLECAPTION_PROTOTYPE);
-		createDOMInternalPrototype(s, TABLECAPTION_PROTOTYPE, Value.makeObject(HTMLElement.ELEMENT_PROTOTYPE, new Dependency()));
+		createDOMInternalPrototype(s, TABLECAPTION_PROTOTYPE, Value.makeObject(HTMLElement.ELEMENT_PROTOTYPE, new Dependency(), new DependencyGraphReference()));
 
 		// Multiplied Object
 		s.newObject(TABLECAPTION);
-		createDOMInternalPrototype(s, TABLECAPTION, Value.makeObject(TABLECAPTION_PROTOTYPE, new Dependency()));
-		createDOMProperty(s, DOMWindow.WINDOW, "HTMLTableCaptionElement", Value.makeObject(TABLECAPTION, new Dependency()));
+		createDOMInternalPrototype(s, TABLECAPTION, Value.makeObject(TABLECAPTION_PROTOTYPE, new Dependency(), new DependencyGraphReference()));
+		createDOMProperty(s, DOMWindow.WINDOW, "HTMLTableCaptionElement", Value.makeObject(TABLECAPTION, new Dependency(), new DependencyGraphReference()));
 
 		/*
 		 * Properties.
 		 */
 		// DOM Level 1
-		createDOMProperty(s, TABLECAPTION, "align", Value.makeAnyStr(new Dependency()), DOMSpec.LEVEL_1);
+		createDOMProperty(s, TABLECAPTION, "align", Value.makeAnyStr(new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_1);
 
 		s.multiplyObject(TABLECAPTION);
 		TABLECAPTION = TABLECAPTION.makeSingleton().makeSummary();

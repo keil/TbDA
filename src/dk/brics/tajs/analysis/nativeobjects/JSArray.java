@@ -2,6 +2,8 @@ package dk.brics.tajs.analysis.nativeobjects;
 
 import java.util.Set;
 
+import com.sun.xml.internal.bind.v2.model.core.Ref;
+
 import dk.brics.tajs.analysis.Conversion;
 import dk.brics.tajs.analysis.Exceptions;
 import dk.brics.tajs.analysis.InitialStateBuilder;
@@ -10,6 +12,7 @@ import dk.brics.tajs.analysis.Solver;
 import dk.brics.tajs.analysis.State;
 import dk.brics.tajs.analysis.FunctionCalls.CallInfo;
 import dk.brics.tajs.dependency.Dependency;
+import dk.brics.tajs.dependency.graph.DependencyGraphReference;
 import dk.brics.tajs.dependency.graph.DependencyNode;
 import dk.brics.tajs.dependency.graph.Label;
 import dk.brics.tajs.dependency.graph.nodes.DependencyExpressionNode;
@@ -33,7 +36,7 @@ public class JSArray {
 	public static Value evaluate(ECMAScriptObjects nativeobject, CallInfo call, State state, Solver.SolverInterface c) {
 		if (nativeobject != ECMAScriptObjects.ARRAY)
 			if (NativeFunctions.throwTypeErrorIfConstructor(call, state, c))
-				return Value.makeBottom(new Dependency());
+				return Value.makeBottom(new Dependency(), new DependencyGraphReference());
 
 		switch (nativeobject) {
 
@@ -50,8 +53,17 @@ public class JSArray {
 			state.newObject(objlabel);
 
 			if (call.isUnknownNumberOfArgs()) { // TODO: warn about this case?
+				
+				// ##################################################
+				dependency.join(call.getUnknownArg().getDependency());
+				// ##################################################
+
+				// ==================================================
+				node.addParent(call.getUnknownArg());
+				// ==================================================
+				
 				state.writeUnknownArrayProperty(objlabel, call.getUnknownArg());
-				state.writeSpecialProperty(objlabel, "length", Value.makeAnyNumUInt(call.getUnknownArg().getDependency()).setAttributes(true, true, false));
+				state.writeSpecialProperty(objlabel, "length", Value.makeAnyNumUInt(dependency, node.getReference()).setAttributes(true, true, false));
 			} else if (call.getNumberOfArgs() == 1) { // 15.4.2.2
 				Value lenarg = call.getArg(0);
 
@@ -69,20 +81,20 @@ public class JSArray {
 					double d = lenarg.getNum();
 					if (d >= 0 && d < 2147483647d && Math.floor(d) == d) {
 						s = Status.NONE;
-						length = Value.makeNum(d, dependency).joinDependencyGraphReference(node);
+						length = Value.makeNum(d, dependency, node.getReference());
 					} else
 						s = Status.CERTAIN;
 				} else if (lenarg.isMaybeNumUInt() && !lenarg.isMaybeNumNotUInt() && !lenarg.isMaybeInf() && !lenarg.isMaybeNaN()) {
 					s = Status.NONE;
-					length = Value.makeAnyNumUInt(lenarg.getDependency());
+					length = Value.makeAnyNumUInt(lenarg.getDependency(), node.getReference());
 				} else if (!lenarg.isMaybeNumUInt() && (lenarg.isMaybeNumNotUInt() || lenarg.isMaybeInf() || lenarg.isMaybeNaN()))
 					s = Status.CERTAIN;
 				else if (lenarg.isMaybeFuzzyNum()) {
 					s = Status.MAYBE;
-					length = Value.makeAnyNumUInt(dependency).joinDependencyGraphReference(node);
+					length = Value.makeAnyNumUInt(dependency, node.getReference());
 				} else {
 					s = Status.NONE;
-					length = Value.makeBottom(dependency).joinDependencyGraphReference(node);
+					length = Value.makeBottom(dependency, node.getReference());
 				}
 				if (s == Status.CERTAIN && lenarg.isMaybeOtherThanNum())
 					s = Status.MAYBE;
@@ -90,7 +102,7 @@ public class JSArray {
 				if (s != Status.NONE)
 					Exceptions.throwRangeError(state, c);
 				if (s == Status.CERTAIN)
-					return Value.makeBottom(dependency).joinDependencyGraphReference(node);
+					return Value.makeBottom(dependency, node.getReference());
 				if (lenarg.isMaybeOtherThanNum()) {
 					length = length.joinNum(1);
 					Value zeroprop = lenarg.restrictToNotNum();
@@ -98,10 +110,10 @@ public class JSArray {
 						zeroprop = zeroprop.joinAbsent();
 					state.writeProperty(objlabel, "0", zeroprop);
 				}
-				state.writeSpecialProperty(objlabel, "length", length.setAttributes(true, true, false).joinDependency(dependency));
+				state.writeSpecialProperty(objlabel, "length", length.setAttributes(true, true, false).joinDependency(dependency).joinDependencyGraphReference(node));
 			} else { // 15.4.2.1
 				// ##########
-				state.writeSpecialProperty(objlabel, "length", Value.makeNum(call.getNumberOfArgs(), dependency).setAttributes(true, true, false));
+				state.writeSpecialProperty(objlabel, "length", Value.makeNum(call.getNumberOfArgs(), dependency, node.getReference()).setAttributes(true, true, false));
 				for (int i = 0; i < call.getNumberOfArgs(); i++) {
 					state.writeProperty(objlabel, Integer.toString(i), call.getArg(i));
 					// ##################################################
@@ -113,10 +125,10 @@ public class JSArray {
 					// ==================================================
 				}
 			}
-			Value res = Value.makeObject(objlabel, dependency);
-			state.writeInternalPrototype(objlabel, Value.makeObject(InitialStateBuilder.ARRAY_PROTOTYPE, dependency));
+			Value res = Value.makeObject(objlabel, dependency, node.getReference());
+			state.writeInternalPrototype(objlabel, Value.makeObject(InitialStateBuilder.ARRAY_PROTOTYPE, dependency, node.getReference()));
 
-			return res.joinDependencyGraphReference(node);
+			return res;
 		}
 
 		case ARRAY_TOSTRING: // 15.4.4.2
@@ -154,10 +166,10 @@ public class JSArray {
 
 			} else {
 				if (NativeFunctions.throwTypeErrorIfWrongKindOfThis(nativeobject, call, state, c, Kind.ARRAY))
-					return Value.makeBottom(dependency);
+					return Value.makeBottom(dependency, node.getReference());
 				NativeFunctions.expectParameters(nativeobject, call, c, 0, 0);
 			}
-			return Value.makeAnyStr(dependency).joinDependencyGraphReference(node); // TODO:
+			return Value.makeAnyStr(dependency, node.getReference()); // TODO:
 																					// improve
 																					// precision?
 			// String sep;
@@ -231,11 +243,11 @@ public class JSArray {
 					// ==================================================
 				}
 			}
-			Value res = Value.makeObject(objlabel, dependency).joinDependencyGraphReference(node);
-			state.writeInternalPrototype(objlabel, Value.makeObject(InitialStateBuilder.ARRAY_PROTOTYPE, dependency));
+			Value res = Value.makeObject(objlabel, dependency, node.getReference());
+			state.writeInternalPrototype(objlabel, Value.makeObject(InitialStateBuilder.ARRAY_PROTOTYPE, dependency, node.getReference()));
 
 			state.writeUnknownArrayProperty(objlabel, v);
-			state.writeSpecialProperty(objlabel, "length", Value.makeAnyNumUInt(dependency).setAttributes(true, true, false));
+			state.writeSpecialProperty(objlabel, "length", Value.makeAnyNumUInt(dependency, node.getReference()).setAttributes(true, true, false));
 			return res; // TODO: improve precision?
 			// Value res = Value.makeBottom();
 			// ObjectLabel conc = new ObjectLabel(node.getFunction().getIndex(),
@@ -305,9 +317,18 @@ public class JSArray {
 			NativeFunctions.expectParameters(nativeobject, call, c, 0, 0);
 			Set<ObjectLabel> thisobj = state.readThisObjects();
 			Value res = state.readUnknownArrayIndex(thisobj);
+			
+			// ##################################################
+			dependency.join(res.getDependency());
+			// ##################################################
+			
+			// ==================================================
+			node.addParent(res);
+			// ==================================================
+			
 			state.deleteUnknownArrayProperty(thisobj);
-			state.writeSpecialProperty(thisobj, "length", Value.makeAnyNumUInt(res.getDependency()).setAttributes(true, true, false));
-			return res.joinDependencyGraphReference(node); // TODO: improve
+			state.writeSpecialProperty(thisobj, "length", Value.makeAnyNumUInt(dependency, node.getReference()).setAttributes(true, true, false));
+			return res; // TODO: improve
 															// precision?
 			// NativeFunctions.expectZeroParameters(solver, node, params,
 			// first_param);
@@ -382,8 +403,8 @@ public class JSArray {
 					state.writeUnknownArrayProperty(arr, v);
 				}
 			}
-			state.writeSpecialProperty(arr, "length", Value.makeAnyNumUInt(dependency).setAttributes(true, true, false));
-			return Value.makeAnyNumUInt(dependency).joinDependencyGraphReference(node);
+			state.writeSpecialProperty(arr, "length", Value.makeAnyNumUInt(dependency, node.getReference()).setAttributes(true, true, false));
+			return Value.makeAnyNumUInt(dependency, node.getReference());
 		}
 
 		case ARRAY_REVERSE: { // 15.4.4.8
@@ -397,8 +418,17 @@ public class JSArray {
 
 			NativeFunctions.expectParameters(nativeobject, call, c, 0, 0);
 			Set<ObjectLabel> thisobj = state.readThisObjects();
+			
+			// ##################################################
+			dependency.join(state.readUnknownArrayIndex(thisobj).getDependency());
+			// ##################################################
+			
+			// ==================================================
+			node.addParent(state.readUnknownArrayIndex(thisobj));
+			// ==================================================
+			
 			state.writeUnknownArrayProperty(thisobj, state.readUnknownArrayIndex(thisobj));
-			return Value.makeObject(thisobj, state.readUnknownArrayIndex(thisobj).getDependency()); // TODO:
+			return Value.makeObject(thisobj, dependency, node.getReference()); // TODO:
 																									// improve
 																									// precision?
 			// NativeFunctions.expectZeroParameters(solver, node, params,
@@ -452,8 +482,8 @@ public class JSArray {
 			// ==================================================
 
 			state.deleteUnknownArrayProperty(thisobj);
-			state.writeSpecialProperty(thisobj, "length", Value.makeAnyNumUInt(dependency).setAttributes(true, true, false));
-			return res.joinDependencyGraphReference(node); // TODO: improve
+			state.writeSpecialProperty(thisobj, "length", Value.makeAnyNumUInt(dependency, node.getReference()).setAttributes(true, true, false));
+			return res; // TODO: improve
 															// precision?
 			// NativeFunctions.expectZeroParameters(solver, node, params,
 			// first_param);
@@ -532,12 +562,12 @@ public class JSArray {
 				// ==================================================
 			}
 
-			Value res = Value.makeObject(objlabel, dependency);
-			state.writeInternalPrototype(objlabel, Value.makeObject(InitialStateBuilder.ARRAY_PROTOTYPE, dependency));
+			Value res = Value.makeObject(objlabel, dependency, node.getReference());
+			state.writeInternalPrototype(objlabel, Value.makeObject(InitialStateBuilder.ARRAY_PROTOTYPE, dependency, node.getReference()));
 
 			state.writeUnknownArrayProperty(objlabel, v);
-			state.writeSpecialProperty(objlabel, "length", Value.makeAnyNumUInt(dependency).setAttributes(true, true, false));
-			return res.joinDependencyGraphReference(node); // TODO: improve
+			state.writeSpecialProperty(objlabel, "length", Value.makeAnyNumUInt(dependency, node.getReference()).setAttributes(true, true, false));
+			return res; // TODO: improve
 															// precision?
 			// NativeFunctions.expectTwoParameters(solver, node, params,
 			// first_param);
@@ -588,7 +618,7 @@ public class JSArray {
 				// ==================================================
 			}
 
-			return Value.makeObject(thisobj, dependency).joinDependencyGraphReference(node); // TODO:
+			return Value.makeObject(thisobj, dependency, node.getReference()); // TODO:
 																								// improve
 			// precision?
 		}
@@ -627,12 +657,12 @@ public class JSArray {
 					// ==================================================
 				}
 			}
-			Value res = Value.makeObject(objlabel, dependency);
-			state.writeInternalPrototype(objlabel, Value.makeObject(InitialStateBuilder.ARRAY_PROTOTYPE, dependency));
+			Value res = Value.makeObject(objlabel, dependency, node.getReference());
+			state.writeInternalPrototype(objlabel, Value.makeObject(InitialStateBuilder.ARRAY_PROTOTYPE, dependency, node.getReference()));
 
 			state.writeUnknownArrayProperty(objlabel, v);
-			state.writeSpecialProperty(objlabel, "length", Value.makeAnyNumUInt(dependency).setAttributes(true, true, false));
-			return res.joinDependencyGraphReference(node); // TODO: improve
+			state.writeSpecialProperty(objlabel, "length", Value.makeAnyNumUInt(dependency, node.getReference()).setAttributes(true, true, false));
+			return res; // TODO: improve
 															// precision?
 		}
 
@@ -673,8 +703,8 @@ public class JSArray {
 					state.writeUnknownArrayProperty(arr, v);
 				}
 			}
-			state.writeSpecialProperty(arr, "length", Value.makeAnyNumUInt(dependency).setAttributes(true, true, false));
-			return Value.makeAnyNumUInt(dependency).joinDependencyGraphReference(node);
+			state.writeSpecialProperty(arr, "length", Value.makeAnyNumUInt(dependency, node.getReference()).setAttributes(true, true, false));
+			return Value.makeAnyNumUInt(dependency, node.getReference());
 		}
 
 		default:

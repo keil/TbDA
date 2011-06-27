@@ -4,6 +4,7 @@ import dk.brics.tajs.analysis.State;
 import dk.brics.tajs.analysis.dom.DOMObjects;
 import dk.brics.tajs.analysis.dom.DOMWindow;
 import dk.brics.tajs.dependency.Dependency;
+import dk.brics.tajs.dependency.graph.DependencyGraphReference;
 import dk.brics.tajs.flowgraph.ObjectLabel;
 import dk.brics.tajs.lattice.Value;
 
@@ -22,12 +23,12 @@ public class DOMDocumentFragment {
 	public static void build(State s) {
 		// Prototype object.
 		s.newObject(DOCUMENTFRAGMENT_PROTOTYPE);
-		createDOMInternalPrototype(s, DOCUMENTFRAGMENT_PROTOTYPE, Value.makeObject(DOMNode.NODE_PROTOTYPE, new Dependency()));
+		createDOMInternalPrototype(s, DOCUMENTFRAGMENT_PROTOTYPE, Value.makeObject(DOMNode.NODE_PROTOTYPE, new Dependency(), new DependencyGraphReference()));
 
 		// Multiplied object.
 		s.newObject(DOCUMENTFRAGMENT);
-		createDOMInternalPrototype(s, DOCUMENTFRAGMENT, Value.makeObject(DOCUMENTFRAGMENT_PROTOTYPE, new Dependency()));
-		createDOMProperty(s, DOMWindow.WINDOW, "DocumentFragment", Value.makeObject(DOCUMENTFRAGMENT, new Dependency()));
+		createDOMInternalPrototype(s, DOCUMENTFRAGMENT, Value.makeObject(DOCUMENTFRAGMENT_PROTOTYPE, new Dependency(), new DependencyGraphReference()));
+		createDOMProperty(s, DOMWindow.WINDOW, "DocumentFragment", Value.makeObject(DOCUMENTFRAGMENT, new Dependency(), new DependencyGraphReference()));
 		s.multiplyObject(DOCUMENTFRAGMENT);
 		DOCUMENTFRAGMENT = DOCUMENTFRAGMENT.makeSingleton().makeSummary();
 

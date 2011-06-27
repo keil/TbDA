@@ -6,6 +6,7 @@ import dk.brics.tajs.analysis.dom.DOMObjects;
 import dk.brics.tajs.analysis.dom.DOMSpec;
 import dk.brics.tajs.analysis.dom.DOMWindow;
 import dk.brics.tajs.dependency.Dependency;
+import dk.brics.tajs.dependency.graph.DependencyGraphReference;
 import dk.brics.tajs.flowgraph.ObjectLabel;
 import dk.brics.tajs.lattice.Value;
 import dk.brics.tajs.solver.Message;
@@ -28,12 +29,12 @@ public class CanvasRenderingContext2D {
 	public static void build(State s) {
 		// Prototype Object
 		s.newObject(CONTEXT2D_PROTOTYPE);
-		createDOMInternalPrototype(s, CONTEXT2D_PROTOTYPE, Value.makeObject(InitialStateBuilder.OBJECT_PROTOTYPE, new Dependency()));
-		createDOMProperty(s, DOMWindow.WINDOW, "CanvasRenderingContext2D", Value.makeObject(CONTEXT2D, new Dependency()));
+		createDOMInternalPrototype(s, CONTEXT2D_PROTOTYPE, Value.makeObject(InitialStateBuilder.OBJECT_PROTOTYPE, new Dependency(), new DependencyGraphReference()));
+		createDOMProperty(s, DOMWindow.WINDOW, "CanvasRenderingContext2D", Value.makeObject(CONTEXT2D, new Dependency(), new DependencyGraphReference()));
 
 		// Canvas Context Object
 		s.newObject(CONTEXT2D);
-		createDOMInternalPrototype(s, CONTEXT2D, Value.makeObject(CONTEXT2D_PROTOTYPE, new Dependency()));
+		createDOMInternalPrototype(s, CONTEXT2D, Value.makeObject(CONTEXT2D_PROTOTYPE, new Dependency(), new DependencyGraphReference()));
 
 		// Misc Objects
 		s.newObject(PATTERN);
@@ -41,47 +42,47 @@ public class CanvasRenderingContext2D {
 		s.newObject(IMAGE_DATA);
 		s.newObject(TEXT_METRICS);
 		s.newObject(GRADIENT);
-		createDOMInternalPrototype(s, PATTERN, Value.makeObject(InitialStateBuilder.OBJECT_PROTOTYPE, new Dependency()));
-		createDOMInternalPrototype(s, PIXEL_ARRAY, Value.makeObject(InitialStateBuilder.OBJECT_PROTOTYPE, new Dependency()));
-		createDOMInternalPrototype(s, IMAGE_DATA, Value.makeObject(InitialStateBuilder.OBJECT_PROTOTYPE, new Dependency()));
-		createDOMInternalPrototype(s, TEXT_METRICS, Value.makeObject(InitialStateBuilder.OBJECT_PROTOTYPE, new Dependency()));
-		createDOMInternalPrototype(s, GRADIENT, Value.makeObject(InitialStateBuilder.OBJECT_PROTOTYPE, new Dependency()));
+		createDOMInternalPrototype(s, PATTERN, Value.makeObject(InitialStateBuilder.OBJECT_PROTOTYPE, new Dependency(), new DependencyGraphReference()));
+		createDOMInternalPrototype(s, PIXEL_ARRAY, Value.makeObject(InitialStateBuilder.OBJECT_PROTOTYPE, new Dependency(), new DependencyGraphReference()));
+		createDOMInternalPrototype(s, IMAGE_DATA, Value.makeObject(InitialStateBuilder.OBJECT_PROTOTYPE, new Dependency(), new DependencyGraphReference()));
+		createDOMInternalPrototype(s, TEXT_METRICS, Value.makeObject(InitialStateBuilder.OBJECT_PROTOTYPE, new Dependency(), new DependencyGraphReference()));
+		createDOMInternalPrototype(s, GRADIENT, Value.makeObject(InitialStateBuilder.OBJECT_PROTOTYPE, new Dependency(), new DependencyGraphReference()));
 
 		/**
 		 * Properties.
 		 */
 
-		createDOMProperty(s, CONTEXT2D_PROTOTYPE, "canvas", Value.makeObject(HTMLCanvasElement.CANVAS, new Dependency()), DOMSpec.HTML5);
+		createDOMProperty(s, CONTEXT2D_PROTOTYPE, "canvas", Value.makeObject(HTMLCanvasElement.CANVAS, new Dependency(), new DependencyGraphReference()), DOMSpec.HTML5);
 
 		// compositing
-		createDOMProperty(s, CONTEXT2D_PROTOTYPE, "globalAlpha", Value.makeNum(1.0, new Dependency()), DOMSpec.HTML5);
-		createDOMProperty(s, CONTEXT2D_PROTOTYPE, "globalCompositeOperation", Value.makeStr("source-over", new Dependency()), DOMSpec.HTML5);
+		createDOMProperty(s, CONTEXT2D_PROTOTYPE, "globalAlpha", Value.makeNum(1.0, new Dependency(), new DependencyGraphReference()), DOMSpec.HTML5);
+		createDOMProperty(s, CONTEXT2D_PROTOTYPE, "globalCompositeOperation", Value.makeStr("source-over", new Dependency(), new DependencyGraphReference()), DOMSpec.HTML5);
 
 		// colours and styles
-		createDOMProperty(s, CONTEXT2D, "strokeStyle", Value.makeAnyBool(new Dependency()).join(Value.makeAnyNum(new Dependency())).join(Value.makeAnyStr(new Dependency())), DOMSpec.HTML5);
-		createDOMProperty(s, CONTEXT2D, "fillStyle", Value.makeAnyBool(new Dependency()).join(Value.makeAnyNum(new Dependency())).join(Value.makeAnyStr(new Dependency())), DOMSpec.HTML5);
+		createDOMProperty(s, CONTEXT2D, "strokeStyle", Value.makeAnyBool(new Dependency(), new DependencyGraphReference()).join(Value.makeAnyNum(new Dependency(), new DependencyGraphReference())).join(Value.makeAnyStr(new Dependency(), new DependencyGraphReference())), DOMSpec.HTML5);
+		createDOMProperty(s, CONTEXT2D, "fillStyle", Value.makeAnyBool(new Dependency(), new DependencyGraphReference()).join(Value.makeAnyNum(new Dependency(), new DependencyGraphReference())).join(Value.makeAnyStr(new Dependency(), new DependencyGraphReference())), DOMSpec.HTML5);
 
 		// line caps/joins
-		createDOMProperty(s, CONTEXT2D, "lineWidth", Value.makeNum(1, new Dependency()), DOMSpec.HTML5);
-		createDOMProperty(s, CONTEXT2D, "lineCap", Value.makeStr("butt", new Dependency()), DOMSpec.HTML5);
-		createDOMProperty(s, CONTEXT2D, "lineJoin", Value.makeStr("miter", new Dependency()), DOMSpec.HTML5);
-		createDOMProperty(s, CONTEXT2D, "miterLimit", Value.makeNum(10, new Dependency()), DOMSpec.HTML5);
+		createDOMProperty(s, CONTEXT2D, "lineWidth", Value.makeNum(1, new Dependency(), new DependencyGraphReference()), DOMSpec.HTML5);
+		createDOMProperty(s, CONTEXT2D, "lineCap", Value.makeStr("butt", new Dependency(), new DependencyGraphReference()), DOMSpec.HTML5);
+		createDOMProperty(s, CONTEXT2D, "lineJoin", Value.makeStr("miter", new Dependency(), new DependencyGraphReference()), DOMSpec.HTML5);
+		createDOMProperty(s, CONTEXT2D, "miterLimit", Value.makeNum(10, new Dependency(), new DependencyGraphReference()), DOMSpec.HTML5);
 
 		// shadows
-		createDOMProperty(s, CONTEXT2D, "shadowOffsetX", Value.makeNum(0, new Dependency()), DOMSpec.HTML5);
-		createDOMProperty(s, CONTEXT2D, "shadowOffsetY", Value.makeNum(0, new Dependency()), DOMSpec.HTML5);
-		createDOMProperty(s, CONTEXT2D, "shadowBlur", Value.makeNum(0, new Dependency()), DOMSpec.HTML5);
-		createDOMProperty(s, CONTEXT2D, "shadowColor", Value.makeStr("transparent black", new Dependency()), DOMSpec.HTML5);
+		createDOMProperty(s, CONTEXT2D, "shadowOffsetX", Value.makeNum(0, new Dependency(), new DependencyGraphReference()), DOMSpec.HTML5);
+		createDOMProperty(s, CONTEXT2D, "shadowOffsetY", Value.makeNum(0, new Dependency(), new DependencyGraphReference()), DOMSpec.HTML5);
+		createDOMProperty(s, CONTEXT2D, "shadowBlur", Value.makeNum(0, new Dependency(), new DependencyGraphReference()), DOMSpec.HTML5);
+		createDOMProperty(s, CONTEXT2D, "shadowColor", Value.makeStr("transparent black", new Dependency(), new DependencyGraphReference()), DOMSpec.HTML5);
 
 		// text
-		createDOMProperty(s, CONTEXT2D, "font", Value.makeStr("10px sans-serif", new Dependency()), DOMSpec.HTML5);
-		createDOMProperty(s, CONTEXT2D, "textAlign", Value.makeStr("start", new Dependency()), DOMSpec.HTML5);
-		createDOMProperty(s, CONTEXT2D, "textBaseline", Value.makeStr("alphabetic", new Dependency()), DOMSpec.HTML5);
+		createDOMProperty(s, CONTEXT2D, "font", Value.makeStr("10px sans-serif", new Dependency(), new DependencyGraphReference()), DOMSpec.HTML5);
+		createDOMProperty(s, CONTEXT2D, "textAlign", Value.makeStr("start", new Dependency(), new DependencyGraphReference()), DOMSpec.HTML5);
+		createDOMProperty(s, CONTEXT2D, "textBaseline", Value.makeStr("alphabetic", new Dependency(), new DependencyGraphReference()), DOMSpec.HTML5);
 
 		// ImageData
-		createDOMProperty(s, IMAGE_DATA, "data", Value.makeObject(PIXEL_ARRAY, new Dependency()).setReadOnly(), DOMSpec.HTML5);
-		createDOMProperty(s, IMAGE_DATA, "height", Value.makeAnyNumUInt(new Dependency()).setReadOnly(), DOMSpec.HTML5);
-		createDOMProperty(s, IMAGE_DATA, "width", Value.makeAnyNumUInt(new Dependency()).setReadOnly(), DOMSpec.HTML5);
+		createDOMProperty(s, IMAGE_DATA, "data", Value.makeObject(PIXEL_ARRAY, new Dependency(), new DependencyGraphReference()).setReadOnly(), DOMSpec.HTML5);
+		createDOMProperty(s, IMAGE_DATA, "height", Value.makeAnyNumUInt(new Dependency(), new DependencyGraphReference()).setReadOnly(), DOMSpec.HTML5);
+		createDOMProperty(s, IMAGE_DATA, "width", Value.makeAnyNumUInt(new Dependency(), new DependencyGraphReference()).setReadOnly(), DOMSpec.HTML5);
 
 
 		/**
@@ -179,7 +180,7 @@ public class CanvasRenderingContext2D {
 		case CANVASRENDERINGCONTEXT2D_SAVE:
 		case CANVASRENDERINGCONTEXT2D_RESTORE: {
 			NativeFunctions.expectParameters(nativeObject, call, c, 0, 0);
-			return Value.makeUndef(new Dependency());
+			return Value.makeUndef(new Dependency(), new DependencyGraphReference());
 		}
 
 		// Transformations
@@ -187,18 +188,18 @@ public class CanvasRenderingContext2D {
 			NativeFunctions.expectParameters(nativeObject, call, c, 2, 2);
 			Value x = Conversion.toNumber(call.getArg(0), c);
 			Value y = Conversion.toNumber(call.getArg(1), c);
-			return Value.makeUndef(new Dependency());
+			return Value.makeUndef(new Dependency(), new DependencyGraphReference());
 		}
 		case CANVASRENDERINGCONTEXT2D_ROTATE: {
 			NativeFunctions.expectParameters(nativeObject, call, c, 1, 1);
 			Value angle = Conversion.toNumber(call.getArg(0), c);
-			return Value.makeUndef(new Dependency());
+			return Value.makeUndef(new Dependency(), new DependencyGraphReference());
 		}
 		case CANVASRENDERINGCONTEXT2D_TRANSLATE: {
 			NativeFunctions.expectParameters(nativeObject, call, c, 2, 2);
 			Value x = Conversion.toNumber(call.getArg(0), c);
 			Value y = Conversion.toNumber(call.getArg(1), c);
-			return Value.makeUndef(new Dependency());
+			return Value.makeUndef(new Dependency(), new DependencyGraphReference());
 		}
 		case CANVASRENDERINGCONTEXT2D_TRANSFORM:
 		case CANVASRENDERINGCONTEXT2D_SETTRANSFORM: {
@@ -209,7 +210,7 @@ public class CanvasRenderingContext2D {
 			Value m22 = Conversion.toNumber(call.getArg(3), c);
 			Value dx = Conversion.toNumber(call.getArg(4), c);
 			Value dy = Conversion.toNumber(call.getArg(5), c);
-			return Value.makeUndef(new Dependency());
+			return Value.makeUndef(new Dependency(), new DependencyGraphReference());
 		}
 
 		// Colors & Styles
@@ -219,7 +220,7 @@ public class CanvasRenderingContext2D {
 			Value y0 = Conversion.toNumber(call.getArg(1), c);
 			Value x1 = Conversion.toNumber(call.getArg(2), c);
 			Value y1 = Conversion.toNumber(call.getArg(3), c);
-			return Value.makeObject(GRADIENT, new Dependency());
+			return Value.makeObject(GRADIENT, new Dependency(), new DependencyGraphReference());
 		}
 		case CANVASRENDERINGCONTEXT2D_CREATE_RADIAL_GRADIENT: {
 			NativeFunctions.expectParameters(nativeObject, call, c, 6, 6);
@@ -229,7 +230,7 @@ public class CanvasRenderingContext2D {
 			Value x1 = Conversion.toNumber(call.getArg(3), c);
 			Value y1 = Conversion.toNumber(call.getArg(4), c);
 			Value r1 = Conversion.toNumber(call.getArg(5), c);
-			return Value.makeObject(GRADIENT, new Dependency());
+			return Value.makeObject(GRADIENT, new Dependency(), new DependencyGraphReference());
 		}
 
 		// Rects
@@ -241,29 +242,29 @@ public class CanvasRenderingContext2D {
 			Value y = Conversion.toNumber(call.getArg(1), c);
 			Value width = Conversion.toNumber(call.getArg(2), c);
 			Value height = Conversion.toNumber(call.getArg(3), c);
-			return Value.makeUndef(new Dependency());
+			return Value.makeUndef(new Dependency(), new DependencyGraphReference());
 		}
 
 		// Paths
 		case CANVASRENDERINGCONTEXT2D_BEGIN_PATH: {
 			NativeFunctions.expectParameters(nativeObject, call, c, 0, 0);
-			return Value.makeUndef(new Dependency());
+			return Value.makeUndef(new Dependency(), new DependencyGraphReference());
 		}
 		case CANVASRENDERINGCONTEXT2D_CLOSE_PATH: {
 			NativeFunctions.expectParameters(nativeObject, call, c, 0, 0);
-			return Value.makeUndef(new Dependency());
+			return Value.makeUndef(new Dependency(), new DependencyGraphReference());
 		}
 		case CANVASRENDERINGCONTEXT2D_MOVE_TO: {
 			NativeFunctions.expectParameters(nativeObject, call, c, 2, 2);
 			Value x = Conversion.toNumber(call.getArg(0), c);
 			Value y = Conversion.toNumber(call.getArg(1), c);
-			return Value.makeUndef(new Dependency());
+			return Value.makeUndef(new Dependency(), new DependencyGraphReference());
 		}
 		case CANVASRENDERINGCONTEXT2D_LINE_TO: {
 			NativeFunctions.expectParameters(nativeObject, call, c, 2, 2);
 			Value x = Conversion.toNumber(call.getArg(0), c);
 			Value y = Conversion.toNumber(call.getArg(1), c);
-			return Value.makeUndef(new Dependency());
+			return Value.makeUndef(new Dependency(), new DependencyGraphReference());
 		}
 		case CANVASRENDERINGCONTEXT2D_QUADRATIC_CURVE_TO: {
 			NativeFunctions.expectParameters(nativeObject, call, c, 4, 4);
@@ -271,7 +272,7 @@ public class CanvasRenderingContext2D {
 			Value cpy = Conversion.toNumber(call.getArg(1), c);
 			Value x = Conversion.toNumber(call.getArg(2), c);
 			Value y = Conversion.toNumber(call.getArg(3), c);
-			return Value.makeUndef(new Dependency());
+			return Value.makeUndef(new Dependency(), new DependencyGraphReference());
 		}
 		case CANVASRENDERINGCONTEXT2D_BEZIER_CURVE_TO: {
 			NativeFunctions.expectParameters(nativeObject, call, c, 6, 6);
@@ -281,7 +282,7 @@ public class CanvasRenderingContext2D {
 			Value cp2y = Conversion.toNumber(call.getArg(3), c);
 			Value x = Conversion.toNumber(call.getArg(4), c);
 			Value y = Conversion.toNumber(call.getArg(5), c);
-			return Value.makeUndef(new Dependency());
+			return Value.makeUndef(new Dependency(), new DependencyGraphReference());
 		}
 		case CANVASRENDERINGCONTEXT2D_RECT: {
 			NativeFunctions.expectParameters(nativeObject, call, c, 4, 4);
@@ -289,7 +290,7 @@ public class CanvasRenderingContext2D {
 			Value y = Conversion.toNumber(call.getArg(1), c);
 			Value w = Conversion.toNumber(call.getArg(2), c);
 			Value h = Conversion.toNumber(call.getArg(3), c);
-			return Value.makeUndef(new Dependency());
+			return Value.makeUndef(new Dependency(), new DependencyGraphReference());
 		}
 		case CANVASRENDERINGCONTEXT2D_ARC: {
 			NativeFunctions.expectParameters(nativeObject, call, c, 6, 6);
@@ -299,7 +300,7 @@ public class CanvasRenderingContext2D {
 			Value startAngle = Conversion.toNumber(call.getArg(3), c);
 			Value endAngle = Conversion.toNumber(call.getArg(4), c);
 			Value anticlockwise = Conversion.toBoolean(call.getArg(5));
-			return Value.makeUndef(new Dependency());
+			return Value.makeUndef(new Dependency(), new DependencyGraphReference());
 		}
 		case CANVASRENDERINGCONTEXT2D_ARC_TO: {
 			NativeFunctions.expectParameters(nativeObject, call, c, 5, 5);
@@ -308,22 +309,22 @@ public class CanvasRenderingContext2D {
 			Value x2 = Conversion.toNumber(call.getArg(2), c);
 			Value y2 = Conversion.toNumber(call.getArg(3), c);
 			Value radius = Conversion.toNumber(call.getArg(4), c);
-			return Value.makeUndef(new Dependency());
+			return Value.makeUndef(new Dependency(), new DependencyGraphReference());
 		}
 		case CANVASRENDERINGCONTEXT2D_CLIP: {
 			NativeFunctions.expectParameters(nativeObject, call, c, 0, 0);
-			return Value.makeUndef(new Dependency());
+			return Value.makeUndef(new Dependency(), new DependencyGraphReference());
 		}
 		case CANVASRENDERINGCONTEXT2D_IS_POINT_IN_PATH: {
 			NativeFunctions.expectParameters(nativeObject, call, c, 2, 2);
 			Value x = Conversion.toNumber(call.getArg(0), c);
 			Value y = Conversion.toNumber(call.getArg(1), c);
-			return Value.makeAnyBool(new Dependency());
+			return Value.makeAnyBool(new Dependency(), new DependencyGraphReference());
 		}
 		case CANVASRENDERINGCONTEXT2D_FILL:
 		case CANVASRENDERINGCONTEXT2D_STROKE: {
 			NativeFunctions.expectParameters(nativeObject, call, c, 0, 0);
-			return Value.makeUndef(new Dependency());
+			return Value.makeUndef(new Dependency(), new DependencyGraphReference());
 		}
 		case CANVASRENDERINGCONTEXT2D_DRAW_IMAGE: {
 			NativeFunctions.expectParameters(nativeObject, call, c, 3, -1);
@@ -349,7 +350,7 @@ public class CanvasRenderingContext2D {
 
 			Conversion.toNumber(call.getArg(1), c);
 			Conversion.toNumber(call.getArg(2), c);
-			return Value.makeUndef(new Dependency());
+			return Value.makeUndef(new Dependency(), new DependencyGraphReference());
 		}
 		case CANVASRENDERINGCONTEXT2D_GET_IMAGE_DATA: {
 			NativeFunctions.expectParameters(nativeObject, call, c, 4, 4);
@@ -357,7 +358,7 @@ public class CanvasRenderingContext2D {
 			Value sy = Conversion.toNumber(call.getArg(1), c);
 			Value sw = Conversion.toNumber(call.getArg(2), c);
 			Value sh = Conversion.toNumber(call.getArg(3), c);
-			return Value.makeObject(IMAGE_DATA, new Dependency());
+			return Value.makeObject(IMAGE_DATA, new Dependency(), new DependencyGraphReference());
 		}
 		case CANVASRENDERINGCONTEXT2D_PUT_IMAGE_DATA: {
 			NativeFunctions.expectParameters(nativeObject, call, c, 3, -1);
@@ -374,13 +375,13 @@ public class CanvasRenderingContext2D {
 			}
 			c.addMessage(status, Message.Severity.HIGH, message);
 
-			return Value.makeUndef(new Dependency());
+			return Value.makeUndef(new Dependency(), new DependencyGraphReference());
 		}
 		case CANVASGRADIENT_ADD_COLOR_STOP: {
 			NativeFunctions.expectParameters(nativeObject, call, c, 2, 2);
 			Value offset = Conversion.toNumber(call.getArg(0), c);
 			Value color = Conversion.toString(call.getArg(1), c);
-			return Value.makeUndef(new Dependency());
+			return Value.makeUndef(new Dependency(), new DependencyGraphReference());
 		}
 		case CANVASRENDERINGCONTEXT2D_STROKE_TEXT:
 		case CANVASRENDERINGCONTEXT2D_FILL_TEXT: {
@@ -388,19 +389,19 @@ public class CanvasRenderingContext2D {
 			Value text = Conversion.toString(call.getArg(0), c);
 			Value x = Conversion.toNumber(call.getArg(1), c);
 			Value y = Conversion.toNumber(call.getArg(2), c);
-			if (call.getArg(3) != Value.makeUndef(new Dependency())) {
+			if (call.getArg(3) != Value.makeUndef(new Dependency(), new DependencyGraphReference())) {
 				Value maxWidth = Conversion.toNumber(call.getArg(3), c);
 			}
-			return Value.makeUndef(new Dependency());
+			return Value.makeUndef(new Dependency(), new DependencyGraphReference());
 		}
 		case CANVASRENDERINGCONTEXT2D_MEASURE_TEXT: {
 			NativeFunctions.expectParameters(nativeObject, call, c, 1, 1);
 			Value text = Conversion.toString(call.getArg(0), c);
-			return Value.makeObject(TEXT_METRICS, new Dependency());
+			return Value.makeObject(TEXT_METRICS, new Dependency(), new DependencyGraphReference());
 		}
 		case CANVASRENDERINGCONTEXT2D_CREATE_IMAGE_DATA: {
 			NativeFunctions.expectParameters(nativeObject, call, c, 1, 2);
-			if (call.getArg(1) == Value.makeUndef(new Dependency())) {
+			if (call.getArg(1) == Value.makeUndef(new Dependency(), new DependencyGraphReference())) {
 				// Version with only one argument
 				Value imageData = DOMConversion.toNativeObject(DOMObjects.IMAGEDATA, call.getArg(0), false, c);
 			} else {
@@ -408,7 +409,7 @@ public class CanvasRenderingContext2D {
 				Value sw = Conversion.toNumber(call.getArg(0), c);
 				Value sh = Conversion.toNumber(call.getArg(1), c);
 			}
-			return Value.makeObject(IMAGE_DATA, new Dependency());
+			return Value.makeObject(IMAGE_DATA, new Dependency(), new DependencyGraphReference());
 		}
 		default: {
 			throw new UnsupportedOperationException("Unsupported Native Object: " + nativeObject);

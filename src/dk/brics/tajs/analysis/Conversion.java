@@ -7,6 +7,7 @@ import java.util.Collection;
 import java.util.Set;
 
 import dk.brics.tajs.dependency.Dependency;
+import dk.brics.tajs.dependency.graph.DependencyGraphReference;
 import dk.brics.tajs.flowgraph.Node;
 import dk.brics.tajs.flowgraph.ObjectLabel;
 import dk.brics.tajs.flowgraph.ObjectLabel.Kind;
@@ -41,17 +42,17 @@ public class Conversion {
 		Value hasValueOf = s.hasProperty(obj, "valueOf");
 		Value hasToString = s.hasProperty(obj, "toString");
 		if (hasValueOf.isBottom() || hasToString.isBottom())
-			return Value.makeBottom(new Dependency());
+			return Value.makeBottom(new Dependency(), new DependencyGraphReference());
 		if (hasValueOf.isMaybeAnyBool() || hasToString.isMaybeAnyBool()) {
 			c.addMessage(Status.MAYBE, Severity.HIGH, MSG); 
 			Exceptions.throwTypeError(s, c);
-			return Value.makeAnyNum(new Dependency()).joinAnyStr();
+			return Value.makeAnyNum(new Dependency(), new DependencyGraphReference()).joinAnyStr();
 		} else
 			c.addMessage(Status.NONE, Severity.HIGH, MSG);
 		if (hasValueOf.isMaybeFalseButNotTrue() && hasToString.isMaybeFalseButNotTrue()) {
 			c.addMessage(Status.CERTAIN, Severity.HIGH, MSG); 
 			Exceptions.throwTypeError(s, c);
-			return Value.makeBottom(new Dependency()); // no ordinary flow (may be called in a loop, so don't set s to bottom)
+			return Value.makeBottom(new Dependency(), new DependencyGraphReference()); // no ordinary flow (may be called in a loop, so don't set s to bottom)
 		} 
 		switch (hint) {
 		case NUM:
@@ -80,14 +81,14 @@ public class Conversion {
 			return toString(c.getCurrentState().readInternalValue(ols), c);
 		case OBJECT:
 		case MATH:
-			return Value.makeStr("[object "+ obj.getKind() + "]", new Dependency());
+			return Value.makeStr("[object "+ obj.getKind() + "]", new Dependency(), new DependencyGraphReference());
 		case ERROR:
 		case FUNCTION:
 		case DATE:
 		case ARRAY:
 		case ACTIVATION:
 		case ARGUMENTS:
-			return Value.makeAnyStr(new Dependency());
+			return Value.makeAnyStr(new Dependency(), new DependencyGraphReference());
 		}
 		throw new RuntimeException();
 	}
@@ -106,12 +107,12 @@ public class Conversion {
 		case ARRAY:
 		case REGEXP:
 		case ERROR:
-			return Value.makeNum(Double.NaN, new Dependency());
+			return Value.makeNum(Double.NaN, new Dependency(), new DependencyGraphReference());
 		case DATE:
-			return Value.makeAnyNumUInt(new Dependency());
+			return Value.makeAnyNumUInt(new Dependency(), new DependencyGraphReference());
 		case ACTIVATION:
 		case ARGUMENTS:
-			return Value.makeAnyNum(new Dependency());				
+			return Value.makeAnyNum(new Dependency(), new DependencyGraphReference());				
 		}
 		throw new RuntimeException();
 	}
@@ -157,13 +158,13 @@ public class Conversion {
 	 */
 	public static Value fromBooltoNum(Value b) {
 		if (b.isNotBool())
-			return Value.makeBottom(b.getDependency());
+			return Value.makeBottom(b.getDependency(), b.getDependencyGraphReference());
 		else if (b.isMaybeAnyBool())
-			return Value.makeAnyNumUInt(b.getDependency());
+			return Value.makeAnyNumUInt(b.getDependency(), b.getDependencyGraphReference());
 		else if (b.isMaybeFalseButNotTrue())
-			return Value.makeNum(0.0, b.getDependency());
+			return Value.makeNum(0.0, b.getDependency(), b.getDependencyGraphReference());
 		else
-			return Value.makeNum(1.0, b.getDependency());
+			return Value.makeNum(1.0, b.getDependency(), b.getDependencyGraphReference());
 	}
 
 	/**
@@ -172,30 +173,30 @@ public class Conversion {
 	public static Value fromStrtoNum(Value str, Solver.SolverInterface c) {
 		final String MSG = "Conversion from string to number yields NaN";
 		if (str.isNotStr())
-			return Value.makeBottom(str.getDependency());
+			return Value.makeBottom(str.getDependency(), str.getDependencyGraphReference());
 		if (str.isMaybeSingleStr()) {
 			String s = str.getStr();
 			if (s.equals(""))
-				return Value.makeNum(0.0, str.getDependency());
+				return Value.makeNum(0.0, str.getDependency(), str.getDependencyGraphReference());
 			else {
 				s = s.trim();
 				if (s.matches("[-+]?(Infinity|([0-9]+(\\.[0-9]*)?|\\.[0-9]+)([eE][-+]?[0-9]+)?)")) {
 					c.addMessage(Status.NONE, Severity.LOW, MSG);
-					return Value.makeNum(new Double(s), str.getDependency());
+					return Value.makeNum(new Double(s), str.getDependency(), str.getDependencyGraphReference());
 				} if (s.matches("0[xX][0-9a-fA-F]+")) {
 					c.addMessage(Status.NONE, Severity.LOW, MSG);
-					return Value.makeNum(Long.parseLong(s.substring(2), 16), str.getDependency());
+					return Value.makeNum(Long.parseLong(s.substring(2), 16), str.getDependency(), str.getDependencyGraphReference());
 				} else  {
 					c.addMessage(Status.MAYBE, Severity.LOW, MSG);
-					return Value.makeNumNaN(str.getDependency());
+					return Value.makeNumNaN(str.getDependency(), str.getDependencyGraphReference());
 				}
 			}
 		} else if (!str.isMaybeStrNotUInt())
-			return Value.makeAnyNumUInt(str.getDependency());
+			return Value.makeAnyNumUInt(str.getDependency(), str.getDependencyGraphReference());
 		else if (!str.isMaybeStrUInt())
-			return Value.makeAnyNumNotUInt(str.getDependency());
+			return Value.makeAnyNumNotUInt(str.getDependency(), str.getDependencyGraphReference());
 		else
-			return Value.makeAnyNum(str.getDependency());
+			return Value.makeAnyNum(str.getDependency(), str.getDependencyGraphReference());
 	}
 
 	/**
@@ -244,15 +245,15 @@ public class Conversion {
 		if (num.isNotNum())
 			return num;
 		if (num.isNaN())
-			return Value.makeNum(0, v.getDependency());
+			return Value.makeNum(0, v.getDependency(), v.getDependencyGraphReference());
 		if (num.isMaybeSingleNum()) {
 			Double d = num.getNum();
 			if (d == 0.0 || d == -0.0 || Double.isInfinite(d))
 				return num;
 			else
-				return Value.makeNum(Math.signum(d) * Math.floor(Math.abs(d)), v.getDependency());			
+				return Value.makeNum(Math.signum(d) * Math.floor(Math.abs(d)), v.getDependency(), v.getDependencyGraphReference());			
 		} else {
-			Value r = Value.makeBottom(v.getDependency());
+			Value r = Value.makeBottom(v.getDependency(), v.getDependencyGraphReference());
 			if (num.isMaybeNaN())
 				r = r.joinNum(0);
 			if (num.isMaybeInf())
@@ -366,7 +367,7 @@ public class Conversion {
 	 * Note that this may have side-effects on the state!
 	 */
 	public static Value toObject(State state, Node node, Value v, Solver.SolverInterface c) {
-		return Value.makeObject(toObjectLabels(state, node, v, c), v.getDependency());
+		return Value.makeObject(toObjectLabels(state, node, v, c), v.getDependency(), v.getDependencyGraphReference());
 	}
 	
 	/**
@@ -391,7 +392,7 @@ public class Conversion {
 			ObjectLabel lNum = new ObjectLabel(node, Kind.NUMBER);
 			if (c != null) {
 				state.newObject(lNum);
-				state.writeInternalPrototype(lNum, Value.makeObject(InitialStateBuilder.NUMBER_PROTOTYPE, v.getDependency()));
+				state.writeInternalPrototype(lNum, Value.makeObject(InitialStateBuilder.NUMBER_PROTOTYPE, v.getDependency(), v.getDependencyGraphReference()));
 				state.writeInternalValue(lNum, v.restrictToNum());
 			}
 			result.add(lNum);
@@ -404,7 +405,7 @@ public class Conversion {
 			ObjectLabel lBool = new ObjectLabel(node, Kind.BOOLEAN);
 			if (c != null) {
 				state.newObject(lBool);
-				state.writeInternalPrototype(lBool, Value.makeObject(InitialStateBuilder.BOOLEAN_PROTOTYPE, v.getDependency()));
+				state.writeInternalPrototype(lBool, Value.makeObject(InitialStateBuilder.BOOLEAN_PROTOTYPE, v.getDependency(), v.getDependencyGraphReference()));
 				state.writeInternalValue(lBool, v.restrictToBool());
 			}
 			result.add(lBool);
@@ -414,11 +415,11 @@ public class Conversion {
 			if (c != null)
 				c.addMessage(v.isMaybeOtherThanStr() ? Status.MAYBE : Status.CERTAIN, Severity.LOW, MSG_STRING);
 			Value vstring = v.restrictToStr();
-			Value vlength = vstring.isMaybeSingleStr() ? Value.makeNum(vstring.getStr().length(), v.getDependency()) : Value.makeAnyNumUInt(v.getDependency());
+			Value vlength = vstring.isMaybeSingleStr() ? Value.makeNum(vstring.getStr().length(), v.getDependency(), v.getDependencyGraphReference()) : Value.makeAnyNumUInt(v.getDependency(), v.getDependencyGraphReference());
 			ObjectLabel lString = new ObjectLabel(node, Kind.STRING);
 			if (c != null) {
 				state.newObject(lString);
-				state.writeInternalPrototype(lString, Value.makeObject(InitialStateBuilder.STRING_PROTOTYPE, v.getDependency()));
+				state.writeInternalPrototype(lString, Value.makeObject(InitialStateBuilder.STRING_PROTOTYPE, v.getDependency(), v.getDependencyGraphReference()));
 				state.writeInternalValue(lString, vstring);
 				state.writeSpecialProperty(lString, "length", vlength.setAttributes(true, true, true));
 			}

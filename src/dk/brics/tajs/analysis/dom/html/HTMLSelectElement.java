@@ -7,6 +7,7 @@ import dk.brics.tajs.analysis.Solver;
 import dk.brics.tajs.analysis.State;
 import dk.brics.tajs.analysis.dom.*;
 import dk.brics.tajs.dependency.Dependency;
+import dk.brics.tajs.dependency.graph.DependencyGraphReference;
 import dk.brics.tajs.flowgraph.ObjectLabel;
 import dk.brics.tajs.lattice.Value;
 
@@ -22,30 +23,30 @@ public class HTMLSelectElement {
 	public static void build(State s) {
 		// Prototype Object
 		s.newObject(SELECT_PROTOTYPE);
-		createDOMInternalPrototype(s, SELECT_PROTOTYPE, Value.makeObject(HTMLElement.ELEMENT_PROTOTYPE, new Dependency()));
+		createDOMInternalPrototype(s, SELECT_PROTOTYPE, Value.makeObject(HTMLElement.ELEMENT_PROTOTYPE, new Dependency(), new DependencyGraphReference()));
 
 		// Multiplied Object
 		s.newObject(SELECT);
-		createDOMInternalPrototype(s, SELECT, Value.makeObject(SELECT_PROTOTYPE, new Dependency()));
-		createDOMProperty(s, DOMWindow.WINDOW, "HTMLSelectElement", Value.makeObject(SELECT, new Dependency()));
+		createDOMInternalPrototype(s, SELECT, Value.makeObject(SELECT_PROTOTYPE, new Dependency(), new DependencyGraphReference()));
+		createDOMProperty(s, DOMWindow.WINDOW, "HTMLSelectElement", Value.makeObject(SELECT, new Dependency(), new DependencyGraphReference()));
 
 		/*
 		 * Properties.
 		 */
 		// DOM Level 1
-		createDOMProperty(s, SELECT, "type", Value.makeAnyStr(new Dependency()).setReadOnly(), DOMSpec.LEVEL_1);
-		createDOMProperty(s, SELECT, "selectedIndex", Value.makeAnyNum(new Dependency()), DOMSpec.LEVEL_1);
-		createDOMProperty(s, SELECT, "value", Value.makeAnyStr(new Dependency()), DOMSpec.LEVEL_1);
-		createDOMProperty(s, SELECT, "form", Value.makeObject(HTMLFormElement.FORM, new Dependency()).setReadOnly(), DOMSpec.LEVEL_1);
-		createDOMProperty(s, SELECT, "disabled", Value.makeAnyBool(new Dependency()), DOMSpec.LEVEL_1);
-		createDOMProperty(s, SELECT, "multiple", Value.makeAnyBool(new Dependency()), DOMSpec.LEVEL_1);
-		createDOMProperty(s, SELECT, "name", Value.makeAnyStr(new Dependency()), DOMSpec.LEVEL_1);
-		createDOMProperty(s, SELECT, "size", Value.makeAnyNum(new Dependency()), DOMSpec.LEVEL_1);
-		createDOMProperty(s, SELECT, "tabIndex", Value.makeAnyNum(new Dependency()), DOMSpec.LEVEL_1);
+		createDOMProperty(s, SELECT, "type", Value.makeAnyStr(new Dependency(), new DependencyGraphReference()).setReadOnly(), DOMSpec.LEVEL_1);
+		createDOMProperty(s, SELECT, "selectedIndex", Value.makeAnyNum(new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_1);
+		createDOMProperty(s, SELECT, "value", Value.makeAnyStr(new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_1);
+		createDOMProperty(s, SELECT, "form", Value.makeObject(HTMLFormElement.FORM, new Dependency(), new DependencyGraphReference()).setReadOnly(), DOMSpec.LEVEL_1);
+		createDOMProperty(s, SELECT, "disabled", Value.makeAnyBool(new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_1);
+		createDOMProperty(s, SELECT, "multiple", Value.makeAnyBool(new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_1);
+		createDOMProperty(s, SELECT, "name", Value.makeAnyStr(new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_1);
+		createDOMProperty(s, SELECT, "size", Value.makeAnyNum(new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_1);
+		createDOMProperty(s, SELECT, "tabIndex", Value.makeAnyNum(new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_1);
 
 		// DOM Level 2
-		createDOMProperty(s, SELECT, "length", Value.makeAnyNum(new Dependency()), DOMSpec.LEVEL_2);
-		createDOMProperty(s, SELECT, "options", Value.makeObject(HTMLOptionsCollection.OPTIONSCOLLECTION, new Dependency()).setReadOnly(), DOMSpec.LEVEL_2);
+		createDOMProperty(s, SELECT, "length", Value.makeAnyNum(new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_2);
+		createDOMProperty(s, SELECT, "options", Value.makeObject(HTMLOptionsCollection.OPTIONSCOLLECTION, new Dependency(), new DependencyGraphReference()).setReadOnly(), DOMSpec.LEVEL_2);
 
 		s.multiplyObject(SELECT);
 		SELECT = SELECT.makeSingleton().makeSummary();
@@ -69,20 +70,20 @@ public class HTMLSelectElement {
 			NativeFunctions.expectParameters(nativeObject, call, c, 2, 2);
 			Value element = DOMConversion.toHTMLElement(call.getArg(0), c);
 			Value before = DOMConversion.toHTMLElement(call.getArg(1), c);
-			return Value.makeUndef(new Dependency());
+			return Value.makeUndef(new Dependency(), new DependencyGraphReference());
 		}
 		case HTMLSELECTELEMENT_REMOVE: {
 			NativeFunctions.expectParameters(nativeObject, call, c, 1, 1);
 			Value index = Conversion.toInteger(call.getArg(0), c);
-			return Value.makeUndef(new Dependency());
+			return Value.makeUndef(new Dependency(), new DependencyGraphReference());
 		}
 		case HTMLSELECTELEMENT_BLUR: {
 			NativeFunctions.expectParameters(nativeObject, call, c, 0, 0);
-			return Value.makeUndef(new Dependency());
+			return Value.makeUndef(new Dependency(), new DependencyGraphReference());
 		}
 		case HTMLSELECTELEMENT_FOCUS: {
 			NativeFunctions.expectParameters(nativeObject, call, c, 0, 0);
-			return Value.makeUndef(new Dependency());
+			return Value.makeUndef(new Dependency(), new DependencyGraphReference());
 		}
 		default: {
 			throw new RuntimeException("Unsupported Native Object: " + nativeObject);

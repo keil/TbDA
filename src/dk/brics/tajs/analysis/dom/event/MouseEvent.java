@@ -10,6 +10,7 @@ import dk.brics.tajs.analysis.dom.DOMFunctions;
 import dk.brics.tajs.analysis.dom.DOMObjects;
 import dk.brics.tajs.analysis.dom.DOMSpec;
 import dk.brics.tajs.dependency.Dependency;
+import dk.brics.tajs.dependency.graph.DependencyGraphReference;
 import dk.brics.tajs.flowgraph.ObjectLabel;
 import dk.brics.tajs.lattice.Value;
 
@@ -30,24 +31,24 @@ public class MouseEvent {
 	public static void build(State s) {
 		// Prototype object
 		s.newObject(MOUSE_EVENT_PROTOTYPE);
-		createDOMInternalPrototype(s, MOUSE_EVENT_PROTOTYPE, Value.makeObject(UIEvent.UI_EVENT_PROTOTYPE, new Dependency()));
+		createDOMInternalPrototype(s, MOUSE_EVENT_PROTOTYPE, Value.makeObject(UIEvent.UI_EVENT_PROTOTYPE, new Dependency(), new DependencyGraphReference()));
 
 		// Multiplied object
 		s.newObject(MOUSE_EVENT);
-		createDOMInternalPrototype(s, MOUSE_EVENT, Value.makeObject(MOUSE_EVENT_PROTOTYPE, new Dependency()));
+		createDOMInternalPrototype(s, MOUSE_EVENT, Value.makeObject(MOUSE_EVENT_PROTOTYPE, new Dependency(), new DependencyGraphReference()));
 
 		/*
 		 * Properties.
 		 */
-		createDOMProperty(s, MOUSE_EVENT, "screenX", Value.makeAnyNum(new Dependency()).setReadOnly(), DOMSpec.LEVEL_2);
-		createDOMProperty(s, MOUSE_EVENT, "screenY", Value.makeAnyNum(new Dependency()).setReadOnly(), DOMSpec.LEVEL_2);
-		createDOMProperty(s, MOUSE_EVENT, "clientX", Value.makeAnyNum(new Dependency()).setReadOnly(), DOMSpec.LEVEL_2);
-		createDOMProperty(s, MOUSE_EVENT, "clientY", Value.makeAnyNum(new Dependency()).setReadOnly(), DOMSpec.LEVEL_2);
-		createDOMProperty(s, MOUSE_EVENT, "ctrlKey", Value.makeAnyBool(new Dependency()).setReadOnly(), DOMSpec.LEVEL_2);
-		createDOMProperty(s, MOUSE_EVENT, "shiftKey", Value.makeAnyBool(new Dependency()).setReadOnly(), DOMSpec.LEVEL_2);
-		createDOMProperty(s, MOUSE_EVENT, "altKey", Value.makeAnyBool(new Dependency()).setReadOnly(), DOMSpec.LEVEL_2);
-		createDOMProperty(s, MOUSE_EVENT, "metaKey", Value.makeAnyBool(new Dependency()).setReadOnly(), DOMSpec.LEVEL_2);
-		createDOMProperty(s, MOUSE_EVENT, "button", Value.makeAnyNumUInt(new Dependency()).setReadOnly(), DOMSpec.LEVEL_2);
+		createDOMProperty(s, MOUSE_EVENT, "screenX", Value.makeAnyNum(new Dependency(), new DependencyGraphReference()).setReadOnly(), DOMSpec.LEVEL_2);
+		createDOMProperty(s, MOUSE_EVENT, "screenY", Value.makeAnyNum(new Dependency(), new DependencyGraphReference()).setReadOnly(), DOMSpec.LEVEL_2);
+		createDOMProperty(s, MOUSE_EVENT, "clientX", Value.makeAnyNum(new Dependency(), new DependencyGraphReference()).setReadOnly(), DOMSpec.LEVEL_2);
+		createDOMProperty(s, MOUSE_EVENT, "clientY", Value.makeAnyNum(new Dependency(), new DependencyGraphReference()).setReadOnly(), DOMSpec.LEVEL_2);
+		createDOMProperty(s, MOUSE_EVENT, "ctrlKey", Value.makeAnyBool(new Dependency(), new DependencyGraphReference()).setReadOnly(), DOMSpec.LEVEL_2);
+		createDOMProperty(s, MOUSE_EVENT, "shiftKey", Value.makeAnyBool(new Dependency(), new DependencyGraphReference()).setReadOnly(), DOMSpec.LEVEL_2);
+		createDOMProperty(s, MOUSE_EVENT, "altKey", Value.makeAnyBool(new Dependency(), new DependencyGraphReference()).setReadOnly(), DOMSpec.LEVEL_2);
+		createDOMProperty(s, MOUSE_EVENT, "metaKey", Value.makeAnyBool(new Dependency(), new DependencyGraphReference()).setReadOnly(), DOMSpec.LEVEL_2);
+		createDOMProperty(s, MOUSE_EVENT, "button", Value.makeAnyNumUInt(new Dependency(), new DependencyGraphReference()).setReadOnly(), DOMSpec.LEVEL_2);
 		createDOMProperty(s, MOUSE_EVENT, "relatedTarget", DOMFunctions.makeAnyHTMLElement().setReadOnly(), DOMSpec.LEVEL_2);
 
 		/*
@@ -79,7 +80,7 @@ public class MouseEvent {
 			Value metaKeyArg = Conversion.toBoolean(call.getArg(12));
 			Value buttonArg = Conversion.toNumber(call.getArg(13), c);
 			Value relatedTargetArg = DOMConversion.toEventTarget(call.getArg(14), c);
-			return Value.makeUndef(new Dependency());
+			return Value.makeUndef(new Dependency(), new DependencyGraphReference());
 		}
 		default:
 			throw new UnsupportedOperationException("Unsupported Native Object: "

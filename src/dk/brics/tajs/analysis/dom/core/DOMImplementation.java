@@ -10,6 +10,7 @@ import dk.brics.tajs.analysis.dom.DOMObjects;
 import dk.brics.tajs.analysis.dom.DOMSpec;
 import dk.brics.tajs.analysis.dom.DOMWindow;
 import dk.brics.tajs.dependency.Dependency;
+import dk.brics.tajs.dependency.graph.DependencyGraphReference;
 import dk.brics.tajs.flowgraph.ObjectLabel;
 import dk.brics.tajs.flowgraph.ObjectLabel.Kind;
 import dk.brics.tajs.lattice.Value;
@@ -32,13 +33,13 @@ public class DOMImplementation {
 	public static void build(State s) {
 		// Prototype object.
 		s.newObject(IMPLEMENTATION_PROTOTYPE);
-		createDOMInternalPrototype(s, IMPLEMENTATION_PROTOTYPE, Value.makeObject(InitialStateBuilder.OBJECT_PROTOTYPE, new Dependency()));
-		createDOMProperty(s, DOMWindow.WINDOW, "DOMImplementation", Value.makeObject(IMPLEMENTATION_PROTOTYPE, new Dependency()));
+		createDOMInternalPrototype(s, IMPLEMENTATION_PROTOTYPE, Value.makeObject(InitialStateBuilder.OBJECT_PROTOTYPE, new Dependency(), new DependencyGraphReference()));
+		createDOMProperty(s, DOMWindow.WINDOW, "DOMImplementation", Value.makeObject(IMPLEMENTATION_PROTOTYPE, new Dependency(), new DependencyGraphReference()));
 
 		// Multiplied object.
 		s.newObject(IMPLEMENTATION);
-		createDOMInternalPrototype(s, IMPLEMENTATION, Value.makeObject(IMPLEMENTATION_PROTOTYPE, new Dependency()));
-		createDOMProperty(s, DOMDocument.DOCUMENT, "implementation", Value.makeObject(IMPLEMENTATION, new Dependency()));
+		createDOMInternalPrototype(s, IMPLEMENTATION, Value.makeObject(IMPLEMENTATION_PROTOTYPE, new Dependency(), new DependencyGraphReference()));
+		createDOMProperty(s, DOMDocument.DOCUMENT, "implementation", Value.makeObject(IMPLEMENTATION, new Dependency(), new DependencyGraphReference()));
 		s.multiplyObject(IMPLEMENTATION);
 		IMPLEMENTATION = IMPLEMENTATION.makeSingleton().makeSummary();
 
@@ -67,21 +68,21 @@ public class DOMImplementation {
 			NativeFunctions.expectParameters(nativeobject, call, c, 2, 2);
 			Value feature = Conversion.toString(call.getArg(0), c);
 			Value version = Conversion.toString(call.getArg(1), c);
-			return Value.makeAnyBool(new Dependency());
+			return Value.makeAnyBool(new Dependency(), new DependencyGraphReference());
 		}
 		case DOMIMPLEMENTATION_CREATEDOCUMENTTYPE: {
 			NativeFunctions.expectParameters(nativeobject, call, c, 3, 3);
 			Value qualifiedName = Conversion.toString(call.getArg(0), c);
 			Value publicId = Conversion.toString(call.getArg(1), c);
 			Value systemId = Conversion.toString(call.getArg(2), c);
-			return Value.makeObject(DOMDocumentType.TYPE, new Dependency());
+			return Value.makeObject(DOMDocumentType.TYPE, new Dependency(), new DependencyGraphReference());
 		}
 		case DOMIMPLEMENTATION_CREATEDOCUMENT: {
 			NativeFunctions.expectParameters(nativeobject, call, c, 3, 3);
 			Value namespaceURI = Conversion.toString(call.getArg(0), c);
 			Value qualifiedName = Conversion.toString(call.getArg(1), c);
 			Value docType = Conversion.toString(call.getArg(2), c);
-			return Value.makeObject(DOMDocument.DOCUMENT, new Dependency());
+			return Value.makeObject(DOMDocument.DOCUMENT, new Dependency(), new DependencyGraphReference());
 		}
 		default:
 			throw new RuntimeException("Unknown Native Object: " + nativeobject);

@@ -9,6 +9,7 @@ import dk.brics.tajs.analysis.Solver;
 import dk.brics.tajs.analysis.State;
 import dk.brics.tajs.analysis.FunctionCalls.CallInfo;
 import dk.brics.tajs.dependency.Dependency;
+import dk.brics.tajs.dependency.graph.DependencyGraphReference;
 import dk.brics.tajs.dependency.graph.DependencyNode;
 import dk.brics.tajs.dependency.graph.Label;
 import dk.brics.tajs.dependency.graph.nodes.DependencyExpressionNode;
@@ -30,7 +31,7 @@ public class JSObject {
 	public static Value evaluate(ECMAScriptObjects nativeobject, CallInfo call, State state, Solver.SolverInterface c) {
 		if (nativeobject != ECMAScriptObjects.OBJECT)
 			if (NativeFunctions.throwTypeErrorIfConstructor(call, state, c))
-				return Value.makeBottom(new Dependency());
+				return Value.makeBottom(new Dependency(), new DependencyGraphReference());
 
 		switch (nativeobject) {
 
@@ -84,10 +85,10 @@ public class JSObject {
 				// 15.2.2.1 step 8
 				ObjectLabel obj = new ObjectLabel(call.getSourceNode(), Kind.OBJECT);
 				state.newObject(obj);
-				state.writeInternalPrototype(obj, Value.makeObject(InitialStateBuilder.OBJECT_PROTOTYPE, dependency).joinDependencyGraphReference(node));
+				state.writeInternalPrototype(obj, Value.makeObject(InitialStateBuilder.OBJECT_PROTOTYPE, dependency, node.getReference()));
 				res = res.joinObject(obj);
 			}
-			return res.joinDependencyGraphReference(node);
+			return res;
 		}
 
 		case OBJECT_TOSTRING: // 15.2.4.2
@@ -116,9 +117,9 @@ public class JSObject {
 
 			Set<ObjectLabel> thisobj = state.readThisObjects();
 			if (thisobj.size() == 1)
-				return Value.makeStr("[object " + thisobj.iterator().next().getKind() + "]", dependency).joinDependencyGraphReference(node);
+				return Value.makeStr("[object " + thisobj.iterator().next().getKind() + "]", dependency, node.getReference());
 			else
-				return Value.makeAnyStr(dependency).joinDependencyGraphReference(node); // TODO:
+				return Value.makeAnyStr(dependency, node.getReference()); // TODO:
 																						// better
 			// approximation of
 			// string sets?
@@ -144,7 +145,7 @@ public class JSObject {
 			node.addParent(thisval);
 			// ==================================================
 
-			return Value.makeObject(state.readThisObjects(), dependency).joinDependencyGraphReference(node);
+			return Value.makeObject(state.readThisObjects(), dependency, node.getReference());
 		}
 
 		case OBJECT_HASOWNPROPERTY: { // 15.2.4.5
@@ -172,21 +173,21 @@ public class JSObject {
 
 			Set<ObjectLabel> thisobj = state.readThisObjects();
 			if (propval.isMaybeAnyStr())
-				return Value.makeAnyBool(dependency); // TODO: could return
+				return Value.makeAnyBool(dependency, node.getReference()); // TODO: could return
 														// 'false' if thisobj
 														// has no properties at
 														// all
 			else if (propval.isMaybeSingleStr()) {
 				String propname = propval.getStr();
 				Value val = state.readPropertyDirect(thisobj, propname);
-				Value res = Value.makeBottom(dependency);
+				Value res = Value.makeBottom(dependency, node.getReference());
 				if (val.isMaybeAbsent() || val.isNoValue())
 					res = res.joinBool(false);
 				if (val.isMaybeValue())
 					res = res.joinBool(true);
-				return res.joinDependencyGraphReference(node);
+				return res;
 			} else
-				return Value.makeBottom(dependency).joinDependencyGraphReference(node);
+				return Value.makeBottom(dependency, node.getReference());
 		}
 
 		case OBJECT_ISPROTOTYPEOF: { // 15.2.4.6
@@ -212,7 +213,7 @@ public class JSObject {
 			node.addParent(prottyp);
 			// ==================================================
 
-			return Value.makeAnyBool(dependency).joinDependencyGraphReference(node); // TODO:
+			return Value.makeAnyBool(dependency, node.getReference()); // TODO:
 																						// improve
 																						// precision
 																						// for
@@ -244,21 +245,21 @@ public class JSObject {
 
 			Set<ObjectLabel> thisobj = state.readThisObjects();
 			if (propval.isMaybeAnyStr())
-				return Value.makeAnyBool(dependency).joinDependencyGraphReference(node); // TODO: could return
+				return Value.makeAnyBool(dependency, node.getReference()); // TODO: could return
 														// 'false' if thisobj
 														// has no properties at
 														// all
 			else if (propval.isMaybeSingleStr()) {
 				String propname = propval.getStr();
 				Value val = state.readPropertyDirect(thisobj, propname);
-				Value res = Value.makeBottom(dependency);
+				Value res = Value.makeBottom(dependency, node.getReference());
 				if (val.isMaybeAbsent() || val.isMaybeDontEnum() || val.isNoValue())
 					res = res.joinBool(false);
 				if (val.isMaybeValue() && val.isMaybeNotDontEnum())
 					res = res.joinBool(true);
-				return res.joinDependencyGraphReference(node);
+				return res;
 			} else
-				return Value.makeBottom(dependency).joinDependencyGraphReference(node);
+				return Value.makeBottom(dependency, node.getReference());
 		}
 
 		default:

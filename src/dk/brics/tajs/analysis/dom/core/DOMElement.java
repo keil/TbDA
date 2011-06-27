@@ -7,6 +7,7 @@ import dk.brics.tajs.analysis.State;
 import dk.brics.tajs.analysis.FunctionCalls.CallInfo;
 import dk.brics.tajs.analysis.dom.*;
 import dk.brics.tajs.dependency.Dependency;
+import dk.brics.tajs.dependency.graph.DependencyGraphReference;
 import dk.brics.tajs.flowgraph.ObjectLabel;
 import dk.brics.tajs.lattice.Value;
 
@@ -26,18 +27,18 @@ public class DOMElement {
 	public static void build(State s) {
 		// Prototype
 		s.newObject(ELEMENT_PROTOTYPE);
-		createDOMInternalPrototype(s, ELEMENT_PROTOTYPE, Value.makeObject(DOMNode.NODE_PROTOTYPE, new Dependency()));
+		createDOMInternalPrototype(s, ELEMENT_PROTOTYPE, Value.makeObject(DOMNode.NODE_PROTOTYPE, new Dependency(), new DependencyGraphReference()));
 
 		// Multiplied object
 		s.newObject(ELEMENT);
-		createDOMInternalPrototype(s, ELEMENT, Value.makeObject(ELEMENT_PROTOTYPE, new Dependency()));
-		createDOMProperty(s, DOMWindow.WINDOW, "Element", Value.makeObject(ELEMENT, new Dependency()));
+		createDOMInternalPrototype(s, ELEMENT, Value.makeObject(ELEMENT_PROTOTYPE, new Dependency(), new DependencyGraphReference()));
+		createDOMProperty(s, DOMWindow.WINDOW, "Element", Value.makeObject(ELEMENT, new Dependency(), new DependencyGraphReference()));
 
 		/**
 		 * Properties.
 		 */
 		// DOM Level 1
-		createDOMProperty(s, ELEMENT, "tagName", Value.makeAnyStr(new Dependency()), DOMSpec.LEVEL_1);
+		createDOMProperty(s, ELEMENT, "tagName", Value.makeAnyStr(new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_1);
 
 		s.multiplyObject(ELEMENT);
 		ELEMENT = ELEMENT.makeSingleton().makeSummary();
@@ -78,63 +79,63 @@ public class DOMElement {
 		case ELEMENT_GET_ATTRIBUTE: {
 			NativeFunctions.expectParameters(nativeObject, call, c, 1, 1);
 			Value name = Conversion.toString(call.getArg(0), c);
-			return Value.makeAnyStr(new Dependency());
+			return Value.makeAnyStr(new Dependency(), new DependencyGraphReference());
 		}
 		case ELEMENT_SET_ATTRIBUTE: {
 			NativeFunctions.expectParameters(nativeObject, call, c, 2, 2);
 			Value name = Conversion.toString(call.getArg(0), c);
 			Value value = Conversion.toString(call.getArg(1), c);
-			return Value.makeUndef(new Dependency());
+			return Value.makeUndef(new Dependency(), new DependencyGraphReference());
 		}
 		case ELEMENT_REMOVE_ATTRIBUTE: {
 			NativeFunctions.expectParameters(nativeObject, call, c, 1, 1);
 			Value name = Conversion.toString(call.getArg(0), c);
-			return Value.makeUndef(new Dependency());
+			return Value.makeUndef(new Dependency(), new DependencyGraphReference());
 		}
 		case ELEMENT_GET_ATTRIBUTE_NS: {
 			NativeFunctions.expectParameters(nativeObject, call, c, 2, 2);
 			Value namespace = Conversion.toString(call.getArg(0), c);
 			Value name = Conversion.toString(call.getArg(1), c);
-			return Value.makeAnyStr(new Dependency());
+			return Value.makeAnyStr(new Dependency(), new DependencyGraphReference());
 		}
 		case ELEMENT_GET_ATTRIBUTE_NODE: {
 			NativeFunctions.expectParameters(nativeObject, call, c, 1, 1);
 			Value name = Conversion.toString(call.getArg(0), c);
-			return Value.makeObject(DOMAttr.ATTR, new Dependency());
+			return Value.makeObject(DOMAttr.ATTR, new Dependency(), new DependencyGraphReference());
 		}
 		case ELEMENT_GET_ATTRIBUTE_NODE_NS: {
 			NativeFunctions.expectParameters(nativeObject, call, c, 2, 2);
 			Value namespace = Conversion.toString(call.getArg(0), c);
 			Value name = Conversion.toString(call.getArg(1), c);
-			return Value.makeObject(DOMAttr.ATTR, new Dependency());
+			return Value.makeObject(DOMAttr.ATTR, new Dependency(), new DependencyGraphReference());
 		}
 		case ELEMENT_GET_ELEMENTS_BY_TAGNAME: {
 			NativeFunctions.expectParameters(nativeObject, call, c, 1, 1);
 			Value name = Conversion.toString(call.getArg(0), c);
-			return Value.makeObject(DOMNodeList.NODELIST, new Dependency());
+			return Value.makeObject(DOMNodeList.NODELIST, new Dependency(), new DependencyGraphReference());
 		}
 		case ELEMENT_GET_ELEMENTS_BY_TAGNAME_NS: {
 			NativeFunctions.expectParameters(nativeObject, call, c, 2, 2);
 			Value namespace = Conversion.toString(call.getArg(0), c);
 			Value name = Conversion.toString(call.getArg(1), c);
-			return Value.makeObject(DOMNodeList.NODELIST, new Dependency());
+			return Value.makeObject(DOMNodeList.NODELIST, new Dependency(), new DependencyGraphReference());
 		}
 		case ELEMENT_HAS_ATTRIBUTE: {
 			NativeFunctions.expectParameters(nativeObject, call, c, 1, 1);
 			Value name = Conversion.toString(call.getArg(0), c);
-			return Value.makeAnyBool(new Dependency());
+			return Value.makeAnyBool(new Dependency(), new DependencyGraphReference());
 		}
 		case ELEMENT_HAS_ATTRIBUTE_NS: {
 			NativeFunctions.expectParameters(nativeObject, call, c, 2, 2);
 			Value namespace = Conversion.toString(call.getArg(0), c);
 			Value name = Conversion.toString(call.getArg(1), c);
-			return Value.makeAnyBool(new Dependency());
+			return Value.makeAnyBool(new Dependency(), new DependencyGraphReference());
 		}
 		case ELEMENT_REMOVE_ATTRIBUTE_NS: {
 			NativeFunctions.expectParameters(nativeObject, call, c, 2, 2);
 			Value namespaceURI = Conversion.toString(call.getArg(0), c);
 			Value localName = Conversion.toString(call.getArg(1), c);
-			return Value.makeUndef(new Dependency());
+			return Value.makeUndef(new Dependency(), new DependencyGraphReference());
 		}
 		case ELEMENT_REMOVE_ATTRIBUTE_NODE: {
 			NativeFunctions.expectParameters(nativeObject, call, c, 1, 1);
@@ -146,36 +147,36 @@ public class DOMElement {
 			Value namespace = Conversion.toString(call.getArg(0), c).joinNull();
 			Value name = Conversion.toString(call.getArg(1), c);
 			Value value = Conversion.toString(call.getArg(2), c);
-			return Value.makeUndef(new Dependency());
+			return Value.makeUndef(new Dependency(), new DependencyGraphReference());
 		}
 		case ELEMENT_SET_ATTRIBUTE_NODE: {
 			NativeFunctions.expectParameters(nativeObject, call, c, 1, 1);
 			Value newAttr = DOMConversion.toAttr(call.getArg(0), c);
-			return Value.makeObject(DOMAttr.ATTR, new Dependency()).joinNull();
+			return Value.makeObject(DOMAttr.ATTR, new Dependency(), new DependencyGraphReference()).joinNull();
 		}
 		case ELEMENT_SET_ATTRIBUTE_NODE_NS: {
 			NativeFunctions.expectParameters(nativeObject, call, c, 1, 1);
 			Value newAttr = DOMConversion.toAttr(call.getArg(0), c);
-			return Value.makeObject(DOMAttr.ATTR, new Dependency()).joinNull();
+			return Value.makeObject(DOMAttr.ATTR, new Dependency(), new DependencyGraphReference()).joinNull();
 		}
 		case ELEMENT_SET_ID_ATTRIBUTE: {
 			NativeFunctions.expectParameters(nativeObject, call, c, 2, 2);
 			Value name = Conversion.toString(call.getArg(0), c);
 			Value isId = Conversion.toBoolean(call.getArg(1));
-			return Value.makeUndef(new Dependency());
+			return Value.makeUndef(new Dependency(), new DependencyGraphReference());
 		}
 		case ELEMENT_SET_ID_ATTRIBUTE_NS: {
 			NativeFunctions.expectParameters(nativeObject, call, c, 3, 3);
 			Value namespaceURI = Conversion.toString(call.getArg(0), c);
 			Value localName = Conversion.toString(call.getArg(1), c);
 			Value isId = Conversion.toBoolean(call.getArg(2));
-			return Value.makeUndef(new Dependency());
+			return Value.makeUndef(new Dependency(), new DependencyGraphReference());
 		}
 		case ELEMENT_SET_ID_ATTRIBUTE_NODE: {
 			NativeFunctions.expectParameters(nativeObject, call, c, 2, 2);
 			Value idAttr = DOMConversion.toAttr(call.getArg(0), c);
 			Value isId = Conversion.toBoolean(call.getArg(1));
-			return Value.makeUndef(new Dependency());
+			return Value.makeUndef(new Dependency(), new DependencyGraphReference());
 		}
 		default: {
 			throw new RuntimeException("Unknown Native Object: " + nativeObject);

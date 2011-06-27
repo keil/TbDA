@@ -7,7 +7,7 @@ public enum Label {
 	STATE("#"), IF("if"), CALL("call"), FUNCTION("function"), RETURN("return"),
 
 	// VALUE
-	WRITE(":="), READ("="), ATTRIBUTE("."), OPERATION("?"),
+	WRITE(":="), READ("="), ATTRIBUTE("."), OPERATION("?"), CREATE("!"),
 
 	// CONTROL
 	EXCEPTION("exception"), THROW("throw"), CATCH("catch"), WITH("with"), EVENT(
