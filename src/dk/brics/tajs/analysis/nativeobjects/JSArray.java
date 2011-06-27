@@ -110,7 +110,7 @@ public class JSArray {
 						zeroprop = zeroprop.joinAbsent();
 					state.writeProperty(objlabel, "0", zeroprop);
 				}
-				state.writeSpecialProperty(objlabel, "length", length.setAttributes(true, true, false).joinDependency(dependency).joinDependencyGraphReference(node));
+				state.writeSpecialProperty(objlabel, "length", length.setAttributes(true, true, false).joinDependency(dependency).setDependencyGraphReference(node));
 			} else { // 15.4.2.1
 				// ##########
 				state.writeSpecialProperty(objlabel, "length", Value.makeNum(call.getNumberOfArgs(), dependency, node.getReference()).setAttributes(true, true, false));

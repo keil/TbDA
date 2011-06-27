@@ -259,7 +259,8 @@ public class JSGlobal {
 
 			// ==================================================
 			DependencyObjectNode node = new DependencyObjectNode(dependencyObject, c.getDependencyGraph().getRoot());
-			value = value.joinDependencyGraphReference(node.getReference());
+			node.addParent(value);
+			value = value.setDependencyGraphReference(node.getReference());
 			// ==================================================
 
 			value = value.joinDependency(dependency);

@@ -21,6 +21,14 @@ public interface IDependencyGraphReference<Arg> {
 	public Arg setDependencyGraphReference(DependencyGraphReference reference);
 
 	/**
+	 * set an reference to the dependency graph
+	 * 
+	 * @param node
+	 *            current dependency node
+	 */
+	public Arg setDependencyGraphReference(DependencyNode reference);
+	
+	/**
 	 * checks if the reference is set
 	 * 
 	 * @return true, if an reference is set, false otherwise
