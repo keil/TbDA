@@ -17,7 +17,7 @@ public enum Label {
 	COMPLEMENT("~"), PLUS("+"), MINUS("-"), NOT("!"),
 
 	// BINARY
-	ADD("+"), SUB("-"), MUL("*"), DIV("/"), REM("%"), AND("&"), OR("|"), XOR(
+	ADD("+"), SUB("-"), MUL("*"), DIV("/"), MOD("%"), REM("%"), AND("&"), OR("|"), XOR(
 			"^"), EQ("=="), NE("!="), LT("<="), GE(">="), LE("<"), GT(">"), IN(
 			"in"), INSTANCEOF("instanceof"), TYPEOF("typeof"), SEQ("==="), SNE(
 			"!=="), SHL("<<"), SHR(">>"), USHR(">>>");
