@@ -796,7 +796,7 @@ public class Operators {
 				r = eqObject(r, v1.getObjectLabels(), v2.getObjectLabels());
 			}
 		}
-		return r.joinDependency(dependency).joinDependencyGraphReference(node.getReference());
+		return r.joinDependency(dependency).setDependencyGraphReference(node.getReference());
 	}
 
 	/**

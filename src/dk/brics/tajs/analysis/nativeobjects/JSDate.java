@@ -197,7 +197,7 @@ public class JSDate {
 				// ==================================================
 			}
 			
-			Value thisValue = state.readThis().joinDependency(dependency).joinDependencyGraphReference(node);
+			Value thisValue = state.readThis().joinDependency(dependency).setDependencyGraphReference(node);
 			for (ObjectLabel objectLabel : state.readThisObjects()) {
 				state.writeInternalValue(objectLabel, thisValue);
 			}
@@ -236,7 +236,7 @@ public class JSDate {
 				// ==================================================
 			}
 			
-			Value thisValue = state.readThis().joinDependency(dependency).joinDependencyGraphReference(node);
+			Value thisValue = state.readThis().joinDependency(dependency).setDependencyGraphReference(node);
 			for (ObjectLabel objectLabel : state.readThisObjects()) {
 				state.writeInternalValue(objectLabel, thisValue);
 			}
@@ -277,7 +277,7 @@ public class JSDate {
 				// ==================================================
 			}
 			
-			Value thisValue = state.readThis().joinDependency(dependency).joinDependencyGraphReference(node);
+			Value thisValue = state.readThis().joinDependency(dependency).setDependencyGraphReference(node);
 			for (ObjectLabel objectLabel : state.readThisObjects()) {
 				state.writeInternalValue(objectLabel, thisValue);
 			}
@@ -318,7 +318,7 @@ public class JSDate {
 				// ==================================================
 			}
 			
-			Value thisValue = state.readThis().joinDependency(dependency).joinDependencyGraphReference(node);
+			Value thisValue = state.readThis().joinDependency(dependency).setDependencyGraphReference(node);
 			for (ObjectLabel objectLabel : state.readThisObjects()) {
 				state.writeInternalValue(objectLabel, thisValue);
 			}
@@ -356,7 +356,7 @@ public class JSDate {
 				// ==================================================
 			}
 			
-			Value thisValue = state.readThis().joinDependency(dependency).joinDependencyGraphReference(node);
+			Value thisValue = state.readThis().joinDependency(dependency).setDependencyGraphReference(node);
 			for (ObjectLabel objectLabel : state.readThisObjects()) {
 				state.writeInternalValue(objectLabel, thisValue);
 			}

@@ -26,7 +26,7 @@ public interface IDependencyGraphReference<Arg> {
 	 * @param node
 	 *            current dependency node
 	 */
-	public Arg setDependencyGraphReference(DependencyNode reference);
+	public Arg setDependencyGraphReference(DependencyNode node);
 	
 	/**
 	 * checks if the reference is set

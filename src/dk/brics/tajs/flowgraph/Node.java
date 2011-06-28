@@ -114,6 +114,11 @@ public abstract class Node implements IDependencyGraphReference<Node> {
 	}
 
 	@Override
+	public Node setDependencyGraphReference(DependencyNode node) {
+		return setDependencyGraphReference(node.getReference());
+	}
+	
+	@Override
 	public boolean hasDependencyGraphReference() {
 		return (mDependencyGraphReference != null) ? true : false;
 	}

@@ -116,6 +116,11 @@ public final class State extends BlockState<State, CallContext, Statistics>
 		mDependencyGraphReference = new DependencyGraphReference(reference);
 		return this;
 	}
+	
+	@Override
+	public State setDependencyGraphReference(DependencyNode node) {
+		return setDependencyGraphReference(node.getReference());
+	}
 
 	@Override
 	public boolean hasDependencyGraphReference() {

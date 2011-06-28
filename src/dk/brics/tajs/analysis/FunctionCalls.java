@@ -10,6 +10,9 @@ import java.util.TreeSet;
 import dk.brics.tajs.analysis.dom.html.HTMLBuilder;
 import dk.brics.tajs.dependency.Dependency;
 import dk.brics.tajs.dependency.graph.DependencyGraphReference;
+import dk.brics.tajs.dependency.graph.DependencyLabel;
+import dk.brics.tajs.dependency.graph.Label;
+import dk.brics.tajs.dependency.graph.nodes.DependencyExpressionNode;
 import dk.brics.tajs.flowgraph.Function;
 import dk.brics.tajs.flowgraph.Node;
 import dk.brics.tajs.flowgraph.ObjectLabel;
@@ -174,8 +177,8 @@ public class FunctionCalls {
 		// ##################################################
 		
 		// ==================================================
-		DependencyGraphReference reference = new DependencyGraphReference();
-		reference.join(caller_state.getDependencyGraphReference());
+		DependencyExpressionNode node = new DependencyExpressionNode(new DependencyLabel(Label.CALL, c.getCurrentNode()));
+		node.addParent(caller_state);
 		// ==================================================
 
 		Value funval = call.getFunction();
@@ -185,7 +188,7 @@ public class FunctionCalls {
 		// ##################################################
 
 		// ==================================================
-		reference.join(funval.getDependencyGraphReference());
+		node.addParent(funval);
 		// ==================================================
 		
 		boolean maybe_non_function = funval.isMaybePrimitive();
@@ -210,7 +213,7 @@ public class FunctionCalls {
 					// ##################################################
 
 					// ==================================================
-					res = res.joinDependencyGraphReference(reference);
+					res = res.setDependencyGraphReference(node.getReference());
 					// ==================================================
 					
 					c.setCurrentState(ts);
@@ -231,7 +234,7 @@ public class FunctionCalls {
 		if (funval.getObjectLabels().isEmpty() && Options.isPropagateDeadFlow()) {
 			State newstate = caller_state.clone();
 			if (call.getResultVar() != CallNode.NO_VALUE)
-				newstate.writeTemporary(call.getResultVar(), Value.makeBottom(dependency, reference));
+				newstate.writeTemporary(call.getResultVar(), Value.makeBottom(dependency, node.getReference()));
 			c.joinBlockEntry(newstate, call.getSourceNode().getBlock().getSingleSuccessor(), c.getCurrentContext());
 		}
 		Status s = maybe_non_function ? (maybe_function ? Status.MAYBE : Status.CERTAIN) : Status.NONE;
