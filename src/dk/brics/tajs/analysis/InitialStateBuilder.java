@@ -538,7 +538,7 @@ public class InitialStateBuilder implements IInitialStateBuilder<State, CallCont
 
 		// build initial DOM state
 		if (Options.isDOMEnabled()) {
-			DOMBuilder.addIinitialDOM(s);
+			DOMBuilder.addInitialDOM(s);
 		}
 
 		ExecutionContext e = new ExecutionContext(ScopeChain.make(global), global, global);

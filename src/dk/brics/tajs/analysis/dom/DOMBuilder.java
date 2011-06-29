@@ -41,7 +41,7 @@ public class DOMBuilder {
 	 * Its assumed that WINDOW is added to the state somewhere else before this function is invoked since its the
 	 * global objects when running in DOM mode.
 	 */
-	public static void addIinitialDOM(State s) {
+	public static void addInitialDOM(State s) {
 		// Build initial core dom state
 		CoreBuilder.build(s);
 
