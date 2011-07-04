@@ -212,7 +212,9 @@ public class FunctionCalls {
 					res = res.joinDependency(dependency);
 					// ##################################################
 
+					
 					// ==================================================
+					node.addParent(res);
 					res = res.setDependencyGraphReference(node.getReference());
 					// ==================================================
 					

@@ -1789,7 +1789,7 @@ public final class Value implements Undef, Null, Bool, Num, Str, IDependency<Val
 		if (isNotStr())
 			return theBottom.joinDependency(mDependency).setDependencyGraphReference(mDependencyGraphReference);
 		else if (isMaybeSingleStr())
-			return makeStr(getStr(), mDependency, null).setDependencyGraphReference(mDependencyGraphReference);
+			return makeStr(getStr(), mDependency, mDependencyGraphReference);
 		else {
 			Value r = new Value(mDependency, mDependencyGraphReference);
 			if (isMaybeStrUInt())

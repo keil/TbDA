@@ -691,8 +691,7 @@ public class InitialStateBuilder implements IInitialStateBuilder<State, CallCont
 		dependency = trace.contains(string_objlabel2) ? DependencyObject.getInitialStateDependencyObject(string_objlabel2).getDependency() : new Dependency();
 		s.newObject(objlabel);
 		reference = createDependencyGraphReference(dependency);
-		s.writeInternalPrototype(objlabel,
-				Value.makeObject(internal_proto, new Dependency(), new DependencyGraphReference()));
+		s.writeInternalPrototype(objlabel, Value.makeObject(internal_proto, new Dependency(), new DependencyGraphReference()));
 		DependencyAnalyzer.initialstate.add(string_objlabel2);
 
 		// string_target + string_name
@@ -742,8 +741,7 @@ public class InitialStateBuilder implements IInitialStateBuilder<State, CallCont
 		dependency = trace.contains(string_objlabel + string_prototype) ? DependencyObject.getInitialStateDependencyObject(string_objlabel + string_prototype)
 				.getDependency() : new Dependency();
 		reference = createDependencyGraphReference(dependency);
-		s.writeSpecialProperty(objlabel, "prototype",
-				Value.makeObject(prototype, dependency, reference).setAttributes(true, true, true));
+		s.writeSpecialProperty(objlabel, "prototype", Value.makeObject(prototype, dependency, reference).setAttributes(true, true, true));
 		s.writeInternalPrototype(objlabel, Value.makeObject(internal_proto, dependency, reference));
 		DependencyAnalyzer.initialstate.add(string_objlabel + string_prototype);
 	}

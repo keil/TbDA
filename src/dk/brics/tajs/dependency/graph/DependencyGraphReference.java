@@ -28,7 +28,7 @@ public class DependencyGraphReference implements Cloneable, Iterable<DependencyN
 	 * @param node
 	 */
 	public DependencyGraphReference(DependencyNode node) {
-		mReference = new LinkedHashSet<DependencyNode>();
+		this();
 		join(node);
 	}
 
@@ -36,7 +36,7 @@ public class DependencyGraphReference implements Cloneable, Iterable<DependencyN
 	 * @param reference
 	 */
 	public DependencyGraphReference(DependencyGraphReference reference) {
-		mReference = new LinkedHashSet<DependencyNode>();
+		this();
 		join(reference);
 	}
 
