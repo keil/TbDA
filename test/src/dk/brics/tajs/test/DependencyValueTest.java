@@ -11,6 +11,7 @@ import org.junit.Test;
 
 import dk.brics.tajs.analysis.nativeobjects.ECMAScriptObjects;
 import dk.brics.tajs.dependency.Dependency;
+import dk.brics.tajs.dependency.graph.DependencyGraphReference;
 import dk.brics.tajs.flowgraph.BasicBlock;
 import dk.brics.tajs.flowgraph.FlowGraph;
 import dk.brics.tajs.flowgraph.Function;
@@ -75,28 +76,28 @@ public class DependencyValueTest {
 		
 		Value.clearCaches();
 		
-		vBottom = Value.makeBottom(new Dependency());
-		vAbsent = Value.makeAbsent(new Dependency());
-		vUndef = Value.makeUndef(new Dependency());
-		vNull = Value.makeNull(new Dependency());
-		vAnyBool = Value.makeAnyBool(new Dependency());
-		vTrue = Value.makeBool(true, new Dependency());
-		vFalse = Value.makeBool(false, new Dependency());
-		vAnyNum = Value.makeAnyNum(new Dependency());
-		v65536 = Value.makeNum(65536, new Dependency());
-		v314159 = Value.makeNum(3.14159, new Dependency());
-		v127e35 = Value.makeNum(-.127e35, new Dependency());
-		vNaN = Value.makeNumNaN(new Dependency());
-		vNaN2 = Value.makeNum(Double.NaN, new Dependency());
-		vPosInf = Value.makeNum(Double.POSITIVE_INFINITY, new Dependency());
-		vInf = Value.makeNumInf(new Dependency());
-		vNumUInt = Value.makeAnyNumUInt(new Dependency());
-		vNumNotUInt = Value.makeAnyNumNotUInt(new Dependency());
-		vAnyStr = Value.makeAnyStr(new Dependency());
-		vEmptyStr = Value.makeStr("", new Dependency());
-		vSomeStr = Value.makeStr("bar", new Dependency());
-		vObject1 = Value.makeObject(new ObjectLabel(n, Kind.OBJECT), new Dependency());
-		vObject2 = Value.makeObject(new ObjectLabel(n, Kind.BOOLEAN), new Dependency());
+		vBottom = Value.makeBottom(new Dependency(), new DependencyGraphReference());
+		vAbsent = Value.makeAbsent(new Dependency(), new DependencyGraphReference());
+		vUndef = Value.makeUndef(new Dependency(), new DependencyGraphReference());
+		vNull = Value.makeNull(new Dependency(), new DependencyGraphReference());
+		vAnyBool = Value.makeAnyBool(new Dependency(), new DependencyGraphReference());
+		vTrue = Value.makeBool(true, new Dependency(), new DependencyGraphReference());
+		vFalse = Value.makeBool(false, new Dependency(), new DependencyGraphReference());
+		vAnyNum = Value.makeAnyNum(new Dependency(), new DependencyGraphReference());
+		v65536 = Value.makeNum(65536, new Dependency(), new DependencyGraphReference());
+		v314159 = Value.makeNum(3.14159, new Dependency(), new DependencyGraphReference());
+		v127e35 = Value.makeNum(-.127e35, new Dependency(), new DependencyGraphReference());
+		vNaN = Value.makeNumNaN(new Dependency(), new DependencyGraphReference());
+		vNaN2 = Value.makeNum(Double.NaN, new Dependency(), new DependencyGraphReference());
+		vPosInf = Value.makeNum(Double.POSITIVE_INFINITY, new Dependency(), new DependencyGraphReference());
+		vInf = Value.makeNumInf(new Dependency(), new DependencyGraphReference());
+		vNumUInt = Value.makeAnyNumUInt(new Dependency(), new DependencyGraphReference());
+		vNumNotUInt = Value.makeAnyNumNotUInt(new Dependency(), new DependencyGraphReference());
+		vAnyStr = Value.makeAnyStr(new Dependency(), new DependencyGraphReference());
+		vEmptyStr = Value.makeStr("", new Dependency(), new DependencyGraphReference());
+		vSomeStr = Value.makeStr("bar", new Dependency(), new DependencyGraphReference());
+		vObject1 = Value.makeObject(new ObjectLabel(n, Kind.OBJECT), new Dependency(), new DependencyGraphReference());
+		vObject2 = Value.makeObject(new ObjectLabel(n, Kind.BOOLEAN), new Dependency(), new DependencyGraphReference());
 	}
 	
 	private static void printInfo(Value v) {
@@ -215,9 +216,9 @@ public class DependencyValueTest {
 		
 		/* # */ clear();
 		
-		printInfo(Value.join(Value.makeNum(1, new Dependency()), Value.makeNum(2, new Dependency())));
-		printInfo(Value.join(Value.makeNum(1, new Dependency()), Value.makeNum(2.5, new Dependency())));
-		printInfo(Value.join(Value.makeNum(1.5, new Dependency()), Value.makeNum(2.5, new Dependency())));
+		printInfo(Value.join(Value.makeNum(1, new Dependency(), new DependencyGraphReference()), Value.makeNum(2, new Dependency(), new DependencyGraphReference())));
+		printInfo(Value.join(Value.makeNum(1, new Dependency(), new DependencyGraphReference()), Value.makeNum(2.5, new Dependency(), new DependencyGraphReference())));
+		printInfo(Value.join(Value.makeNum(1.5, new Dependency(), new DependencyGraphReference()), Value.makeNum(2.5, new Dependency(), new DependencyGraphReference())));
 
 		/* # */ clear();
 		
@@ -264,27 +265,27 @@ public class DependencyValueTest {
 
 		/* # */ clear();
 		
-		printInfo(Value.makeNum(0, new Dependency()).joinNum(1));
-		printInfo(Value.makeAnyNum(new Dependency()).joinNum(Double.NaN));
-		printInfo(Value.makeAnyNum(new Dependency()).joinNumNaN());
-		printInfo(Value.makeBottom(new Dependency()).joinNum(Double.POSITIVE_INFINITY));
-		printInfo(Value.makeBottom(new Dependency()).joinNumInf());
-		printInfo(Value.makeAnyBool(new Dependency()).joinNum(42).restrictToNum());
+		printInfo(Value.makeNum(0, new Dependency(), new DependencyGraphReference()).joinNum(1));
+		printInfo(Value.makeAnyNum(new Dependency(), new DependencyGraphReference()).joinNum(Double.NaN));
+		printInfo(Value.makeAnyNum(new Dependency(), new DependencyGraphReference()).joinNumNaN());
+		printInfo(Value.makeBottom(new Dependency(), new DependencyGraphReference()).joinNum(Double.POSITIVE_INFINITY));
+		printInfo(Value.makeBottom(new Dependency(), new DependencyGraphReference()).joinNumInf());
+		printInfo(Value.makeAnyBool(new Dependency(), new DependencyGraphReference()).joinNum(42).restrictToNum());
 
 		/* # */ clear();
 		
-		printInfo(Value.makeStr("foo", new Dependency()).joinAnyStr());
-		printInfo(Value.makeStr("foo", new Dependency()).joinAnyStrUInt());
-		printInfo(Value.makeStr("4", new Dependency()).joinAnyStrUInt());
-		printInfo(Value.makeStr("4", new Dependency()).joinStr("5"));
-		printInfo(Value.makeAnyBool(new Dependency()).join(vSomeStr).restrictToStr());
-		printInfo(Value.makeAnyBool(new Dependency()).join(vSomeStr).restrictToStrBoolNum());
+		printInfo(Value.makeStr("foo", new Dependency(), new DependencyGraphReference()).joinAnyStr());
+		printInfo(Value.makeStr("foo", new Dependency(), new DependencyGraphReference()).joinAnyStrUInt());
+		printInfo(Value.makeStr("4", new Dependency(), new DependencyGraphReference()).joinAnyStrUInt());
+		printInfo(Value.makeStr("4", new Dependency(), new DependencyGraphReference()).joinStr("5"));
+		printInfo(Value.makeAnyBool(new Dependency(), new DependencyGraphReference()).join(vSomeStr).restrictToStr());
+		printInfo(Value.makeAnyBool(new Dependency(), new DependencyGraphReference()).join(vSomeStr).restrictToStrBoolNum());
 		
 		/* # */ clear();
 		
 		Set<ObjectLabel> objs = new HashSet<ObjectLabel>();
 		objs.add(new ObjectLabel(ECMAScriptObjects.ARRAY_SORT, Kind.FUNCTION));
-		Value v7 = Value.makeObject(objs, new Dependency());
+		Value v7 = Value.makeObject(objs, new Dependency(), new DependencyGraphReference());
 		printInfo(v7);
 		v7 = v7.joinAnyStr();
 		printInfo(v7);
@@ -294,35 +295,35 @@ public class DependencyValueTest {
 		List<Value> vs = new ArrayList<Value>();
 		vs.add(vTrue);
 		vs.add(vFalse);
-		vs.add(Value.makeNum(1.2, new Dependency()));
-		vs.add(Value.makeNum(3.4, new Dependency()));
+		vs.add(Value.makeNum(1.2, new Dependency(), new DependencyGraphReference()));
+		vs.add(Value.makeNum(3.4, new Dependency(), new DependencyGraphReference()));
 		printInfo(Value.join(vs));
 
 		/* # */ clear();
 		
-		printInfo(Value.join(Value.makeNull(new Dependency()), Value.makeBool(true, new Dependency()), Value.makeNumNaN(new Dependency())));
-		printInfo(Value.join(Value.makeNull(new Dependency()), Value.makeBool(false, new Dependency()), Value.makeNumInf(new Dependency())));
+		printInfo(Value.join(Value.makeNull(new Dependency(), new DependencyGraphReference()), Value.makeBool(true, new Dependency(), new DependencyGraphReference()), Value.makeNumNaN(new Dependency(), new DependencyGraphReference())));
+		printInfo(Value.join(Value.makeNull(new Dependency(), new DependencyGraphReference()), Value.makeBool(false, new Dependency(), new DependencyGraphReference()), Value.makeNumInf(new Dependency(), new DependencyGraphReference())));
 
 		/* # */ clear();
 		
-		printInfo(Value.makeAnyBool(new Dependency()).joinAnyBool());
-		printInfo(Value.makeAnyBool(new Dependency()).joinBool(true));
-		printInfo(Value.makeAnyBool(new Dependency()).joinAnyNum().restrictToBool());
-		printInfo(Value.makeBool(true, new Dependency()).joinAnyNum().restrictToBool());
-		printInfo(Value.makeBool(false, new Dependency()).joinAnyNum().joinAnyNum().joinAnyNumUInt().restrictToBool());
-		printInfo(Value.makeNum(87, new Dependency()).joinAnyNumUInt());
-		printInfo(Value.makeNum(87, new Dependency()).joinNum(42).joinAnyNumUInt());
-		printInfo(Value.makeNum(87, new Dependency()).joinAnyNumNotUInt());
-		printInfo(Value.makeAnyNum(new Dependency()).restrictToNotNaN());
-		printInfo(Value.makeAnyNum(new Dependency()).restrictToNotNaN().joinNumNaN());
-		printInfo(Value.makeStr("foo", new Dependency()).joinNumInf());
-		printInfo(Value.join(Value.makeNum(87, new Dependency()), Value.makeAnyNumUInt(new Dependency())));
-		printInfo(Value.join(Value.makeNum(87, new Dependency()), Value.makeAnyNumNotUInt(new Dependency())));
-		printInfo(Value.join(Value.makeAnyNumNotUInt(new Dependency()), Value.makeNum(87, new Dependency())));
-		printInfo(Value.join(Value.makeStr("x", new Dependency()), Value.makeAnyStr(new Dependency())));
-		printInfo(Value.join(Value.makeAnyStr(new Dependency()), Value.makeStr("x", new Dependency())));
-		printInfo(Value.join(Value.makeAnyBool(new Dependency()), Value.makeStr("1", new Dependency()), Value.makeStr("2", new Dependency())));
-		printInfo(Value.join(Value.makeAnyBool(new Dependency()), Value.makeStr("x", new Dependency()), Value.makeStr("y", new Dependency())));
+		printInfo(Value.makeAnyBool(new Dependency(), new DependencyGraphReference()).joinAnyBool());
+		printInfo(Value.makeAnyBool(new Dependency(), new DependencyGraphReference()).joinBool(true));
+		printInfo(Value.makeAnyBool(new Dependency(), new DependencyGraphReference()).joinAnyNum().restrictToBool());
+		printInfo(Value.makeBool(true, new Dependency(), new DependencyGraphReference()).joinAnyNum().restrictToBool());
+		printInfo(Value.makeBool(false, new Dependency(), new DependencyGraphReference()).joinAnyNum().joinAnyNum().joinAnyNumUInt().restrictToBool());
+		printInfo(Value.makeNum(87, new Dependency(), new DependencyGraphReference()).joinAnyNumUInt());
+		printInfo(Value.makeNum(87, new Dependency(), new DependencyGraphReference()).joinNum(42).joinAnyNumUInt());
+		printInfo(Value.makeNum(87, new Dependency(), new DependencyGraphReference()).joinAnyNumNotUInt());
+		printInfo(Value.makeAnyNum(new Dependency(), new DependencyGraphReference()).restrictToNotNaN());
+		printInfo(Value.makeAnyNum(new Dependency(), new DependencyGraphReference()).restrictToNotNaN().joinNumNaN());
+		printInfo(Value.makeStr("foo", new Dependency(), new DependencyGraphReference()).joinNumInf());
+		printInfo(Value.join(Value.makeNum(87, new Dependency(), new DependencyGraphReference()), Value.makeAnyNumUInt(new Dependency(), new DependencyGraphReference())));
+		printInfo(Value.join(Value.makeNum(87, new Dependency(), new DependencyGraphReference()), Value.makeAnyNumNotUInt(new Dependency(), new DependencyGraphReference())));
+		printInfo(Value.join(Value.makeAnyNumNotUInt(new Dependency(), new DependencyGraphReference()), Value.makeNum(87, new Dependency(), new DependencyGraphReference())));
+		printInfo(Value.join(Value.makeStr("x", new Dependency(), new DependencyGraphReference()), Value.makeAnyStr(new Dependency(), new DependencyGraphReference())));
+		printInfo(Value.join(Value.makeAnyStr(new Dependency(), new DependencyGraphReference()), Value.makeStr("x", new Dependency(), new DependencyGraphReference())));
+		printInfo(Value.join(Value.makeAnyBool(new Dependency(), new DependencyGraphReference()), Value.makeStr("1", new Dependency(), new DependencyGraphReference()), Value.makeStr("2", new Dependency(), new DependencyGraphReference())));
+		printInfo(Value.join(Value.makeAnyBool(new Dependency(), new DependencyGraphReference()), Value.makeStr("x", new Dependency(), new DependencyGraphReference()), Value.makeStr("y", new Dependency(), new DependencyGraphReference())));
 		printInfo(vNull.restrictToNotUndef());
 		printInfo(vNull.restrictToUndef());
 		printInfo(vUndef.restrictToUndef());
@@ -332,19 +333,19 @@ public class DependencyValueTest {
 		printInfo(vNull.restrictToBool());
 		printInfo(vAnyNum.joinAnyNumNotUInt());
 		printInfo(vAnyBool.restrictToNotNaN()); 
-		printInfo(Value.makeNum(1, new Dependency()).joinNum(1));
-		printInfo(Value.makeNum(1, new Dependency()).joinNum(Double.NaN));
-		printInfo(Value.makeNum(1, new Dependency()).joinNum(Double.POSITIVE_INFINITY));
-		printInfo(Value.makeNum(1, new Dependency()).joinNumNaN());
-		printInfo(Value.makeNum(1, new Dependency()).joinNumInf());
-		printInfo(Value.makeNumInf(new Dependency()).joinNumInf());
-		printInfo(Value.makeAnyStr(new Dependency()).joinAnyStr());
-		printInfo(Value.makeAnyStr(new Dependency()).joinAnyStrUInt());
-		printInfo(Value.makeAnyBool(new Dependency()).joinAnyNumUInt());
-		printInfo(Value.makeAnyBool(new Dependency()).joinAnyStrUInt());
-		printInfo(Value.makeStr("x", new Dependency()).joinStr("x"));
+		printInfo(Value.makeNum(1, new Dependency(), new DependencyGraphReference()).joinNum(1));
+		printInfo(Value.makeNum(1, new Dependency(), new DependencyGraphReference()).joinNum(Double.NaN));
+		printInfo(Value.makeNum(1, new Dependency(), new DependencyGraphReference()).joinNum(Double.POSITIVE_INFINITY));
+		printInfo(Value.makeNum(1, new Dependency(), new DependencyGraphReference()).joinNumNaN());
+		printInfo(Value.makeNum(1, new Dependency(), new DependencyGraphReference()).joinNumInf());
+		printInfo(Value.makeNumInf(new Dependency(), new DependencyGraphReference()).joinNumInf());
+		printInfo(Value.makeAnyStr(new Dependency(), new DependencyGraphReference()).joinAnyStr());
+		printInfo(Value.makeAnyStr(new Dependency(), new DependencyGraphReference()).joinAnyStrUInt());
+		printInfo(Value.makeAnyBool(new Dependency(), new DependencyGraphReference()).joinAnyNumUInt());
+		printInfo(Value.makeAnyBool(new Dependency(), new DependencyGraphReference()).joinAnyStrUInt());
+		printInfo(Value.makeStr("x", new Dependency(), new DependencyGraphReference()).joinStr("x"));
 		printInfo(vNull.joinStr("x"));
-		printInfo(Value.makeAnyStr(new Dependency()).restrictToStr());
+		printInfo(Value.makeAnyStr(new Dependency(), new DependencyGraphReference()).restrictToStr());
 		printInfo(vNull.restrictToStr());
 
 		/* # */ clear();
@@ -358,8 +359,8 @@ public class DependencyValueTest {
 
 		/* # */ clear();
 		
-		printInfo(Value.makeAbsentModified(new Dependency()));
-		printInfo(Value.makeAnyNumNotNaNInf(new Dependency()));
+		printInfo(Value.makeAbsentModified(new Dependency(), new DependencyGraphReference()));
+		printInfo(Value.makeAnyNumNotNaNInf(new Dependency(), new DependencyGraphReference()));
 
 		
 		// TODO: coverage test for joinObject, isNonModifiedAndInconsistentWith, replaceIfNonModified, replaceObjectLabel, mixObjectLabels, shuffleObjectLabels, replaceSingletonBySummary

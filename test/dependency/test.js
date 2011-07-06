@@ -1,93 +1,168 @@
-var h1 = trace(0);
-var h2 = trace(1);
-var i = trace(1);
-var j = trace(1);
+// dumpDependency(trace(99));
 
-while (h2 < 3) {
-	h2 = h2 + j;
-	//h2 = h2 + 1;
+var a = 5 + (b=trace(6));
+
+dumpDependency(a);
+
+var x = trace (5);
+var y = trace (7);
+
+var z = x + y;
+var zz = Math.abs(4711);
+var zzz = 0;
+
+if(trace(true)) {
+	zzz = 1;
 }
 
+// dumpDependency(x, y, z);
 
-//var x = 0;
-//while (x < 3) {
-//	x = x + i;
+//var index = new Array(0, 1, 2);
+////index[0] = trace (0);
+////index[1] = trace (1);
+////index[2] = trace (2);
+//
+//var array = new Array();
+//var i = 0;
+//
+//while ( i<1 ) {
+//	var j = index[i];
 //	
-//}
-
-
-//
-//var z = trace(0);
-//
-//function test2(x, y) {
-//	z = x + y;
-//}
-
-//test2(m, n);
-//test2(o, p);
-
-
-
-
-//test2(n);
-//var t2 = test2(o);
-//var t3 = test2(p);
-
-//while ( m < n ) {
-//	m++;
-//}
-
-
-//var mm = test(m, n);
-//var xxx = 6;
-//var nn = test(o, p);
-
-//var test = trace ( function(x, y) {
-//	return x + y;
-//} );
-//
-//var o = test(m, n);
-
-
-//var o = trace ( 5 );
-//var p = trace ( 9 );
-//
-//var z = trace(0);
-//
-//function test(x, y) {
-//	z = x + y;
-////	if(x < y) {
-////		z = x + y;
-////	}
-//	var zzz = x + y;
+//	//dumpDependency(index);
+//	dumpDependency(j);
+//	//dumpDependency(j);
 //	
-//	return x + y;
-//
-//	
+//	array[j] = j;
+//	i = i+1;
+//	//i++;
+//	dumpDependency(i);
 //}
 //
+//var a = array[0];
+//var b = array[1];
+//var c = array[2];
 
-//if(m < n) {
-//	z = 8;
+//dumpDependency(a,b,c);
+
+//
+//var i = trace ( 7 );
+//var j = trace ( Math.abs(i) );
+
+//
+//dumpDependency();
+//
+//var i = 7;
+//
+//dumpDependency(i);
+//
+//var j = Math.abs(i);
+//
+//dumpDependency(j);
+
+
+
+//var test = trace( function () {
+//	return trace (4711);
+//});
+//
+//var a = trace ( test () );
+//var b = trace ( test );
+//
+//
+//function test2 () {
+//	return trace (4711);
 //}
 //
-//if(o < p) {
-//	z = 8;
+//var c = trace ( test2 () );
+//var d = trace ( test2 );
+
+
+
+
+
+//
+//function test () {
+//	return trace (4711);
+//}
+//
+//
+//
+//
+//
+//
+//function test2 () {
+//	return trace (4711);
 //}
 
 
-//unction test(x, y) {
+
+
+
+//var index = new Array();
+//index[0] = 0;
+//index[1] = 1;
+//index[2] = 2;
 //
-//	if(x < y) {
-//		//m = m + 1; //trace(1);
-//		z = 8;
-//		// return y;
+//var array = new Array();
+//
+//var i = 0;
+//
+//while (i < 3) {
+//	var j = index[i];
+//	array[j] = trace(632);
+//	i = i+1;
+//}
+//
+//var a = array[0];
+//var b = array[1];
+//var c = array[2];
+
+
+
+//var h1 = trace(0);
+//var h2 = trace(1);
+//var i = trace(1);
+//var j = trace(1);
+//
+////var x = Math.abs(376);
+////var y = abs(376);
+//
+//while(h1 < h2) {
+//	h1 = h1 + i;
+//}
+//
+////function abs(c) {
+////	return c;
+////}
+
+
+//var h1 = trace(0); // t0
+//var h2 = trace(1); // t1
+//var i = trace(1);  // t2
+//var j = trace(1);  // t3
+//
+//var array = new Array();
+//array[0] = i;
+//array[1] = j;
+//array[2] = 1;
+//array[3] = 1;
+//
+////while (h1 < 3) {
+//	h2 = array[h1];
+//	if (h2 < i +1) {
+//		array[4] = 0;
 //	}
-//	return y;
-//}
+//	array[0] = h2 + 1;
+////	h1 = h1 + i;
+////}
+//
+//var a = array[0];
+//var b = array[1];
+//var c = array[2];
+//var d = array[3];
+//
+//var i
+//
+//while ()
 
-//var a = m;
-//var b = n;
-//var c = o;
-//var d = p;
-//var zz = z;
+
