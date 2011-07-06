@@ -4,6 +4,7 @@ import static dk.brics.tajs.analysis.InitialStateBuilder.FUNCTION_PROTOTYPE;
 import static dk.brics.tajs.analysis.InitialStateBuilder.createInternalPrototype;
 import static dk.brics.tajs.analysis.InitialStateBuilder.createPrimitiveFunction;
 import static dk.brics.tajs.analysis.InitialStateBuilder.createProperty;
+import static dk.brics.tajs.analysis.InitialStateBuilder.createSpecialProperty;
 import static dk.brics.tajs.analysis.InitialStateBuilder.createUnknownArrayProperty;
 import dk.brics.tajs.analysis.FunctionCalls.CallInfo;
 import dk.brics.tajs.analysis.InitialStateBuilder;
@@ -237,6 +238,14 @@ public class DOMFunctions {
 		createProperty(s, objlabel, property, v);
 	}
 
+	/**
+	 * Create a new DOM special property with the given name and value on the specified
+	 * objectlabel.
+	 */
+	public static void createDOMSpecialProperty(State s, ObjectLabel target, String propertyname, Value value) {
+		createSpecialProperty(s, target, propertyname, value);
+	}
+	
 	/**
 	 * Create a new DOM function with the given name and number of arguments on
 	 * the specified objectlabel.
