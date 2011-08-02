@@ -116,26 +116,17 @@ public class DependencyExpressionNode extends DependencyNode {
 		return buffer.toString();
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see dk.brics.tajs.dependency.graph.DependencyNode#hashCode()
-	 */
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+
+		// FIXME
+//		result = prime * result + id;
 		result = prime * result + ((mLabel == null) ? 0 : mLabel.hashCode());
-		result = prime * result + id;
 		return result;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * dk.brics.tajs.dependency.graph.DependencyNode#equals(java.lang.Object)
-	 */
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -145,6 +136,9 @@ public class DependencyExpressionNode extends DependencyNode {
 		if (getClass() != obj.getClass())
 			return false;
 		DependencyExpressionNode other = (DependencyExpressionNode) obj;
+//		FIXME
+//		if (id != other.id)
+//			return false;
 		if (mLabel == null) {
 			if (other.mLabel != null)
 				return false;

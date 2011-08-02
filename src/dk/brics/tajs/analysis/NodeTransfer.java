@@ -161,7 +161,27 @@ public class NodeTransfer implements INodeTransfer<State, CallContext> {
 		for (IDependencyGraphReference<?> reference : references) {
 			node.addParent(reference.getDependencyGraphReference());
 		}
+		if (Options.isTraceAll()) {
+			DependencyObject dependencyObject = DependencyObject.getDependencyObject(n.getSourceLocation());
+			DependencyObjectNode dependencyObjectNode = new DependencyObjectNode(dependencyObject, mDependencyGraph.getRoot());
+			node.addParent(dependencyObjectNode);
+		}
 		return node;
+	}
+
+	/**
+	 * trace all
+	 * if set, add an new trace to the current dependency, reference
+	 * 
+	 * @param n
+	 * @param dependency
+	 * @param node
+	 */
+	private void traceAll(Node n, Dependency dependency) {
+		if (Options.isTraceAll()) {
+			DependencyObject dependencyObject = DependencyObject.getDependencyObject(n.getSourceLocation());
+			dependency.join(dependencyObject);
+		}
 	}
 
 	/**
@@ -186,6 +206,9 @@ public class NodeTransfer implements INodeTransfer<State, CallContext> {
 		DependencyNode node = link(Label.CREATE, n, state);
 		// ==================================================
 
+		/* TRACE ALL */
+		traceAll(n, dependency);
+
 		state.declareAndWriteVariable(n.getVarName(), Value.makeUndef(dependency, node.getReference()));
 	}
 
@@ -202,6 +225,9 @@ public class NodeTransfer implements INodeTransfer<State, CallContext> {
 		// ==================================================
 		DependencyNode node = link(Label.CREATE, n, state);
 		// ==================================================
+
+		/* TRACE ALL */
+		traceAll(n, dependency);
 
 		Value v;
 
@@ -225,19 +251,22 @@ public class NodeTransfer implements INodeTransfer<State, CallContext> {
 			throw new RuntimeException();
 		}
 
-		// ##################################################
-		if (Options.isTraceAll()) {
-			DependencyObject dependencyObject = DependencyObject.getDependencyObject(n.getSourceLocation());
-			dependency.join(dependencyObject);
-			v = v.joinDependency(dependency);
-
-			// ==================================================
-			DependencyObjectNode dependencyObjectNode = new DependencyObjectNode(dependencyObject, mDependencyGraph.getRoot());
-			node.addParent(dependencyObjectNode);
-			v = v.setDependencyGraphReference(node.getReference());
-			// ==================================================
-		}
-		// ##################################################
+		// TODO
+		// // ##################################################
+		// if (Options.isTraceAll()) {
+		// DependencyObject dependencyObject =
+		// DependencyObject.getDependencyObject(n.getSourceLocation());
+		// dependency.join(dependencyObject);
+		// v = v.joinDependency(dependency);
+		//
+		// // ==================================================
+		// DependencyObjectNode dependencyObjectNode = new
+		// DependencyObjectNode(dependencyObject, mDependencyGraph.getRoot());
+		// node.addParent(dependencyObjectNode);
+		// v = v.setDependencyGraphReference(node.getReference());
+		// // ==================================================
+		// }
+		// // ##################################################
 
 		state.writeTemporary(n.getResultVar(), v);
 	}
@@ -256,6 +285,9 @@ public class NodeTransfer implements INodeTransfer<State, CallContext> {
 		DependencyNode node = link(Label.CREATE, n, state);
 		// ==================================================
 
+		/* TRACE ALL */
+		traceAll(n, dependency);
+
 		ObjectLabel objlabel = new ObjectLabel(n, Kind.OBJECT);
 		Value prototype = Value.makeObject(InitialStateBuilder.OBJECT_PROTOTYPE, dependency, node.getReference());
 		Value v = Value.makeObject(objlabel, dependency, node.getReference());
@@ -264,27 +296,28 @@ public class NodeTransfer implements INodeTransfer<State, CallContext> {
 		dependency.join(prototype.getDependency());
 		dependency.join(v.getDependency());
 		// ##################################################
-		
+
 		// ==================================================
 		node.addParent(prototype);
 		node.addParent(v);
 		// ==================================================
 
-		// ##################################################
-		if (Options.isTraceAll()) {
-			DependencyObject dependencyObject = DependencyObject.getDependencyObject(n.getSourceLocation());
-			dependency.join(dependencyObject);
-			prototype = prototype.joinDependency(dependency);
-			v = v.joinDependency(dependency);
-
-			// ==================================================
-			DependencyObjectNode dependencyObjectNode = new DependencyObjectNode(dependencyObject, mDependencyGraph.getRoot());
-			node.addParent(dependencyObjectNode);
-			prototype = prototype.setDependencyGraphReference(node.getReference());
-			v = v.setDependencyGraphReference(node.getReference());
-			// ==================================================
-		}
-		// ##################################################
+// TODO 
+//		// ##################################################
+//		if (Options.isTraceAll()) {
+//			DependencyObject dependencyObject = DependencyObject.getDependencyObject(n.getSourceLocation());
+//			dependency.join(dependencyObject);
+//			prototype = prototype.joinDependency(dependency);
+//			v = v.joinDependency(dependency);
+//
+//			// ==================================================
+//			DependencyObjectNode dependencyObjectNode = new DependencyObjectNode(dependencyObject, mDependencyGraph.getRoot());
+//			node.addParent(dependencyObjectNode);
+//			prototype = prototype.setDependencyGraphReference(node.getReference());
+//			v = v.setDependencyGraphReference(node.getReference());
+//			// ==================================================
+//		}
+//		// ##################################################
 
 		state.newObject(objlabel);
 		state.writeInternalPrototype(objlabel, prototype);
@@ -300,12 +333,15 @@ public class NodeTransfer implements INodeTransfer<State, CallContext> {
 		Dependency dependency = new Dependency();
 		dependency.join(state.getDependency());
 		// ##################################################
-		
+
 		Value arg = state.readTemporary(n.getArgVar());
 
 		// ##################################################
 		dependency.join(arg.getDependency());
 		// ##################################################
+
+		/* TRACE ALL */
+		traceAll(n, dependency);
 
 		Value v;
 		Label label = Label.OPERATION;
@@ -359,6 +395,9 @@ public class NodeTransfer implements INodeTransfer<State, CallContext> {
 		dependency.join(arg2.getDependency());
 		// ##################################################
 
+		/* TRACE ALL */
+		traceAll(n, dependency);
+		
 		Value v;
 		Label label = Label.OPERATION;
 		switch (n.getOperator()) {
@@ -475,6 +514,9 @@ public class NodeTransfer implements INodeTransfer<State, CallContext> {
 		dependency.join(state.getDependency());
 		// ##################################################
 
+		/* TRACE ALL */
+		traceAll(n, dependency);
+
 		String varname = n.getVarName();
 		Value v;
 		Value baseval = null;
@@ -566,6 +608,9 @@ public class NodeTransfer implements INodeTransfer<State, CallContext> {
 		dependency.join(state.getDependency());
 		// ##################################################
 
+		/* TRACE ALL */
+		traceAll(n, dependency);
+
 		Value v = state.readTemporary(n.getValueVar());
 		// ##################################################
 		dependency.join(v.getDependency());
@@ -587,6 +632,9 @@ public class NodeTransfer implements INodeTransfer<State, CallContext> {
 		Dependency dependency = new Dependency();
 		dependency.join(state.getDependency());
 		// ##################################################
+
+		/* TRACE ALL */
+		traceAll(n, dependency);
 
 		Value baseval = state.readTemporary(n.getBaseVar());
 
@@ -732,10 +780,13 @@ public class NodeTransfer implements INodeTransfer<State, CallContext> {
 		dependency.join(state.getDependency());
 		// ##################################################
 
+		/* TRACE ALL */
+		traceAll(n, dependency);
+
 		// ==================================================
 		DependencyNode node = link(Label.ATTRIBUTE, n, state);
 		// ==================================================
-		
+
 		Value baseval = state.readTemporary(n.getBaseVar());
 		Value v = state.readTemporary(n.getValueVar());
 
@@ -773,7 +824,7 @@ public class NodeTransfer implements INodeTransfer<State, CallContext> {
 		// ==================================================
 		node.addParent(propertyval);
 		// ==================================================
-		
+
 		if (propertystr.isMaybeStrNotUInt())
 			state.writeUnknownProperty(objlabels, v.joinDependency(dependency).setDependencyGraphReference(node.getReference()));
 		else if (propertystr.isMaybeStrUInt())
@@ -789,7 +840,7 @@ public class NodeTransfer implements INodeTransfer<State, CallContext> {
 		node.addParent(v);
 		v = v.setDependencyGraphReference(node.getReference());
 		// ==================================================
-		
+
 		NativeFunctions.updateArrayLength(n, state, objlabels, propertyval, v.joinDependency(dependency), c);
 	}
 
@@ -803,6 +854,9 @@ public class NodeTransfer implements INodeTransfer<State, CallContext> {
 		dependency.join(state.getDependency());
 		// ##################################################
 
+		/* TRACE ALL */
+		traceAll(n, dependency);
+		
 		// ==================================================
 		DependencyNode node = link(Label.ATTRIBUTE, n, state);
 		// ==================================================
@@ -883,6 +937,9 @@ public class NodeTransfer implements INodeTransfer<State, CallContext> {
 		dependency.join(state.getDependency());
 		// ##################################################
 
+		/* TRACE ALL */
+		traceAll(n, dependency);
+
 		Value v;
 		if (n.isVariable()) {
 			Value val = state.readVariable(n.getVarName());
@@ -923,6 +980,9 @@ public class NodeTransfer implements INodeTransfer<State, CallContext> {
 		dependency.join(state.getDependency());
 		// ##################################################
 
+		/* TRACE ALL */
+		traceAll(n, dependency);
+
 		Value v = state.readTemporary(n.getConditionVar());
 
 		// ##################################################
@@ -955,6 +1015,9 @@ public class NodeTransfer implements INodeTransfer<State, CallContext> {
 		Dependency dependency = new Dependency();
 		dependency.join(state.getDependency());
 		// ##################################################
+
+		/* TRACE ALL */
+		traceAll(n, dependency);
 
 		// ==================================================
 		DependencyNode node = link(Label.FUNCTION, n, state);
@@ -1007,10 +1070,10 @@ public class NodeTransfer implements INodeTransfer<State, CallContext> {
 		// 13.2 step 11
 		state.writeSpecialProperty(fn, "prototype", Value.makeObject(prototype, dependency, node.getReference()).setAttributes(false, true, false));
 		state.writeInternalValue(prototype, Value.makeNum(Double.NaN, dependency, node.getReference())); // TODO:
-																								// as
-																								// in
-																								// Rhino
-																								// (?)
+		// as
+		// in
+		// Rhino
+		// (?)
 
 		state.writeTemporary(n.getResultVar(), f.joinDependency(dependency));
 	}
@@ -1024,6 +1087,9 @@ public class NodeTransfer implements INodeTransfer<State, CallContext> {
 		Dependency dependency = new Dependency();
 		dependency.join(state.getDependency());
 		// ##################################################
+
+		/* TRACE ALL */
+		traceAll(n, dependency);
 
 		if (n.getBlock().getNodes().size() != 1)
 			throw new RuntimeException("CallNode should have its own basic block");
@@ -1125,6 +1191,9 @@ public class NodeTransfer implements INodeTransfer<State, CallContext> {
 		dependency.join(state.getDependency());
 		// ##################################################
 
+		/* TRACE ALL */
+		traceAll(n, dependency);
+
 		// ==================================================
 		DependencyNode node = link(Label.RETURN, n, state);
 		// ==================================================
@@ -1144,8 +1213,7 @@ public class NodeTransfer implements INodeTransfer<State, CallContext> {
 		v = v.setDependencyGraphReference(node.getReference());
 		// ==================================================
 
-		FunctionCalls.leaveUserFunction(v.joinDependency(dependency), false, n.getBlock().getFunction(), state, c,
-				caller);
+		FunctionCalls.leaveUserFunction(v.joinDependency(dependency), false, n.getBlock().getFunction(), state, c, caller);
 	}
 
 	/**
@@ -1169,6 +1237,9 @@ public class NodeTransfer implements INodeTransfer<State, CallContext> {
 		dependency.join(state.getDependency());
 		// ##################################################
 
+		/* TRACE ALL */
+		traceAll(n, dependency);
+
 		Value v = state.readTemporary(Node.EXCEPTION_VAR);
 
 		// ==================================================
@@ -1188,6 +1259,9 @@ public class NodeTransfer implements INodeTransfer<State, CallContext> {
 		Dependency dependency = new Dependency();
 		dependency.join(state.getDependency());
 		// ##################################################
+
+		/* TRACE ALL */
+		traceAll(n, dependency);
 
 		Value v = state.readTemporary(n.getValueVar());
 
@@ -1209,6 +1283,9 @@ public class NodeTransfer implements INodeTransfer<State, CallContext> {
 		Dependency dependency = new Dependency();
 		dependency.join(state.getDependency());
 		// ##################################################
+
+		/* TRACE ALL */
+		traceAll(n, dependency);
 
 		Value v = state.readTemporary(Node.EXCEPTION_VAR);
 
@@ -1243,6 +1320,9 @@ public class NodeTransfer implements INodeTransfer<State, CallContext> {
 		dependency.join(state.getDependency());
 		// ##################################################
 
+		/* TRACE ALL */
+		traceAll(n, dependency);
+
 		Value v = state.readTemporary(n.getObjectVar());
 
 		// ==================================================
@@ -1261,7 +1341,7 @@ public class NodeTransfer implements INodeTransfer<State, CallContext> {
 	 * 12.10 leave 'with' statement.
 	 */
 	@Override
-	public void visit(LeaveWithNode n, State state) { 
+	public void visit(LeaveWithNode n, State state) {
 		Set<ExecutionContext> new_execution_context = newSet();
 		for (ExecutionContext ec : state.getExecutionContext())
 			new_execution_context.add(new ExecutionContext(ec.getScopeChain().next(), ec.getVariableObject(), ec.getThisObject()));
@@ -1277,6 +1357,9 @@ public class NodeTransfer implements INodeTransfer<State, CallContext> {
 		Dependency dependency = new Dependency();
 		dependency.join(state.getDependency());
 		// ##################################################
+
+		/* TRACE ALL */
+		traceAll(n, dependency);
 
 		Value v = state.readTemporary(n.getObjectVar());
 
@@ -1310,6 +1393,9 @@ public class NodeTransfer implements INodeTransfer<State, CallContext> {
 		dependency.join(state.getDependency());
 		// ##################################################
 
+		/* TRACE ALL */
+		traceAll(n, dependency);
+
 		Value queue = state.readTemporary(n.getPropertyQueueVar());
 
 		// ##################################################
@@ -1340,6 +1426,9 @@ public class NodeTransfer implements INodeTransfer<State, CallContext> {
 		dependency.join(state.getDependency());
 		// ##################################################
 
+		/* TRACE ALL */
+		traceAll(n, dependency);
+
 		Value queue = state.readTemporary(n.getPropertyQueueVar());
 
 		// ==================================================
@@ -1362,6 +1451,9 @@ public class NodeTransfer implements INodeTransfer<State, CallContext> {
 		Dependency dependency = new Dependency();
 		dependency.join(state.getDependency());
 		// ##################################################
+
+		/* TRACE ALL */
+		traceAll(n, dependency);
 
 		if (Options.isLocalPathSensitivityDisabled())
 			return;
@@ -1431,6 +1523,9 @@ public class NodeTransfer implements INodeTransfer<State, CallContext> {
 		Dependency dependency = new Dependency();
 		dependency.join(state.getDependency());
 		// ##################################################
+
+		/* TRACE ALL */
+		traceAll(n, dependency);
 
 		if (n.getBlock().getNodes().size() != 1)
 			throw new RuntimeException("EventDispatcherNode should have its own basic block");

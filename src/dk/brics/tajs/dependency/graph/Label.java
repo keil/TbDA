@@ -3,6 +3,8 @@ package dk.brics.tajs.dependency.graph;
 public enum Label {
 	NONE(""),
 
+	NULL("@"),
+	
 	// STATE
 	STATE("#"), IF("if"), CALL("call"), FUNCTION("function"), RETURN("return"),
 

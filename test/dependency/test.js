@@ -1,19 +1,39 @@
-// dumpDependency(trace(99));
+var index = trace (new Array());
+index[0] = trace (0);
+index[1] = trace (1);
+index[2] = trace (2);
 
-var a = 5 + (b=trace(6));
+var x = 0;
+var i = 0;
+while ( i<3 ) {
+	var j = index[i];
 
-dumpDependency(a);
-
-var x = trace (5);
-var y = trace (7);
-
-var z = x + y;
-var zz = Math.abs(4711);
-var zzz = 0;
-
-if(trace(true)) {
-	zzz = 1;
+	if(j<7){
+		x = j;
+	}
+	i = i + 1;
 }
+
+
+
+
+
+// dumpDependency(trace(99));
+//
+//var a = 5 + (b=trace(6));
+//
+//dumpDependency(a);
+//
+//var x = trace (5);
+//var y = trace (7);
+//
+//var z = x + y;
+//var zz = Math.abs(4711);
+//var zzz = 0;
+//
+//if(trace(true)) {
+//	zzz = 1;
+//}
 
 // dumpDependency(x, y, z);
 
