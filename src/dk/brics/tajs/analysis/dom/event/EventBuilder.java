@@ -14,17 +14,17 @@ import dk.brics.tajs.analysis.State;
  */
 public class EventBuilder {
 
-    public static void build(State s) {
-        Event.build(s);
-        EventTarget.build(s);
-        EventListener.build(s);
-        EventException.build(s);
-        DocumentEvent.build(s);
-        MutationEvent.build(s);
-        UIEvent.build(s);
-        KeyboardEvent.build(s);
-        MouseEvent.build(s);
-        WheelEvent.build(s);
-    }
+	public static void build(State s) {
+		Event.build(s);
+		EventTarget.build(s);
+		EventListener.build(s);
+		EventException.build(s);
+		DocumentEvent.build(s);
+		MutationEvent.build(s);
+		UIEvent.build(s);
+		KeyboardEvent.build(s);
+		MouseEvent.build(s);
+		WheelEvent.build(s);
+	}
 
 }
