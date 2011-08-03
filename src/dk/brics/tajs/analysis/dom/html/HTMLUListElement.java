@@ -1,41 +1,55 @@
 package dk.brics.tajs.analysis.dom.html;
 
+import dk.brics.tajs.analysis.InitialStateBuilder;
 import dk.brics.tajs.analysis.State;
 import dk.brics.tajs.analysis.dom.DOMObjects;
 import dk.brics.tajs.analysis.dom.DOMSpec;
 import dk.brics.tajs.analysis.dom.DOMWindow;
-import dk.brics.tajs.dependency.Dependency;
-import dk.brics.tajs.dependency.graph.DependencyGraphReference;
 import dk.brics.tajs.flowgraph.ObjectLabel;
 import dk.brics.tajs.lattice.Value;
 
 import static dk.brics.tajs.analysis.dom.DOMFunctions.createDOMProperty;
 import static dk.brics.tajs.analysis.dom.DOMFunctions.createDOMInternalPrototype;
+import dk.brics.tajs.dependency.Dependency;
+import dk.brics.tajs.dependency.graph.DependencyGraphReference;
 
 public class HTMLUListElement {
 
-	public static ObjectLabel ULIST = new ObjectLabel(DOMObjects.HTMLULISTELEMENT, ObjectLabel.Kind.OBJECT);
-	public static ObjectLabel ULIST_PROTOTYPE = new ObjectLabel(DOMObjects.HTMLULISTELEMENT_PROTOTYPE, ObjectLabel.Kind.OBJECT);
+	public static ObjectLabel CONSTRUCTOR;
+	public static ObjectLabel PROTOTYPE;
+	public static ObjectLabel INSTANCES;
 
 	public static void build(State s) {
+		CONSTRUCTOR = new ObjectLabel(DOMObjects.HTMLULISTELEMENT_CONSTRUCTOR, ObjectLabel.Kind.FUNCTION);
+		PROTOTYPE = new ObjectLabel(DOMObjects.HTMLULISTELEMENT_PROTOTYPE, ObjectLabel.Kind.OBJECT);
+		INSTANCES = new ObjectLabel(DOMObjects.HTMLULISTELEMENT_INSTANCES, ObjectLabel.Kind.OBJECT);
+
+		// Constructor Object
+		s.newObject(CONSTRUCTOR);
+		InitialStateBuilder.createSpecialProperty(s, CONSTRUCTOR, "length",
+				Value.makeNum(0, new Dependency(), new DependencyGraphReference()).setAttributes(true, true, true));
+		InitialStateBuilder.createSpecialProperty(s, CONSTRUCTOR, "prototype", Value.makeObject(PROTOTYPE, new Dependency(), new DependencyGraphReference())
+				.setAttributes(true, true, true));
+		createDOMInternalPrototype(s, CONSTRUCTOR, Value.makeObject(InitialStateBuilder.OBJECT_PROTOTYPE, new Dependency(), new DependencyGraphReference()));
+		createDOMProperty(s, DOMWindow.WINDOW, "HTMLUListElement", Value.makeObject(CONSTRUCTOR, new Dependency(), new DependencyGraphReference()));
+
 		// Prototype Object
-		s.newObject(ULIST_PROTOTYPE);
-		createDOMInternalPrototype(s, ULIST_PROTOTYPE, Value.makeObject(HTMLElement.ELEMENT_PROTOTYPE, new Dependency(), new DependencyGraphReference()));
+		s.newObject(PROTOTYPE);
+		createDOMInternalPrototype(s, PROTOTYPE, Value.makeObject(HTMLElement.ELEMENT_PROTOTYPE, new Dependency(), new DependencyGraphReference()));
 
 		// Multiplied Object
-		s.newObject(ULIST);
-		createDOMInternalPrototype(s, ULIST, Value.makeObject(ULIST_PROTOTYPE, new Dependency(), new DependencyGraphReference()));
-		createDOMProperty(s, DOMWindow.WINDOW, "HTMLUListElement", Value.makeObject(ULIST, new Dependency(), new DependencyGraphReference()));
+		s.newObject(INSTANCES);
+		createDOMInternalPrototype(s, INSTANCES, Value.makeObject(PROTOTYPE, new Dependency(), new DependencyGraphReference()));
 
 		/*
 		 * Properties.
 		 */
 		// DOM Level 1
-		createDOMProperty(s, ULIST, "compact", Value.makeAnyBool(new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_1);
-		createDOMProperty(s, ULIST, "type", Value.makeAnyStr(new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_1);
+		createDOMProperty(s, INSTANCES, "compact", Value.makeAnyBool(new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_1);
+		createDOMProperty(s, INSTANCES, "type", Value.makeAnyStr(new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_1);
 
-		s.multiplyObject(ULIST);
-		ULIST = ULIST.makeSingleton().makeSummary();
+		s.multiplyObject(INSTANCES);
+		INSTANCES = INSTANCES.makeSingleton().makeSummary();
 
 		/*
 		 * Functions.

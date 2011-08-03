@@ -1,47 +1,62 @@
 package dk.brics.tajs.analysis.dom.html;
 
+import dk.brics.tajs.analysis.InitialStateBuilder;
 import dk.brics.tajs.analysis.State;
 import dk.brics.tajs.analysis.dom.DOMObjects;
 import dk.brics.tajs.analysis.dom.DOMSpec;
 import dk.brics.tajs.analysis.dom.DOMWindow;
-import dk.brics.tajs.dependency.Dependency;
-import dk.brics.tajs.dependency.graph.DependencyGraphReference;
 import dk.brics.tajs.flowgraph.ObjectLabel;
 import dk.brics.tajs.lattice.Value;
 
 import static dk.brics.tajs.analysis.dom.DOMFunctions.createDOMProperty;
 import static dk.brics.tajs.analysis.dom.DOMFunctions.createDOMInternalPrototype;
+import static dk.brics.tajs.analysis.dom.DOMFunctions.createDOMSpecialProperty;
+
+import dk.brics.tajs.dependency.Dependency;
+import dk.brics.tajs.dependency.graph.DependencyGraphReference;
 
 /**
  * Root of an HTML document. See the HTML element definition in HTML 4.01.
  */
 public class HTMLHtmlElement {
 
-	public static ObjectLabel HTML = new ObjectLabel(DOMObjects.HTMLHTMLELEMENT, ObjectLabel.Kind.OBJECT);
-	public static ObjectLabel HTML_PROTOTYPE = new ObjectLabel(DOMObjects.HTMLHTMLELEMENT_PROTOTYPE, ObjectLabel.Kind.OBJECT);
+	public static ObjectLabel CONSTRUCTOR;
+	public static ObjectLabel PROTOTYPE;
+	public static ObjectLabel INSTANCES;
 
 	public static void build(State s) {
+		CONSTRUCTOR = new ObjectLabel(DOMObjects.HTMLHTMLELEMENT_CONSTRUCTOR, ObjectLabel.Kind.FUNCTION);
+		PROTOTYPE = new ObjectLabel(DOMObjects.HTMLHTMLELEMENT_PROTOTYPE, ObjectLabel.Kind.OBJECT);
+		INSTANCES = new ObjectLabel(DOMObjects.HTMLHTMLELEMENT_INSTANCES, ObjectLabel.Kind.OBJECT);
+
+		// Constructor Object
+		s.newObject(CONSTRUCTOR);
+		createDOMSpecialProperty(s, CONSTRUCTOR, "length", Value.makeNum(0, new Dependency(), new DependencyGraphReference()).setAttributes(true, true, true));
+		createDOMSpecialProperty(s, CONSTRUCTOR, "prototype",
+				Value.makeObject(PROTOTYPE, new Dependency(), new DependencyGraphReference()).setAttributes(true, true, true));
+		createDOMInternalPrototype(s, CONSTRUCTOR, Value.makeObject(InitialStateBuilder.OBJECT_PROTOTYPE, new Dependency(), new DependencyGraphReference()));
+		createDOMProperty(s, DOMWindow.WINDOW, "HTMLHtmlElement", Value.makeObject(CONSTRUCTOR, new Dependency(), new DependencyGraphReference()));
+
 		// Prototype Object
-		s.newObject(HTML_PROTOTYPE);
-		createDOMInternalPrototype(s, HTML_PROTOTYPE, Value.makeObject(HTMLElement.ELEMENT_PROTOTYPE, new Dependency(), new DependencyGraphReference()));
+		s.newObject(PROTOTYPE);
+		createDOMInternalPrototype(s, PROTOTYPE, Value.makeObject(HTMLElement.ELEMENT_PROTOTYPE, new Dependency(), new DependencyGraphReference()));
 
 		// Multiplied Object
-		s.newObject(HTML);
-		createDOMInternalPrototype(s, HTML, Value.makeObject(HTML_PROTOTYPE, new Dependency(), new DependencyGraphReference()));
-		createDOMProperty(s, DOMWindow.WINDOW, "HTMLHtmlElement", Value.makeObject(HTML, new Dependency(), new DependencyGraphReference()));
+		s.newObject(INSTANCES);
+		createDOMInternalPrototype(s, INSTANCES, Value.makeObject(PROTOTYPE, new Dependency(), new DependencyGraphReference()));
 
 		/*
 		 * Properties.
 		 */
 		// DOM Level 0
-		createDOMProperty(s, HTML, "clientWidth", Value.makeAnyStr(new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_0);
-		createDOMProperty(s, HTML, "clientHeight", Value.makeAnyStr(new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_0);
+		createDOMProperty(s, INSTANCES, "clientWidth", Value.makeAnyStr(new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_0);
+		createDOMProperty(s, INSTANCES, "clientHeight", Value.makeAnyStr(new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_0);
 
 		// DOM Level 1
-		createDOMProperty(s, HTML, "version", Value.makeAnyStr(new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_1);
+		createDOMProperty(s, INSTANCES, "version", Value.makeAnyStr(new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_1);
 
-		s.multiplyObject(HTML);
-		HTML = HTML.makeSingleton().makeSummary();
+		s.multiplyObject(INSTANCES);
+		INSTANCES = INSTANCES.makeSingleton().makeSummary();
 
 		/*
 		 * Functions.

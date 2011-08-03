@@ -10,14 +10,17 @@ import dk.brics.tajs.analysis.dom.DOMFunctions;
 import dk.brics.tajs.analysis.dom.DOMObjects;
 import dk.brics.tajs.analysis.dom.DOMSpec;
 import dk.brics.tajs.analysis.dom.DOMWindow;
-import dk.brics.tajs.dependency.Dependency;
-import dk.brics.tajs.dependency.graph.DependencyGraphReference;
+import dk.brics.tajs.flowgraph.Node;
 import dk.brics.tajs.flowgraph.ObjectLabel;
 import dk.brics.tajs.lattice.Value;
 
 import static dk.brics.tajs.analysis.dom.DOMFunctions.createDOMFunction;
 import static dk.brics.tajs.analysis.dom.DOMFunctions.createDOMProperty;
 import static dk.brics.tajs.analysis.dom.DOMFunctions.createDOMInternalPrototype;
+import static dk.brics.tajs.analysis.dom.DOMFunctions.createDOMSpecialProperty;
+
+import dk.brics.tajs.dependency.Dependency;
+import dk.brics.tajs.dependency.graph.DependencyGraphReference;
 
 /**
  * An HTMLOptionsCollection is a list of nodes representing HTML option element.
@@ -26,49 +29,61 @@ import static dk.brics.tajs.analysis.dom.DOMFunctions.createDOMInternalPrototype
  */
 public class HTMLOptionsCollection {
 
-	public static ObjectLabel OPTIONSCOLLECTION = new ObjectLabel(DOMObjects.HTMLOPTIONSCOLLECTION, ObjectLabel.Kind.OBJECT);
-	public static ObjectLabel OPTIONSCOLLECTION_PROTOTYPE = new ObjectLabel(DOMObjects.HTMLOPTIONSCOLLECTION_PROTOTYPE, ObjectLabel.Kind.OBJECT);
+	public static ObjectLabel CONSTRUCTOR;
+	public static ObjectLabel PROTOTYPE;
+	public static ObjectLabel INSTANCES;
 
 	public static void build(State s) {
+		CONSTRUCTOR = new ObjectLabel(DOMObjects.HTMLOPTIONSCOLLECTION_CONSTRUCTOR, ObjectLabel.Kind.FUNCTION);
+		PROTOTYPE = new ObjectLabel(DOMObjects.HTMLOPTIONSCOLLECTION_PROTOTYPE, ObjectLabel.Kind.OBJECT);
+		INSTANCES = new ObjectLabel(DOMObjects.HTMLOPTIONSCOLLECTION_INSTANCES, ObjectLabel.Kind.OBJECT);
+
+		// Constructor Object
+		s.newObject(CONSTRUCTOR);
+		createDOMSpecialProperty(s, CONSTRUCTOR, "length", Value.makeNum(0, new Dependency(), new DependencyGraphReference()).setAttributes(true, true, true));
+		createDOMSpecialProperty(s, CONSTRUCTOR, "prototype",
+				Value.makeObject(PROTOTYPE, new Dependency(), new DependencyGraphReference()).setAttributes(true, true, true));
+		createDOMInternalPrototype(s, CONSTRUCTOR, Value.makeObject(InitialStateBuilder.OBJECT_PROTOTYPE, new Dependency(), new DependencyGraphReference()));
+		createDOMProperty(s, DOMWindow.WINDOW, "HTMLOptionsCollection", Value.makeObject(CONSTRUCTOR, new Dependency(), new DependencyGraphReference()));
+
 		// Prototype Object
-		s.newObject(OPTIONSCOLLECTION_PROTOTYPE);
-		createDOMInternalPrototype(s, OPTIONSCOLLECTION_PROTOTYPE, Value.makeObject(InitialStateBuilder.OBJECT_PROTOTYPE, new Dependency(), new DependencyGraphReference()));
+		s.newObject(PROTOTYPE);
+		createDOMInternalPrototype(s, PROTOTYPE, Value.makeObject(InitialStateBuilder.OBJECT_PROTOTYPE, new Dependency(), new DependencyGraphReference()));
 
 		// Multiplied Object
-		s.newObject(OPTIONSCOLLECTION);
-		createDOMInternalPrototype(s, OPTIONSCOLLECTION, Value.makeObject(OPTIONSCOLLECTION_PROTOTYPE, new Dependency(), new DependencyGraphReference()));
-		createDOMProperty(s, DOMWindow.WINDOW, "HTMLOptionsCollection", Value.makeObject(OPTIONSCOLLECTION, new Dependency(), new DependencyGraphReference()));
+		s.newObject(INSTANCES);
+		createDOMInternalPrototype(s, INSTANCES, Value.makeObject(PROTOTYPE, new Dependency(), new DependencyGraphReference()));
 
 		/*
 		 * Properties.
 		 */
 		// DOM Level 2
-		createDOMProperty(s, OPTIONSCOLLECTION, "length", Value.makeAnyNumUInt(new Dependency(), new DependencyGraphReference()).setReadOnly(), DOMSpec.LEVEL_2);
+		createDOMProperty(s, INSTANCES, "length", Value.makeAnyNumUInt(new Dependency(), new DependencyGraphReference()).setReadOnly(), DOMSpec.LEVEL_2);
 
-		s.multiplyObject(OPTIONSCOLLECTION);
-		OPTIONSCOLLECTION = OPTIONSCOLLECTION.makeSingleton().makeSummary();
+		s.multiplyObject(INSTANCES);
+		INSTANCES = INSTANCES.makeSingleton().makeSummary();
 
 		/*
 		 * Functions.
 		 */
 		// DOM Level 2
-		createDOMFunction(s, OPTIONSCOLLECTION_PROTOTYPE, DOMObjects.HTMLOPTIONSCOLLECTION_ITEM, "item", 1, DOMSpec.LEVEL_2);
-		createDOMFunction(s, OPTIONSCOLLECTION_PROTOTYPE, DOMObjects.HTMLOPTIONSCOLLECTION_NAMEDITEM, "namedItem", 1, DOMSpec.LEVEL_2);
+		createDOMFunction(s, PROTOTYPE, DOMObjects.HTMLOPTIONSCOLLECTION_ITEM, "item", 1, DOMSpec.LEVEL_2);
+		createDOMFunction(s, PROTOTYPE, DOMObjects.HTMLOPTIONSCOLLECTION_NAMEDITEM, "namedItem", 1, DOMSpec.LEVEL_2);
 	}
 
 	/**
 	 * Transfer Functions.
 	 */
-	public static Value evaluate(DOMObjects nativeObject, FunctionCalls.CallInfo call, State s, Solver.SolverInterface c) {
+	public static Value evaluate(DOMObjects nativeObject, FunctionCalls.CallInfo<? extends Node> call, State s, Solver.SolverInterface c) {
 		switch (nativeObject) {
 		case HTMLOPTIONSCOLLECTION_ITEM: {
 			NativeFunctions.expectParameters(nativeObject, call, c, 1, 1);
-			Value index = Conversion.toNumber(call.getArg(0), c);
+			/* Value index = */Conversion.toNumber(call.getArg(0), c);
 			return DOMFunctions.makeAnyHTMLElement().joinNull();
 		}
 		case HTMLOPTIONSCOLLECTION_NAMEDITEM: {
 			NativeFunctions.expectParameters(nativeObject, call, c, 1, 1);
-			Value name = Conversion.toString(call.getArg(0), c);
+			/* Value name = */Conversion.toString(call.getArg(0), c);
 			return DOMFunctions.makeAnyHTMLElement().joinNull();
 		}
 		default: {

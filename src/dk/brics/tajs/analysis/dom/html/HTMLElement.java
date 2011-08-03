@@ -1,5 +1,10 @@
 package dk.brics.tajs.analysis.dom.html;
 
+import static dk.brics.tajs.analysis.dom.DOMFunctions.createDOMFunction;
+import static dk.brics.tajs.analysis.dom.DOMFunctions.createDOMProperty;
+import static dk.brics.tajs.analysis.dom.DOMFunctions.createDOMInternalPrototype;
+import static dk.brics.tajs.analysis.dom.DOMFunctions.createDOMSpecialProperty;
+
 import dk.brics.tajs.analysis.Conversion;
 import dk.brics.tajs.analysis.FunctionCalls;
 import dk.brics.tajs.analysis.NativeFunctions;
@@ -11,26 +16,32 @@ import dk.brics.tajs.analysis.dom.DOMSpec;
 import dk.brics.tajs.analysis.dom.DOMWindow;
 import dk.brics.tajs.analysis.dom.core.DOMElement;
 import dk.brics.tajs.analysis.dom.style.CSSStyleDeclaration;
-import dk.brics.tajs.dependency.Dependency;
-import dk.brics.tajs.dependency.graph.DependencyGraphReference;
+import dk.brics.tajs.flowgraph.Node;
 import dk.brics.tajs.flowgraph.ObjectLabel;
 import dk.brics.tajs.lattice.Value;
 import dk.brics.tajs.util.Collections;
 
-import static dk.brics.tajs.analysis.dom.DOMFunctions.createDOMFunction;
-import static dk.brics.tajs.analysis.dom.DOMFunctions.createDOMProperty;
-import static dk.brics.tajs.analysis.dom.DOMFunctions.createDOMInternalPrototype;
+import dk.brics.tajs.dependency.Dependency;
+import dk.brics.tajs.dependency.graph.DependencyGraphReference;
 
 public class HTMLElement {
 
-	public static ObjectLabel ELEMENT = new ObjectLabel(DOMObjects.HTMLELEMENT, ObjectLabel.Kind.OBJECT);
-	public static ObjectLabel ELEMENT_PROTOTYPE = new ObjectLabel(DOMObjects.HTMLELEMENT_PROTOTYPE, ObjectLabel.Kind.OBJECT);
-	public static ObjectLabel ELEMENT_ATTRIBUTES = new ObjectLabel(DOMObjects.HTMLELEMENT_ATTRIBUTES, ObjectLabel.Kind.OBJECT);
+	public static ObjectLabel ELEMENT;
+	public static ObjectLabel ELEMENT_PROTOTYPE;
+	public static ObjectLabel ELEMENT_ATTRIBUTES;
 
 	public static void build(State s) {
+		ELEMENT = new ObjectLabel(DOMObjects.HTMLELEMENT, ObjectLabel.Kind.OBJECT);
+		ELEMENT_PROTOTYPE = new ObjectLabel(DOMObjects.HTMLELEMENT_PROTOTYPE, ObjectLabel.Kind.OBJECT);
+		ELEMENT_ATTRIBUTES = new ObjectLabel(DOMObjects.HTMLELEMENT_ATTRIBUTES, ObjectLabel.Kind.OBJECT);
+
+		createDOMSpecialProperty(s, ELEMENT, "length", Value.makeNum(0, new Dependency(), new DependencyGraphReference()).setAttributes(true, true, true)); // FIXME!
+		createDOMSpecialProperty(s, ELEMENT, "prototype",
+				Value.makeObject(ELEMENT_PROTOTYPE, new Dependency(), new DependencyGraphReference()).setAttributes(true, true, true));
+
 		// Prototype Object
 		s.newObject(ELEMENT_PROTOTYPE);
-		createDOMInternalPrototype(s, ELEMENT_PROTOTYPE, Value.makeObject(DOMElement.ELEMENT_PROTOTYPE, new Dependency(), new DependencyGraphReference()));
+		createDOMInternalPrototype(s, ELEMENT_PROTOTYPE, Value.makeObject(DOMElement.PROTOTYPE, new Dependency(), new DependencyGraphReference()));
 
 		// Multiplied Object
 		s.newObject(ELEMENT);
@@ -63,10 +74,12 @@ public class HTMLElement {
 		s.writeUnknownProperty(Collections.newSingleton(ELEMENT_ATTRIBUTES), Value.makeAnyStr(new Dependency(), new DependencyGraphReference()));
 		s.multiplyObject(ELEMENT_ATTRIBUTES);
 		ELEMENT_ATTRIBUTES = ELEMENT_ATTRIBUTES.makeSingleton().makeSummary();
-		createDOMProperty(s, ELEMENT_PROTOTYPE, "attributes", Value.makeObject(ELEMENT_ATTRIBUTES, new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_0);
+		createDOMProperty(s, ELEMENT_PROTOTYPE, "attributes", Value.makeObject(ELEMENT_ATTRIBUTES, new Dependency(), new DependencyGraphReference()),
+				DOMSpec.LEVEL_0);
 
 		// Style
-		createDOMProperty(s, ELEMENT_PROTOTYPE, "style", Value.makeObject(CSSStyleDeclaration.STYLEDECLARATION, new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_1);
+		createDOMProperty(s, ELEMENT_PROTOTYPE, "style",
+				Value.makeObject(CSSStyleDeclaration.STYLEDECLARATION, new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_1);
 
 		s.multiplyObject(ELEMENT);
 		ELEMENT = ELEMENT.makeSingleton().makeSummary();
@@ -80,11 +93,11 @@ public class HTMLElement {
 	/**
 	 * Transfer Functions.
 	 */
-	public static Value evaluate(DOMObjects nativeObject, FunctionCalls.CallInfo call, State s, Solver.SolverInterface c) {
+	public static Value evaluate(DOMObjects nativeObject, FunctionCalls.CallInfo<? extends Node> call, State s, Solver.SolverInterface c) {
 		switch (nativeObject) {
 		case HTMLELEMENT_GET_ELEMENTS_BY_CLASS_NAME: {
 			NativeFunctions.expectParameters(nativeObject, call, c, 1, 1);
-			Value className = Conversion.toString(call.getArg(0), c);
+			/* Value className = */Conversion.toString(call.getArg(0), c);
 			return DOMFunctions.makeAnyHTMLNodeList(s);
 		}
 		default: {

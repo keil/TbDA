@@ -1,44 +1,61 @@
 package dk.brics.tajs.analysis.dom.html;
 
+import dk.brics.tajs.analysis.InitialStateBuilder;
 import dk.brics.tajs.analysis.State;
 import dk.brics.tajs.analysis.dom.DOMObjects;
 import dk.brics.tajs.analysis.dom.DOMSpec;
 import dk.brics.tajs.analysis.dom.DOMWindow;
-import dk.brics.tajs.dependency.Dependency;
-import dk.brics.tajs.dependency.graph.DependencyGraphReference;
+
 import dk.brics.tajs.flowgraph.ObjectLabel;
 import dk.brics.tajs.lattice.Value;
 
 import static dk.brics.tajs.analysis.dom.DOMFunctions.createDOMProperty;
 import static dk.brics.tajs.analysis.dom.DOMFunctions.createDOMInternalPrototype;
+import static dk.brics.tajs.analysis.dom.DOMFunctions.createDOMSpecialProperty;
+
+import dk.brics.tajs.dependency.Dependency;
+import dk.brics.tajs.dependency.graph.DependencyGraphReference;
 
 /**
  * Client-side image map. See the MAP element definition in HTML 4.01.
  */
 public class HTMLMapElement {
 
-	public static ObjectLabel MAP = new ObjectLabel(DOMObjects.HTMLMAPELEMENT, ObjectLabel.Kind.OBJECT);
-	public static ObjectLabel MAP_PROTOTYPE = new ObjectLabel(DOMObjects.HTMLMAPELEMENT_PROTOTYPE, ObjectLabel.Kind.OBJECT);
+	public static ObjectLabel CONSTRUCTOR;
+	public static ObjectLabel PROTOTYPE;
+	public static ObjectLabel INSTANCES;
 
 	public static void build(State s) {
+		CONSTRUCTOR = new ObjectLabel(DOMObjects.HTMLMAPELEMENT_CONSTRUCTOR, ObjectLabel.Kind.FUNCTION);
+		PROTOTYPE = new ObjectLabel(DOMObjects.HTMLMAPELEMENT_PROTOTYPE, ObjectLabel.Kind.OBJECT);
+		INSTANCES = new ObjectLabel(DOMObjects.HTMLMAPELEMENT_INSTANCES, ObjectLabel.Kind.OBJECT);
+
+		// Constructor Object
+		s.newObject(CONSTRUCTOR);
+		createDOMSpecialProperty(s, CONSTRUCTOR, "length", Value.makeNum(0, new Dependency(), new DependencyGraphReference()).setAttributes(true, true, true));
+		createDOMSpecialProperty(s, CONSTRUCTOR, "prototype",
+				Value.makeObject(PROTOTYPE, new Dependency(), new DependencyGraphReference()).setAttributes(true, true, true));
+		createDOMInternalPrototype(s, CONSTRUCTOR, Value.makeObject(InitialStateBuilder.OBJECT_PROTOTYPE, new Dependency(), new DependencyGraphReference()));
+		createDOMProperty(s, DOMWindow.WINDOW, "HTMLMapElement", Value.makeObject(CONSTRUCTOR, new Dependency(), new DependencyGraphReference()));
+
 		// Prototype Object
-		s.newObject(MAP_PROTOTYPE);
-		createDOMInternalPrototype(s, MAP_PROTOTYPE, Value.makeObject(HTMLElement.ELEMENT_PROTOTYPE, new Dependency(), new DependencyGraphReference()));
+		s.newObject(PROTOTYPE);
+		createDOMInternalPrototype(s, PROTOTYPE, Value.makeObject(HTMLElement.ELEMENT_PROTOTYPE, new Dependency(), new DependencyGraphReference()));
 
 		// Multiplied Object
-		s.newObject(MAP);
-		createDOMInternalPrototype(s, MAP, Value.makeObject(MAP_PROTOTYPE, new Dependency(), new DependencyGraphReference()));
-		createDOMProperty(s, DOMWindow.WINDOW, "HTMLMapElement", Value.makeObject(MAP, new Dependency(), new DependencyGraphReference()));
+		s.newObject(INSTANCES);
+		createDOMInternalPrototype(s, INSTANCES, Value.makeObject(PROTOTYPE, new Dependency(), new DependencyGraphReference()));
 
 		/*
 		 * Properties.
 		 */
 		// DOM Level 1
-		createDOMProperty(s, MAP, "areas", Value.makeObject(HTMLCollection.COLLECTION, new Dependency(), new DependencyGraphReference()).setReadOnly(), DOMSpec.LEVEL_1);
-		createDOMProperty(s, MAP, "name", Value.makeAnyStr(new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_1);
+		createDOMProperty(s, INSTANCES, "areas", Value.makeObject(HTMLCollection.INSTANCES, new Dependency(), new DependencyGraphReference()).setReadOnly(),
+				DOMSpec.LEVEL_1);
+		createDOMProperty(s, INSTANCES, "name", Value.makeAnyStr(new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_1);
 
-		s.multiplyObject(MAP);
-		MAP = MAP.makeSingleton().makeSummary();
+		s.multiplyObject(INSTANCES);
+		INSTANCES = INSTANCES.makeSingleton().makeSummary();
 
 		/*
 		 * Functions.
