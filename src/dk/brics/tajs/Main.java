@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
 
-import org.w3c.dom.Document;
+import org.jdom.Document;
 
 import dk.brics.tajs.analysis.Analysis;
 import dk.brics.tajs.analysis.TypeCollector;
