@@ -5,15 +5,15 @@ import dk.brics.tajs.analysis.State;
 import dk.brics.tajs.analysis.dom.DOMObjects;
 import dk.brics.tajs.analysis.dom.DOMSpec;
 import dk.brics.tajs.analysis.dom.DOMWindow;
-import dk.brics.tajs.dependency.Dependency;
-import dk.brics.tajs.dependency.graph.DependencyGraphReference;
+
 import dk.brics.tajs.flowgraph.ObjectLabel;
 import dk.brics.tajs.flowgraph.ObjectLabel.Kind;
 import dk.brics.tajs.lattice.Value;
 
 import static dk.brics.tajs.analysis.dom.DOMFunctions.createDOMProperty;
 import static dk.brics.tajs.analysis.dom.DOMFunctions.createDOMInternalPrototype;
-
+import dk.brics.tajs.dependency.Dependency;
+import dk.brics.tajs.dependency.graph.DependencyGraphReference;
 
 /**
  * DOM operations only raise exceptions in "exceptional" circumstances, i.e.,
@@ -41,7 +41,8 @@ public class DOMException {
 
 	public static void build(State s) {
 		s.newObject(DOMEXCEPTION_PROTOTYPE);
-		createDOMInternalPrototype(s, DOMEXCEPTION_PROTOTYPE, Value.makeObject(InitialStateBuilder.OBJECT_PROTOTYPE, new Dependency(), new DependencyGraphReference()));
+		createDOMInternalPrototype(s, DOMEXCEPTION_PROTOTYPE,
+				Value.makeObject(InitialStateBuilder.OBJECT_PROTOTYPE, new Dependency(), new DependencyGraphReference()));
 		createDOMProperty(s, DOMWindow.WINDOW, "DOMException", Value.makeObject(DOMEXCEPTION_PROTOTYPE, new Dependency(), new DependencyGraphReference()));
 
 		/*
@@ -50,19 +51,24 @@ public class DOMException {
 		// DOM Level 1
 		createDOMProperty(s, DOMEXCEPTION_PROTOTYPE, "INDEX_SIZE_ERR", Value.makeNum(1, new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_1);
 		createDOMProperty(s, DOMEXCEPTION_PROTOTYPE, "DOMSTRING_SIZE_ERR", Value.makeNum(2, new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_1);
-		createDOMProperty(s, DOMEXCEPTION_PROTOTYPE, "HIERARCHY_REQUEST_ERR", Value.makeNum(3, new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_1);
+		createDOMProperty(s, DOMEXCEPTION_PROTOTYPE, "HIERARCHY_REQUEST_ERR", Value.makeNum(3, new Dependency(), new DependencyGraphReference()),
+				DOMSpec.LEVEL_1);
 		createDOMProperty(s, DOMEXCEPTION_PROTOTYPE, "WRONG_DOCUMENT_ERR", Value.makeNum(4, new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_1);
-		createDOMProperty(s, DOMEXCEPTION_PROTOTYPE, "INVALID_CHARACTER_ERR", Value.makeNum(5, new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_1);
+		createDOMProperty(s, DOMEXCEPTION_PROTOTYPE, "INVALID_CHARACTER_ERR", Value.makeNum(5, new Dependency(), new DependencyGraphReference()),
+				DOMSpec.LEVEL_1);
 		createDOMProperty(s, DOMEXCEPTION_PROTOTYPE, "NO_DATA_ALLOWED_ERR", Value.makeNum(6, new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_1);
-		createDOMProperty(s, DOMEXCEPTION_PROTOTYPE, "NO_MODIFICATION_ALLOWED_ERR", Value.makeNum(7, new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_1);
+		createDOMProperty(s, DOMEXCEPTION_PROTOTYPE, "NO_MODIFICATION_ALLOWED_ERR", Value.makeNum(7, new Dependency(), new DependencyGraphReference()),
+				DOMSpec.LEVEL_1);
 		createDOMProperty(s, DOMEXCEPTION_PROTOTYPE, "NOT_FOUND_ERR", Value.makeNum(8, new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_1);
 		createDOMProperty(s, DOMEXCEPTION_PROTOTYPE, "NOT_SUPPORTED_ERR", Value.makeNum(9, new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_1);
-		createDOMProperty(s, DOMEXCEPTION_PROTOTYPE, "INUSE_ATTRIBUTE_ERR", Value.makeNum(10, new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_1);
+		createDOMProperty(s, DOMEXCEPTION_PROTOTYPE, "INUSE_ATTRIBUTE_ERR", Value.makeNum(10, new Dependency(), new DependencyGraphReference()),
+				DOMSpec.LEVEL_1);
 
 		// DOM Level 2
 		createDOMProperty(s, DOMEXCEPTION_PROTOTYPE, "INVALID_STATE_ERR", Value.makeNum(11, new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_2);
 		createDOMProperty(s, DOMEXCEPTION_PROTOTYPE, "SYNTAX_ERR", Value.makeNum(12, new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_2);
-		createDOMProperty(s, DOMEXCEPTION_PROTOTYPE, "INVALID_MODIFICATION_ERR", Value.makeNum(13, new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_2);
+		createDOMProperty(s, DOMEXCEPTION_PROTOTYPE, "INVALID_MODIFICATION_ERR", Value.makeNum(13, new Dependency(), new DependencyGraphReference()),
+				DOMSpec.LEVEL_2);
 		createDOMProperty(s, DOMEXCEPTION_PROTOTYPE, "NAMESPACE_ERR", Value.makeNum(14, new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_2);
 		createDOMProperty(s, DOMEXCEPTION_PROTOTYPE, "INVALID_ACCESS_ERR", Value.makeNum(15, new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_2);
 
