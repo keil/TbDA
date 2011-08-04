@@ -4,7 +4,6 @@ import static dk.brics.tajs.util.Collections.newSet;
 
 import java.util.Set;
 
-import dk.brics.tajs.analysis.FunctionCalls.CallInfo;
 import dk.brics.tajs.analysis.dom.DOMFunctions;
 import dk.brics.tajs.analysis.dom.DOMObjects;
 import dk.brics.tajs.analysis.nativeobjects.ECMAScriptFunctions;
@@ -42,7 +41,7 @@ public class NativeFunctions {
 	/**
 	 * Evaluates the given native function.
 	 */
-	public static Value evaluate(NativeObject nativeobject, CallInfo call, State state, Solver.SolverInterface c) {
+	public static Value evaluate(NativeObject nativeobject, FunctionCalls.CallInfo<? extends Node> call, State state, Solver.SolverInterface c) {
 		switch (nativeobject.getAPI()) {
 		case ECMA_SCRIPT_NATIVE:
 			return ECMAScriptFunctions.evaluate((ECMAScriptObjects) nativeobject, call, state, c);
@@ -57,7 +56,7 @@ public class NativeFunctions {
 	 * Issues a warning if the number of parameters is not in the given
 	 * interval. max is ignored if -1.
 	 */
-	public static void expectParameters(NativeObject nativeobject, CallInfo call, Solver.SolverInterface c, int min, int max) {
+	public static void expectParameters(NativeObject nativeobject, FunctionCalls.CallInfo<? extends Node> call, Solver.SolverInterface c, int min, int max) {
 		int num_actuals = call.getNumberOfArgs();
 		boolean num_actuals_unknown = call.isUnknownNumberOfArgs();
 		c.addMessage((num_actuals_unknown && min > 0) ? Status.MAYBE : (!num_actuals_unknown && num_actuals < min) ? Status.CERTAIN : Status.NONE,
@@ -74,7 +73,7 @@ public class NativeFunctions {
 	 * Reads the value of a call parameter. Returns 'undefined' if too few
 	 * parameters. The first parameter has number 0.
 	 */
-	public static Value readParameter(CallInfo call, int param) {
+	public static Value readParameter(FunctionCalls.CallInfo<? extends Node> call, int param) {
 		int num_actuals = call.getNumberOfArgs();
 		boolean num_actuals_unknown = call.isUnknownNumberOfArgs();
 		if (num_actuals_unknown || param < num_actuals)
@@ -87,7 +86,7 @@ public class NativeFunctions {
 	 * Reads the value of a call parameter. Only to be called if the number of
 	 * arguments is unknown.
 	 */
-	public static Value readUnknownParameter(CallInfo call) {
+	public static Value readUnknownParameter(FunctionCalls.CallInfo<? extends Node> call) {
 		return call.getUnknownArg().joinUndef();
 	}
 
@@ -184,7 +183,7 @@ public class NativeFunctions {
 	 * 
 	 * @return true if the exception is definitely thrown
 	 */
-	public static boolean throwTypeErrorIfConstructor(CallInfo call, State state, Solver.SolverInterface c) {
+	public static boolean throwTypeErrorIfConstructor(FunctionCalls.CallInfo<? extends Node> call, State state, Solver.SolverInterface c) {
 		Status s;
 		if (call.isConstructorCall()) {
 			Exceptions.throwTypeError(state, c);
@@ -202,8 +201,8 @@ public class NativeFunctions {
 	 * 
 	 * @return true if the exception is definitely thrown
 	 */
-	public static boolean throwTypeErrorIfWrongKindOfThis(ECMAScriptObjects nativeobject, CallInfo call, State state, Solver.SolverInterface c,
-			ObjectLabel.Kind kind) {
+	public static boolean throwTypeErrorIfWrongKindOfThis(ECMAScriptObjects nativeobject, FunctionCalls.CallInfo<? extends Node> call, State state,
+			Solver.SolverInterface c, ObjectLabel.Kind kind) {
 		Set<ObjectLabel> this_obj = state.readThis().getObjectLabels();
 		boolean some_bad = false;
 		boolean some_good = false;

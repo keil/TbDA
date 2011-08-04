@@ -11,8 +11,6 @@ import dk.brics.tajs.dependency.graph.DependencyGraphReference;
 import dk.brics.tajs.flowgraph.Node;
 import dk.brics.tajs.flowgraph.ObjectLabel;
 import dk.brics.tajs.flowgraph.ObjectLabel.Kind;
-import dk.brics.tajs.lattice.Bool;
-import dk.brics.tajs.lattice.Str;
 import dk.brics.tajs.lattice.Value;
 import dk.brics.tajs.solver.Message.Severity;
 import dk.brics.tajs.solver.Message.Status;
