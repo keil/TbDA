@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.w3c.dom.Document;
+import org.jdom.Document;
 
 import dk.brics.tajs.analysis.dom.DOMBuilder;
 import dk.brics.tajs.analysis.dom.DOMVisitor;
