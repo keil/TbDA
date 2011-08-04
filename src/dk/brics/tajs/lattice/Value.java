@@ -53,6 +53,11 @@ public final class Value implements Undef, Null, Bool, Num, Str, IDependency<Val
 	private final static int ATTR_NOTDONTDELETE = 0x0200000;
 	private final static int UNKNOWN = 0x1000000; // TODO: make unknown=bottom?
 
+	// FIXME: MERGING
+	// private final static int JSONSTR_UINT = 0x0000010;
+	// private final static int JSONSTR_NOTUINT = 0x0000020;
+
+	// private final static int JSONSTR_ANY = JSONSTR_UINT | JSONSTR_NOTUINT;
 	private final static int BOOL_ANY = BOOL_TRUE | BOOL_FALSE;
 	private final static int STR_ANY = STR_UINT | STR_NOTUINT;
 	private final static int NUM_ANY = NUM_NAN | NUM_INF | NUM_UINT | NUM_NOTUINT;
@@ -87,6 +92,8 @@ public final class Value implements Undef, Null, Bool, Num, Str, IDependency<Val
 	private static Value theAbsentModified = reallyMakeAbsentModified(new Dependency(), new DependencyGraphReference());
 	private static Value theUnknown = reallyMakeUnknown(new Dependency(), new DependencyGraphReference());
 
+	// FIXME: MERGING
+	//	private static Value theJSONStr = reallyMakeJSONStr(new Dependency(), new DependencyGraphReference());
 	/*
 	 * Representation invariant: !((flags & STR_ANY) != 0 && str != null) &&
 	 * !((flags & NUM_ANY) != 0 && num != null) && !(object_labels != null &&
@@ -144,7 +151,7 @@ public final class Value implements Undef, Null, Bool, Num, Str, IDependency<Val
 	private Value(Dependency dependency, DependencyNode node) {
 		this(dependency, node.getReference());
 	}
-	
+
 	/**
 	 * Constructs a new bottom value with given dependency.
 	 */
@@ -1361,9 +1368,11 @@ public final class Value implements Undef, Null, Bool, Num, Str, IDependency<Val
 	 */
 	public static Value makeBool(boolean b, Dependency dependenc, DependencyGraphReference reference) {
 		if (b)
-			return reallyMakeBool(true, dependenc, reference); // return theBoolTrue;
+			return reallyMakeBool(true, dependenc, reference); // return
+																// theBoolTrue;
 		else
-			return reallyMakeBool(false, dependenc, reference);// return theBoolFalse;
+			return reallyMakeBool(false, dependenc, reference);// return
+																// theBoolFalse;
 	}
 
 	/**
@@ -1767,6 +1776,19 @@ public final class Value implements Undef, Null, Bool, Num, Str, IDependency<Val
 		r.flags |= STR_ANY;
 		return canonicalize(r);
 	}
+	// FIXME: MERGING
+	// private static Value reallyMakeJSONStr(Dependency dependency,
+	// DependencyGraphReference reference) {
+	// Value r = new Value(dependency, reference);
+	// r.flags |= JSONSTR_ANY;
+	// return canonicalize(r);
+	// }
+	// FIXME: MERGING
+	// public static Value makeJSONStr(Dependency dependency,
+	// DependencyGraphReference reference) {
+	// return
+	// theJSONStr.joinDependency(dependency).setDependencyGraphReference(reference);
+	// }
 
 	/**
 	 * Constructs the value describing any string.

@@ -112,6 +112,13 @@ public abstract class BlockState<BlockStateType extends BlockState<BlockStateTyp
 	private boolean writable_mouse_event_handlers;
 
 	/**
+	 * AJAX Event Handlers
+	 */
+	private Set<ObjectLabel> ajax_event_handlers;
+	private boolean writable_ajax_event_handlers;
+
+	/**
+	 * 
 	 * Timeout Event Handlers
 	 */
 	private Set<ObjectLabel> timeout_event_handlers;
@@ -177,6 +184,7 @@ public abstract class BlockState<BlockStateType extends BlockState<BlockStateTyp
 				unload_event_handlers = newSet(x.unload_event_handlers);
 				keyboard_event_handlers = newSet(x.keyboard_event_handlers);
 				mouse_event_handlers = newSet(x.mouse_event_handlers);
+				ajax_event_handlers = newSet(x.ajax_event_handlers);
 				unknown_event_handlers = newSet(x.unknown_event_handlers);
 				timeout_event_handlers = newSet(x.timeout_event_handlers);
 
@@ -207,6 +215,9 @@ public abstract class BlockState<BlockStateType extends BlockState<BlockStateTyp
 
 				mouse_event_handlers = x.mouse_event_handlers;
 				x.writable_mouse_event_handlers = writable_mouse_event_handlers = false;
+
+				ajax_event_handlers = x.ajax_event_handlers;
+				x.writable_ajax_event_handlers = writable_ajax_event_handlers = false;
 
 				unknown_event_handlers = x.unknown_event_handlers;
 				x.writable_unknown_event_handlers = writable_unknown_event_handlers = false;
@@ -493,6 +504,16 @@ public abstract class BlockState<BlockStateType extends BlockState<BlockStateTyp
 	}
 
 	/**
+	 * Makes the set of AJAX event handlers writable
+	 */
+	private void makeWritableAjaxEventHandlers() {
+		if (!Options.isDOMEnabled() || writable_ajax_event_handlers)
+			return;
+		ajax_event_handlers = newSet(ajax_event_handlers);
+		writable_ajax_event_handlers = true;
+	}
+
+	/**
 	 * Makes the set of unknown event handlers writable
 	 */
 	private void makeWritableUnknownEventHandlers() {
@@ -648,6 +669,9 @@ public abstract class BlockState<BlockStateType extends BlockState<BlockStateTyp
 				mouse_event_handlers = newSet();
 				writable_keyboard_event_handlers = true;
 
+				ajax_event_handlers = newSet();
+				writable_ajax_event_handlers = true;
+
 				unknown_event_handlers = newSet();
 				writable_unknown_event_handlers = true;
 
@@ -681,6 +705,9 @@ public abstract class BlockState<BlockStateType extends BlockState<BlockStateTyp
 
 				mouse_event_handlers = Collections.emptySet();
 				writable_mouse_event_handlers = false;
+
+				ajax_event_handlers = Collections.emptySet();
+				writable_ajax_event_handlers = false;
 
 				unknown_event_handlers = Collections.emptySet();
 				writable_unknown_event_handlers = false;
@@ -832,6 +859,7 @@ public abstract class BlockState<BlockStateType extends BlockState<BlockStateTyp
 			makeWritableUnloadEventHandlers();
 			makeWritableKeyboardEventHandlers();
 			makeWritableMouseEventHandlers();
+			makeWritableAjaxEventHandlers();
 			makeWritableUnknownEventHandlers();
 			makeWritableTimeoutHandlers();
 			makeWritableElements();
@@ -880,6 +908,7 @@ public abstract class BlockState<BlockStateType extends BlockState<BlockStateTyp
 			changed |= unload_event_handlers.addAll(s.unload_event_handlers);
 			changed |= keyboard_event_handlers.addAll(s.keyboard_event_handlers);
 			changed |= mouse_event_handlers.addAll(s.mouse_event_handlers);
+			changed |= ajax_event_handlers.addAll(s.ajax_event_handlers);
 			changed |= unknown_event_handlers.addAll(s.unknown_event_handlers);
 			changed |= timeout_event_handlers.addAll(s.timeout_event_handlers);
 			changed |= !element_by_id.keySet().equals(s.element_by_id.keySet());
@@ -2081,6 +2110,12 @@ public abstract class BlockState<BlockStateType extends BlockState<BlockStateTyp
 					System.out.println("BlockState: equals(...)=false, mouse event handlers differ");
 				return false;
 			}
+
+			if (!ajax_event_handlers.equals(x.ajax_event_handlers)) {
+				if (Options.isDebugEnabled())
+					System.out.println("BlockState: equals(...)=false, ajax event handlers differ");
+				return false;
+			}
 			if (!unknown_event_handlers.equals(x.unknown_event_handlers)) {
 				if (Options.isDebugEnabled())
 					System.out.println("BlockState: equals(...)=false, unknown event handlers differ");
@@ -2196,6 +2231,12 @@ public abstract class BlockState<BlockStateType extends BlockState<BlockStateTyp
 				b.append("\n      new mouse event handlers: ").append(temp);
 			}
 
+			temp = newSet(ajax_event_handlers);
+			temp.removeAll(old.ajax_event_handlers);
+			if (!temp.isEmpty()) {
+				b.append("\n      new ajax event handlers: ").append(temp);
+			}
+
 			temp = newSet(unknown_event_handlers);
 			temp.removeAll(old.unknown_event_handlers);
 			if (!temp.isEmpty()) {
@@ -2244,9 +2285,9 @@ public abstract class BlockState<BlockStateType extends BlockState<BlockStateTyp
 				+ (Options.isDOMEnabled() ? load_event_handlers_definite.hashCode() : 0) * 57
 				+ (Options.isDOMEnabled() ? load_event_handlers_maybe.hashCode() : 0) * 89 + (Options.isDOMEnabled() ? unload_event_handlers.hashCode() : 0)
 				* 19 + (Options.isDOMEnabled() ? keyboard_event_handlers.hashCode() : 0) * 59 + (Options.isDOMEnabled() ? mouse_event_handlers.hashCode() : 0)
-				* 61 + (Options.isDOMEnabled() ? unknown_event_handlers.hashCode() : 0) * 43 + (Options.isDOMEnabled() ? timeout_event_handlers.hashCode() : 0)
-				* 29 + (Options.isDOMEnabled() ? element_by_id.hashCode() : 0) * 47 + (Options.isDOMEnabled() ? elements_by_name.hashCode() : 0) * 53
-				+ (Options.isDOMEnabled() ? elements_by_tagname.hashCode() : 0) * 57;
+				* 61 + (Options.isDOMEnabled() ? ajax_event_handlers.hashCode() : 0) * 67 + (Options.isDOMEnabled() ? unknown_event_handlers.hashCode() : 0)
+				* 43 + (Options.isDOMEnabled() ? timeout_event_handlers.hashCode() : 0) * 29 + (Options.isDOMEnabled() ? element_by_id.hashCode() : 0) * 47
+				+ (Options.isDOMEnabled() ? elements_by_name.hashCode() : 0) * 53 + (Options.isDOMEnabled() ? elements_by_tagname.hashCode() : 0) * 57;
 	}
 
 	/**
@@ -2271,6 +2312,7 @@ public abstract class BlockState<BlockStateType extends BlockState<BlockStateTyp
 			b.append("\n  Unload Event Handlers: ").append(unload_event_handlers);
 			b.append("\n  Keyboard Event Handlers: ").append(keyboard_event_handlers);
 			b.append("\n  Mouse Event Handlers: ").append(mouse_event_handlers);
+			b.append("\n  AJAX Event Handlers: ").append(ajax_event_handlers);
 			b.append("\n  Unknown Event Handlers: ").append(unknown_event_handlers);
 			b.append("\n  Timeout Event Handlers: ").append(timeout_event_handlers);
 			b.append("\n  Elements by id: ").append(element_by_id);
@@ -2523,6 +2565,7 @@ public abstract class BlockState<BlockStateType extends BlockState<BlockStateTyp
 			live.addAll(unload_event_handlers);
 			live.addAll(keyboard_event_handlers);
 			live.addAll(mouse_event_handlers);
+			live.addAll(ajax_event_handlers);
 			live.addAll(unknown_event_handlers);
 			live.addAll(timeout_event_handlers);
 			for (String id : element_by_id.keySet()) {
@@ -2744,6 +2787,30 @@ public abstract class BlockState<BlockStateType extends BlockState<BlockStateTyp
 	}
 
 	/**
+	 * Adds an AJAX-event handler.
+	 */
+	public void addAjaxEventHandler(ObjectLabel e) {
+		if (!Options.isDOMEnabled())
+			throw new RuntimeException("Event Handler Added, but no DOM!");
+		makeWritableAjaxEventHandlers();
+		ajax_event_handlers.add(e);
+		if (Options.isDebugEnabled())
+			System.out.println("BlockState: addAjaxEventHandler(" + e + ")");
+	}
+
+	/**
+	 * Adds a AJAX-event handler.
+	 */
+	public void addAjaxEventHandler(Set<ObjectLabel> e) {
+		if (!Options.isDOMEnabled())
+			throw new RuntimeException("Event Handler Added, but no DOM!");
+		makeWritableAjaxEventHandlers();
+		ajax_event_handlers.addAll(e);
+		if (Options.isDebugEnabled())
+			System.out.println("BlockState: addAjaxEventHandler(" + e + ")");
+	}
+
+	/**
 	 * Adds an unknown event handler.
 	 */
 	public void addUnknownEventHandler(ObjectLabel e) {
@@ -2827,6 +2894,13 @@ public abstract class BlockState<BlockStateType extends BlockState<BlockStateTyp
 	 */
 	public Set<ObjectLabel> getMouseEventHandlers() {
 		return newSet(mouse_event_handlers);
+	}
+
+	/**
+	 * Returns the set of AJAX event handlers.
+	 */
+	public Set<ObjectLabel> getAjaxEventHandlers() {
+		return newSet(ajax_event_handlers);
 	}
 
 	/**
