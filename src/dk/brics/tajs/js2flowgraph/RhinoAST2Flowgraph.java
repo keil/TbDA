@@ -82,8 +82,7 @@ public class RhinoAST2Flowgraph {
 	/**
 	 * Parses the files and builds the flowgraph.
 	 */
-	public void build(List<String> files) throws FileNotFoundException,
-			IOException {
+	public void build(List<String> files) throws FileNotFoundException, IOException {
 		Parser p = new Parser(rhinoEnv, rhinoEnv.getErrorReporter());
 		org.mozilla.javascript.Node root = null;
 		for (String file : files) {
@@ -96,31 +95,40 @@ public class RhinoAST2Flowgraph {
 				} else {
 					if (!Options.isQuietEnabled())
 						System.out.println("Parsing " + file);
-					root = p.parse(new FileReader(file),
-							new File(file).getCanonicalPath(), 0);
+					root = p.parse(new FileReader(file), new File(file).getCanonicalPath(), 0);
 				}
 				if (Options.isDebugEnabled()) { // This step requires the
 												// patched js.jar otherwise just
 												// "null" is printed
-					System.out
-							.println(root.toStringTree((ScriptOrFnNode) root));
+					System.out.println(root.toStringTree((ScriptOrFnNode) root));
 				}
 			} catch (org.mozilla.javascript.EvaluatorException e) {
 				throw new IOException(e.getMessage());
 			}
 			if (walker == null)
-				walker = new RhinoASTWalker(file, (ScriptOrFnNode) root, null,
-						null);
+				walker = new RhinoASTWalker(file, (ScriptOrFnNode) root, null, null, 0);
 			walker.newBasicBlock();
 			walker.buildTopLevel((ScriptOrFnNode) root, file);
 		}
 	}
 
 	public Function build(String js, String url) {
+		return build(js, url, 0);
+	}
+
+	public Function build(String js, String url, int lineno_offset) {
 		org.mozilla.javascript.Node root = parse(js, url);
 		if (walker == null)
-			walker = new RhinoASTWalker(url, (ScriptOrFnNode) root, null, null);
+			walker = new RhinoASTWalker(url, (ScriptOrFnNode) root, null, null, lineno_offset);
 		return walker.buildTopLevel((ScriptOrFnNode) root, url);
+	}
+
+	/**
+	 * Returns the graph currently being constructed. Call {@link #close()} to
+	 * access the finished graph.
+	 */
+	public FlowGraph getGraph() {
+		return graph;
 	}
 
 	private ScriptOrFnNode parse(String js, String url) {
@@ -143,10 +151,9 @@ public class RhinoAST2Flowgraph {
 	/**
 	 * Wrap the code in an event handler.
 	 */
-	public Function addEventHandler(String js, String attribute, String url) {
+	public Function addEventHandler(String js, String attribute, String url, int line_offset) {
 		ScriptOrFnNode root = parse(js, url);
-		RhinoASTWalker wwalker = new RhinoASTWalker(url, root,
-				Collections.singletonList("event"), null);
+		RhinoASTWalker wwalker = new RhinoASTWalker(url, root, Collections.singletonList("event"), null, line_offset);
 		Function function = wwalker.buildTopLevel(root, url);
 		wwalker.close();
 		if (DOMEvents.isLoadEventAttribute(attribute)) {
@@ -246,6 +253,7 @@ public class RhinoAST2Flowgraph {
 
 		private int nextTmp = Node.FIRST_ORDINARY_VAR;
 		int return_var = nextTemporary();
+		private int offset;
 
 		/**
 		 * store ContextDependencyNodes, associated with an tagrget node
@@ -262,9 +270,10 @@ public class RhinoAST2Flowgraph {
 		 *            Arguments of the generated function. If null the arguments
 		 *            will be taken from AST
 		 */
-		public RhinoASTWalker(String filename, ScriptOrFnNode root,
-				List<String> arguments, Function currFun) {
+		public RhinoASTWalker(String filename, ScriptOrFnNode root, List<String> arguments, Function currFun, int lineno_offset) {
 			setTopSloc(new SourceLocation(root.getLineno() + 1, filename));
+			this.offset = lineno_offset;
+			setTopSloc(new SourceLocation(root.getLineno() + 1 + this.offset, filename));
 			this.fileName = filename;
 			this.currFun = currFun;
 			if (root instanceof FunctionNode) {
@@ -272,16 +281,10 @@ public class RhinoAST2Flowgraph {
 				String funname = fnNode.getFunctionName();
 				if (funname.length() == 0)
 					funname = null;
-				res = new Function(
-						funname,
-						(arguments == null ? fnNode.getParamCount() == 0 ? new LinkedList<String>()
-								: getParams(fnNode)
-								: arguments), graph, getTopSloc());
-			} else {
-				res = new Function(
-						null,
-						arguments == null ? new ArrayList<String>() : arguments,
+				res = new Function(funname, (arguments == null ? fnNode.getParamCount() == 0 ? new LinkedList<String>() : getParams(fnNode) : arguments),
 						graph, getTopSloc());
+			} else {
+				res = new Function(null, arguments == null ? new ArrayList<String>() : arguments, graph, getTopSloc());
 				graph.setMain(res);
 			}
 			graph.addFunction(res);
@@ -340,56 +343,41 @@ public class RhinoAST2Flowgraph {
 
 			// Load Event Handlers
 			for (Function evh : graph.getLoadEventHandlers()) {
-				DeclareFunctionNode df = new DeclareFunctionNode(evh, false,
-						nextTmp, getTopSloc());
+				DeclareFunctionNode df = new DeclareFunctionNode(evh, false, nextTmp, getTopSloc());
 				addNode(df, null);
-				DeclareEventHandlerNode evDecl = new DeclareEventHandlerNode(
-						nextTmp, DeclareEventHandlerNode.Type.LOAD,
-						getTopSloc());
+				DeclareEventHandlerNode evDecl = new DeclareEventHandlerNode(nextTmp, DeclareEventHandlerNode.Type.LOAD, getTopSloc());
 				addNode(evDecl, null);
 			}
 
 			// Unload Event Handlers
 			for (Function evh : graph.getUnloadEventHandlers()) {
-				DeclareFunctionNode df = new DeclareFunctionNode(evh, false,
-						nextTmp, getTopSloc());
+				DeclareFunctionNode df = new DeclareFunctionNode(evh, false, nextTmp, getTopSloc());
 				addNode(df, null);
-				DeclareEventHandlerNode evDecl = new DeclareEventHandlerNode(
-						nextTmp, DeclareEventHandlerNode.Type.UNLOAD,
-						getTopSloc());
+				DeclareEventHandlerNode evDecl = new DeclareEventHandlerNode(nextTmp, DeclareEventHandlerNode.Type.UNLOAD, getTopSloc());
 				addNode(evDecl, null);
 			}
 
 			// Keyboard Event Handlers
 			for (Function evh : graph.getKeyboardEventHandlers()) {
-				DeclareFunctionNode decl = new DeclareFunctionNode(evh, false,
-						nextTmp, getTopSloc());
+				DeclareFunctionNode decl = new DeclareFunctionNode(evh, false, nextTmp, getTopSloc());
 				addNode(decl, null);
-				DeclareEventHandlerNode evDecl = new DeclareEventHandlerNode(
-						nextTmp, DeclareEventHandlerNode.Type.KEYBOARD,
-						getTopSloc());
+				DeclareEventHandlerNode evDecl = new DeclareEventHandlerNode(nextTmp, DeclareEventHandlerNode.Type.KEYBOARD, getTopSloc());
 				addNode(evDecl, null);
 			}
 
 			// Mouse Event Handlers
 			for (Function evh : graph.getMouseEventHandlers()) {
-				DeclareFunctionNode decl = new DeclareFunctionNode(evh, false,
-						nextTmp, getTopSloc());
+				DeclareFunctionNode decl = new DeclareFunctionNode(evh, false, nextTmp, getTopSloc());
 				addNode(decl, null);
-				DeclareEventHandlerNode evDecl = new DeclareEventHandlerNode(
-						nextTmp, DeclareEventHandlerNode.Type.MOUSE,
-						getTopSloc());
+				DeclareEventHandlerNode evDecl = new DeclareEventHandlerNode(nextTmp, DeclareEventHandlerNode.Type.MOUSE, getTopSloc());
 				addNode(evDecl, null);
 			}
 
 			// Unknown Event Handlers
 			for (Function evh : graph.getUnknownEventHandlers()) {
-				DeclareFunctionNode decl = new DeclareFunctionNode(evh, false,
-						nextTmp, getTopSloc());
+				DeclareFunctionNode decl = new DeclareFunctionNode(evh, false, nextTmp, getTopSloc());
 				addNode(decl, null);
-				DeclareEventHandlerNode evDecl = new DeclareEventHandlerNode(
-						nextTmp, DeclareEventHandlerNode.Type.UNKNOWN,
-						getTopSloc());
+				DeclareEventHandlerNode evDecl = new DeclareEventHandlerNode(nextTmp, DeclareEventHandlerNode.Type.UNKNOWN, getTopSloc());
 				addNode(evDecl, null);
 			}
 
@@ -401,9 +389,7 @@ public class RhinoAST2Flowgraph {
 			// Load Event Handlers
 			newBasicBlock();
 			BasicBlock loadBB = currBB;
-			EventDispatcherNode loadDispatcher = new EventDispatcherNode(
-					EventDispatcherNode.Type.LOAD, new SourceLocation(0,
-							getTopSloc().getFileName()));
+			EventDispatcherNode loadDispatcher = new EventDispatcherNode(EventDispatcherNode.Type.LOAD, new SourceLocation(0, getTopSloc().getFileName()));
 			addNode(loadDispatcher, null);
 			newBasicBlock();
 			BasicBlock nopPostLoad = currBB;
@@ -413,9 +399,7 @@ public class RhinoAST2Flowgraph {
 			// Other Event Handlers
 			newBasicBlock();
 			BasicBlock otherBB = currBB;
-			EventDispatcherNode otherDispatcher = new EventDispatcherNode(
-					EventDispatcherNode.Type.OTHER, new SourceLocation(0,
-							getTopSloc().getFileName()));
+			EventDispatcherNode otherDispatcher = new EventDispatcherNode(EventDispatcherNode.Type.OTHER, new SourceLocation(0, getTopSloc().getFileName()));
 			addNode(otherDispatcher, null);
 			newBasicBlock();
 			BasicBlock nopPostOther = currBB;
@@ -425,9 +409,7 @@ public class RhinoAST2Flowgraph {
 			// Unload Event Handlers
 			newBasicBlock();
 			BasicBlock unloadBB = currBB;
-			EventDispatcherNode unloadDispatcher = new EventDispatcherNode(
-					EventDispatcherNode.Type.UNLOAD, new SourceLocation(0,
-							getTopSloc().getFileName()));
+			EventDispatcherNode unloadDispatcher = new EventDispatcherNode(EventDispatcherNode.Type.UNLOAD, new SourceLocation(0, getTopSloc().getFileName()));
 			addNode(unloadDispatcher, null);
 			newBasicBlock();
 			BasicBlock nopPostUnload = currBB;
@@ -542,8 +524,7 @@ public class RhinoAST2Flowgraph {
 		 *            The variable to used to store the result.
 		 * @return result_var if expression else -1.
 		 */
-		public int translate(org.mozilla.javascript.Node rn, int result_var,
-				rContext ctx) {
+		public int translate(org.mozilla.javascript.Node rn, int result_var, rContext ctx) {
 			if (rn.getType() == Token.TARGET) {
 				newBasicBlock();
 			}
@@ -578,24 +559,17 @@ public class RhinoAST2Flowgraph {
 
 			// A hack, but rhino does something similar. Since catch blocks does
 			// not get any linenumber assigned
-			SourceLocation sloc = new SourceLocation(
-					rn.getType() == Token.CATCH_SCOPE ? rn.getNext()
-							.getLineno() : linenoStack.peek(), fileName);
+			SourceLocation sloc = new SourceLocation(rn.getType() == Token.CATCH_SCOPE ? rn.getNext().getLineno() : linenoStack.peek(), fileName);
 			switch (rn.getType()) {
 			case Token.FUNCTION: { // function [id]([args]...) {}
-				FunctionNode fn = getTop()
-						.getFunctionNode(
-								rn.getExistingIntProp(org.mozilla.javascript.Node.FUNCTION_PROP));
+				FunctionNode fn = getTop().getFunctionNode(rn.getExistingIntProp(org.mozilla.javascript.Node.FUNCTION_PROP));
 
 				// fixes, tha all function will be created in line 1
-				if(sloc.getLineNumber() != fn.getBaseLineno()+1) {
-					sloc = new SourceLocation(fn.getBaseLineno()+1, fileName);
+				if (sloc.getLineNumber() != fn.getBaseLineno() + 1) {
+					sloc = new SourceLocation(fn.getBaseLineno() + 1, fileName);
 				}
-
-				Function f = new RhinoASTWalker(fileName, fn, null, currFun)
-						.buildFunction(fn);
-				DeclareFunctionNode fnN = new DeclareFunctionNode(f,
-						ctx == rContext.EXPR, result_var, sloc);
+				Function f = new RhinoASTWalker(fileName, fn, null, currFun, this.offset).buildFunction(fn);
+				DeclareFunctionNode fnN = new DeclareFunctionNode(f, ctx == rContext.EXPR, result_var, sloc);
 				if (ctx == rContext.EXPR)
 					addNode(fnN, rn);
 				else
@@ -608,8 +582,7 @@ public class RhinoAST2Flowgraph {
 					break;
 				}
 				String varName = rn.getFirstChild().getString();
-				int val = translate(rn.getLastChild(), result_var,
-						rContext.STMT);
+				int val = translate(rn.getLastChild(), result_var, rContext.STMT);
 				WriteVariableNode wn = new WriteVariableNode(val, varName, sloc);
 				addNode(wn, rn);
 				break;
@@ -623,10 +596,8 @@ public class RhinoAST2Flowgraph {
 					DeclareVariableNode vn = new DeclareVariableNode(id, sloc);
 					addDecl(vn, rn);
 					if (child.getFirstChild() != null) {
-						int expTmp = translate(child.getFirstChild(),
-								rContext.EXPR);
-						WriteVariableNode wn = new WriteVariableNode(expTmp,
-								id, sloc);
+						int expTmp = translate(child.getFirstChild(), rContext.EXPR);
+						WriteVariableNode wn = new WriteVariableNode(expTmp, id, sloc);
 						addNode(wn, rn);
 						// return expTmp;
 					}
@@ -638,9 +609,7 @@ public class RhinoAST2Flowgraph {
 			case Token.LOCAL_BLOCK:
 			case Token.BLOCK: {
 				translateAllChildren(rn);
-				if (rn.getFirstChild() != null
-						&& rn.getFirstChild().getType() == Token.CATCH_SCOPE
-						&& finallyStack.peek() != null)
+				if (rn.getFirstChild() != null && rn.getFirstChild().getType() == Token.CATCH_SCOPE && finallyStack.peek() != null)
 					catchBlocks.pop();
 				result_var = -1;
 				break;
@@ -657,19 +626,14 @@ public class RhinoAST2Flowgraph {
 				org.mozilla.javascript.Node fnNameNode = rn.getFirstChild();
 				int objVar = Node.NO_VALUE;
 				int fnVal;
-				if (fnNameNode.getType() == Token.GETPROP
-						|| fnNameNode.getType() == Token.GETELEM) {
+				if (fnNameNode.getType() == Token.GETPROP || fnNameNode.getType() == Token.GETELEM) {
 					ReadPropertyNode redN;
-					objVar = translate(fnNameNode.getFirstChild(),
-							rContext.EXPR);
+					objVar = translate(fnNameNode.getFirstChild(), rContext.EXPR);
 					fnVal = nextTemporary();
 					if (fnNameNode.getLastChild().getType() == Token.STRING)
-						redN = new ReadPropertyNode(objVar, fnNameNode
-								.getLastChild().getString(), fnVal, sloc);
+						redN = new ReadPropertyNode(objVar, fnNameNode.getLastChild().getString(), fnVal, sloc);
 					else
-						redN = new ReadPropertyNode(objVar, translate(
-								fnNameNode.getLastChild(), rContext.EXPR),
-								fnVal, sloc);
+						redN = new ReadPropertyNode(objVar, translate(fnNameNode.getLastChild(), rContext.EXPR), fnVal, sloc);
 					addNode(redN, rn);
 				} else if (fnNameNode.getType() == Token.NAME) {
 					fnVal = translate(fnNameNode, rContext.EXPR);
@@ -694,18 +658,15 @@ public class RhinoAST2Flowgraph {
 				 * Dependency: ContextDependencyNode
 				 * ############################################################
 				 */
-				ContextDependencyPopNode contextDependencyPopNode = new ContextDependencyPopNode(
-						sloc);
-				ContextDependencyPushNode contextDependencyPushNode = new ContextDependencyPushNode(
-						contextDependencyPopNode, sloc);
+				ContextDependencyPopNode contextDependencyPopNode = new ContextDependencyPopNode(sloc);
+				ContextDependencyPushNode contextDependencyPushNode = new ContextDependencyPushNode(contextDependencyPopNode, sloc);
 
 				// ##################################################
 				addNode(contextDependencyPushNode, rn);
 				// ##################################################
 
 				newBasicBlock();
-				CallNode call = new CallNode(rn.getType() == Token.NEW,
-						result_var, objVar, fnVal, argArray, sloc);
+				CallNode call = new CallNode(rn.getType() == Token.NEW, result_var, objVar, fnVal, argArray, sloc);
 				addNode(call, rn);
 				newBasicBlock();
 
@@ -718,19 +679,16 @@ public class RhinoAST2Flowgraph {
 			case Token.NAME: { // var reference
 				int result_base_var = nextTemporary();
 				baseVarStack.push(result_base_var);
-				ReadVariableNode r = new ReadVariableNode(rn.getString(),
-						result_var, result_base_var, sloc);
+				ReadVariableNode r = new ReadVariableNode(rn.getString(), result_var, result_base_var, sloc);
 				addNode(r, rn);
 				break;
 			}
 			case Token.STRING: { // [string]
-				addNode(ConstantNode.makeString(rn.getString(), result_var,
-						sloc), rn);
+				addNode(ConstantNode.makeString(rn.getString(), result_var, sloc), rn);
 				break;
 			}
 			case Token.NUMBER: { // [number]
-				addNode(ConstantNode.makeNumber(rn.getDouble(), result_var,
-						sloc), rn);
+				addNode(ConstantNode.makeNumber(rn.getDouble(), result_var, sloc), rn);
 				break;
 			}
 			case Token.TYPEOF:
@@ -750,9 +708,7 @@ public class RhinoAST2Flowgraph {
 			case Token.POS:
 			case Token.NEG: { // [op] [operand]
 				int operand = translate(rn.getFirstChild(), rContext.EXPR);
-				UnaryOperatorNode un = new UnaryOperatorNode(
-						getFlowGraphUnaryOp(rn.getType()), operand, result_var,
-						sloc);
+				UnaryOperatorNode un = new UnaryOperatorNode(getFlowGraphUnaryOp(rn.getType()), operand, result_var, sloc);
 				addNode(un, rn);
 				break;
 			}
@@ -781,49 +737,38 @@ public class RhinoAST2Flowgraph {
 				int vLop = translate(rn.getFirstChild(), rContext.EXPR);
 				int vRop = translate(rn.getLastChild(), rContext.EXPR);
 
-				BinaryOperatorNode op = new BinaryOperatorNode(
-						getFlowGraphBinaryOp(rn.getType()), vLop, vRop,
-						result_var, sloc);
+				BinaryOperatorNode op = new BinaryOperatorNode(getFlowGraphBinaryOp(rn.getType()), vLop, vRop, result_var, sloc);
 				addNode(op, rn);
 				break;
 			}
 			case Token.INC:
 			case Token.DEC: {
 				Op o = (rn.getType() == Token.INC ? Op.ADD : Op.SUB);
-				boolean isPost = (rn.getIntProp(
-						org.mozilla.javascript.Node.INCRDECR_PROP, -1) & org.mozilla.javascript.Node.POST_FLAG) != 0;
+				boolean isPost = (rn.getIntProp(org.mozilla.javascript.Node.INCRDECR_PROP, -1) & org.mozilla.javascript.Node.POST_FLAG) != 0;
 				int one = nextTemporary();
 				ConstantNode cn = ConstantNode.makeNumber(1, one, sloc);
 				addNode(cn, rn);
 				dontRegisterStack.push(true);// dontRegister = true;
-				int res = translate(rn.getFirstChild(), nextTemporary(),
-						rContext.EXPR);
+				int res = translate(rn.getFirstChild(), nextTemporary(), rContext.EXPR);
 				int conv = isPost ? result_var : nextTemporary();
-				UnaryOperatorNode uno = new UnaryOperatorNode(
-						UnaryOperatorNode.Op.PLUS, res, conv, sloc);
+				UnaryOperatorNode uno = new UnaryOperatorNode(UnaryOperatorNode.Op.PLUS, res, conv, sloc);
 				addNode(uno, rn);
 				int after = isPost ? nextTemporary() : result_var;
-				BinaryOperatorNode bm = new BinaryOperatorNode(o, conv, one,
-						after, sloc);
+				BinaryOperatorNode bm = new BinaryOperatorNode(o, conv, one, after, sloc);
 				addNode(bm, rn);
 				// Write back result
-				if (rn.getFirstChild().getType() == Token.GETELEM
-						|| rn.getFirstChild().getType() == Token.GETPROP) {
+				if (rn.getFirstChild().getType() == Token.GETELEM || rn.getFirstChild().getType() == Token.GETPROP) {
 					org.mozilla.javascript.Node getProp = rn.getFirstChild();
 					int obj = translate(getProp.getFirstChild(), rContext.EXPR);
 					WritePropertyNode wn;
 					if (getProp.getLastChild().getType() == Token.STRING)
-						wn = new WritePropertyNode(obj, getProp.getLastChild()
-								.getString(), after, sloc);
+						wn = new WritePropertyNode(obj, getProp.getLastChild().getString(), after, sloc);
 					else
-						wn = new WritePropertyNode(obj, translate(
-								getProp.getLastChild(), rContext.EXPR), after,
-								sloc);
+						wn = new WritePropertyNode(obj, translate(getProp.getLastChild(), rContext.EXPR), after, sloc);
 					addNode(wn, rn);
 				} else {
 					String varName = rn.getFirstChild().getString();
-					WriteVariableNode wn = new WriteVariableNode(after,
-							varName, sloc);
+					WriteVariableNode wn = new WriteVariableNode(after, varName, sloc);
 					addNode(wn, rn);
 				}
 				dontRegisterStack.pop();
@@ -836,14 +781,11 @@ public class RhinoAST2Flowgraph {
 				 * Dependency: ContextDependencyNode
 				 * ############################################################
 				 */
-				ContextDependencyPopNode contextDependencyPopNode = new ContextDependencyPopNode(
-						sloc);
-				ContextDependencyPushNode contextDependencyPushNode = new ContextDependencyPushNode(
-						contextDependencyPopNode, sloc);
+				ContextDependencyPopNode contextDependencyPopNode = new ContextDependencyPopNode(sloc);
+				ContextDependencyPushNode contextDependencyPushNode = new ContextDependencyPushNode(contextDependencyPopNode, sloc);
 
 				// ##################################################
-				m_ContextDependencyNodes.put(rn.getLastSibling(),
-						contextDependencyPopNode);
+				m_ContextDependencyNodes.put(rn.getLastSibling(), contextDependencyPopNode);
 				// ##################################################
 
 				// ##################################################
@@ -881,10 +823,8 @@ public class RhinoAST2Flowgraph {
 					if (nnEntity != null) {
 						AssumeNode assN = null;
 						if (nnEntity.getType() == Token.NAME)
-							assN = AssumeNode.makeVariableNonNullUndef(
-									nnEntity.getString(), sloc);
-						else if (nnEntity.getType() == Token.GETPROP
-								|| nnEntity.getType() == Token.GETELEM) {
+							assN = AssumeNode.makeVariableNonNullUndef(nnEntity.getString(), sloc);
+						else if (nnEntity.getType() == Token.GETPROP || nnEntity.getType() == Token.GETELEM) {
 							assN = assumeStack.peek();
 						}
 						if (assN != null) {
@@ -925,8 +865,7 @@ public class RhinoAST2Flowgraph {
 			}
 			case Token.TRUE:
 			case Token.FALSE: {
-				addNode(ConstantNode.makeBoolean(rn.getType() == Token.TRUE,
-						result_var, sloc), rn);
+				addNode(ConstantNode.makeBoolean(rn.getType() == Token.TRUE, result_var, sloc), rn);
 				break;
 			}
 			case Token.NULL: {
@@ -943,24 +882,17 @@ public class RhinoAST2Flowgraph {
 				AssumeNode assume;
 
 				if (rn.getLastChild().getType() == Token.STRING) {
-					read = new ReadPropertyNode(objVar, rn.getLastChild()
-							.getString(), result_var, sloc);
-					assume = AssumeNode.makePropertyNonNullUndef(objVar, rn
-							.getLastChild().getString(), read, sloc);
+					read = new ReadPropertyNode(objVar, rn.getLastChild().getString(), result_var, sloc);
+					assume = AssumeNode.makePropertyNonNullUndef(objVar, rn.getLastChild().getString(), read, sloc);
 				} else {
-					int strVar = translate(rn.getFirstChild().getNext(),
-							rContext.EXPR);
-					read = new ReadPropertyNode(objVar, strVar, result_var,
-							sloc);
-					assume = AssumeNode.makePropertyNonNullUndef(objVar,
-							strVar, read, sloc);
+					int strVar = translate(rn.getFirstChild().getNext(), rContext.EXPR);
+					read = new ReadPropertyNode(objVar, strVar, result_var, sloc);
+					assume = AssumeNode.makePropertyNonNullUndef(objVar, strVar, read, sloc);
 				}
 				addNode(read, rn);
 				if (rn.getFirstChild().getType() == Token.NAME)
-					addNode(AssumeNode.makeVariableNonNullUndef(rn
-							.getFirstChild().getString(), sloc), rn);
-				if (rn.getFirstChild().getType() == Token.SETPROP
-						|| rn.getFirstChild().getType() == Token.GETPROP) {
+					addNode(AssumeNode.makeVariableNonNullUndef(rn.getFirstChild().getString(), sloc), rn);
+				if (rn.getFirstChild().getType() == Token.SETPROP || rn.getFirstChild().getType() == Token.GETPROP) {
 					addNode(assumeStack.pop(), rn);
 				}
 				assumeStack.push(assume);
@@ -978,22 +910,16 @@ public class RhinoAST2Flowgraph {
 				int objVar = translate(objNode, rContext.EXPR);
 				if (propNode.getType() != Token.STRING) {
 					int strVar = translate(propNode, rContext.EXPR);
-					wn = new WritePropertyNode(objVar, strVar, translate(
-							valNode, result_var, rContext.EXPR), sloc);
-					ass = AssumeNode.makePropertyNonNullUndef(objVar, strVar,
-							wn, sloc);
+					wn = new WritePropertyNode(objVar, strVar, translate(valNode, result_var, rContext.EXPR), sloc);
+					ass = AssumeNode.makePropertyNonNullUndef(objVar, strVar, wn, sloc);
 				} else {
-					wn = new WritePropertyNode(objVar, propNode.getString(),
-							translate(valNode, result_var, rContext.EXPR), sloc);
-					ass = AssumeNode.makePropertyNonNullUndef(objVar,
-							propNode.getString(), wn, sloc);
+					wn = new WritePropertyNode(objVar, propNode.getString(), translate(valNode, result_var, rContext.EXPR), sloc);
+					ass = AssumeNode.makePropertyNonNullUndef(objVar, propNode.getString(), wn, sloc);
 				}
 				addNode(wn, rn);
 				if (rn.getFirstChild().getType() == Token.NAME)
-					addNode(AssumeNode.makeVariableNonNullUndef(rn
-							.getFirstChild().getString(), sloc), rn);
-				if (rn.getFirstChild().getType() == Token.SETPROP
-						|| rn.getFirstChild().getType() == Token.GETPROP) {
+					addNode(AssumeNode.makeVariableNonNullUndef(rn.getFirstChild().getString(), sloc), rn);
+				if (rn.getFirstChild().getType() == Token.SETPROP || rn.getFirstChild().getType() == Token.GETPROP) {
 					addNode(assumeStack.pop(), rn);
 				}
 				assumeStack.push(ass);
@@ -1007,16 +933,14 @@ public class RhinoAST2Flowgraph {
 				int base = translate(baseN, rContext.EXPR);
 				int prop = translate(propN, rContext.EXPR);
 				int op = nextTemporary();
-				ReadPropertyNode rpn = new ReadPropertyNode(base, prop, op,
-						sloc);
+				ReadPropertyNode rpn = new ReadPropertyNode(base, prop, op, sloc);
 				addNode(rpn, rn);
 				valueStack.push(op);
 				translate(propN.getNext(), result_var, rContext.EXPR);
 
 				WritePropertyNode wn;
 				if (propN.getType() == Token.STRING)
-					wn = new WritePropertyNode(base, propN.getString(),
-							result_var, sloc);
+					wn = new WritePropertyNode(base, propN.getString(), result_var, sloc);
 				else
 					wn = new WritePropertyNode(base, prop, result_var, sloc);
 				addNode(wn, rn);
@@ -1027,8 +951,7 @@ public class RhinoAST2Flowgraph {
 																	// function
 																	// calls.
 			case Token.THIS: {
-				ReadVariableNode read = new ReadVariableNode("this",
-						result_var, Node.NO_VALUE, sloc);
+				ReadVariableNode read = new ReadVariableNode("this", result_var, Node.NO_VALUE, sloc);
 				addNode(read, rn);
 				break;
 			}
@@ -1040,10 +963,8 @@ public class RhinoAST2Flowgraph {
 				 * Dependency: ContextDependencyNode
 				 * ############################################################
 				 */
-				ContextDependencyPopNode contextDependencyPopNode = new ContextDependencyPopNode(
-						sloc);
-				ContextDependencyPushNode contextDependencyPushNode = new ContextDependencyPushNode(
-						contextDependencyPopNode, sloc);
+				ContextDependencyPopNode contextDependencyPopNode = new ContextDependencyPopNode(sloc);
+				ContextDependencyPushNode contextDependencyPushNode = new ContextDependencyPushNode(contextDependencyPopNode, sloc);
 
 				// ##################################################
 				addNode(contextDependencyPushNode, rn);
@@ -1055,19 +976,16 @@ public class RhinoAST2Flowgraph {
 				addNode(contextDependencyPopNode, rn);
 				// ##################################################
 
-				if (rn.getFirstChild().getType() == Token.ENUM_INIT_KEYS
-						|| rn.getFirstChild().getNext().getType() == Token.ENUM_INIT_KEYS) // for-in
-																							// loop.
+				if (rn.getFirstChild().getType() == Token.ENUM_INIT_KEYS || rn.getFirstChild().getNext().getType() == Token.ENUM_INIT_KEYS) // for-in
+																																			// loop.
 					enumStack.pop();
 				result_var = -1;
 				break;
 			}
 			case Token.BREAK:
 			case Token.CONTINUE: {
-				org.mozilla.javascript.Node tar = (rn.getType() == Token.BREAK ? ((org.mozilla.javascript.Node.Jump) rn)
-						.getJumpStatement().target
-						: ((org.mozilla.javascript.Node.Jump) rn)
-								.getJumpStatement().getContinue());
+				org.mozilla.javascript.Node tar = (rn.getType() == Token.BREAK ? ((org.mozilla.javascript.Node.Jump) rn).getJumpStatement().target
+						: ((org.mozilla.javascript.Node.Jump) rn).getJumpStatement().getContinue());
 				if (locations.containsKey(tar))
 					currBB.addSuccessor(locations.get(tar));
 				else {
@@ -1106,8 +1024,7 @@ public class RhinoAST2Flowgraph {
 				BasicBlock oldBB = currBB;
 				if (finallyN != null && catchB != null) {
 					finallyStack.push(newBasicBlockNoSucc(true));
-					Map<org.mozilla.javascript.Node, BasicBlock> oldLocs = new HashMap<org.mozilla.javascript.Node, BasicBlock>(
-							locations);
+					Map<org.mozilla.javascript.Node, BasicBlock> oldLocs = new HashMap<org.mozilla.javascript.Node, BasicBlock>(locations);
 					boolean oldIg = ignorable;
 					ignorable = true;
 					int ex = nextTemporary();
@@ -1204,13 +1121,13 @@ public class RhinoAST2Flowgraph {
 				org.mozilla.javascript.Node nn = rn.getFirstChild();
 				int i = 0;
 				int arr = nextTemporary();
-				int[] skips = (int[]) rn
-						.getProp(org.mozilla.javascript.Node.SKIP_INDEXES_PROP);
+				int[] skips = (int[]) rn.getProp(org.mozilla.javascript.Node.SKIP_INDEXES_PROP);
 				int skip = 0;
 				int result_base_var = nextTemporary();
-				ReadVariableNode readArray = new ReadVariableNode("Array", arr,
-						result_base_var, sloc); // FIXME: need result_base_var
-												// here?
+				ReadVariableNode readArray = new ReadVariableNode("Array", arr, result_base_var, sloc); // FIXME:
+																										// need
+																										// result_base_var
+																										// here?
 				baseVarStack.push(result_base_var);
 				addNode(readArray, rn);
 				List<Integer> args = new LinkedList<Integer>();
@@ -1222,8 +1139,7 @@ public class RhinoAST2Flowgraph {
 				}
 
 				while (nn != null) {
-					if (skips != null && skip < skips.length
-							&& skips[skip] == i) {
+					if (skips != null && skip < skips.length && skips[skip] == i) {
 						skip++;
 						i++;
 						args.add(undef);
@@ -1246,18 +1162,15 @@ public class RhinoAST2Flowgraph {
 				 * Dependency: ContextDependencyNode
 				 * ############################################################
 				 */
-				ContextDependencyPopNode contextDependencyPopNode = new ContextDependencyPopNode(
-						sloc);
-				ContextDependencyPushNode contextDependencyPushNode = new ContextDependencyPushNode(
-						contextDependencyPopNode, sloc);
+				ContextDependencyPopNode contextDependencyPopNode = new ContextDependencyPopNode(sloc);
+				ContextDependencyPushNode contextDependencyPushNode = new ContextDependencyPushNode(contextDependencyPopNode, sloc);
 
 				// ##################################################
 				addNode(contextDependencyPushNode, rn);
 				// ##################################################
 
 				newBasicBlock();
-				CallNode cn = new CallNode(true, result_var, Node.NO_VALUE,
-						arr, arg_vars, sloc);
+				CallNode cn = new CallNode(true, result_var, Node.NO_VALUE, arr, arg_vars, sloc);
 				addNode(cn, rn);
 				newBasicBlock();
 
@@ -1268,8 +1181,7 @@ public class RhinoAST2Flowgraph {
 				break;
 			}
 			case Token.OBJECTLIT: { // {(prop: [exp])*}
-				Object[] propertyList = (Object[]) rn
-						.getProp(org.mozilla.javascript.Node.OBJECT_IDS_PROP);
+				Object[] propertyList = (Object[]) rn.getProp(org.mozilla.javascript.Node.OBJECT_IDS_PROP);
 				org.mozilla.javascript.Node n = rn.getFirstChild();
 				int nameIdx = 0;
 				NewObjectNode newObj = new NewObjectNode(res, result_var, sloc);
@@ -1280,14 +1192,11 @@ public class RhinoAST2Flowgraph {
 					Object propName = propertyList[nameIdx++];
 					// SPEC: 11.1.5 A property name can be either a string or
 					// number literal.
-					String name = propName instanceof Integer ? ((Integer) propName)
-							.toString() : (String) propName;
+					String name = propName instanceof Integer ? ((Integer) propName).toString() : (String) propName;
 					int propVar = nextTemporary();
-					ConstantNode str = ConstantNode.makeString(name, propVar,
-							sloc);
+					ConstantNode str = ConstantNode.makeString(name, propVar, sloc);
 					addNode(str, rn);
-					WritePropertyNode wn = new WritePropertyNode(result_var,
-							propVar, val, sloc);
+					WritePropertyNode wn = new WritePropertyNode(result_var, propVar, val, sloc);
 					addNode(wn, rn);
 
 					n = n.getNext();
@@ -1298,8 +1207,7 @@ public class RhinoAST2Flowgraph {
 				DeletePropertyNode dpn;
 				if (rn.getFirstChild().getType() != Token.BINDNAME) {
 					int obj = translate(rn.getFirstChild(), rContext.EXPR);
-					int prop = translate(rn.getFirstChild().getNext(),
-							rContext.EXPR);
+					int prop = translate(rn.getFirstChild().getNext(), rContext.EXPR);
 					dpn = new DeletePropertyNode(obj, prop, result_var, sloc);
 				} else {
 					String varName = rn.getFirstChild().getString();
@@ -1307,10 +1215,8 @@ public class RhinoAST2Flowgraph {
 				}
 				addNode(dpn, rn);
 				if (rn.getFirstChild().getType() == Token.NAME)
-					addNode(AssumeNode.makeVariableNonNullUndef(rn
-							.getFirstChild().getString(), sloc), rn);
-				if (rn.getFirstChild().getType() == Token.SETPROP
-						|| rn.getFirstChild().getType() == Token.GETPROP) {
+					addNode(AssumeNode.makeVariableNonNullUndef(rn.getFirstChild().getString(), sloc), rn);
+				if (rn.getFirstChild().getType() == Token.SETPROP || rn.getFirstChild().getType() == Token.GETPROP) {
 					addNode(assumeStack.pop(), rn);
 				}
 				break;
@@ -1322,18 +1228,15 @@ public class RhinoAST2Flowgraph {
 			}
 			case Token.OR:
 			case Token.AND: { // [exp] AND/OR [exp]
-				int valL = translate(rn.getFirstChild(), result_var,
-						rContext.EXPR);
+				int valL = translate(rn.getFirstChild(), result_var, rContext.EXPR);
 
 				/*
 				 * ############################################################
 				 * Dependency: ContextDependencyNode
 				 * ############################################################
 				 */
-				ContextDependencyPopNode contextDependencyPopNode = new ContextDependencyPopNode(
-						sloc);
-				ContextDependencyPushNode contextDependencyPushNode = new ContextDependencyPushNode(
-						contextDependencyPopNode, sloc);
+				ContextDependencyPopNode contextDependencyPopNode = new ContextDependencyPopNode(sloc);
+				ContextDependencyPushNode contextDependencyPushNode = new ContextDependencyPushNode(contextDependencyPopNode, sloc);
 
 				// ##################################################
 				addNode(contextDependencyPushNode, rn);
@@ -1346,8 +1249,7 @@ public class RhinoAST2Flowgraph {
 				BasicBlock falseBranch = newBasicBlock();
 				bPoint.addSuccessor(falseBranch);
 				bPoint.addSuccessor(trueBranch);
-				translate(rn.getFirstChild().getNext(), result_var,
-						rContext.EXPR);
+				translate(rn.getFirstChild().getNext(), result_var, rContext.EXPR);
 				currBB.addSuccessor(trueBranch);
 				addCurrentBasicBlock();
 				currBB = trueBranch;
@@ -1389,10 +1291,8 @@ public class RhinoAST2Flowgraph {
 				 * Dependency: ContextDependencyNode
 				 * ############################################################
 				 */
-				ContextDependencyPopNode contextDependencyPopNode = new ContextDependencyPopNode(
-						sloc);
-				ContextDependencyPushNode contextDependencyPushNode = new ContextDependencyPushNode(
-						contextDependencyPopNode, sloc);
+				ContextDependencyPopNode contextDependencyPopNode = new ContextDependencyPopNode(sloc);
+				ContextDependencyPushNode contextDependencyPushNode = new ContextDependencyPushNode(contextDependencyPopNode, sloc);
 
 				// ##################################################
 				addNode(contextDependencyPushNode, rn);
@@ -1428,10 +1328,8 @@ public class RhinoAST2Flowgraph {
 				 * Dependency: ContextDependencyNode
 				 * ############################################################
 				 */
-				ContextDependencyPopNode contextDependencyPopNode = new ContextDependencyPopNode(
-						sloc);
-				ContextDependencyPushNode contextDependencyPushNode = new ContextDependencyPushNode(
-						contextDependencyPopNode, sloc);
+				ContextDependencyPopNode contextDependencyPopNode = new ContextDependencyPopNode(sloc);
+				ContextDependencyPushNode contextDependencyPushNode = new ContextDependencyPushNode(contextDependencyPopNode, sloc);
 
 				// ##################################################
 				addNode(contextDependencyPushNode, rn);
@@ -1451,8 +1349,7 @@ public class RhinoAST2Flowgraph {
 				breakStack.pop();
 
 				// ##################################################
-				m_ContextDependencyNodes.put(rn.getLastSibling(),
-						contextDependencyPopNode);
+				m_ContextDependencyNodes.put(rn.getLastSibling(), contextDependencyPopNode);
 				// ##################################################
 
 				break;
@@ -1461,8 +1358,7 @@ public class RhinoAST2Flowgraph {
 				BasicBlock target = getTarget(((org.mozilla.javascript.Node.Jump) rn).target);
 				int compTo = translate(rn.getFirstChild(), rContext.EXPR);
 				int resV = nextTemporary();
-				BinaryOperatorNode bn = new BinaryOperatorNode(Op.EQ,
-						switchVarStack.peek(), compTo, resV, sloc);
+				BinaryOperatorNode bn = new BinaryOperatorNode(Op.EQ, switchVarStack.peek(), compTo, resV, sloc);
 				addNode(bn, rn);
 				IfNode ifn = new IfNode(resV, sloc);
 				addNode(ifn, rn);
@@ -1481,24 +1377,21 @@ public class RhinoAST2Flowgraph {
 			}
 			case Token.REGEXP: { // /[regexp]/[flags]
 				// translate into -> new RegExp(exp,flags).
-				int regexIdx = rn.getIntProp(
-						org.mozilla.javascript.Node.REGEXP_PROP, -1);
+				int regexIdx = rn.getIntProp(org.mozilla.javascript.Node.REGEXP_PROP, -1);
 				String flags = getTop().getRegexpFlags(regexIdx);
 				String str = getTop().getRegexpString(regexIdx);
 
 				int strVar = nextTemporary();
 				int flagsVar = nextTemporary();
-				ConstantNode strNode = ConstantNode.makeString(str, strVar,
-						sloc);
-				ConstantNode flagsNode = ConstantNode.makeString(flags,
-						flagsVar, sloc);
+				ConstantNode strNode = ConstantNode.makeString(str, strVar, sloc);
+				ConstantNode flagsNode = ConstantNode.makeString(flags, flagsVar, sloc);
 				addNode(strNode, rn);
 				addNode(flagsNode, rn);
 				int cons = nextTemporary();
-				ReadVariableNode readRegExpConstructor = new ReadVariableNode(
-						"RegExp", cons, nextTemporary(), sloc);// FIXME: need
-																// result_base_var
-																// here?
+				ReadVariableNode readRegExpConstructor = new ReadVariableNode("RegExp", cons, nextTemporary(), sloc);// FIXME:
+																														// need
+																														// result_base_var
+																														// here?
 				addNode(readRegExpConstructor, rn);
 
 				/*
@@ -1506,18 +1399,15 @@ public class RhinoAST2Flowgraph {
 				 * Dependency: ContextDependencyNode
 				 * ############################################################
 				 */
-				ContextDependencyPopNode contextDependencyPopNode = new ContextDependencyPopNode(
-						sloc);
-				ContextDependencyPushNode contextDependencyPushNode = new ContextDependencyPushNode(
-						contextDependencyPopNode, sloc);
+				ContextDependencyPopNode contextDependencyPopNode = new ContextDependencyPopNode(sloc);
+				ContextDependencyPushNode contextDependencyPushNode = new ContextDependencyPushNode(contextDependencyPopNode, sloc);
 
 				// ##################################################
 				addNode(contextDependencyPushNode, rn);
 				// ##################################################
 
 				newBasicBlock();
-				CallNode cn = new CallNode(true, result_var, Node.NO_VALUE,
-						cons, new int[] { strVar, flagsVar }, sloc);
+				CallNode cn = new CallNode(true, result_var, Node.NO_VALUE, cons, new int[] { strVar, flagsVar }, sloc);
 				addNode(cn, rn);
 				newBasicBlock();
 
@@ -1528,21 +1418,18 @@ public class RhinoAST2Flowgraph {
 				break;
 			}
 			case Token.ENUM_INIT_KEYS: {
-				GetPropertiesNode gp = new GetPropertiesNode(translate(
-						rn.getFirstChild(), rContext.EXPR), result_var, sloc);
+				GetPropertiesNode gp = new GetPropertiesNode(translate(rn.getFirstChild(), rContext.EXPR), result_var, sloc);
 				addNode(gp, rn);
 				enumStack.push(result_var);
 				break;
 			}
 			case Token.ENUM_ID: {
-				NextPropertyNode gn = new NextPropertyNode(enumStack.peek(),
-						result_var, sloc);
+				NextPropertyNode gn = new NextPropertyNode(enumStack.peek(), result_var, sloc);
 				addNode(gn, rn);
 				break;
 			}
 			case Token.ENUM_NEXT: {
-				HasNextPropertyNode hn = new HasNextPropertyNode(
-						enumStack.peek(), result_var, sloc);
+				HasNextPropertyNode hn = new HasNextPropertyNode(enumStack.peek(), result_var, sloc);
 				addNode(hn, rn);
 				break;
 			}
@@ -1551,8 +1438,7 @@ public class RhinoAST2Flowgraph {
 				break;
 			}
 			default:
-				throw new RuntimeException("Unknown node type: "
-						+ Token.name(rn.getType()) + " at " + sloc);
+				throw new RuntimeException("Unknown node type: " + Token.name(rn.getType()) + " at " + sloc);
 			}
 			if (rn.getLineno() > 0)
 				linenoStack.pop();
@@ -1641,8 +1527,7 @@ public class RhinoAST2Flowgraph {
 			case Token.IN:
 				return Op.IN;
 			default:
-				throw new RuntimeException("Unknown binary operator: "
-						+ rhinoType);
+				throw new RuntimeException("Unknown binary operator: " + rhinoType);
 			}
 		}
 
@@ -1660,8 +1545,7 @@ public class RhinoAST2Flowgraph {
 			case Token.NEG:
 				return UnaryOperatorNode.Op.MINUS;
 			default:
-				throw new RuntimeException("Unknown unary operator: "
-						+ rhinoType);
+				throw new RuntimeException("Unknown unary operator: " + rhinoType);
 			}
 		}
 
@@ -1705,8 +1589,7 @@ public class RhinoAST2Flowgraph {
 		 */
 		private void addNode(Node n, org.mozilla.javascript.Node rhinoNode) {
 			if (currBB.isAdded())
-				throw new RuntimeException(
-						"Adding node to already added BasicBlock!");
+				throw new RuntimeException("Adding node to already added BasicBlock!");
 			if (ignorable)
 				graph.addIgnorableNode(n);
 			currBB.addNode(n);
