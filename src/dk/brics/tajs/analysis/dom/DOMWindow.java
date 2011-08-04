@@ -1,46 +1,48 @@
 package dk.brics.tajs.analysis.dom;
 
-import dk.brics.tajs.analysis.Conversion;
-import dk.brics.tajs.analysis.FunctionCalls.CallInfo;
-import dk.brics.tajs.analysis.InitialStateBuilder;
-import dk.brics.tajs.analysis.NativeFunctions;
-import dk.brics.tajs.analysis.Solver;
-import dk.brics.tajs.analysis.State;
-import dk.brics.tajs.analysis.dom.core.DOMDocument;
-import dk.brics.tajs.analysis.dom.html.HTMLDocument;
-import dk.brics.tajs.dependency.Dependency;
-import dk.brics.tajs.dependency.graph.DependencyGraphReference;
-import dk.brics.tajs.flowgraph.Function;
-import dk.brics.tajs.flowgraph.ObjectLabel;
-import dk.brics.tajs.flowgraph.ObjectLabel.Kind;
-import dk.brics.tajs.lattice.Value;
-import dk.brics.tajs.options.Options;
-
 import static dk.brics.tajs.analysis.dom.DOMFunctions.createDOMFunction;
 import static dk.brics.tajs.analysis.dom.DOMFunctions.createDOMProperty;
 import static dk.brics.tajs.analysis.dom.DOMFunctions.createDOMInternalPrototype;
 
+import dk.brics.tajs.analysis.Conversion;
+import dk.brics.tajs.analysis.FunctionCalls;
+import dk.brics.tajs.analysis.InitialStateBuilder;
+import dk.brics.tajs.analysis.NativeFunctions;
+import dk.brics.tajs.analysis.Solver;
+import dk.brics.tajs.analysis.State;
+import dk.brics.tajs.dependency.Dependency;
+import dk.brics.tajs.dependency.graph.DependencyGraphReference;
+import dk.brics.tajs.flowgraph.Function;
+import dk.brics.tajs.flowgraph.Node;
+import dk.brics.tajs.flowgraph.ObjectLabel;
+import dk.brics.tajs.flowgraph.ObjectLabel.Kind;
+import dk.brics.tajs.lattice.Value;
+import dk.brics.tajs.options.Options;
 
 /**
  * DOM Window
  */
 public class DOMWindow {
 
-	public static ObjectLabel WINDOW = InitialStateBuilder.GLOBAL;
+	public static ObjectLabel WINDOW;
 
-	public static ObjectLabel HISTORY = new ObjectLabel(DOMObjects.WINDOW_HISTORY, Kind.OBJECT);
-	public static ObjectLabel LOCATION = new ObjectLabel(DOMObjects.WINDOW_LOCATION, Kind.OBJECT);
-	public static ObjectLabel NAVIGATOR = new ObjectLabel(DOMObjects.WINDOW_NAVIGATOR, Kind.OBJECT);
-	public static ObjectLabel SCREEN = new ObjectLabel(DOMObjects.WINDOW_SCREEN, Kind.OBJECT);
+	public static ObjectLabel HISTORY;
+	public static ObjectLabel LOCATION;
+	public static ObjectLabel NAVIGATOR;
+	public static ObjectLabel SCREEN;
 
 	public static void build(State s) {
+		HISTORY = new ObjectLabel(DOMObjects.WINDOW_HISTORY, Kind.OBJECT);
+		LOCATION = new ObjectLabel(DOMObjects.WINDOW_LOCATION, Kind.OBJECT);
+		NAVIGATOR = new ObjectLabel(DOMObjects.WINDOW_NAVIGATOR, Kind.OBJECT);
+		SCREEN = new ObjectLabel(DOMObjects.WINDOW_SCREEN, Kind.OBJECT);
+
 		// NB: The WINDOW object has already been instantiated.
 
 		/*
 		 * Properties.
 		 */
 		// DOM LEVEL 0
-		createDOMProperty(s, WINDOW, "document", Value.makeObject(HTMLDocument.DOCUMENT, new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_0);
 		createDOMProperty(s, WINDOW, "innerHeight", Value.makeAnyNumUInt(new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_0);
 		createDOMProperty(s, WINDOW, "innerWidth", Value.makeAnyNumUInt(new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_0);
 		createDOMProperty(s, WINDOW, "length", Value.makeAnyNumUInt(new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_0);
@@ -101,7 +103,8 @@ public class DOMWindow {
 		 * WINDOW HISTORY object
 		 */
 		s.newObject(HISTORY);
-		createDOMInternalPrototype(s, HISTORY, Value.makeObject(InitialStateBuilder.OBJECT_PROTOTYPE, new Dependency(), new DependencyGraphReference()));
+		DOMFunctions.createDOMInternalPrototype(s, HISTORY,
+				Value.makeObject(InitialStateBuilder.OBJECT_PROTOTYPE, new Dependency(), new DependencyGraphReference()));
 		// Properties.
 		createDOMProperty(s, HISTORY, "length", Value.makeAnyNumUInt(new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_0);
 		createDOMProperty(s, WINDOW, "history", Value.makeObject(HISTORY, new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_0);
@@ -116,7 +119,7 @@ public class DOMWindow {
 		s.newObject(LOCATION);
 		createDOMInternalPrototype(s, LOCATION, Value.makeObject(InitialStateBuilder.OBJECT_PROTOTYPE, new Dependency(), new DependencyGraphReference()));
 		createDOMProperty(s, WINDOW, "location", Value.makeObject(LOCATION, new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_0);
-		createDOMProperty(s, DOMDocument.DOCUMENT, "location", Value.makeObject(LOCATION, new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_0);
+
 		// Properties.
 		createDOMProperty(s, LOCATION, "hash", Value.makeAnyStr(new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_0);
 		createDOMProperty(s, LOCATION, "host", Value.makeAnyStr(new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_0);
@@ -164,7 +167,7 @@ public class DOMWindow {
 		createDOMProperty(s, SCREEN, "width", Value.makeAnyNumUInt(new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_0);
 	}
 
-	public static Value evaluate(DOMObjects nativeObject, final CallInfo call, State s, Solver.SolverInterface c) {
+	public static Value evaluate(DOMObjects nativeObject, final FunctionCalls.CallInfo<? extends Node> call, State s, Solver.SolverInterface c) {
 		switch (nativeObject) {
 		case WINDOW_ALERT: {
 			NativeFunctions.expectParameters(nativeObject, call, c, 1, 1);
@@ -233,7 +236,7 @@ public class DOMWindow {
 		}
 		case WINDOW_HISTORY_GO: {
 			NativeFunctions.expectParameters(nativeObject, call, c, 1, 1);
-			Value v = Conversion.toNumber(call.getArg(0), c);
+			/* Value v = */Conversion.toNumber(call.getArg(0), c);
 			return Value.makeUndef(new Dependency(), new DependencyGraphReference());
 		}
 		case WINDOW_HOME: {
@@ -242,17 +245,17 @@ public class DOMWindow {
 		}
 		case WINDOW_LOCATION_ASSIGN: {
 			NativeFunctions.expectParameters(nativeObject, call, c, 1, 1);
-			Value url = Conversion.toString(call.getArg(0), c);
+			/* Value url = */Conversion.toString(call.getArg(0), c);
 			return Value.makeUndef(new Dependency(), new DependencyGraphReference());
 		}
 		case WINDOW_LOCATION_RELOAD: {
 			NativeFunctions.expectParameters(nativeObject, call, c, 1, 1);
-			Value url = Conversion.toBoolean(call.getArg(0));
+			/* Value url = */Conversion.toBoolean(call.getArg(0));
 			return Value.makeUndef(new Dependency(), new DependencyGraphReference());
 		}
 		case WINDOW_LOCATION_REPLACE: {
 			NativeFunctions.expectParameters(nativeObject, call, c, 1, 1);
-			Value url = Conversion.toString(call.getArg(0), c);
+			/* Value url = */Conversion.toString(call.getArg(0), c);
 			return Value.makeUndef(new Dependency(), new DependencyGraphReference());
 		}
 		case WINDOW_LOCATION_TOSTRING: {
@@ -344,24 +347,26 @@ public class DOMWindow {
 			NativeFunctions.expectParameters(nativeObject, call, c, 2, 2);
 			Value functionOrCode = call.getArg(0);
 
-			// Handle string lattice before passing to DOMFunctions.addTimeoutHandler
+			// Handle string lattice before passing to
+			// DOMFunctions.addTimeoutHandler
 			if (functionOrCode.isMaybeSingleStr()) {
 				// FIXME: only works if no parameters?!
-						// Hack, to get somewhat better precision (to handle cases where some writes 'foo(new Dependency(), new DependencyGraphReference())')
-			String functionName = functionOrCode.getStr();
-			if (functionName.endsWith("(new Dependency(), new DependencyGraphReference())")) {
-				functionName = functionName.substring(0, functionName.length() - 2);
-			} else if (functionName.endsWith("(new Dependency(), new DependencyGraphReference());")) {
-				functionName = functionName.substring(0, functionName.length() - 3);
-			}
+				// Hack, to get somewhat better precision (to handle cases where
+				// some writes 'foo()')
+				String functionName = functionOrCode.getStr();
+				if (functionName.endsWith("()")) {
+					functionName = functionName.substring(0, functionName.length() - 2);
+				} else if (functionName.endsWith("();")) {
+					functionName = functionName.substring(0, functionName.length() - 3);
+				}
 
-			Function f = c.getFlowGraph().getFunction(functionName);
-			if (f != null) {
-				// We got lucky, found a matching function
-				s.addTimeoutHandler(new ObjectLabel(f));
-				return Value.makeAnyNumUInt(new Dependency(), new DependencyGraphReference());
-			}
-			throw new UnsupportedOperationException("setInterval/setTimeout expects an existing function with no arguments as argument.");
+				Function f = c.getFlowGraph().getFunction(functionName);
+				if (f != null) {
+					// We got lucky, found a matching function
+					s.addTimeoutHandler(new ObjectLabel(f));
+					return Value.makeAnyNumUInt(new Dependency(), new DependencyGraphReference());
+				}
+				throw new UnsupportedOperationException("setInterval/setTimeout expects an existing function with no arguments as argument.");
 			} else if (functionOrCode.isMaybeAnyStr()) {
 				throw new UnsupportedOperationException("Can't handle arbitrary strings in setInterval/setTimeout.");
 			}

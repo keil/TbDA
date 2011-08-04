@@ -1,18 +1,12 @@
 package dk.brics.tajs.analysis.dom;
 
 import dk.brics.tajs.analysis.State;
-import dk.brics.tajs.dependency.Dependency;
-import dk.brics.tajs.dependency.graph.DependencyGraphReference;
 import dk.brics.tajs.flowgraph.ObjectLabel;
+import dk.brics.tajs.options.Options;
+import org.jdom.Document;
+import org.jdom.Element;
 
 import java.util.Collections;
-
-import dk.brics.tajs.lattice.Value;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-
-import static dk.brics.tajs.analysis.dom.DOMFunctions.createDOMProperty;
-
 
 public class DOMVisitor extends HTMLVisitorImpl {
 
@@ -27,28 +21,33 @@ public class DOMVisitor extends HTMLVisitorImpl {
 	public void visit(Element element) {
 		super.visit(element);
 
+		// Ignore HTML content?
+		if (Options.isIgnoreHTMLContent()) {
+			return;
+		}
+
 		// Pick up special properties
-		ObjectLabel label = DOMFunctions.getHTMLObjectLabel(element.getTagName());
+		ObjectLabel label = DOMFunctions.getHTMLObjectLabel(element.getName());
 		if (label != null) {
 			// Special Property: id
-			String id = element.getAttribute("id");
-			if (id.length() != 0) {
+			String id = element.getAttributeValue("id");
+			if (id != null) {
 				s.addElementById(id, Collections.singleton(label));
 
-				// TODO: What about clashes?
-				// An element with id FOO is available as FOO
-				createDOMProperty(s, DOMWindow.WINDOW, id, Value.makeObject(label, new Dependency(), new DependencyGraphReference()));
+				// TODO An element with id FOO is available as FOO
+				// DOMFunctions.createDOMProperty(DOMWindow.WINDOW, id,
+				// Value.makeObject(label));
 			}
 
 			// Special Property: name
-			String name = element.getAttribute("name");
-			if (name.length() != 0) {
+			String name = element.getAttributeValue("name");
+			if (name != null) {
 				s.addElementByName(name, Collections.singleton(label));
 			}
 
 			// Special Property: tagName
-			String tagname = element.getTagName();
-			if (tagname.length() != 0) {
+			String tagname = element.getName();
+			if (tagname != null) {
 				s.addElementByTagName(tagname, Collections.singleton(label));
 			}
 		}

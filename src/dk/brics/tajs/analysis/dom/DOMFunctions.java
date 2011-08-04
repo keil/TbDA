@@ -1,100 +1,35 @@
 package dk.brics.tajs.analysis.dom;
 
-import static dk.brics.tajs.analysis.InitialStateBuilder.FUNCTION_PROTOTYPE;
-import static dk.brics.tajs.analysis.InitialStateBuilder.createInternalPrototype;
-import static dk.brics.tajs.analysis.InitialStateBuilder.createPrimitiveFunction;
-import static dk.brics.tajs.analysis.InitialStateBuilder.createProperty;
-import static dk.brics.tajs.analysis.InitialStateBuilder.createSpecialProperty;
-import static dk.brics.tajs.analysis.InitialStateBuilder.createUnknownArrayProperty;
-import dk.brics.tajs.analysis.FunctionCalls.CallInfo;
+import dk.brics.tajs.analysis.FunctionCalls;
 import dk.brics.tajs.analysis.InitialStateBuilder;
 import dk.brics.tajs.analysis.Solver;
 import dk.brics.tajs.analysis.State;
-import dk.brics.tajs.analysis.dom.core.DOMCharacterData;
-import dk.brics.tajs.analysis.dom.core.DOMConfiguration;
-import dk.brics.tajs.analysis.dom.core.DOMDocument;
-import dk.brics.tajs.analysis.dom.core.DOMElement;
-import dk.brics.tajs.analysis.dom.core.DOMImplementation;
-import dk.brics.tajs.analysis.dom.core.DOMNamedNodeMap;
-import dk.brics.tajs.analysis.dom.core.DOMNode;
-import dk.brics.tajs.analysis.dom.core.DOMNodeList;
-import dk.brics.tajs.analysis.dom.core.DOMStringList;
-import dk.brics.tajs.analysis.dom.core.DOMText;
-import dk.brics.tajs.analysis.dom.event.DocumentEvent;
-import dk.brics.tajs.analysis.dom.event.Event;
-import dk.brics.tajs.analysis.dom.event.EventListener;
-import dk.brics.tajs.analysis.dom.event.EventTarget;
-import dk.brics.tajs.analysis.dom.event.KeyboardEvent;
-import dk.brics.tajs.analysis.dom.event.MouseEvent;
-import dk.brics.tajs.analysis.dom.event.MutationEvent;
-import dk.brics.tajs.analysis.dom.event.UIEvent;
-import dk.brics.tajs.analysis.dom.event.WheelEvent;
-import dk.brics.tajs.analysis.dom.html.HTMLAnchorElement;
-import dk.brics.tajs.analysis.dom.html.HTMLAppletElement;
-import dk.brics.tajs.analysis.dom.html.HTMLAreaElement;
-import dk.brics.tajs.analysis.dom.html.HTMLBRElement;
-import dk.brics.tajs.analysis.dom.html.HTMLBaseElement;
-import dk.brics.tajs.analysis.dom.html.HTMLBaseFontElement;
-import dk.brics.tajs.analysis.dom.html.HTMLBodyElement;
-import dk.brics.tajs.analysis.dom.html.HTMLBuilder;
-import dk.brics.tajs.analysis.dom.html.HTMLButtonElement;
-import dk.brics.tajs.analysis.dom.html.HTMLCollection;
-import dk.brics.tajs.analysis.dom.html.HTMLDListElement;
-import dk.brics.tajs.analysis.dom.html.HTMLDirectoryElement;
-import dk.brics.tajs.analysis.dom.html.HTMLDivElement;
-import dk.brics.tajs.analysis.dom.html.HTMLDocument;
-import dk.brics.tajs.analysis.dom.html.HTMLElement;
-import dk.brics.tajs.analysis.dom.html.HTMLFieldSetElement;
-import dk.brics.tajs.analysis.dom.html.HTMLFontElement;
-import dk.brics.tajs.analysis.dom.html.HTMLFormElement;
-import dk.brics.tajs.analysis.dom.html.HTMLFrameElement;
-import dk.brics.tajs.analysis.dom.html.HTMLFrameSetElement;
-import dk.brics.tajs.analysis.dom.html.HTMLHRElement;
-import dk.brics.tajs.analysis.dom.html.HTMLHeadElement;
-import dk.brics.tajs.analysis.dom.html.HTMLHeadingElement;
-import dk.brics.tajs.analysis.dom.html.HTMLHtmlElement;
-import dk.brics.tajs.analysis.dom.html.HTMLIFrameElement;
-import dk.brics.tajs.analysis.dom.html.HTMLImageElement;
-import dk.brics.tajs.analysis.dom.html.HTMLInputElement;
-import dk.brics.tajs.analysis.dom.html.HTMLIsIndexElement;
-import dk.brics.tajs.analysis.dom.html.HTMLLIElement;
-import dk.brics.tajs.analysis.dom.html.HTMLLabelElement;
-import dk.brics.tajs.analysis.dom.html.HTMLLegendElement;
-import dk.brics.tajs.analysis.dom.html.HTMLLinkElement;
-import dk.brics.tajs.analysis.dom.html.HTMLMapElement;
-import dk.brics.tajs.analysis.dom.html.HTMLMenuElement;
-import dk.brics.tajs.analysis.dom.html.HTMLMetaElement;
-import dk.brics.tajs.analysis.dom.html.HTMLModElement;
-import dk.brics.tajs.analysis.dom.html.HTMLOListElement;
-import dk.brics.tajs.analysis.dom.html.HTMLObjectElement;
-import dk.brics.tajs.analysis.dom.html.HTMLOptGroupElement;
-import dk.brics.tajs.analysis.dom.html.HTMLOptionElement;
-import dk.brics.tajs.analysis.dom.html.HTMLOptionsCollection;
-import dk.brics.tajs.analysis.dom.html.HTMLParagraphElement;
-import dk.brics.tajs.analysis.dom.html.HTMLParamElement;
-import dk.brics.tajs.analysis.dom.html.HTMLPreElement;
-import dk.brics.tajs.analysis.dom.html.HTMLQuoteElement;
-import dk.brics.tajs.analysis.dom.html.HTMLScriptElement;
-import dk.brics.tajs.analysis.dom.html.HTMLSelectElement;
-import dk.brics.tajs.analysis.dom.html.HTMLStyleElement;
-import dk.brics.tajs.analysis.dom.html.HTMLTableCaptionElement;
-import dk.brics.tajs.analysis.dom.html.HTMLTableCellElement;
-import dk.brics.tajs.analysis.dom.html.HTMLTableColElement;
-import dk.brics.tajs.analysis.dom.html.HTMLTableElement;
-import dk.brics.tajs.analysis.dom.html.HTMLTableRowElement;
-import dk.brics.tajs.analysis.dom.html.HTMLTableSectionElement;
-import dk.brics.tajs.analysis.dom.html.HTMLTextAreaElement;
-import dk.brics.tajs.analysis.dom.html.HTMLTitleElement;
-import dk.brics.tajs.analysis.dom.html.HTMLUListElement;
+import dk.brics.tajs.analysis.dom.ajax.ActiveXObject;
+import dk.brics.tajs.analysis.dom.ajax.JSONObject;
+import dk.brics.tajs.analysis.dom.ajax.XmlHttpRequest;
+import dk.brics.tajs.analysis.dom.core.*;
+import dk.brics.tajs.analysis.dom.event.*;
+import dk.brics.tajs.analysis.dom.html.*;
 import dk.brics.tajs.analysis.dom.html5.CanvasRenderingContext2D;
+import dk.brics.tajs.analysis.dom.html5.HTML5Builder;
 import dk.brics.tajs.analysis.dom.html5.HTMLCanvasElement;
-import dk.brics.tajs.dependency.Dependency;
-import dk.brics.tajs.dependency.graph.DependencyGraphReference;
+import dk.brics.tajs.analysis.dom.html5.StorageElement;
 import dk.brics.tajs.flowgraph.NativeObject;
+import dk.brics.tajs.flowgraph.Node;
 import dk.brics.tajs.flowgraph.ObjectLabel;
 import dk.brics.tajs.lattice.Value;
 import dk.brics.tajs.options.Options;
 import dk.brics.tajs.util.Collections;
+
+import static dk.brics.tajs.analysis.InitialStateBuilder.FUNCTION_PROTOTYPE;
+import static dk.brics.tajs.analysis.InitialStateBuilder.createPrimitiveFunction;
+import static dk.brics.tajs.analysis.InitialStateBuilder.createInternalPrototype;
+import static dk.brics.tajs.analysis.InitialStateBuilder.createProperty;
+import static dk.brics.tajs.analysis.InitialStateBuilder.createSpecialProperty;
+import static dk.brics.tajs.analysis.InitialStateBuilder.createUnknownArrayProperty;
+
+import dk.brics.tajs.dependency.Dependency;
+import dk.brics.tajs.dependency.graph.DependencyGraphReference;
 
 /**
  * Dispatcher and utility functions for the DOM support
@@ -106,25 +41,20 @@ public class DOMFunctions {
 	 * 
 	 * DOM Level 0: Window.location
 	 * 
-	 * DOM Level 2 Core:
-	 * Attr.value -> raises DOMEx on setting
+	 * DOM Level 2 Core: Attr.value -> raises DOMEx on setting
 	 * CharacterData.data -> raises DOMEx on setting and retrieval
-	 * Node.nodeValue -> raises DOMEx on setting and retrieval
-	 * Node.prefix -> raises DOMEx on setting
-	 * ProcessingInstruction.data -> raises DOMEx on setting
+	 * Node.nodeValue -> raises DOMEx on setting and retrieval Node.prefix ->
+	 * raises DOMEx on setting ProcessingInstruction.data -> raises DOMEx on
+	 * setting
 	 * 
-	 * DOm Level 3:
-	 * Document.xmlStandalone -> raises DOMEx on setting
+	 * DOm Level 3: Document.xmlStandalone -> raises DOMEx on setting
 	 * Document.xmlVersion -> raises DOMEx on setting
 	 * 
-	 * DOM HTML:
-	 * HTMLDocument.cookie -> raises DOMEx on setting
-	 * Element.id, Element.name, Element.className, Element.innerHTML,
-	 * Element.onX -> raises DOMEx on setting
-	 * SelectElement.length -> raises DOMEx on setting
-	 * TableElement.caption -> raises DOMEx on setting
-	 * TableElement.tHead -> raises DOMEx on setting
-	 * TableElement.tFoot -> raises DOMEx on setting
+	 * DOM HTML: HTMLDocument.cookie -> raises DOMEx on setting Element.id,
+	 * Element.name, Element.className, Element.innerHTML, Element.onX -> raises
+	 * DOMEx on setting SelectElement.length -> raises DOMEx on setting
+	 * TableElement.caption -> raises DOMEx on setting TableElement.tHead ->
+	 * raises DOMEx on setting TableElement.tFoot -> raises DOMEx on setting
 	 * HTMLOptionsCollection.length -> raises DOMEx on setting
 	 */
 
@@ -162,10 +92,11 @@ public class DOMFunctions {
 		}
 
 		// The image.onload properties
-		if (nativeObject == HTMLImageElement.IMAGE.getNativeObjectID()) {
+		if (nativeObject == HTMLImageElement.INSTANCES.getNativeObjectID()) {
 			// Load Event Handler
 
-			// TODO: Hack: We currently treat image onload event handlers similarly to timeout event handlers
+			// TODO: Hack: We currently treat image onload event handlers
+			// similarly to timeout event handlers
 			// might make a difference in practice.
 			s.addTimeoutEventHandler(DOMConversion.toEventHandler(s, v, c).getObjectLabels());
 		}
@@ -184,6 +115,17 @@ public class DOMFunctions {
 				System.out.println("Adding Mouse Event Handler: " + v);
 			}
 			DOMEvents.addMouseEventHandler(s, v, c);
+		}
+
+		// AJAX Event Handlers
+		if (DOMEvents.isAjaxEventProperty(property)) {
+			if (Options.isDebugEnabled()) {
+				System.out.println("Adding AJAX Event Handler: " + v);
+			}
+			// TODO: check object-label
+			if (label == ActiveXObject.INSTANCES || label == XmlHttpRequest.INSTANCES) {
+				DOMEvents.addAjaxEventHandler(s, v, c);
+			}
 		}
 
 		// Unknown Event Handlers
@@ -206,7 +148,7 @@ public class DOMFunctions {
 	}
 
 	/**
-	 * Create a new DOM internam prototype with the given name and value on the specified
+	 * Create a new DOM property with the given name and value on the specified
 	 * objectlabel.
 	 */
 	public static void createDOMInternalPrototype(State s, ObjectLabel objlabel, Value value) {
@@ -214,8 +156,8 @@ public class DOMFunctions {
 	}
 
 	/**
-	 * Create a new DOM unknown array with the given name and value on the specified
-	 * objectlabel.
+	 * Create a new DOM unknown array with the given name and value on the
+	 * specified objectlabel.
 	 */
 	public static void createDOMUnknownArrayProperty(State s, ObjectLabel objlabel, Value value) {
 		createUnknownArrayProperty(s, objlabel, value);
@@ -233,19 +175,20 @@ public class DOMFunctions {
 	 * Create a new DOM property with the given name and value on the specified
 	 * objectlabel.
 	 */
-	public static void createDOMProperty(State s, ObjectLabel objlabel, String property, Value v, DOMSpec spec) {
+
+	public static void createDOMProperty(State s, ObjectLabel label, String property, Value v, DOMSpec spec) {
 		s.getSolverInterface().getStatistics().registerDOMProperty(spec);
-		createProperty(s, objlabel, property, v);
+		s.writeProperty(label, property, v);
 	}
 
 	/**
-	 * Create a new DOM special property with the given name and value on the specified
-	 * objectlabel.
+	 * Create a new DOM special property with the given name and value on the
+	 * specified objectlabel.
 	 */
 	public static void createDOMSpecialProperty(State s, ObjectLabel target, String propertyname, Value value) {
 		createSpecialProperty(s, target, propertyname, value);
 	}
-	
+
 	/**
 	 * Create a new DOM function with the given name and number of arguments on
 	 * the specified objectlabel.
@@ -256,10 +199,24 @@ public class DOMFunctions {
 	}
 
 	/**
+	 * Returns a Value representing all possible JSON objects.
+	 */
+	public static Value makeAnyJSONObject(State s) {
+		ObjectLabel label = JSONObject.JSON_OBJECT;
+		s.newObject(label);
+		s.writeInternalPrototype(label, Value.makeObject(InitialStateBuilder.OBJECT_PROTOTYPE, new Dependency(), new DependencyGraphReference()));
+		Value v = Value.makeObject(label, new Dependency(), new DependencyGraphReference()).joinAnyStr().joinAnyNum().joinAnyBool();
+		s.writeDefaultArrayIndexProperty(label, v, true);
+		s.writeDefaultNonArrayIndexProperty(label, v, true);
+		return v;
+	}
+
+	/**
 	 * Returns a Value representing all possible HTML elements.
 	 */
 	public static Value makeAnyHTMLElement() {
-		return Value.makeObject(HTMLBuilder.HTML_OBJECT_LABELS, new Dependency(), new DependencyGraphReference());
+		return Value.makeObject(HTMLBuilder.HTML_OBJECT_LABELS, new Dependency(), new DependencyGraphReference()).join(
+				Value.makeObject(HTML5Builder.HTML5_OBJECT_LABELS, new Dependency(), new DependencyGraphReference()));
 	}
 
 	/**
@@ -276,9 +233,7 @@ public class DOMFunctions {
 	 * Returns a new empty NodeList object.
 	 */
 	public static ObjectLabel makeEmptyNodeList(State s) {
-		ObjectLabel nodeList = new ObjectLabel(DOMObjects.NODELIST, ObjectLabel.Kind.OBJECT);
-		s.newObject(nodeList);
-		s.writeInternalPrototype(nodeList, Value.makeObject(InitialStateBuilder.OBJECT_PROTOTYPE, new Dependency(), new DependencyGraphReference()));
+		ObjectLabel nodeList = DOMNodeList.INSTANCES;
 		return nodeList;
 	}
 
@@ -287,125 +242,117 @@ public class DOMFunctions {
 	 */
 	public static ObjectLabel getHTMLObjectLabel(String tagname) {
 		if ("a".equalsIgnoreCase(tagname)) {
-			return HTMLAnchorElement.ANCHOR;
+			return HTMLAnchorElement.INSTANCES;
 		} else if ("applet".equalsIgnoreCase(tagname)) {
-			return HTMLAppletElement.APPLET;
+			return HTMLAppletElement.INSTANCES;
 		} else if ("area".equalsIgnoreCase(tagname)) {
-			return HTMLAreaElement.AREA;
+			return HTMLAreaElement.INSTANCES;
 		} else if ("base".equalsIgnoreCase(tagname)) {
-			return HTMLBaseElement.BASE;
+			return HTMLBaseElement.INSTANCES;
 		} else if ("basefont".equalsIgnoreCase(tagname)) {
-			return HTMLBaseFontElement.BASEFONT;
+			return HTMLBaseFontElement.INSTANCES;
 		} else if ("body".equalsIgnoreCase(tagname)) {
-			return HTMLBodyElement.BODY;
+			return HTMLBodyElement.INSTANCES;
 		} else if ("br".equalsIgnoreCase(tagname)) {
-			return HTMLBRElement.BR;
+			return HTMLBRElement.INSTANCES;
 		} else if ("button".equalsIgnoreCase(tagname)) {
-			return HTMLButtonElement.BUTTON;
+			return HTMLButtonElement.INSTANCES;
 		} else if ("dir".equalsIgnoreCase(tagname)) {
-			return HTMLDirectoryElement.DIRECTORY;
+			return HTMLDirectoryElement.INSTANCES;
 		} else if ("div".equalsIgnoreCase(tagname)) {
-			return HTMLDivElement.DIV;
+			return HTMLDivElement.INSTANCES;
 		} else if ("dl".equalsIgnoreCase(tagname)) {
-			return HTMLDListElement.DLIST;
+			return HTMLDListElement.INSTANCES;
 		} else if ("fieldset".equalsIgnoreCase(tagname)) {
-			return HTMLFieldSetElement.FIELDSET;
+			return HTMLFieldSetElement.INSTANCES;
 		} else if ("font".equalsIgnoreCase(tagname)) {
-			return HTMLFontElement.FONT;
+			return HTMLFontElement.INSTANCES;
 		} else if ("form".equalsIgnoreCase(tagname)) {
-			return HTMLFormElement.FORM;
+			return HTMLFormElement.INSTANCES;
 		} else if ("frame".equalsIgnoreCase(tagname)) {
-			return HTMLFrameElement.FRAME;
+			return HTMLFrameElement.INSTANCES;
 		} else if ("frameset".equalsIgnoreCase(tagname)) {
-			return HTMLFrameSetElement.FRAMESET;
-		} else if ("h1".equalsIgnoreCase(tagname)
-				|| "h2".equalsIgnoreCase(tagname)
-				|| "h3".equalsIgnoreCase(tagname)
-				|| "h4".equalsIgnoreCase(tagname)
-				|| "h5".equalsIgnoreCase(tagname)
-				|| "h6".equalsIgnoreCase(tagname)) {
-			return HTMLHeadingElement.HEADING;
+			return HTMLFrameSetElement.INSTANCES;
+		} else if ("h1".equalsIgnoreCase(tagname) || "h2".equalsIgnoreCase(tagname) || "h3".equalsIgnoreCase(tagname) || "h4".equalsIgnoreCase(tagname)
+				|| "h5".equalsIgnoreCase(tagname) || "h6".equalsIgnoreCase(tagname)) {
+			return HTMLHeadingElement.INSTANCES;
 		} else if ("head".equalsIgnoreCase(tagname)) {
-			return HTMLHeadElement.HEAD_PROTOTPE;
+			return HTMLHeadElement.INSTANCES;
 		} else if ("hr".equalsIgnoreCase(tagname)) {
-			return HTMLHRElement.HR;
+			return HTMLHRElement.INSTANCES;
 		} else if ("html".equalsIgnoreCase(tagname)) {
-			return HTMLHtmlElement.HTML;
+			return HTMLHtmlElement.INSTANCES;
 		} else if ("iframe".equalsIgnoreCase(tagname)) {
-			return HTMLIFrameElement.IFRAME;
-		} else if ("image".equalsIgnoreCase(tagname)) {
-			return HTMLImageElement.IMAGE;
+			return HTMLIFrameElement.INSTANCES;
+		} else if ("img".equalsIgnoreCase(tagname)) {
+			return HTMLImageElement.INSTANCES;
 		} else if ("input".equalsIgnoreCase(tagname)) {
-			return HTMLInputElement.INPUT;
+			return HTMLInputElement.INSTANCES;
 		} else if ("isindex".equalsIgnoreCase(tagname)) {
-			return HTMLIsIndexElement.ISINDEX;
+			return HTMLIsIndexElement.INSTANCES;
 		} else if ("label".equalsIgnoreCase(tagname)) {
-			return HTMLLabelElement.LABEL;
+			return HTMLLabelElement.INSTANCES;
 		} else if ("legend".equalsIgnoreCase(tagname)) {
-			return HTMLLegendElement.LEGEND;
+			return HTMLLegendElement.INSTANCES;
 		} else if ("li".equalsIgnoreCase(tagname)) {
-			return HTMLLIElement.LI;
+			return HTMLLIElement.INSTANCES;
 		} else if ("link".equalsIgnoreCase(tagname)) {
-			return HTMLLinkElement.LINK;
+			return HTMLLinkElement.INSTANCES;
 		} else if ("map".equalsIgnoreCase(tagname)) {
-			return HTMLMapElement.MAP;
+			return HTMLMapElement.INSTANCES;
 		} else if ("menu".equalsIgnoreCase(tagname)) {
-			return HTMLMenuElement.MENU;
+			return HTMLMenuElement.INSTANCES;
 		} else if ("meta".equalsIgnoreCase(tagname)) {
-			return HTMLMetaElement.META;
+			return HTMLMetaElement.INSTANCES;
 		} else if ("ins".equalsIgnoreCase(tagname) || "del".equalsIgnoreCase(tagname)) {
-			return HTMLModElement.MOD;
+			return HTMLModElement.INSTANCES;
 		} else if ("object".equalsIgnoreCase(tagname)) {
-			return HTMLObjectElement.OBJECT;
+			return HTMLObjectElement.INSTANCES;
 		} else if ("ol".equalsIgnoreCase(tagname)) {
-			return HTMLOListElement.OLIST;
+			return HTMLOListElement.INSTANCES;
 		} else if ("optgroup".equalsIgnoreCase(tagname)) {
-			return HTMLOptGroupElement.OPTGROUP;
+			return HTMLOptGroupElement.INSTANCES;
 		} else if ("option".equalsIgnoreCase(tagname)) {
-			return HTMLOptionElement.OPTION;
+			return HTMLOptionElement.INSTANCES;
 		} else if ("p".equalsIgnoreCase(tagname)) {
-			return HTMLParagraphElement.PARAGRAPH;
+			return HTMLParagraphElement.INSTANCES;
 		} else if ("param".equalsIgnoreCase(tagname)) {
-			return HTMLParamElement.PARAM;
+			return HTMLParamElement.INSTANCES;
 		} else if ("pre".equalsIgnoreCase(tagname)) {
-			return HTMLPreElement.PRE;
+			return HTMLPreElement.INSTANCES;
 		} else if ("q".equalsIgnoreCase(tagname) || "blockquote".equalsIgnoreCase(tagname)) {
-			return HTMLQuoteElement.QUOTE;
+			return HTMLQuoteElement.INSTANCES;
 		} else if ("script".equalsIgnoreCase(tagname)) {
-			return HTMLScriptElement.SCRIPT;
+			return HTMLScriptElement.INSTANCES;
 		} else if ("select".equalsIgnoreCase(tagname)) {
-			return HTMLSelectElement.SELECT;
+			return HTMLSelectElement.INSTANCES;
 		} else if ("style".equalsIgnoreCase(tagname)) {
-			return HTMLStyleElement.STYLE;
+			return HTMLStyleElement.INSTANCES;
 		} else if ("caption".equalsIgnoreCase(tagname)) {
-			return HTMLTableCaptionElement.TABLECAPTION;
+			return HTMLTableCaptionElement.INSTANCES;
 		} else if ("th".equalsIgnoreCase(tagname) || "td".equalsIgnoreCase(tagname)) {
-			return HTMLTableCellElement.TABLECELL;
+			return HTMLTableCellElement.INSTANCES;
 		} else if ("col".equalsIgnoreCase(tagname) || "colgroup".equalsIgnoreCase(tagname)) {
-			return HTMLTableColElement.TABLECOL;
+			return HTMLTableColElement.INSTANCES;
 		} else if ("table".equalsIgnoreCase(tagname)) {
-			return HTMLTableElement.TABLE;
+			return HTMLTableElement.INSTANCES;
 		} else if ("tr".equalsIgnoreCase(tagname)) {
-			return HTMLTableRowElement.TABLEROW;
-		} else if ("thead".equalsIgnoreCase(tagname)
-				|| "tfoot".equalsIgnoreCase(tagname)
-				|| "tbody".equalsIgnoreCase(tagname)) {
-			return HTMLTableSectionElement.TABLESECTION;
+			return HTMLTableRowElement.INSTANCES;
+		} else if ("thead".equalsIgnoreCase(tagname) || "tfoot".equalsIgnoreCase(tagname) || "tbody".equalsIgnoreCase(tagname)) {
+			return HTMLTableSectionElement.INSTANCES;
 		} else if ("textarea".equalsIgnoreCase(tagname)) {
-			return HTMLTextAreaElement.TEXTAREA;
+			return HTMLTextAreaElement.INSTANCES;
 		} else if ("title".equalsIgnoreCase(tagname)) {
-			return HTMLTitleElement.TITLE;
+			return HTMLTitleElement.INSTANCES;
 		} else if ("ul".equalsIgnoreCase(tagname)) {
-			return HTMLUListElement.ULIST;
+			return HTMLUListElement.INSTANCES;
 		}
 		// HTML 5
 		else if ("canvas".equalsIgnoreCase(tagname)) {
-			return HTMLCanvasElement.CANVAS;
+			return HTMLCanvasElement.INSTANCES;
 		}
 		if (Options.isDebugEnabled()) {
-			System.out.println("Warning: unknown tagname: "
-					+ tagname
-					+ ". Using default HTMLElement.");
+			System.out.println("Warning: unknown tagname: " + tagname + ". Using default HTMLElement.");
 		}
 		return HTMLElement.ELEMENT;
 	}
@@ -413,7 +360,7 @@ public class DOMFunctions {
 	/**
 	 * Evaluate the native function
 	 */
-	public static Value evaluate(DOMObjects nativeObject, CallInfo call, State s, Solver.SolverInterface c) {
+	public static Value evaluate(DOMObjects nativeObject, FunctionCalls.CallInfo<? extends Node> call, State s, Solver.SolverInterface c) {
 		switch (nativeObject) {
 		case WINDOW_ALERT:
 		case WINDOW_ATOB:
@@ -482,6 +429,7 @@ public class DOMFunctions {
 		case ELEMENT_GET_ATTRIBUTE_NS:
 		case ELEMENT_GET_ATTRIBUTE_NODE:
 		case ELEMENT_GET_ATTRIBUTE_NODE_NS:
+		case ELEMENT_GET_BOUNDING_CLIENT_RECT:
 		case ELEMENT_GET_ELEMENTS_BY_TAGNAME:
 		case ELEMENT_GET_ELEMENTS_BY_TAGNAME_NS:
 		case ELEMENT_HAS_ATTRIBUTE:
@@ -612,6 +560,11 @@ public class DOMFunctions {
 		case CANVASRENDERINGCONTEXT2D_PUT_IMAGE_DATA:
 		case CANVASGRADIENT_ADD_COLOR_STOP:
 			return CanvasRenderingContext2D.evaluate(nativeObject, call, s, c);
+		case STORAGE_GET_ITEM:
+		case STORAGE_KEY:
+		case STORAGE_SET_ITEM:
+		case STORAGE_REMOVE_ITEM:
+			return StorageElement.evaluate(nativeObject, call, s, c);
 		case STRINGLIST_CONTAINS:
 		case STRINGLIST_ITEM:
 			return DOMStringList.evaluate(nativeObject, call, s, c);
@@ -646,6 +599,22 @@ public class DOMFunctions {
 		case WHEEL_EVENT_INIT_WHEEL_EVENT:
 		case WHEEL_EVENT_INIT_WHEEL_EVENT_NS:
 			return WheelEvent.evaluate(nativeObject, call, s, c);
+		case XML_HTTP_REQUEST_OPEN:
+		case XML_HTTP_REQUEST_SEND:
+		case XML_HTTP_REQUEST_ABORT:
+		case XML_HTTP_REQUEST_SET_REQUEST_HEADER:
+		case XML_HTTP_REQUEST_GET_RESPONSE_HEADER:
+		case XML_HTTP_REQUEST_GET_ALL_RESPONSE_HEADERS:
+		case XML_HTTP_REQUEST_CONSTRUCTOR:
+			return XmlHttpRequest.evaluate(nativeObject, call, s, c);
+		case ACTIVE_X_OBJECT_OPEN:
+		case ACTIVE_X_OBJECT_SEND:
+		case ACTIVE_X_OBJECT_ABORT:
+		case ACTIVE_X_OBJECT_SET_REQUEST_HEADER:
+		case ACTIVE_X_OBJECT_GET_RESPONSE_HEADER:
+		case ACTIVE_X_OBJECT_GET_ALL_RESPONSE_HEADERS:
+		case ACTIVE_X_OBJECT_CONSTRUCTOR:
+			return ActiveXObject.evaluate(nativeObject, call, s, c);
 		default: {
 			throw new RuntimeException("Native DOM function " + nativeObject + " not supported");
 		}

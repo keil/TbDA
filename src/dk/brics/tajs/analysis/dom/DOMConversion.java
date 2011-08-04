@@ -4,13 +4,13 @@ import java.util.Set;
 
 import dk.brics.tajs.analysis.Solver;
 import dk.brics.tajs.analysis.State;
-import dk.brics.tajs.dependency.Dependency;
-import dk.brics.tajs.dependency.graph.DependencyGraphReference;
 import dk.brics.tajs.flowgraph.NativeObject;
 import dk.brics.tajs.flowgraph.ObjectLabel;
 import dk.brics.tajs.lattice.Value;
 import dk.brics.tajs.solver.Message;
 import dk.brics.tajs.util.Collections;
+import dk.brics.tajs.dependency.Dependency;
+import dk.brics.tajs.dependency.graph.DependencyGraphReference;
 
 public class DOMConversion {
 
@@ -18,28 +18,28 @@ public class DOMConversion {
 	 * Converts the given value to a DOMNode value.
 	 */
 	public static Value toNode(Value v, Solver.SolverInterface c) {
-		return toNativeObject(DOMObjects.NODE, v, true, c);
+		return toNativeObject(DOMObjects.NODE_PROTOTYPE, v, true, c);
 	}
 
 	/**
 	 * Converts the given value to a DOMAttr value.
 	 */
 	public static Value toAttr(Value v, Solver.SolverInterface c) {
-		return toNativeObject(DOMObjects.ATTR, v, true, c);
+		return toNativeObject(DOMObjects.ATTR_PROTOTYPE, v, true, c);
 	}
 
 	/**
 	 * Converts the given value to a HTMLElement value.
 	 */
 	public static Value toHTMLElement(Value v, Solver.SolverInterface c) {
-		return toNativeObject(DOMObjects.HTMLELEMENT, v, true, c);
+		return toNativeObject(DOMObjects.HTMLELEMENT_PROTOTYPE, v, true, c);
 	}
 
 	/**
 	 * Converts the given value to an EventTarget value.
 	 */
 	public static Value toEventTarget(Value v, Solver.SolverInterface c) {
-		return toNativeObject(DOMObjects.NODE, v, true, c);
+		return toNativeObject(DOMObjects.NODE_PROTOTYPE, v, true, c);
 	}
 
 	/**
@@ -74,22 +74,25 @@ public class DOMConversion {
 			c.addMessage(status, Message.Severity.HIGH, message);
 		}
 
-		return Value.makeObject(result, value.getDependency(), new DependencyGraphReference());
+		return Value.makeObject(result, new Dependency(), new DependencyGraphReference());
 	}
 
 	/**
 	 * Converts the given value to the given NativeObject (optionally following
 	 * the prototype chains). </p>
-	 *
-	 * @param nativeObject    target NativeObject
-	 * @param value           Value to convert
-	 * @param prototype       use the prototype chain?
+	 * 
+	 * @param nativeObject
+	 *            target NativeObject
+	 * @param value
+	 *            Value to convert
+	 * @param prototype
+	 *            use the prototype chain?
 	 * @param solverInterface
 	 */
 	public static Value toNativeObject(NativeObject nativeObject, Value value, boolean prototype, Solver.SolverInterface solverInterface) {
 
 		// ##################################################
-		Dependency dependency = new Dependency() ;
+		Dependency dependency = new Dependency();
 		dependency.join(value.getDependency());
 
 		DependencyGraphReference reference = new DependencyGraphReference();
@@ -118,7 +121,13 @@ public class DOMConversion {
 						reference.join(prototypeValue.getDependencyGraphReference());
 						// ##################################################
 
-						if (objectLabel.getNativeObjectID().toString().equals(nativeObject.toString()) || objectLabel.getNativeObjectID().toString().equals(nativeObject.toString() + ".prototype")) {
+						String nativeObjectPrototype = nativeObject.toString() + ".prototype";
+						String objectLabelPrototype = "";
+						if (objectLabel.getNativeObjectID() != null) {
+							objectLabelPrototype = objectLabel.getNativeObjectID().toString();
+						}
+
+						if (nativeObject == objectLabel.getNativeObjectID() || nativeObjectPrototype.equals(objectLabelPrototype)) {
 							good = true;
 							matches.add(objectLabel);
 						} else if (prototypeValue.getObjectLabels().isEmpty()) {
@@ -134,8 +143,11 @@ public class DOMConversion {
 		} else {
 			// Make lookup ignoring prototype chains
 
+			// TODO: Verify this
 			for (ObjectLabel objectLabel : value.getObjectLabels()) {
-				if (objectLabel.getNativeObjectID().toString().equals(nativeObject.toString()) || objectLabel.getNativeObjectID().toString().equals(nativeObject.toString() + ".prototype")) {
+				if (objectLabel.getNativeObjectID() == nativeObject
+						|| (objectLabel.getNativeObjectID() != null && objectLabel.getNativeObjectID().toString()
+								.equals(nativeObject.toString() + ".prototype"))) {
 					good = true;
 					matches.add(objectLabel);
 				} else {
@@ -152,14 +164,15 @@ public class DOMConversion {
 			status = Message.Status.CERTAIN;
 		} else if (good && !bad) {
 			status = Message.Status.NONE;
-		} else if (!good && !bad) { // equivalent to Value of Undef / a null argument
+		} else if (!good && !bad) { // equivalent to Value of Undef / a null
+									// argument
 			// Considered a certain type error.
 			status = Message.Status.CERTAIN;
 		} else {
 			throw new RuntimeException("toNativeObject: fell through cases - should not happen.");
 		}
 
-		String message = "TypeError, argument is not of expected type.";
+		String message = "TypeError, argument is not of expected type: " + nativeObject.toString();
 		switch (status) {
 		case NONE: {
 			break;

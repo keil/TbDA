@@ -1,11 +1,9 @@
 package dk.brics.tajs.analysis.dom;
 
+import java.util.Set;
+
 import dk.brics.tajs.analysis.Solver;
 import dk.brics.tajs.analysis.State;
-import dk.brics.tajs.analysis.dom.event.KeyboardEvent;
-import dk.brics.tajs.analysis.dom.event.MouseEvent;
-import dk.brics.tajs.analysis.dom.event.MutationEvent;
-import dk.brics.tajs.analysis.dom.event.WheelEvent;
 import dk.brics.tajs.dependency.Dependency;
 import dk.brics.tajs.dependency.graph.DependencyGraphReference;
 import dk.brics.tajs.flowgraph.ObjectLabel;
@@ -13,26 +11,27 @@ import dk.brics.tajs.lattice.Value;
 import dk.brics.tajs.options.Options;
 import dk.brics.tajs.util.Collections;
 
-import java.util.Set;
-
 public class DOMEvents {
 
 	/**
 	 * Create generic Keyboard Event.
 	 */
 	public static Value createAnyKeyboardEvent(State s) {
-		Set<ObjectLabel> labels = Collections.newSet();
-		labels.add(KeyboardEvent.KEYBOARD_EVENT);
-		return Value.makeObject(labels, new Dependency(), new DependencyGraphReference());
+		return Value.makeObject(DOMRegistry.getKeyboardEventLabel(), new Dependency(), new DependencyGraphReference());
 	}
 
 	/**
 	 * Create generic Mouse Event.
 	 */
 	public static Value createAnyMouseEvent(State s) {
-		Set<ObjectLabel> labels = Collections.newSet();
-		labels.add(MouseEvent.MOUSE_EVENT);
-		return Value.makeObject(labels, new Dependency(), new DependencyGraphReference());
+		return Value.makeObject(DOMRegistry.getMouseEventLabel(), new Dependency(), new DependencyGraphReference());
+	}
+
+	/**
+	 * Creates a generic AJAX Event.
+	 */
+	public static Value createAnyAjaxEvent(State s) {
+		return Value.makeObject(DOMRegistry.getAjaxEventLabel(), new Dependency(), new DependencyGraphReference());
 	}
 
 	/**
@@ -40,10 +39,10 @@ public class DOMEvents {
 	 */
 	public static Value createAnyEvent(State s) {
 		Set<ObjectLabel> labels = Collections.newSet();
-		labels.add(KeyboardEvent.KEYBOARD_EVENT);
-		labels.add(MouseEvent.MOUSE_EVENT);
-		labels.add(MutationEvent.MUTATION_EVENT);
-		labels.add(WheelEvent.WHEEL_EVENT);
+		labels.add(DOMRegistry.getKeyboardEventLabel());
+		labels.add(DOMRegistry.getMouseEventLabel());
+		labels.add(DOMRegistry.getMutationEventLabel());
+		labels.add(DOMRegistry.getWheelEventLabel());
 		return Value.makeObject(labels, new Dependency(), new DependencyGraphReference());
 	}
 
@@ -51,18 +50,14 @@ public class DOMEvents {
 	 * Returns true iff the specified attribute is an event attribute.
 	 */
 	public static boolean isEventAttribute(String attribute) {
-		return isKeyboardEventAttribute(attribute)
-		|| isMouseEventAttribute(attribute)
-		|| isOtherEventAttribute(attribute);
+		return isKeyboardEventAttribute(attribute) || isMouseEventAttribute(attribute) || isOtherEventAttribute(attribute);
 	}
 
 	/**
 	 * Returns true iff the specified property is an event property.
 	 */
 	public static boolean isEventProperty(String property) {
-		return isKeyboardEventProperty(property)
-		|| isMouseEventProperty(property)
-		|| isOtherEventProperty(property);
+		return isKeyboardEventProperty(property) || isMouseEventProperty(property) || isOtherEventProperty(property);
 	}
 
 	/**
@@ -83,70 +78,57 @@ public class DOMEvents {
 	 * Returns true iff the specified attribute is a keyboard event attribute.
 	 */
 	public static boolean isKeyboardEventAttribute(String attribute) {
-		return attribute.equalsIgnoreCase("onkeypress")
-		|| attribute.equalsIgnoreCase("onkeydown")
-		|| attribute.equalsIgnoreCase("onkeyup");
+		return attribute.equalsIgnoreCase("onkeypress") || attribute.equalsIgnoreCase("onkeydown") || attribute.equalsIgnoreCase("onkeyup");
 	}
 
 	/**
 	 * Returns true iff the specified property is a keyboard event property.
 	 */
 	public static boolean isKeyboardEventProperty(String property) {
-		return property.equalsIgnoreCase("keypress")
-		|| property.equalsIgnoreCase("keydown")
-		|| property.equalsIgnoreCase("keyup");
+		return property.equalsIgnoreCase("keypress") || property.equalsIgnoreCase("keydown") || property.equalsIgnoreCase("keyup");
 	}
 
 	/**
 	 * Returns true iff the specified attribute is a mouse event attribute.
 	 */
 	public static boolean isMouseEventAttribute(String attribute) {
-		return attribute.equalsIgnoreCase("onclick")
-		|| attribute.equalsIgnoreCase("ondblclick")
-		|| attribute.equalsIgnoreCase("onmousedown")
-		|| attribute.equalsIgnoreCase("onmouseup")
-		|| attribute.equalsIgnoreCase("onmouseover")
-		|| attribute.equalsIgnoreCase("onmousemove")
-		|| attribute.equalsIgnoreCase("onmouseout");
+		return attribute.equalsIgnoreCase("onclick") || attribute.equalsIgnoreCase("ondblclick") || attribute.equalsIgnoreCase("onmousedown")
+				|| attribute.equalsIgnoreCase("onmouseup") || attribute.equalsIgnoreCase("onmouseover") || attribute.equalsIgnoreCase("onmousemove")
+				|| attribute.equalsIgnoreCase("onmouseout");
 	}
 
 	/**
 	 * Returns true iff the specified property is a mouse event property.
 	 */
 	public static boolean isMouseEventProperty(String property) {
-		return property.equalsIgnoreCase("click")
-		|| property.equalsIgnoreCase("dblclick")
-		|| property.equalsIgnoreCase("mousedown")
-		|| property.equalsIgnoreCase("mouseup")
-		|| property.equalsIgnoreCase("mouseover")
-		|| property.equalsIgnoreCase("mousemove")
-		|| property.equalsIgnoreCase("mouseout");
+		return property.equalsIgnoreCase("click") || property.equalsIgnoreCase("dblclick") || property.equalsIgnoreCase("mousedown")
+				|| property.equalsIgnoreCase("mouseup") || property.equalsIgnoreCase("mouseover") || property.equalsIgnoreCase("mousemove")
+				|| property.equalsIgnoreCase("mouseout");
+	}
+
+	/**
+	 * Returns true iff the specified property is an AJAX event property.
+	 */
+	public static boolean isAjaxEventProperty(String property) {
+		return property.equalsIgnoreCase("onreadystatechange");
 	}
 
 	/**
 	 * Returns true iff the specified attribute is an other event attribute.
 	 */
 	public static boolean isOtherEventAttribute(String attribute) {
-		return attribute.equalsIgnoreCase("onfocus")
-		|| attribute.equalsIgnoreCase("onblur")
-		|| attribute.equalsIgnoreCase("onsubmit")
-		|| attribute.equalsIgnoreCase("onreset")
-		|| attribute.equalsIgnoreCase("onselect")
-		|| attribute.equalsIgnoreCase("onchange")
-		|| attribute.equalsIgnoreCase("onresize");
+		return attribute.equalsIgnoreCase("onfocus") || attribute.equalsIgnoreCase("onblur") || attribute.equalsIgnoreCase("onsubmit")
+				|| attribute.equalsIgnoreCase("onreset") || attribute.equalsIgnoreCase("onselect") || attribute.equalsIgnoreCase("onchange")
+				|| attribute.equalsIgnoreCase("onresize") || attribute.equalsIgnoreCase("onselectstart");
 	}
 
 	/**
 	 * Returns true iff the specified property is an other event property.
 	 */
 	public static boolean isOtherEventProperty(String property) {
-		return property.equalsIgnoreCase("focus")
-		|| property.equalsIgnoreCase("blur")
-		|| property.equalsIgnoreCase("submit")
-		|| property.equalsIgnoreCase("reset")
-		|| property.equalsIgnoreCase("select")
-		|| property.equalsIgnoreCase("change")
-		|| property.equalsIgnoreCase("resize");
+		return property.equalsIgnoreCase("focus") || property.equalsIgnoreCase("blur") || property.equalsIgnoreCase("submit")
+				|| property.equalsIgnoreCase("reset") || property.equalsIgnoreCase("select") || property.equalsIgnoreCase("change")
+				|| property.equalsIgnoreCase("resize");
 	}
 
 	/**
@@ -178,6 +160,13 @@ public class DOMEvents {
 	 */
 	public static void addMouseEventHandler(State s, Value v, Solver.SolverInterface c) {
 		s.addMouseEventHandler(DOMConversion.toEventHandler(s, v, c).getObjectLabels());
+	}
+
+	/**
+	 * Add an AJAX Event Handler.
+	 */
+	public static void addAjaxEventHandler(State s, Value v, Solver.SolverInterface c) {
+		s.addAjaxEventHandler(DOMConversion.toEventHandler(s, v, c).getObjectLabels());
 	}
 
 	/**

@@ -1,10 +1,8 @@
 package dk.brics.tajs.analysis.dom;
 
 import dk.brics.tajs.options.Options;
-
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
+import org.jdom.Document;
+import org.jdom.Element;
 
 public abstract class HTMLVisitorImpl implements HTMLVisitor {
 
@@ -16,12 +14,12 @@ public abstract class HTMLVisitorImpl implements HTMLVisitor {
 
 	@Override
 	public void visitDocument() {
-		visit(document.getDocumentElement());
+		visit(document.getRootElement());
 	}
 
 	@Override
 	public void visit(Element element) {
-		String tagName = element.getTagName();
+		String tagName = element.getName();
 		if ("a".equalsIgnoreCase(tagName)) {
 			visitA(element);
 		} else if ("applet".equalsIgnoreCase(tagName)) {
@@ -138,15 +136,13 @@ public abstract class HTMLVisitorImpl implements HTMLVisitor {
 			visitUL(element);
 		} else {
 			if (Options.isDebugEnabled()) {
-				System.out.println("Unknown Element Tag: " + element.getTagName());
+				System.out.println("Unknown Element Tag: " + tagName);
 			}
 		}
 
-		NodeList childNodes = element.getChildNodes();
-		for (int i = 0; i < childNodes.getLength(); i++) {
-			org.w3c.dom.Node n = childNodes.item(i);
-			if (n instanceof Element)
-				visit((Element) n);
+		for (Object o : element.getChildren()) {
+			if (o instanceof Element)
+				visit((Element) o);
 		}
 	}
 

@@ -1,6 +1,6 @@
 package dk.brics.tajs.analysis.dom;
 
-import org.w3c.dom.Element;
+import org.jdom.Element;
 
 public interface HTMLVisitor {
 
