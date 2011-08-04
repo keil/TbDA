@@ -1,5 +1,9 @@
 package dk.brics.tajs.options;
 
+import dk.brics.tajs.util.Collections;
+
+import java.util.Set;
+
 /**
  * Global analysis options.
  */
@@ -7,6 +11,7 @@ public class Options {
 
 	private static boolean debug;
 	private static boolean collect_variable_info;
+	private static boolean bug_patterns;
 	private static boolean states;
 	private static boolean test;
 	private static boolean timing;
@@ -39,6 +44,19 @@ public class Options {
 	private static boolean exit_on_error;
 	private static boolean include_initialstate;
 	private static boolean show_all_states;
+	// private static boolean isIgnoreHTMLContent;
+	private static boolean isReturnJSON;
+	private static boolean eval_statistics;
+	private static boolean coverage = false;
+	private static boolean error_batch_mode = false;
+
+	private static boolean ignore_libraries;
+	private static Set<String> ignored_libraries = Collections.newSet();
+
+	// DOM customization
+	private static boolean single_event_handler_loop = false;
+	private static boolean single_event_handler_type = false;
+	private static boolean isIgnoreHTMLContent = false;
 
 	private Options() {
 	}
@@ -47,41 +65,35 @@ public class Options {
 	 * Returns a description of the available options.
 	 */
 	public static String describe() {
-		return "Options:\n"
-				+ "  -no-local-path-sensitivity  Disable local path sensitivity\n"
-				+ "  -no-context-sensitivity     Disable context sensitivity\n"
-				+ "  -no-recency                 Disable recency abstraction\n"
-				+ "  -no-modified                Disable modified flags\n"
-				+ "  -no-exceptions              Disable implicit exception flow\n"
-				+ "  -no-gc                      Disable abstract garbage collection\n"
-				+ "  -no-lazy                    Disable lazy propagation\n"
-				+ "  -no-flowgraph-optimization  Disable flowgraph optimization\n"
-				+ "  -low-severity               Enable low severity messages\n"
-				+ "  -unsound                    Enable unsound assumptions\n"
-				+ "  -flowgraph                  Output flowgraph.dot\n"
-				+ "  -callgraph                  Output callgraph.dot\n"
+		return "Options:\n" + "  -no-local-path-sensitivity  Disable local path sensitivity\n" + "  -no-context-sensitivity     Disable context sensitivity\n"
+				+ "  -no-recency                 Disable recency abstraction\n" + "  -no-modified                Disable modified flags\n"
+				+ "  -no-exceptions              Disable implicit exception flow\n" + "  -no-gc                      Disable abstract garbage collection\n"
+				+ "  -no-lazy                    Disable lazy propagation\n" + "  -no-flowgraph-optimization  Disable flowgraph optimization\n"
+				+ "  -low-severity               Enable low severity messages\n" + "  -unsound                    Enable unsound assumptions\n"
+				+ "  -flowgraph                  Output flowgraph.dot\n" + "  -callgraph                  Output callgraph.dot\n"
 				+ "  -debug                      Output debug information\n"
 				+ "  -collect-variable-info      Output type and line information on reachable variables\n"
 				+ "  -newflow                    Report summary of new flow at function entries\n"
 				+ "  -states                     Output intermediate abstract states\n"
 				+ "  -test                       Test mode (implies quiet), ensures predictable iteration orders\n"
-				+ "  -timing                     Report analysis time\n"
-				+ "  -statistics                 Report statistics\n"
+				+ "  -timing                     Report analysis time\n" + "  -statistics                 Report statistics\n"
 				+ "  -memory-usage               Report the memory usage of the analysis\n"
-				+ "  -quiet                      Only output results, not progress\n"
-				+ "  -no-copy-on-write           Disable copy-on-write\n"
-				+ "  -no-hybrid-collections      Disable hybrid collections\n"
-				+ "  -dom                        Enable Mozilla DOM browser model\n"
-				+ "  -no-unreachable             Disable warnings about unreachable code\n"
-				+ "  -propagate-dead-flow        Propagate empty values\n"
-				+ "  -exit-on-error              Exit, if an error occurs\n"
-				+ "  -dependency                 Show value dependencies\n"
-				+ "  -extended_dependency        Show extended value dependencies\n"
-				+ "  -dependencygraph            Show dependency graph\n"
-				+ "  -todot                      Write dependency graph to dot\n"
-				+ "  -traceall                   Trace all Values\n"
-				+ "  -include_initialstate       Include InitialState dependencies\n"
-				+ "  -show_all_states            Show all states\n";
+				+ "  -quiet                      Only output results, not progress\n" + "  -no-copy-on-write           Disable copy-on-write\n"
+				+ "  -no-hybrid-collections      Disable hybrid collections\n" + "  -dom                        Enable Mozilla DOM browser model\n"
+				+ "  -no-unreachable             Disable warnings about unreachable code\n" + "  -propagate-dead-flow        Propagate empty values\n"
+				+ "  -exit-on-error              Exit, if an error occurs\n" + "  -dependency                 Show value dependencies\n"
+				+ "  -extended_dependency        Show extended value dependencies\n" + "  -dependencygraph            Show dependency graph\n"
+				+ "  -todot                      Write dependency graph to dot\n" + "  -traceall                   Trace all Values\n"
+				+ "  -include_initialstate       Include InitialState dependencies\n" + "  -show_all_states            Show all states\n"
+				+ "  -isIgnoreHTMLContent        Ignore the content of the html page, i.e. id, names, event handleer, etc.\n"
+				+ "  -isReturnJSON               Assume that AJAX calls Return JSON\n" + "  -bug-patterns               Detect bug patterns\n"
+				+ "  -eval-statistics            Don't fail on use of eval and innerHTML, but record their use\n"
+				+ "  -coverage                   Output a view of the source with unreachble lines highlighted\n"
+				+ "  -single-event-handler-loop  Use a single non-deterministic event loop for events\n"
+				+ "  -single-event-handler-type  Do not distinguish between different types of event handlers\n"
+				+ "  -introduce-error            Measure precision by randomly introducing syntax errors\n"
+				+ "  -ignore-libraries           Ignore unreachable code messages from libraries (may not be the last option before files!)\n";
+
 	}
 
 	/**
@@ -158,6 +170,26 @@ public class Options {
 			include_initialstate = true;
 		else if (option.equals("-show_all_states"))
 			show_all_states = true;
+		else if (option.equals("-isIgnoreHTMLContent"))
+			isIgnoreHTMLContent = true;
+		else if (option.equals("-isReturnJSON"))
+			isReturnJSON = true;
+		else if (option.equals("-bug-patterns"))
+			bug_patterns = true;
+		else if (option.equals("-eval-statistics"))
+			eval_statistics = true;
+		else if (option.equals("-coverage"))
+			coverage = true;
+		else if (option.equals("-single-event-handler-loop"))
+			single_event_handler_loop = true;
+		else if (option.equals("-single-event-handler-type"))
+			single_event_handler_type = true;
+		else if (option.equals("-introduce-error "))
+			error_batch_mode = true;
+		else if (option.equals("-bug-patterns"))
+			bug_patterns = true;
+		else if (option.equals("-ignore-libraries"))
+			ignore_libraries = true;
 		else
 			return false;
 		return true;
@@ -201,6 +233,15 @@ public class Options {
 		traceall = false;
 		include_initialstate = false;
 		show_all_states = false;
+		isIgnoreHTMLContent = false;
+		isReturnJSON = false;
+		single_event_handler_loop = false;
+		single_event_handler_type = false;
+		bug_patterns = false;
+		eval_statistics = false;
+		ignore_libraries = false;
+		ignored_libraries = Collections.newSet();
+
 	}
 
 	/**
@@ -209,53 +250,117 @@ public class Options {
 	public static void dump() {
 		if (debug) {
 			System.out.println("Options affecting analysis precision:");
-			System.out.println("  no-local-path-sensitivity: "
-					+ no_local_path_sensitivity);
-			System.out.println("  no-context-sensitivity:    "
-					+ no_context_sensitivity);
+			System.out.println("  no-local-path-sensitivity: " + no_local_path_sensitivity);
+			System.out.println("  no-context-sensitivity:    " + no_context_sensitivity);
 			System.out.println("  no-recency:                " + no_recency);
 			System.out.println("  no-modified:               " + no_modified);
 			System.out.println("  no-exceptions:             " + no_exceptions);
 			System.out.println("  no-lazy                    " + no_lazy);
 			System.out.println("  no-gc:                     " + no_gc);
 			System.out.println("  unsound:                   " + unsound);
-			System.out.println("  propagate-dead-flow:       "
-					+ propagate_dead_flow);
+			System.out.println("  propagate-dead-flow:       " + propagate_dead_flow);
 			System.out.println("  low-severity:              " + low_severity);
 			System.out.println("Other options:");
 			System.out.println("  flowgraph:                 " + flowgraph);
 			System.out.println("  callgraph:                 " + callgraph);
 			System.out.println("  debug:                     " + debug);
-			System.out.println("  collect-variable-info:     "
-					+ collect_variable_info);
+			System.out.println("  collect-variable-info:     " + collect_variable_info);
 			System.out.println("  newflow:                   " + newflow);
 			System.out.println("  states:                    " + states);
 			System.out.println("  test:                      " + test);
 			System.out.println("  statistics:                " + statistics);
 			System.out.println("  timing:                    " + timing);
 			System.out.println("  memory-usage:              " + memory_usage);
-			System.out.println("  no-copy-on-write:          "
-					+ no_copy_on_write);
-			System.out.println("  no-hybrid-collections:     "
-					+ no_hybrid_collections);
+			System.out.println("  no-copy-on-write:          " + no_copy_on_write);
+			System.out.println("  no-hybrid-collections:     " + no_hybrid_collections);
 			System.out.println("  dom:                       " + include_dom);
-			System.out.println("  no-flowgraph-optimization: "
-					+ no_flowgraph_optimization);
-			System.out
-					.println("  no-unreachable:            " + no_unreachable);
+			System.out.println("  no-flowgraph-optimization: " + no_flowgraph_optimization);
+			System.out.println("  no-unreachable:            " + no_unreachable);
 			System.out.println("  exit_on_error:             " + exit_on_error);
 			System.out.println("  dependency:                " + dependency);
-			System.out.println("  extended_dependency:       "
-					+ extended_dependency);
-			System.out.println("  dependencygraph:           "
-					+ dependencygraph);
+			System.out.println("  extended_dependency:       " + extended_dependency);
+			System.out.println("  dependencygraph:           " + dependencygraph);
 			System.out.println("  todot:                     " + todot);
 			System.out.println("  tarceall:                  " + traceall);
-			System.out.println("  include_initialstate:      "
-					+ include_initialstate);
-			System.out.println("  show_all_states:           "
-					+ show_all_states);
+			System.out.println("  include_initialstate:      " + include_initialstate);
+			System.out.println("  show_all_states:           " + show_all_states);
+			System.out.println("  isIgnoreHTMLContent:       " + isIgnoreHTMLContent);
+			System.out.println("  isReturnJSON:		         " + isReturnJSON);
+			System.out.println("  single-event-handler-loop: " + single_event_handler_loop);
+			System.out.println("  single-event-handler-type: " + single_event_handler_type);
+			System.out.println("  bug-patterns:              " + bug_patterns);
+			System.out.println("  eval-statistics:           " + eval_statistics);
+			System.out.println("  ignore-libraries:          " + ignore_libraries);
 		}
+	}
+
+	/**
+	 * vasu
+	 */
+	public static boolean isReturnJSON() {
+		return isReturnJSON;
+	}
+
+	/**
+	 * vasu
+	 */
+	public static boolean isIgnoreHTMLContent() {
+		return isIgnoreHTMLContent;
+	}
+
+	/**
+	 * vasu
+	 */
+	/**
+	 * If set, ignore unreachable code warnings from libraries.
+	 */
+
+	public static boolean isIgnoreLibraries() {
+		return ignore_libraries;
+	}
+
+	/**
+	 * vasu
+	 */
+	public static boolean isEvalStatistics() {
+		return eval_statistics;
+	}
+
+	/**
+	 * vasu
+	 */
+	/**
+	 * Add a file to the set of ignored library files.
+	 */
+	public static void addLibrary(String fileName) {
+		ignored_libraries.add(fileName);
+	}
+
+	/**
+	 * vasu
+	 */
+	/**
+	 * Get the set of ignored libraries.
+	 */
+	public static Set<String> getLibraries() {
+		return ignored_libraries;
+	}
+
+	/**
+	 * vasu
+	 */
+	/**
+	 * If set, detect bug patterns.
+	 */
+	public static boolean isBugPatternsEnabled() {
+		return bug_patterns;
+	}
+
+	/**
+	 * vasu
+	 */
+	public static boolean isCoverageEnabled() {
+		return coverage;
 	}
 
 	/**
@@ -440,6 +545,13 @@ public class Options {
 	 */
 	public static boolean isUnreachableDisabled() {
 		return no_unreachable;
+	}
+
+	/**
+	 * vasu
+	 */
+	public static boolean isErrorBatchMode() {
+		return error_batch_mode;
 	}
 
 	/**
