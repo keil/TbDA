@@ -51,7 +51,7 @@ public class JSArray {
 
 			ObjectLabel objlabel = new ObjectLabel(call.getSourceNode(), Kind.ARRAY);
 			state.newObject(objlabel);
-
+			
 			if (call.isUnknownNumberOfArgs()) { // TODO: warn about this case?
 				
 				// ##################################################
@@ -305,6 +305,24 @@ public class JSArray {
 			// return res;
 		}
 
+/**
+ * vasu		
+ */
+		case ARRAY_FOREACH: {
+			
+			// ##################################################
+			Dependency dependency = new Dependency();
+			// ##################################################
+
+			// ==================================================
+			DependencyExpressionNode node = DependencyNode.link(Label.CALL, call.getSourceNode(), state);
+			// ==================================================
+
+            NativeFunctions.expectParameters(nativeobject, call, c, 1, 2);
+            // FIXME: make sure function argument may get evaluated some number of times (it may have side effects!)
+            return Value.makeUndef(dependency, node.getReference());
+        }
+		
 		case ARRAY_POP: { // 15.4.4.6
 			// ##################################################
 			Dependency dependency = new Dependency();
@@ -584,7 +602,26 @@ public class JSArray {
 			// true, true, false);
 			// return arr;
 		}
+/**
+ * vasu		
+ */
 
+		case ARRAY_SOME: {
+			
+			// ##################################################
+			Dependency dependency = new Dependency();
+			// ##################################################
+
+			// ==================================================
+			DependencyExpressionNode node = DependencyNode.link(Label.CALL, call.getSourceNode(), state);
+			// ==================================================
+			
+            NativeFunctions.expectParameters(nativeobject, call, c, 1, 2);
+            //Value callback = call.getArg(0);
+            // FIXME: make sure function argument may get evaluated some number of times (it may have side effects!)
+            return Value.makeAnyBool(dependency, node.getReference());
+        }
+		
 		case ARRAY_SORT: {
 			// ##################################################
 			Dependency dependency = new Dependency();
@@ -705,6 +742,22 @@ public class JSArray {
 			}
 			state.writeSpecialProperty(arr, "length", Value.makeAnyNumUInt(dependency, node.getReference()).setAttributes(true, true, false));
 			return Value.makeAnyNumUInt(dependency, node.getReference());
+		}
+/**
+ * vasu
+ */
+		case ARRAY_INDEXOF: {
+
+			// ##################################################
+			Dependency dependency = new Dependency();
+			// ##################################################
+
+			// ==================================================
+			DependencyExpressionNode node = DependencyNode.link(Label.CALL, call.getSourceNode(), state);
+			// ==================================================
+
+			NativeFunctions.expectParameters(nativeobject, call, c, 1, 1);
+			return Value.makeAnyNumNotUInt(dependency, node.getReference());
 		}
 
 		default:
