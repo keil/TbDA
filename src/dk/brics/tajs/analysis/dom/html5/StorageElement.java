@@ -16,6 +16,7 @@ import dk.brics.tajs.lattice.Value;
 import static dk.brics.tajs.analysis.dom.DOMFunctions.createDOMFunction;
 import static dk.brics.tajs.analysis.dom.DOMFunctions.createDOMProperty;
 import static dk.brics.tajs.analysis.dom.DOMFunctions.createDOMSpecialProperty;
+import static dk.brics.tajs.analysis.dom.DOMFunctions.createDOMInternalPrototype;
 
 import dk.brics.tajs.dependency.Dependency;
 import dk.brics.tajs.dependency.graph.DependencyGraphReference;
@@ -41,16 +42,16 @@ public class StorageElement {
 		createDOMSpecialProperty(s, CONSTRUCTOR, "length", Value.makeNum(0, new Dependency(), new DependencyGraphReference()).setAttributes(true, true, true));
 		createDOMSpecialProperty(s, CONSTRUCTOR, "prototype",
 				Value.makeObject(PROTOTYPE, new Dependency(), new DependencyGraphReference()).setAttributes(true, true, true));
-		s.writeInternalPrototype(CONSTRUCTOR, Value.makeObject(InitialStateBuilder.OBJECT_PROTOTYPE, new Dependency(), new DependencyGraphReference()));
+		createDOMInternalPrototype(s, CONSTRUCTOR, Value.makeObject(InitialStateBuilder.OBJECT_PROTOTYPE, new Dependency(), new DependencyGraphReference()));
 		createDOMProperty(s, DOMWindow.WINDOW, "Storage", Value.makeObject(CONSTRUCTOR, new Dependency(), new DependencyGraphReference()));
 
 		// Prototype object
 		s.newObject(PROTOTYPE);
-		s.writeInternalPrototype(PROTOTYPE, Value.makeObject(InitialStateBuilder.OBJECT_PROTOTYPE, new Dependency(), new DependencyGraphReference()));
+		createDOMInternalPrototype(s, PROTOTYPE, Value.makeObject(InitialStateBuilder.OBJECT_PROTOTYPE, new Dependency(), new DependencyGraphReference()));
 
 		// Multiplied object
 		s.newObject(INSTANCES);
-		s.writeInternalPrototype(INSTANCES, Value.makeObject(PROTOTYPE, new Dependency(), new DependencyGraphReference()));
+		createDOMInternalPrototype(s,INSTANCES, Value.makeObject(PROTOTYPE, new Dependency(), new DependencyGraphReference()));
 
 		/*
 		 * Properties.
