@@ -8,6 +8,7 @@ import dk.brics.tajs.analysis.dom.DOMWindow;
 import dk.brics.tajs.flowgraph.ObjectLabel;
 import dk.brics.tajs.lattice.Value;
 
+import static dk.brics.tajs.analysis.dom.DOMFunctions.createDOMSpecialProperty;
 import static dk.brics.tajs.analysis.dom.DOMFunctions.createDOMProperty;
 import static dk.brics.tajs.analysis.dom.DOMFunctions.createDOMInternalPrototype;
 import dk.brics.tajs.dependency.Dependency;
@@ -26,9 +27,9 @@ public class HTMLUListElement {
 
 		// Constructor Object
 		s.newObject(CONSTRUCTOR);
-		InitialStateBuilder.createSpecialProperty(s, CONSTRUCTOR, "length",
+		createDOMSpecialProperty(s, CONSTRUCTOR, "length",
 				Value.makeNum(0, new Dependency(), new DependencyGraphReference()).setAttributes(true, true, true));
-		InitialStateBuilder.createSpecialProperty(s, CONSTRUCTOR, "prototype", Value.makeObject(PROTOTYPE, new Dependency(), new DependencyGraphReference())
+		createDOMSpecialProperty(s, CONSTRUCTOR, "prototype", Value.makeObject(PROTOTYPE, new Dependency(), new DependencyGraphReference())
 				.setAttributes(true, true, true));
 		createDOMInternalPrototype(s, CONSTRUCTOR, Value.makeObject(InitialStateBuilder.OBJECT_PROTOTYPE, new Dependency(), new DependencyGraphReference()));
 		createDOMProperty(s, DOMWindow.WINDOW, "HTMLUListElement", Value.makeObject(CONSTRUCTOR, new Dependency(), new DependencyGraphReference()));
