@@ -52,6 +52,8 @@ public final class Value implements Undef, Null, Bool, Num, Str, IDependency<Val
 	private final static int ATTR_DONTDELETE = 0x0100000;
 	private final static int ATTR_NOTDONTDELETE = 0x0200000;
 	private final static int UNKNOWN = 0x1000000; // TODO: make unknown=bottom?
+	private final static int STR_JSON = 0x0001000;
+	
 
 	// FIXME: MERGING
 	// private final static int JSONSTR_UINT = 0x0000010;
@@ -59,7 +61,7 @@ public final class Value implements Undef, Null, Bool, Num, Str, IDependency<Val
 
 	// private final static int JSONSTR_ANY = JSONSTR_UINT | JSONSTR_NOTUINT;
 	private final static int BOOL_ANY = BOOL_TRUE | BOOL_FALSE;
-	private final static int STR_ANY = STR_UINT | STR_NOTUINT;
+	private final static int STR_ANY = STR_UINT | STR_NOTUINT | STR_JSON;
 	private final static int NUM_ANY = NUM_NAN | NUM_INF | NUM_UINT | NUM_NOTUINT;
 	private final static int ATTR_DONTENUM_ANY = ATTR_DONTENUM | ATTR_NOTDONTENUM;
 	private final static int ATTR_READONLY_ANY = ATTR_READONLY | ATTR_NOTREADONLY;
@@ -91,7 +93,7 @@ public final class Value implements Undef, Null, Bool, Num, Str, IDependency<Val
 	private static Value theAbsent = reallyMakeAbsent(new Dependency(), new DependencyGraphReference());
 	private static Value theAbsentModified = reallyMakeAbsentModified(new Dependency(), new DependencyGraphReference());
 	private static Value theUnknown = reallyMakeUnknown(new Dependency(), new DependencyGraphReference());
-
+	private static Value theJSONStr = reallyMakeJSONStr(new Dependency(), new DependencyGraphReference());
 	// FIXME: MERGING
 	//	private static Value theJSONStr = reallyMakeJSONStr(new Dependency(), new DependencyGraphReference());
 	/*
@@ -229,7 +231,11 @@ public final class Value implements Undef, Null, Bool, Num, Str, IDependency<Val
 				+ ((flags & NUM_NAN) >> 8) // 0x100
 				+ ((flags & NUM_INF) >> 9) // 0x200
 				+ ((flags & NUM_UINT) >> 10) // 0x400
-				+ ((flags & NUM_NOTUINT) >> 11); // 0x800
+				+ ((flags & NUM_NOTUINT) >> 11) // 0x800
+/**
+ * vasu
+ */
+				+ ((flags & STR_JSON) >> 12);    // 0x1000
 	}
 
 	/**
@@ -1099,6 +1105,15 @@ public final class Value implements Undef, Null, Bool, Num, Str, IDependency<Val
 				b.append("NotUIntStr");
 				any = true;
 			}
+/**
+ * vasu
+ */
+			if (isMaybeJSONStr()) {
+                if (any)
+                    b.append("|");
+                b.append("JSONStr");
+                any = true;
+            }
 			if (str != null) {
 				if (any)
 					b.append('|');
@@ -1690,6 +1705,11 @@ public final class Value implements Undef, Null, Bool, Num, Str, IDependency<Val
 	public boolean isMaybeStrNotUInt() {
 		return (flags & STR_NOTUINT) != 0;
 	}
+	
+	@Override
+	public boolean isMaybeJSONStr() {
+        return (flags & STR_JSON) != 0;
+    }
 
 	@Override
 	public boolean isMaybeStrOnlyUInt() {
@@ -1770,7 +1790,7 @@ public final class Value implements Undef, Null, Bool, Num, Str, IDependency<Val
 			flags |= STR_NOTUINT;
 		str = null;
 	}
-
+	
 	private static Value reallyMakeAnyStr(Dependency dependency, DependencyGraphReference reference) {
 		Value r = new Value(dependency, reference);
 		r.flags |= STR_ANY;
@@ -1798,6 +1818,24 @@ public final class Value implements Undef, Null, Bool, Num, Str, IDependency<Val
 	}
 
 	/**
+	 * vasu
+	 */
+
+	private static Value reallyMakeJSONStr(Dependency dependency, DependencyGraphReference reference) {
+		Value r = new Value(dependency, reference);
+		r.flags |= STR_JSON;
+		return canonicalize(r);
+	}
+	/**
+     * Constructs the value describing any JSON string.
+     */
+   
+	public static Value makeJSONStr(Dependency dependency, DependencyGraphReference reference) {
+		return theJSONStr;
+	}
+	
+	
+	/**
 	 * Constructs the value describing the given string.
 	 */
 	public static Value makeStr(String s, Dependency dependency, DependencyGraphReference reference) {
@@ -1818,6 +1856,11 @@ public final class Value implements Undef, Null, Bool, Num, Str, IDependency<Val
 				r.flags |= Value.STR_UINT;
 			if (isMaybeStrNotUInt())
 				r.flags |= Value.STR_NOTUINT;
+/**
+ * vasu
+ */
+			if (isMaybeJSONStr())
+                r.flags |= Value.STR_JSON;
 			return canonicalize(r);
 		}
 	}
