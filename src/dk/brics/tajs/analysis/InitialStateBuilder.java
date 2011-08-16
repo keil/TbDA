@@ -293,7 +293,13 @@ public class InitialStateBuilder implements IInitialStateBuilder<State, CallCont
 		createPrimitiveFunction(s, lArrayProto, lFunProto, ECMAScriptObjects.ARRAY_SORT, "sort", 1);
 		createPrimitiveFunction(s, lArrayProto, lFunProto, ECMAScriptObjects.ARRAY_SPLICE, "splice", 2);
 		createPrimitiveFunction(s, lArrayProto, lFunProto, ECMAScriptObjects.ARRAY_UNSHIFT, "unshift", 1);
-
+/**
+ * vasu
+ */
+		createPrimitiveFunction(s, lArrayProto, lFunProto, ECMAScriptObjects.ARRAY_FOREACH, "forEach", 1);
+		createPrimitiveFunction(s, lArrayProto, lFunProto, ECMAScriptObjects.ARRAY_SOME, "some", 1);
+		createPrimitiveFunction(s, lArrayProto, lFunProto, ECMAScriptObjects.ARRAY_INDEXOF, "indexOf", 1);
+		
 		// 15.5.3 properties of the String constructor
 		createPrimitiveFunction(s, lString, lFunProto, ECMAScriptObjects.STRING_FROMCHARCODE, "fromCharCode", 1);
 
