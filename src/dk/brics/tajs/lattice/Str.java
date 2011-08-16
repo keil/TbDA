@@ -41,6 +41,11 @@ public interface Str {
 	public boolean isMaybeFuzzyStr();
 
 	/**
+     * Returns true if this value is maybe any JSON string.
+     */
+    public boolean isMaybeJSONStr();
+
+	/**
 	 * Returns the singleton string value, or null if definitely not a singleton string.
 	 */
 	public String getStr();
