@@ -47,16 +47,16 @@ public class Options {
 	// private static boolean isIgnoreHTMLContent;
 	private static boolean isReturnJSON;
 	private static boolean eval_statistics;
-	private static boolean coverage = false;
-	private static boolean error_batch_mode = false;
+	private static boolean coverage;
+	private static boolean error_batch_mode;
 
 	private static boolean ignore_libraries;
 	private static Set<String> ignored_libraries = Collections.newSet();
 
 	// DOM customization
-	private static boolean single_event_handler_loop = false;
-	private static boolean single_event_handler_type = false;
-	private static boolean isIgnoreHTMLContent = false;
+	private static boolean single_event_handler_loop;
+	private static boolean single_event_handler_type;
+	private static boolean isIgnoreHTMLContent;
 
 	private Options() {
 	}
