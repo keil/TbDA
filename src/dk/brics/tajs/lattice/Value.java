@@ -53,13 +53,7 @@ public final class Value implements Undef, Null, Bool, Num, Str, IDependency<Val
 	private final static int ATTR_NOTDONTDELETE = 0x0200000;
 	private final static int UNKNOWN = 0x1000000; // TODO: make unknown=bottom?
 	private final static int STR_JSON = 0x0001000;
-	
 
-	// FIXME: MERGING
-	// private final static int JSONSTR_UINT = 0x0000010;
-	// private final static int JSONSTR_NOTUINT = 0x0000020;
-
-	// private final static int JSONSTR_ANY = JSONSTR_UINT | JSONSTR_NOTUINT;
 	private final static int BOOL_ANY = BOOL_TRUE | BOOL_FALSE;
 	private final static int STR_ANY = STR_UINT | STR_NOTUINT | STR_JSON;
 	private final static int NUM_ANY = NUM_NAN | NUM_INF | NUM_UINT | NUM_NOTUINT;
@@ -94,15 +88,6 @@ public final class Value implements Undef, Null, Bool, Num, Str, IDependency<Val
 	private static Value theAbsentModified = reallyMakeAbsentModified(new Dependency(), new DependencyGraphReference());
 	private static Value theUnknown = reallyMakeUnknown(new Dependency(), new DependencyGraphReference());
 	private static Value theJSONStr = reallyMakeJSONStr(new Dependency(), new DependencyGraphReference());
-	// FIXME: MERGING
-	//	private static Value theJSONStr = reallyMakeJSONStr(new Dependency(), new DependencyGraphReference());
-	/*
-	 * Representation invariant: !((flags & STR_ANY) != 0 && str != null) &&
-	 * !((flags & NUM_ANY) != 0 && num != null) && !(object_labels != null &&
-	 * object_labels.isEmpty()) && !(num != null && Double.isNaN(num)) &&
-	 * !((flags & UNKNOWN) != 0 && ((flags & ~UNKNOWN) != 0 || str != null ||
-	 * num != null || !object_labels.isEmpty()))
-	 */
 
 	private int flags;
 	private Double num;
@@ -232,10 +217,7 @@ public final class Value implements Undef, Null, Bool, Num, Str, IDependency<Val
 				+ ((flags & NUM_INF) >> 9) // 0x200
 				+ ((flags & NUM_UINT) >> 10) // 0x400
 				+ ((flags & NUM_NOTUINT) >> 11) // 0x800
-/**
- * vasu
- */
-				+ ((flags & STR_JSON) >> 12);    // 0x1000
+				+ ((flags & STR_JSON) >> 12); // 0x1000
 	}
 
 	/**
@@ -938,42 +920,12 @@ public final class Value implements Undef, Null, Bool, Num, Str, IDependency<Val
 	 */
 	@Override
 	public boolean equals(Object obj) {
-		// if (!canonicalizing) // use object identity as equality, except
-		// during
-		// // canonicalization
-		// return obj == this;
 		if (obj == this)
 			return true;
 		if (!(obj instanceof Value))
 			return false;
 		Value v = (Value) obj;
 
-		// if(mDependencyGraphReference == null) {
-		// if(v.mDependencyGraphReference == null) {
-		// // ok
-		// } else {
-		// return false;
-		// }
-		// } else {
-		// if(v.mDependencyGraphReference == null) {
-		// return false;
-		// } else {
-		// if(!mDependencyGraphReference.equals(v.mDependencyGraphReference))
-		// return false;
-		// }
-		// }
-
-		// // FIXME
-		// if(mDependencyNode != null && v.mDependencyNode != null)
-		// if(!mDependencyNode.equals(v.mDependencyNode))
-		// return false;
-		// else if(!(mDependencyNode == null && v.mDependencyNode == null))
-		// return false;
-		// }
-		// else {
-
-		// }
-		// TODO
 		return flags == v.flags // && false
 				&& mDependency.equals(v.getDependency())
 				&& mDependencyGraphReference.equals(v.mDependencyGraphReference)
@@ -1105,15 +1057,12 @@ public final class Value implements Undef, Null, Bool, Num, Str, IDependency<Val
 				b.append("NotUIntStr");
 				any = true;
 			}
-/**
- * vasu
- */
 			if (isMaybeJSONStr()) {
-                if (any)
-                    b.append("|");
-                b.append("JSONStr");
-                any = true;
-            }
+				if (any)
+					b.append("|");
+				b.append("JSONStr");
+				any = true;
+			}
 			if (str != null) {
 				if (any)
 					b.append('|');
@@ -1705,11 +1654,11 @@ public final class Value implements Undef, Null, Bool, Num, Str, IDependency<Val
 	public boolean isMaybeStrNotUInt() {
 		return (flags & STR_NOTUINT) != 0;
 	}
-	
+
 	@Override
 	public boolean isMaybeJSONStr() {
-        return (flags & STR_JSON) != 0;
-    }
+		return (flags & STR_JSON) != 0;
+	}
 
 	@Override
 	public boolean isMaybeStrOnlyUInt() {
@@ -1790,25 +1739,12 @@ public final class Value implements Undef, Null, Bool, Num, Str, IDependency<Val
 			flags |= STR_NOTUINT;
 		str = null;
 	}
-	
+
 	private static Value reallyMakeAnyStr(Dependency dependency, DependencyGraphReference reference) {
 		Value r = new Value(dependency, reference);
 		r.flags |= STR_ANY;
 		return canonicalize(r);
 	}
-	// FIXME: MERGING
-	// private static Value reallyMakeJSONStr(Dependency dependency,
-	// DependencyGraphReference reference) {
-	// Value r = new Value(dependency, reference);
-	// r.flags |= JSONSTR_ANY;
-	// return canonicalize(r);
-	// }
-	// FIXME: MERGING
-	// public static Value makeJSONStr(Dependency dependency,
-	// DependencyGraphReference reference) {
-	// return
-	// theJSONStr.joinDependency(dependency).setDependencyGraphReference(reference);
-	// }
 
 	/**
 	 * Constructs the value describing any string.
@@ -1817,24 +1753,20 @@ public final class Value implements Undef, Null, Bool, Num, Str, IDependency<Val
 		return theStrAny.joinDependency(dependency).setDependencyGraphReference(reference);
 	}
 
-	/**
-	 * vasu
-	 */
-
 	private static Value reallyMakeJSONStr(Dependency dependency, DependencyGraphReference reference) {
 		Value r = new Value(dependency, reference);
 		r.flags |= STR_JSON;
 		return canonicalize(r);
 	}
+
 	/**
-     * Constructs the value describing any JSON string.
-     */
-   
+	 * Constructs the value describing any JSON string.
+	 */
+
 	public static Value makeJSONStr(Dependency dependency, DependencyGraphReference reference) {
 		return theJSONStr;
 	}
-	
-	
+
 	/**
 	 * Constructs the value describing the given string.
 	 */
@@ -1856,11 +1788,8 @@ public final class Value implements Undef, Null, Bool, Num, Str, IDependency<Val
 				r.flags |= Value.STR_UINT;
 			if (isMaybeStrNotUInt())
 				r.flags |= Value.STR_NOTUINT;
-/**
- * vasu
- */
 			if (isMaybeJSONStr())
-                r.flags |= Value.STR_JSON;
+				r.flags |= Value.STR_JSON;
 			return canonicalize(r);
 		}
 	}

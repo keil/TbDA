@@ -24,8 +24,8 @@ import dk.brics.tajs.flowgraph.Node;
  */
 public class DocumentEvent {
 
+	
 	public static void build(State s) {
-
 		/*
 		 * Properties.
 		 */

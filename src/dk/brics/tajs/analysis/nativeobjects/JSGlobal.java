@@ -5,13 +5,16 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import dk.brics.tajs.analysis.Conversion;
+import dk.brics.tajs.analysis.FunctionCalls.CallInfo;
 import dk.brics.tajs.analysis.NativeFunctions;
 import dk.brics.tajs.analysis.Solver;
 import dk.brics.tajs.analysis.State;
-import dk.brics.tajs.analysis.FunctionCalls.CallInfo;
-import dk.brics.tajs.analysis.dom.DOMFunctions;
 import dk.brics.tajs.analysis.dom.ajax.ReadystateEvent;
-import dk.brics.tajs.analysis.dom.event.*;
+import dk.brics.tajs.analysis.dom.event.EventListener;
+import dk.brics.tajs.analysis.dom.event.KeyboardEvent;
+import dk.brics.tajs.analysis.dom.event.MouseEvent;
+import dk.brics.tajs.analysis.dom.event.UIEvent;
+import dk.brics.tajs.analysis.dom.event.WheelEvent;
 import dk.brics.tajs.dependency.Dependency;
 import dk.brics.tajs.dependency.DependencyAnalyzer;
 import dk.brics.tajs.dependency.DependencyObject;
@@ -24,7 +27,6 @@ import dk.brics.tajs.dependency.interfaces.IDependency;
 import dk.brics.tajs.flowgraph.SourceLocation;
 import dk.brics.tajs.flowgraph.nodes.CallNode;
 import dk.brics.tajs.lattice.Value;
-import dk.brics.tajs.options.Options;
 import dk.brics.tajs.solver.Message.Severity;
 import dk.brics.tajs.solver.Message.Status;
 import dk.brics.tajs.util.Pair;
@@ -560,15 +562,6 @@ public class JSGlobal {
 			// ==================================================
 
 			c.addMessage(Status.INFO, Severity.HIGH, "Origin of objects: " + state.printObjectOrigins(x) /*
-																										 * +
-																										 * " (context: "
-																										 * +
-																										 * c
-																										 * .
-																										 * getCurrentContext
-																										 * (
-																										 * )
-																										 * +
 																										 * ")"
 																										 */);
 			return Value.makeUndef(dependency, node.getReference());
@@ -669,34 +662,9 @@ public class JSGlobal {
 			// ==================================================
 			DependencyExpressionNode node = DependencyNode.link(Label.CALL, call.getSourceNode(), state);
 			// ==================================================
-<<<<<<< .mine
-/**
- * vasu
- */
 			return Value.makeObject(UIEvent.INSTANCES, dependency, node.getReference());
-=======
-			return Value.makeObject(UIEvent.INSTANCES, dependency, node.getReference());
->>>>>>> .r21583
 		}
 
-<<<<<<< .mine
-//		case TAJS_GET_DOCUMENT_EVENT: {
-//			// ##################################################
-//			Dependency dependency = new Dependency();
-//			// ##################################################
-//
-//			// ==================================================
-//			DependencyExpressionNode node = DependencyNode.link(Label.CALL, call.getSourceNode(), state);
-//			// ==================================================
-//
-//			return Value.makeObject(DocumentEvent.DOCUMENT_EVENT, dependency, node.getReference());
-//		}
-
-		case TAJS_GET_MOUSE_EVENT: {
-			// ##################################################
-			Dependency dependency = new Dependency();
-			// ##################################################
-=======
 			// case TAJS_GET_DOCUMENT_EVENT: {
 			// // ##################################################
 			// Dependency dependency = new Dependency();
@@ -710,24 +678,8 @@ public class JSGlobal {
 			// return Value.makeObject(DocumentEvent.DOCUMENT_EVENT, dependency,
 			// node.getReference());
 			// }
->>>>>>> .r21583
 
-<<<<<<< .mine
-			// ==================================================
-			DependencyExpressionNode node = DependencyNode.link(Label.CALL, call.getSourceNode(), state);
-			// ==================================================
-/**
- * vasu
- */
-			return Value.makeObject(MouseEvent.INSTANCES, dependency, node.getReference());
-		}
-/**
- * vasu
- */
-		case TAJS_GET_AJAX_EVENT: {
-=======
 		case TAJS_GET_MOUSE_EVENT: {
->>>>>>> .r21583
 			// ##################################################
 			Dependency dependency = new Dependency();
 			// ##################################################
@@ -735,16 +687,21 @@ public class JSGlobal {
 			// ==================================================
 			DependencyExpressionNode node = DependencyNode.link(Label.CALL, call.getSourceNode(), state);
 			// ==================================================
-<<<<<<< .mine
 
-            return Value.makeObject(ReadystateEvent.INSTANCES, dependency, node.getReference());
-        }
-		
-=======
 			return Value.makeObject(MouseEvent.INSTANCES, dependency, node.getReference());
 		}
+		case TAJS_GET_AJAX_EVENT: {
+			// ##################################################
+			Dependency dependency = new Dependency();
+			// ##################################################
 
->>>>>>> .r21583
+			// ==================================================
+			DependencyExpressionNode node = DependencyNode.link(Label.CALL, call.getSourceNode(), state);
+			// ==================================================
+
+			return Value.makeObject(ReadystateEvent.INSTANCES, dependency, node.getReference());
+		}
+
 		case TAJS_GET_KEYBOARD_EVENT: {
 			// ##################################################
 			Dependency dependency = new Dependency();
@@ -753,14 +710,8 @@ public class JSGlobal {
 			// ==================================================
 			DependencyExpressionNode node = DependencyNode.link(Label.CALL, call.getSourceNode(), state);
 			// ==================================================
-<<<<<<< .mine
-/**vasu
- * 
- */
+
 			return Value.makeObject(KeyboardEvent.INSTANCES, dependency, node.getReference());
-=======
-			return Value.makeObject(KeyboardEvent.INSTANCES, dependency, node.getReference());
->>>>>>> .r21583
 		}
 
 		case TAJS_GET_EVENT_LISTENER: {
@@ -771,14 +722,8 @@ public class JSGlobal {
 			// ==================================================
 			DependencyExpressionNode node = DependencyNode.link(Label.CALL, call.getSourceNode(), state);
 			// ==================================================
-<<<<<<< .mine
-/**
- * vasu
- */
+
 			return Value.makeObject(EventListener.INSTANCES, dependency, node.getReference());
-=======
-			return Value.makeObject(EventListener.INSTANCES, dependency, node.getReference());
->>>>>>> .r21583
 		}
 
 		case TAJS_GET_WHEEL_EVENT: {
@@ -789,14 +734,8 @@ public class JSGlobal {
 			// ==================================================
 			DependencyExpressionNode node = DependencyNode.link(Label.CALL, call.getSourceNode(), state);
 			// ==================================================
-<<<<<<< .mine
-/**
- * vasu
- */
+
 			return Value.makeObject(WheelEvent.INSTANCES, dependency, node.getReference());
-=======
-			return Value.makeObject(WheelEvent.INSTANCES, dependency, node.getReference());
->>>>>>> .r21583
 		}
 
 		default:

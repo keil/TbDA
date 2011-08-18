@@ -24,12 +24,13 @@ public interface Str {
 	 * Returns true if this value is maybe any non-UInt string.
 	 */
 	public boolean isMaybeStrNotUInt();
-	
+
 	/**
-	 * Returns true if this value is maybe any UInt string but not a non-UInt string.
+	 * Returns true if this value is maybe any UInt string but not a non-UInt
+	 * string.
 	 */
 	public boolean isMaybeStrOnlyUInt();
-	
+
 	/**
 	 * Returns true if this value may be a non-string.
 	 */
@@ -41,12 +42,13 @@ public interface Str {
 	public boolean isMaybeFuzzyStr();
 
 	/**
-     * Returns true if this value is maybe any JSON string.
-     */
-    public boolean isMaybeJSONStr();
+	 * Returns true if this value is maybe any JSON string.
+	 */
+	public boolean isMaybeJSONStr();
 
 	/**
-	 * Returns the singleton string value, or null if definitely not a singleton string.
+	 * Returns the singleton string value, or null if definitely not a singleton
+	 * string.
 	 */
 	public String getStr();
 
@@ -66,12 +68,14 @@ public interface Str {
 	public Value joinAnyStrUInt();
 
 	/**
-	 * Constructs a value as the join of this value and the given concrete string.
+	 * Constructs a value as the join of this value and the given concrete
+	 * string.
 	 */
 	public Value joinStr(String v);
-	
+
 	/**
-	 * Constructs a value from this value where only the string facet is considered.
+	 * Constructs a value from this value where only the string facet is
+	 * considered.
 	 */
 	public Value restrictToStr();
 }

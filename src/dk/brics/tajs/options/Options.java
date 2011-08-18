@@ -44,16 +44,12 @@ public class Options {
 	private static boolean exit_on_error;
 	private static boolean include_initialstate;
 	private static boolean show_all_states;
-	// private static boolean isIgnoreHTMLContent;
 	private static boolean isReturnJSON;
 	private static boolean eval_statistics;
 	private static boolean coverage;
 	private static boolean error_batch_mode;
-
 	private static boolean ignore_libraries;
 	private static Set<String> ignored_libraries = Collections.newSet();
-
-	// DOM customization
 	private static boolean single_event_handler_loop;
 	private static boolean single_event_handler_type;
 	private static boolean isIgnoreHTMLContent;
@@ -295,40 +291,33 @@ public class Options {
 	}
 
 	/**
-	 * vasu
+	 * return json
 	 */
 	public static boolean isReturnJSON() {
 		return isReturnJSON;
 	}
 
 	/**
-	 * vasu
+	 * is html ignored
 	 */
 	public static boolean isIgnoreHTMLContent() {
 		return isIgnoreHTMLContent;
 	}
 
 	/**
-	 * vasu
-	 */
-	/**
 	 * If set, ignore unreachable code warnings from libraries.
 	 */
-
 	public static boolean isIgnoreLibraries() {
 		return ignore_libraries;
 	}
 
 	/**
-	 * vasu
+	 * IS eval statistics
 	 */
 	public static boolean isEvalStatistics() {
 		return eval_statistics;
 	}
 
-	/**
-	 * vasu
-	 */
 	/**
 	 * Add a file to the set of ignored library files.
 	 */
@@ -337,9 +326,6 @@ public class Options {
 	}
 
 	/**
-	 * vasu
-	 */
-	/**
 	 * Get the set of ignored libraries.
 	 */
 	public static Set<String> getLibraries() {
@@ -347,18 +333,13 @@ public class Options {
 	}
 
 	/**
-	 * vasu
-	 */
-	/**
 	 * If set, detect bug patterns.
 	 */
 	public static boolean isBugPatternsEnabled() {
 		return bug_patterns;
 	}
 
-	/**
-	 * vasu
-	 */
+
 	public static boolean isCoverageEnabled() {
 		return coverage;
 	}
