@@ -39,8 +39,10 @@
 		<mkdir dir="temp" />
 		<unzip src="lib/js.jar" dest="temp" />
 		<unzip src="lib/jtidy.jar" dest="temp" />
+		<unzip src="lib/jdom-1.1.1.jar" dest="temp" />
+		<unzip src="lib/jdom-contrib-1.1.1.jar" dest="temp" />
 		<unzip src="dist/${project}.jar" dest="temp" />
-		<jar jarfile="dist/${project}-all.jar" manifest="manifest.txt" basedir="temp" includes="**/*.class" />
+		<jar jarfile="dist/${project}-all.jar" manifest="manifest.txt" basedir="temp" includes="**/*.*" />
 		<delete dir="temp" />
 	</target>
 
@@ -59,12 +61,21 @@
 		<javadoc packagenames="dk.brics.tajs,
 			                   dk.brics.tajs.analysis,
                                dk.brics.tajs.analysis.dom,
+			                   dk.brics.tajs.analysis.dom.ajax,
                                dk.brics.tajs.analysis.dom.core,
-                               dk.brics.tajs.analysis.dom.events,
+                               dk.brics.tajs.analysis.dom.event,
                                dk.brics.tajs.analysis.dom.html,
+			                   dk.brics.tajs.analysis.dom.html5,
 			                   dk.brics.tajs.analysis.dom.style,
+			                   dk.brics.tajs.analysis.dom.view,
 			                   dk.brics.tajs.analysis.nativeobjects,
-			                   dk.brics.tajs.flowgraph,
+								dk.brics.tajs.dependency,
+								dk.brics.tajs.dependency.graph,
+								dk.brics.tajs.dependency.graph.interfaces,
+								dk.brics.tajs.dependency.graph.nodes,
+								dk.brics.tajs.dependency.graph.visitor,
+								dk.brics.tajs.dependency.interfaces,
+								dk.brics.tajs.flowgraph,
 			                   dk.brics.tajs.flowgraph.nodes,
                                dk.brics.tajs.js2flowgraph,
                                dk.brics.tajs.lattice,
@@ -86,7 +97,7 @@
 				<![CDATA[Type Analyzer for JavaScript (TAJS) API Specification]]>
 			</doctitle>
 			<bottom>
-				<![CDATA[<i> Copyright &#169; 2008-2010 Anders M&oslash;ller, Simon Holm Jensen, Peter Thiemann, Magnus Madsen, Matthias Diehn Ingesman. </i>]]></bottom>
+				<![CDATA[<i> Copyright &#169; 2008-2010 Anders M&oslash;ller, Simon Holm Jensen, Peter Thiemann, Magnus Madsen, Matthias Diehn Ingesman, Roman Matthias Keil. </i>]]></bottom>
 			<link href="http://java.sun.com/javase/6/docs/api/"/>
 			<link href="http://www.mozilla.org/rhino/apidocs/"/>
 			<classpath refid="classpath"/>
@@ -199,15 +210,21 @@
 		</exec>
 	</target>
 
-	<target name="view-flowgraph">
+	<target name="view-callgraph">
 		<antcall target="dotview">
-			<param name="dotfile" value="flowgraph.dot"/>
+			<param name="dotfile" value="out/callgraph.dot"/>
 		</antcall>
 	</target>
 
-	<target name="view-callgraph">
+    <target name="view-state">
 		<antcall target="dotview">
-			<param name="dotfile" value="callgraph.dot"/>
+			<param name="dotfile" value="out/state.dot"/>
+		</antcall>
+	</target>
+
+	<target name="view-flowgraph">
+		<antcall target="dotview">
+			<param name="dotfile" value="out/flowgraph.dot"/>
 		</antcall>
 	</target>
 
@@ -219,7 +236,7 @@
                 </not>
             </condition>
         </fail>
-        <fileset dir="flowgraphs" id="dotfiles">
+        <fileset dir="out/flowgraphs" id="dotfiles">
             <include name="**/*.dot"/>
         </fileset>
         <pathconvert pathsep=" " property="dotfiles_flattened" refid="dotfiles"/>
@@ -229,12 +246,6 @@
 			<arg value="-O"/>
             <arg line="${dotfiles_flattened}"/>
 		</exec>
-	</target>
-
-    <target name="view-state">
-		<antcall target="dotview">
-			<param name="dotfile" value="state.dot"/>
-		</antcall>
 	</target>
 
 </project>
