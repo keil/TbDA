@@ -35,7 +35,7 @@ public class JSFunction {
 	/**
 	 * Evaluates the given native function.
 	 */
-	public static Value evaluate(ECMAScriptObjects nativeobject, final CallInfo call, final State state, final Solver.SolverInterface c) {
+	public static Value evaluate(ECMAScriptObjects nativeobject, final CallInfo<? extends Node> call, final State state, final Solver.SolverInterface c) {
 		if (nativeobject != ECMAScriptObjects.FUNCTION && nativeobject != ECMAScriptObjects.FUNCTION_PROTOTYPE)
 			if (NativeFunctions.throwTypeErrorIfConstructor(call, state, c))
 				return Value.makeBottom(new Dependency(), new DependencyGraphReference());

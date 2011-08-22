@@ -1,7 +1,5 @@
 package dk.brics.tajs.analysis.nativeobjects;
 
-import com.sun.xml.internal.bind.v2.model.core.Ref;
-
 import dk.brics.tajs.analysis.Conversion;
 import dk.brics.tajs.analysis.FunctionCalls.CallInfo;
 import dk.brics.tajs.analysis.NativeFunctions;
@@ -12,6 +10,7 @@ import dk.brics.tajs.dependency.graph.DependencyGraphReference;
 import dk.brics.tajs.dependency.graph.DependencyNode;
 import dk.brics.tajs.dependency.graph.Label;
 import dk.brics.tajs.dependency.graph.nodes.DependencyExpressionNode;
+import dk.brics.tajs.flowgraph.Node;
 import dk.brics.tajs.lattice.Value;
 
 /**
@@ -25,7 +24,7 @@ public class JSMath {
 	/**
 	 * Evaluates the given native function.
 	 */
-	public static Value evaluate(ECMAScriptObjects nativeobject, CallInfo call, State state, Solver.SolverInterface c) {
+	public static Value evaluate(ECMAScriptObjects nativeobject, CallInfo<? extends Node> call, State state, Solver.SolverInterface c) {
 		if (NativeFunctions.throwTypeErrorIfConstructor(call, state, c))
 			return Value.makeBottom(new Dependency(), new DependencyGraphReference());
 

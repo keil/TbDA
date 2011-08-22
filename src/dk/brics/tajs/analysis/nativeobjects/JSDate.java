@@ -25,7 +25,7 @@ public class JSDate {
 	/**
 	 * Evaluates the given native function.
 	 */
-	public static Value evaluate(ECMAScriptObjects nativeobject, CallInfo call, State state, Solver.SolverInterface c) {
+	public static Value evaluate(ECMAScriptObjects nativeobject, CallInfo<? extends Node> call, State state, Solver.SolverInterface c) {
 		if (nativeobject != ECMAScriptObjects.DATE)
 			if (NativeFunctions.throwTypeErrorIfConstructor(call, state, c))
 				return Value.makeBottom(new Dependency(), new DependencyGraphReference());

@@ -2,8 +2,6 @@ package dk.brics.tajs.analysis.nativeobjects;
 
 import java.util.Set;
 
-import com.sun.xml.internal.bind.v2.model.core.Ref;
-
 import dk.brics.tajs.analysis.Conversion;
 import dk.brics.tajs.analysis.Exceptions;
 import dk.brics.tajs.analysis.InitialStateBuilder;
