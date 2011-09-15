@@ -21,9 +21,9 @@ var undef = trace ( undefined );
 
 //////////////////////////////////////////////////
 
-/* 15.1.1.1 */
-var test_infinity = infinity;
 /* 15.1.1.2 */
+var test_infinity = infinity;
+/* 15.1.1.1 */
 var test_nan = nan;
 /* 15.1.1.3 */
 var test_undef = undef;

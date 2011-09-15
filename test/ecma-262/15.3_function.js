@@ -42,7 +42,7 @@ var test_length = Function.length;
 /* 15.3.4.2 */
 //var test_tostring		= f0.toString();
 /* 15.3.4.3 */
-//var test_applay			= f0.applay( s0, o0 );
+//var test_applay			= f0.apply( s0, o0 );
 /* 15.3.4.4 */
 //var test_call			= f0.call( s0 );
 /* 15.3.4.5 */

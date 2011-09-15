@@ -22,7 +22,11 @@ var s0 = trace( "17" );
 
 var d0 = trace( new Date() );
 
+var year1 = trace(1961);
+var year2 = trace(2011);
+
 //////////////////////////////////////////////////
+
 
 /* 15.9.1.11 */
 // var test_maketime	=	MakeTime( n0, n0, n0, n0 );			
@@ -43,6 +47,8 @@ var test_date2		=	new Date( n0 , n1 );
 var test_date3		=	new Date( s0 );
 /* 15.9.3.3 */
 var test_date4		=	new Date( );
+
+
 
 
 /* 15.9.4.1 */
