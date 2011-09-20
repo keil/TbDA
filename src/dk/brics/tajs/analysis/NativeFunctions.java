@@ -41,7 +41,7 @@ public class NativeFunctions {
 	/**
 	 * Evaluates the given native function.
 	 */
-	public static Value evaluate(NativeObject nativeobject, FunctionCalls.CallInfo<? extends Node> call, State state, Solver.SolverInterface c) {
+	public static Value evaluate(NativeObject nativeobject, FunctionCalls.CallInfo call, State state, Solver.SolverInterface c) {
 		switch (nativeobject.getAPI()) {
 		case ECMA_SCRIPT_NATIVE:
 			return ECMAScriptFunctions.evaluate((ECMAScriptObjects) nativeobject, call, state, c);

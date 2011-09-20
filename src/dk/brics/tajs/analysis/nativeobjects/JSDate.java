@@ -394,7 +394,7 @@ public class JSDate {
 			return Value.makeAnyStr(dependency, node.getReference());
 		}
 		
-		case DATE_TOUTCSTRING: // 15.9.5.42
+		//case DATE_TOUTCSTRING: // 15.9.5.42
 		case DATE_TOGMTSTRING: { // B.2.6
 			// ##################################################
 			Dependency dependency = new Dependency();

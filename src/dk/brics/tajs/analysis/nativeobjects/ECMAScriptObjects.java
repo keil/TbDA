@@ -174,7 +174,8 @@ public enum ECMAScriptObjects implements NativeObject {
 			NativeAPIs.ECMA_SCRIPT_NATIVE, "URIError"), URI_ERROR_PROTOTYPE(
 			NativeAPIs.ECMA_SCRIPT_NATIVE, "URIError.prototype"),
 
-	EVAL(NativeAPIs.ECMA_SCRIPT_NATIVE, "eval"), PARSEINT(
+//	EVAL(NativeAPIs.ECMA_SCRIPT_NATIVE, "eval"),
+	PARSEINT(
 			NativeAPIs.ECMA_SCRIPT_NATIVE, "parseInt"), PARSEFLOAT(
 			NativeAPIs.ECMA_SCRIPT_NATIVE, "parseFloat"), ISNAN(
 			NativeAPIs.ECMA_SCRIPT_NATIVE, "isNaN"), ISFINITE(

@@ -1,6 +1,7 @@
 package dk.brics.tajs.analysis.dom.html;
 
 import dk.brics.tajs.analysis.InitialStateBuilder;
+import static dk.brics.tajs.analysis.dom.DOMFunctions.createDOMSpecialProperty;
 import dk.brics.tajs.analysis.State;
 import dk.brics.tajs.analysis.dom.DOMObjects;
 import dk.brics.tajs.analysis.dom.DOMSpec;
@@ -27,9 +28,9 @@ public class HTMLTitleElement {
 
 		// Constructor Object
 		s.newObject(CONSTRUCTOR);
-		InitialStateBuilder.createSpecialProperty(s, CONSTRUCTOR, "length",
+		createDOMSpecialProperty(s, CONSTRUCTOR, "length",
 				Value.makeNum(0, new Dependency(), new DependencyGraphReference()).setAttributes(true, true, true));
-		InitialStateBuilder.createSpecialProperty(s, CONSTRUCTOR, "prototype", Value.makeObject(PROTOTYPE, new Dependency(), new DependencyGraphReference())
+		createDOMSpecialProperty(s, CONSTRUCTOR, "prototype", Value.makeObject(PROTOTYPE, new Dependency(), new DependencyGraphReference())
 				.setAttributes(true, true, true));
 		createDOMInternalPrototype(s, CONSTRUCTOR, Value.makeObject(InitialStateBuilder.OBJECT_PROTOTYPE, new Dependency(), new DependencyGraphReference()));
 		createDOMProperty(s, DOMWindow.WINDOW, "HTMLTitleElement", Value.makeObject(CONSTRUCTOR, new Dependency(), new DependencyGraphReference()));

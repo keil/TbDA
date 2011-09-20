@@ -231,7 +231,7 @@ public class JSFunction {
 
 			FunctionCalls.callFunction(new FunctionCalls.CallInfo() {
 
-				@Override
+//				@Override
 				public Node getSourceNode() {
 					return call.getSourceNode();
 				}
@@ -294,7 +294,7 @@ public class JSFunction {
 		}
 	}
 
-	private static Set<ObjectLabel> prepareThis(CallInfo call, State callee_state, Solver.SolverInterface c) {
+	private static Set<ObjectLabel> prepareThis(CallInfo<? extends Node> call, State callee_state, Solver.SolverInterface c) {
 		Value thisval = call.getArg(0);
 		// 15.3.4.3/4
 		boolean maybe_null_or_undef = thisval.isMaybeNull() || thisval.isMaybeUndef();

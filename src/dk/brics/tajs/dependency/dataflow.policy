@@ -1,5 +1,5 @@
 # Object Trace
-trace: 
+trace: Math.E
 
 #HTMLDocument.cookie; Math.abs;
 #Array; Boolean; Date; Error; Function; Math; Number; Object; RegExp; String;

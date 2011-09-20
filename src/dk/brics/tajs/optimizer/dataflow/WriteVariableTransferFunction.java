@@ -1,6 +1,5 @@
 package dk.brics.tajs.optimizer.dataflow;
 
-import dk.brics.tajs.flowgraph.nodes.CallNode;
 import dk.brics.tajs.flowgraph.nodes.EnterWithNode;
 import dk.brics.tajs.flowgraph.nodes.WriteVariableNode;
 import dk.brics.tajs.optimizer.FlowGraphDecorator;

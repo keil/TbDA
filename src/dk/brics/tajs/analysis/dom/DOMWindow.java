@@ -103,7 +103,7 @@ public class DOMWindow {
 		 * WINDOW HISTORY object
 		 */
 		s.newObject(HISTORY);
-		DOMFunctions.createDOMInternalPrototype(s, HISTORY,
+		createDOMInternalPrototype(s, HISTORY,
 				Value.makeObject(InitialStateBuilder.OBJECT_PROTOTYPE, new Dependency(), new DependencyGraphReference()));
 		// Properties.
 		createDOMProperty(s, HISTORY, "length", Value.makeAnyNumUInt(new Dependency(), new DependencyGraphReference()), DOMSpec.LEVEL_0);

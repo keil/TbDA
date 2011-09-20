@@ -3,6 +3,7 @@ package dk.brics.tajs.analysis.nativeobjects;
 import dk.brics.tajs.analysis.FunctionCalls.CallInfo;
 import dk.brics.tajs.analysis.Solver;
 import dk.brics.tajs.analysis.State;
+import dk.brics.tajs.flowgraph.nodes.CallNode;
 import dk.brics.tajs.lattice.Value;
 import dk.brics.tajs.options.Options;
 
@@ -14,7 +15,7 @@ public class ECMAScriptFunctions {
     /**
      * Evaluates the given native ECMAScript function.
      */
-    public static Value evaluate(ECMAScriptObjects nativeobject, CallInfo call, State state, Solver.SolverInterface c) {
+    public static Value evaluate(ECMAScriptObjects nativeobject, CallInfo<CallNode> call, State state, Solver.SolverInterface c) {
         if (Options.isDebugEnabled())
             System.out.println("native function: " + nativeobject);
         Value res = null;
@@ -43,17 +44,17 @@ public class ECMAScriptFunctions {
             case ARRAY_TOSTRING:
             case ARRAY_TOLOCALESTRING:
             case ARRAY_CONCAT:
-//            case ARRAY_FOREACH:
+            case ARRAY_FOREACH:
             case ARRAY_PUSH:
             case ARRAY_POP:
             case ARRAY_REVERSE:
             case ARRAY_SHIFT:
             case ARRAY_SLICE:
-//            case ARRAY_SOME:	
+            case ARRAY_SOME:	
             case ARRAY_SORT:
             case ARRAY_SPLICE:
             case ARRAY_UNSHIFT:
-//            case ARRAY_INDEXOF:
+            case ARRAY_INDEXOF:
                 res = JSArray.evaluate(nativeobject, call, state, c);
                 break;
 
@@ -186,7 +187,7 @@ public class ECMAScriptFunctions {
                 res = JSMath.evaluate(nativeobject, call, state, c);
                 break;
 
-            case EVAL:
+            //case EVAL:
             case PARSEINT:
             case PARSEFLOAT:
             case ISNAN:

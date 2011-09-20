@@ -88,7 +88,7 @@ public class JSError {
 	/**
 	 * Creates a new error object according to 15.11.1.1 / 15.11.2.1 / 15.11.7.2 / 15.11.7.4.
 	 */
-	private static Value createErrorObject(ObjectLabel proto, ECMAScriptObjects nativeobject, CallInfo call, 
+	private static Value createErrorObject(ObjectLabel proto, ECMAScriptObjects nativeobject, CallInfo<? extends Node> call, 
 			State state, Solver.SolverInterface c) {
 		// ##################################################
 		Dependency dependency = new Dependency();

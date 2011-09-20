@@ -218,7 +218,7 @@ public class InitialStateBuilder implements IInitialStateBuilder<State, CallCont
 		// choice
 
 		// 15.1.2 function properties of the global object
-		createPrimitiveFunction(s, global, lFunProto, ECMAScriptObjects.EVAL, "eval", 1);
+		//createPrimitiveFunction(s, global, lFunProto, ECMAScriptObjects.EVAL, "eval", 1);
 		createPrimitiveFunction(s, global, lFunProto, ECMAScriptObjects.PARSEINT, "parseInt", 2);
 		createPrimitiveFunction(s, global, lFunProto, ECMAScriptObjects.PARSEFLOAT, "parseFloat", 1);
 		createPrimitiveFunction(s, global, lFunProto, ECMAScriptObjects.ISNAN, "isNaN", 1);

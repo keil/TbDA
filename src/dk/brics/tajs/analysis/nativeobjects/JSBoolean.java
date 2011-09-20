@@ -14,6 +14,7 @@ import dk.brics.tajs.dependency.graph.nodes.DependencyExpressionNode;
 import dk.brics.tajs.flowgraph.ObjectLabel;
 import dk.brics.tajs.flowgraph.ObjectLabel.Kind;
 import dk.brics.tajs.lattice.Value;
+import dk.brics.tajs.flowgraph.Node;
 
 /**
  * 15.6 native Boolean functions.
@@ -25,7 +26,7 @@ public class JSBoolean {
 	/**
 	 * Evaluates the given native function.
 	 */
-	public static Value evaluate(ECMAScriptObjects nativeobject, CallInfo call, State state, Solver.SolverInterface c) {
+	public static Value evaluate(ECMAScriptObjects nativeobject, CallInfo<? extends Node> call, State state, Solver.SolverInterface c) {
 		if (nativeobject != ECMAScriptObjects.BOOLEAN)
 			if (NativeFunctions.throwTypeErrorIfConstructor(call, state, c))
 				return Value.makeBottom(new Dependency(), new DependencyGraphReference());

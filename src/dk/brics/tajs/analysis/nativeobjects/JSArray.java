@@ -14,6 +14,7 @@ import dk.brics.tajs.dependency.graph.DependencyGraphReference;
 import dk.brics.tajs.dependency.graph.DependencyNode;
 import dk.brics.tajs.dependency.graph.Label;
 import dk.brics.tajs.dependency.graph.nodes.DependencyExpressionNode;
+import dk.brics.tajs.flowgraph.Node;
 import dk.brics.tajs.flowgraph.ObjectLabel;
 import dk.brics.tajs.flowgraph.ObjectLabel.Kind;
 import dk.brics.tajs.lattice.Value;
@@ -31,7 +32,7 @@ public class JSArray {
 	/**
 	 * Evaluates the given native function.
 	 */
-	public static Value evaluate(ECMAScriptObjects nativeobject, CallInfo call, State state, Solver.SolverInterface c) {
+	public static Value evaluate(ECMAScriptObjects nativeobject, CallInfo<? extends Node> call, State state, Solver.SolverInterface c) {
 		if (nativeobject != ECMAScriptObjects.ARRAY)
 			if (NativeFunctions.throwTypeErrorIfConstructor(call, state, c))
 				return Value.makeBottom(new Dependency(), new DependencyGraphReference());

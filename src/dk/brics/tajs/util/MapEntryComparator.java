@@ -10,6 +10,8 @@ import java.util.Map.Entry;
  */
 public class MapEntryComparator<K extends Comparable<K>,V> implements Comparator<Map.Entry<K,V>>, Serializable {
 
+	private static final long serialVersionUID = 1L;
+
 	@Override
 	public int compare(Entry<K, V> e1, Entry<K, V> e2) {
 		return e1.getKey().compareTo(e2.getKey());

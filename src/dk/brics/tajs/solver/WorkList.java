@@ -157,7 +157,7 @@ public class WorkList<CallContextType extends ICallContext> {
 		public boolean equals(Object obj) {
 			if (obj == null || !getClass().equals(obj.getClass()))
 				return false;
-            WorkList.Entry p = (WorkList.Entry) obj;
+			WorkList.Entry p = (WorkList.Entry) obj;
 			return p.b == b && p.c.equals(c);
 		}
 
