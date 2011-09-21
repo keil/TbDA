@@ -25,7 +25,6 @@ import dk.brics.tajs.lattice.ScopeChain;
 import dk.brics.tajs.lattice.Summarized;
 import dk.brics.tajs.lattice.Value;
 import dk.brics.tajs.options.Options;
-import dk.brics.tajs.solver.GenericSolver;
 import dk.brics.tajs.solver.Message.Severity;
 import dk.brics.tajs.solver.Message.Status;
 import dk.brics.tajs.solver.NodeAndContext;
@@ -107,7 +106,7 @@ public class FunctionCalls {
 
 		private Solver.SolverInterface solver;
 
-		public EventHandlerCall(EventDispatcherNode sourceNode, Value function, Value arg1, GenericSolver.SolverInterface solver) {
+		public EventHandlerCall(EventDispatcherNode sourceNode, Value function, Value arg1, Solver.SolverInterface solver) {
 			this.sourceNode = sourceNode;
 			this.function = function;
 			this.arg1 = arg1;
@@ -175,7 +174,7 @@ public class FunctionCalls {
 		Dependency dependency = new Dependency();
 		dependency.join(caller_state.getDependency());
 		// ##################################################
-		
+
 		// ==================================================
 		DependencyExpressionNode node = new DependencyExpressionNode(new DependencyLabel(Label.CALL, c.getCurrentNode()));
 		node.addParent(caller_state);
@@ -190,7 +189,7 @@ public class FunctionCalls {
 		// ==================================================
 		node.addParent(funval);
 		// ==================================================
-		
+
 		boolean maybe_non_function = funval.isMaybePrimitive();
 		boolean maybe_function = false;
 		for (ObjectLabel objlabel : funval.getObjectLabels()) {
@@ -212,12 +211,11 @@ public class FunctionCalls {
 					res = res.joinDependency(dependency);
 					// ##################################################
 
-					
 					// ==================================================
 					node.addParent(res);
 					res = res.setDependencyGraphReference(node.getReference());
 					// ==================================================
-					
+
 					c.setCurrentState(ts);
 					if ((!res.isBottom() && !newstate.isEmpty()) || Options.isPropagateDeadFlow()) {
 						if (old_ec != null)
@@ -295,7 +293,7 @@ public class FunctionCalls {
 			// ==================================================
 			reference.join(prototype.getDependencyGraphReference());
 			// ==================================================
-			
+
 			if (prototype.isMaybePrimitive())
 				prototype = prototype.restrictToObject().joinObject(InitialStateBuilder.OBJECT_PROTOTYPE);
 			callee_state.writeInternalPrototype(new_obj, prototype);
@@ -326,8 +324,11 @@ public class FunctionCalls {
 		int num_formals = f.getParameterNames().size();
 		int num_actuals = call.getNumberOfArgs();
 		boolean num_actuals_unknown = call.isUnknownNumberOfArgs();
-		callee_state.writeSpecialProperty(argobj, "length",
-				(num_actuals_unknown ? Value.makeAnyNumUInt(dependency, reference) : Value.makeNum(num_actuals, new Dependency(), new DependencyGraphReference())).setAttributes(true, false, false));
+		callee_state.writeSpecialProperty(
+				argobj,
+				"length",
+				(num_actuals_unknown ? Value.makeAnyNumUInt(dependency, reference) : Value.makeNum(num_actuals, new Dependency(),
+						new DependencyGraphReference())).setAttributes(true, false, false));
 		if (num_actuals_unknown)
 			callee_state.writeSpecialUnknownArrayProperty(argobj, call.getUnknownArg().setAttributes(true, false, false));
 		for (int i = 0; i < num_formals || (!num_actuals_unknown && i < num_actuals); i++) {

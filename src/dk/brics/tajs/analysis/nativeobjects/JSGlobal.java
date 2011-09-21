@@ -24,6 +24,7 @@ import dk.brics.tajs.dependency.graph.Label;
 import dk.brics.tajs.dependency.graph.nodes.DependencyExpressionNode;
 import dk.brics.tajs.dependency.graph.nodes.DependencyObjectNode;
 import dk.brics.tajs.dependency.interfaces.IDependency;
+import dk.brics.tajs.flowgraph.Node;
 import dk.brics.tajs.flowgraph.SourceLocation;
 import dk.brics.tajs.flowgraph.nodes.CallNode;
 import dk.brics.tajs.lattice.Value;
@@ -43,7 +44,7 @@ public class JSGlobal {
 	/**
 	 * Evaluates the given native function.
 	 */
-	public static Value evaluate(ECMAScriptObjects nativeobject, CallInfo<CallNode> call, State state, Solver.SolverInterface c) {
+	public static Value evaluate(ECMAScriptObjects nativeobject, CallInfo<? extends Node> call, State state, Solver.SolverInterface c) {
 		if (NativeFunctions.throwTypeErrorIfConstructor(call, state, c))
 			return Value.makeBottom(new Dependency(), new DependencyGraphReference());
 
@@ -296,7 +297,15 @@ public class JSGlobal {
 			} else {
 				// dump value dependency
 
-				CallNode n = call.getSourceNode();
+				CallNode n;
+					if(call instanceof CallNode)
+						n = (CallNode) call.getSourceNode();
+					else 
+						return Value.makeUndef(new Dependency(), new DependencyGraphReference());
+					
+				//Node x = call.g ();
+				
+				//CallNode n = call.getSourceNode();
 				for (int i = 0; i < call.getNumberOfArgs(); i++) {
 
 					Triple<String, IDependency<?>, SourceLocation> key = new Triple<String, IDependency<?>, SourceLocation>("v" + n.getArgVar(i),

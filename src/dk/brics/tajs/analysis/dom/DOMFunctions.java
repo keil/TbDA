@@ -606,7 +606,7 @@ public class DOMFunctions {
 		case XML_HTTP_REQUEST_GET_RESPONSE_HEADER:
 		case XML_HTTP_REQUEST_GET_ALL_RESPONSE_HEADERS:
 		case XML_HTTP_REQUEST_CONSTRUCTOR:
-			 return XmlHttpRequest.evaluate(nativeObject, call, s, c);
+			return XmlHttpRequest.evaluate(nativeObject, call, s, c);
 		case ACTIVE_X_OBJECT_OPEN:
 		case ACTIVE_X_OBJECT_SEND:
 		case ACTIVE_X_OBJECT_ABORT:
@@ -614,7 +614,7 @@ public class DOMFunctions {
 		case ACTIVE_X_OBJECT_GET_RESPONSE_HEADER:
 		case ACTIVE_X_OBJECT_GET_ALL_RESPONSE_HEADERS:
 		case ACTIVE_X_OBJECT_CONSTRUCTOR:
-			 return ActiveXObject.evaluate(nativeObject, call, s, c);
+			return ActiveXObject.evaluate(nativeObject, call, s, c);
 		default: {
 			throw new RuntimeException("Native DOM function " + nativeObject + " not supported");
 		}

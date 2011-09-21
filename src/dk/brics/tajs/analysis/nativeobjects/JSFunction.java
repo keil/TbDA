@@ -44,13 +44,15 @@ public class JSFunction {
 
 		case FUNCTION: { // 15.3.1 / 15.3.2 (no difference between function and
 							// constructor)
-			return Value.makeUndef(new Dependency(), new DependencyGraphReference()); // XXX throw new
-														// RuntimeException("Don't know how to handle call to 'Function' :-(");
-														// // TODO: call to
-														// 'Function' (just
-														// issue an error
-														// message and return
-														// undefined?)
+			return Value.makeUndef(new Dependency(), new DependencyGraphReference()); // XXX
+																						// throw
+																						// new
+			// RuntimeException("Don't know how to handle call to 'Function' :-(");
+			// // TODO: call to
+			// 'Function' (just
+			// issue an error
+			// message and return
+			// undefined?)
 		}
 
 		case FUNCTION_PROTOTYPE: { // 15.3.4
@@ -135,16 +137,16 @@ public class JSFunction {
 				return Value.makeBottom(dependency, node.getReference());
 			final boolean unknown_length__final = unknown_length;
 			final int fixed_length__final = fixed_length;
-			FunctionCalls.callFunction(new FunctionCalls.CallInfo() { // TODO:
-																		// possible
-																		// infinite
-																		// recursion
-																		// of
-																		// callFunction
-																		// with
-																		// apply/call?
-																		// (see
-																		// test109.js)
+			FunctionCalls.callFunction(new FunctionCalls.CallInfo<Node>() { // TODO:
+						// possible
+						// infinite
+						// recursion
+						// of
+						// callFunction
+						// with
+						// apply/call?
+						// (see
+						// test109.js)
 
 						@Override
 						public Node getSourceNode() {
@@ -229,9 +231,9 @@ public class JSFunction {
 			node.addParent(val);
 			// ==================================================
 
-			FunctionCalls.callFunction(new FunctionCalls.CallInfo() {
+			FunctionCalls.callFunction(new FunctionCalls.CallInfo<Node>() {
 
-//				@Override
+				@Override
 				public Node getSourceNode() {
 					return call.getSourceNode();
 				}
@@ -282,11 +284,11 @@ public class JSFunction {
 				}
 			}, state, c);
 			return Value.makeBottom(dependency, node.getReference()); // no
-																					// direct
-																					// flow
-																					// to
-																					// the
-																					// successor
+																		// direct
+																		// flow
+																		// to
+																		// the
+																		// successor
 		}
 
 		default:
