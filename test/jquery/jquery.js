@@ -16,7 +16,7 @@
  * Date: Sat Feb 13 22:33:48 2010 -0500
  */
 
-var test = trace(3);
+// var test = trace(3);
 
 (function( window, undefined ) {
 
