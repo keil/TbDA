@@ -1,0 +1,5 @@
+# Object Trace
+trace: 
+
+#HTMLDocument.cookie; Math.abs;
+#Array; Boolean; Date; Error; Function; Math; Number; Object; RegExp; String;

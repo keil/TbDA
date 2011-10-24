@@ -14,7 +14,7 @@ var test2 = value2;
 var test3 = value3;
 
 var test4 = value1 + test1;
-var test5 = value4 + test4;
+var test5 = value1 + value4;
 
 //////////////////////////////////////////////////
 // 1.2) Ausgabe

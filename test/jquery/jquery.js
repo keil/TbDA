@@ -1,5 +1,11 @@
 
 
+function x () {return trace(7);}
+
+y = x();
+
+dumpDependency(y);
+
 /*!
  * jQuery JavaScript Library v1.4.2
  * http://jquery.com/
@@ -332,7 +338,8 @@ jQuery.extend = jQuery.fn.extend = function() {
 
 	for ( ; i < length; i++ ) {
 		// Only deal with non-null/undefined values
-		if ( (options = arguments[ i ]) != null ) {
+//		if ( (options = arguments[ i ]) != null ) {
+		options = arguments[ i ]
 			// Extend the base object
 			for ( name in options ) {
 				src = target[ name ];
@@ -356,7 +363,7 @@ jQuery.extend = jQuery.fn.extend = function() {
 					target[ name ] = copy;
 				}
 			}
-		}
+//		}
 	}
 
 	// Return the modified object

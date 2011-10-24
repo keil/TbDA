@@ -25,7 +25,7 @@ public class Dependency implements Iterable<DependencyObject>, Cloneable {
 	 * @param dependency
 	 */
 	public Dependency(Collection<DependencyObject> dependency) {
-		super();
+//		super();
 		mDependency.addAll(dependency);
 	}
 
@@ -40,7 +40,7 @@ public class Dependency implements Iterable<DependencyObject>, Cloneable {
 	 * @param dependency
 	 */
 	public Dependency(Dependency dependency) {
-		super();
+//		super();
 		mDependency.addAll(dependency.toCollection());
 	}
 
