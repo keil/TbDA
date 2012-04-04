@@ -4,6 +4,7 @@ import dk.brics.tajs.analysis.FunctionCalls.CallInfo;
 import dk.brics.tajs.analysis.Solver;
 import dk.brics.tajs.analysis.State;
 import dk.brics.tajs.flowgraph.Node;
+import dk.brics.tajs.flowgraph.nodes.CallNode;
 import dk.brics.tajs.lattice.Value;
 import dk.brics.tajs.options.Options;
 
@@ -15,7 +16,7 @@ public class ECMAScriptFunctions {
     /**
      * Evaluates the given native ECMAScript function.
      */
-    public static Value evaluate(ECMAScriptObjects nativeobject, CallInfo<? extends Node> call, State state, Solver.SolverInterface c) {
+    public static Value evaluate(ECMAScriptObjects nativeobject, CallInfo<?> call, State state, Solver.SolverInterface c) {
         if (Options.isDebugEnabled())
             System.out.println("native function: " + nativeobject);
         Value res = null;

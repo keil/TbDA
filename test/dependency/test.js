@@ -1,18 +1,26 @@
-var index = trace (new Array());
-index[0] = trace (0);
-index[1] = trace (1);
-index[2] = trace (2);
+var x = function() {return 7;}; var y = function() {return 7;}
 
-var x = 0;
-var i = 0;
-while ( i<3 ) {
-	var j = index[i];
 
-	if(j<7){
-		x = j;
-	}
-	i = i + 1;
-}
+var b = x==y;
+
+dumpDependency(b,x,y)
+
+
+//var index = trace (new Array());
+//index[0] = trace (0);
+//index[1] = trace (1);
+//index[2] = trace (2);
+//
+//var x = 0;
+//var i = 0;
+//while ( i<3 ) {
+//	var j = index[i];
+//
+//	if(j<7){
+//		x = j;
+//	}
+//	i = i + 1;
+//}
 
 
 
