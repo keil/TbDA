@@ -202,6 +202,7 @@ public class ECMAScriptFunctions {
             case ESCAPE:
             case UNESCAPE:
             case TRACE:
+            case UNTRACE:
             case DUMPDEPENDENCY:
             case ASSERT:
             case DUMPVALUE:

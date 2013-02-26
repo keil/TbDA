@@ -17,6 +17,7 @@ import dk.brics.tajs.analysis.dom.event.UIEvent;
 import dk.brics.tajs.analysis.dom.event.WheelEvent;
 import dk.brics.tajs.dependency.Dependency;
 import dk.brics.tajs.dependency.DependencyAnalyzer;
+import dk.brics.tajs.dependency.DependencyID;
 import dk.brics.tajs.dependency.DependencyObject;
 import dk.brics.tajs.dependency.graph.DependencyGraphReference;
 import dk.brics.tajs.dependency.graph.DependencyNode;
@@ -251,13 +252,13 @@ public class JSGlobal {
 			// strings
 		}
 
-			/*
-			 * ############################################################
-			 * Dependency function, to mark values with source location
-			 * ############################################################
-			 */
+		/*
+		 * ############################################################
+		 * Dependency function, to mark values with source location
+		 * ############################################################
+		 */
 		case TRACE: {
-			NativeFunctions.expectParameters(nativeobject, call, c, 1, 1);
+			NativeFunctions.expectParameters(nativeobject, call, c, 1, 2);
 			Value value = NativeFunctions.readParameter(call, 0);
 
 			SourceLocation sourceLocation = call.getSourceNode().getSourceLocation();
@@ -271,15 +272,63 @@ public class JSGlobal {
 			value = value.setDependencyGraphReference(node.getReference());
 			// ==================================================
 
+			// EXTENSION
+			if(call.getNumberOfArgs()==2) {
+				Value idValue = NativeFunctions.readParameter(call, 1);
+				DependencyID id = new DependencyID(idValue.getStr());
+				DependencyID.cacheSet(id, dependencyObject);
+			}
+			
 			value = value.joinDependency(dependency);
 			return value;
 		}
 
-			/*
-			 * ############################################################
-			 * Dependency function, to evaluate value dependency
-			 * ############################################################
-			 */
+		case UNTRACE: {
+			NativeFunctions.expectParameters(nativeobject, call, c, 2, 2);
+			
+			Value value = NativeFunctions.readParameter(call, 0);
+			Value idValue = NativeFunctions.readParameter(call, 1);
+			DependencyID id = new DependencyID(idValue.getStr());
+
+			
+			
+			if(DependencyID.cacheContains(id)) {
+				DependencyObject dependencyToRemove = DependencyID.cacheGet(id);
+				
+				
+				System.out.println("@ UNTRACE of " + id + " with " + dependencyToRemove + " in " + value);
+				System.out.println("@ OLD VALUE " + value.getDependency());
+				
+				Dependency newDependency = new Dependency();
+				for (DependencyObject dependencyObject : value.getDependency()) {
+					if(!dependencyObject.equals(dependencyToRemove))
+						newDependency.join(dependencyObject);
+				}
+				value = value.setDependency(newDependency);
+				
+				System.out.println("@ NEW VALUE " + value.getDependency());
+			}
+			
+//			SourceLocation sourceLocation = call.getSourceNode().getSourceLocation();
+//			DependencyObject dependencyObject = DependencyObject.getDependencyObject(sourceLocation);
+//			Dependency dependency = new Dependency(dependencyObject);
+//
+//			// ==================================================
+//			DependencyObjectNode node = new DependencyObjectNode(dependencyObject, c.getDependencyGraph().getRoot());
+//			// TODO: is this correct ? dNode -> ROOT
+//			// node.addParent(value);
+//			value = value.setDependencyGraphReference(node.getReference());
+//			// ==================================================
+//
+//			value = value.joinDependency(dependency);
+			return value;
+		}
+
+		/*
+		 * ############################################################
+		 * Dependency function, to evaluate value dependency
+		 * ############################################################
+		 */
 		case DUMPDEPENDENCY: {
 
 			if (call.getNumberOfArgs() == 0) {
@@ -298,14 +347,15 @@ public class JSGlobal {
 				// dump value dependency
 
 				CallNode n;
-					//if(call instanceof CallNode)
-						n = (CallNode) call.getSourceNode();
-				//	else 
-				//		return Value.makeUndef(new Dependency(), new DependencyGraphReference());
-					
-				//Node x = call.g ();
-				
-				//CallNode n = call.getSourceNode();
+				// if(call instanceof CallNode)
+				n = (CallNode) call.getSourceNode();
+				// else
+				// return Value.makeUndef(new Dependency(), new
+				// DependencyGraphReference());
+
+				// Node x = call.g ();
+
+				// CallNode n = call.getSourceNode();
 				for (int i = 0; i < call.getNumberOfArgs(); i++) {
 
 					Triple<String, IDependency<?>, SourceLocation> key = new Triple<String, IDependency<?>, SourceLocation>("v" + n.getArgVar(i),
@@ -674,19 +724,19 @@ public class JSGlobal {
 			return Value.makeObject(UIEvent.INSTANCES, dependency, node.getReference());
 		}
 
-			// case TAJS_GET_DOCUMENT_EVENT: {
-			// // ##################################################
-			// Dependency dependency = new Dependency();
-			// // ##################################################
-			//
-			// // ==================================================
-			// DependencyExpressionNode node = DependencyNode.link(Label.CALL,
-			// call.getSourceNode(), state);
-			// // ==================================================
-			//
-			// return Value.makeObject(DocumentEvent.DOCUMENT_EVENT, dependency,
-			// node.getReference());
-			// }
+		// case TAJS_GET_DOCUMENT_EVENT: {
+		// // ##################################################
+		// Dependency dependency = new Dependency();
+		// // ##################################################
+		//
+		// // ==================================================
+		// DependencyExpressionNode node = DependencyNode.link(Label.CALL,
+		// call.getSourceNode(), state);
+		// // ==================================================
+		//
+		// return Value.makeObject(DocumentEvent.DOCUMENT_EVENT, dependency,
+		// node.getReference());
+		// }
 
 		case TAJS_GET_MOUSE_EVENT: {
 			// ##################################################
