@@ -1,6 +1,12 @@
-TAJS - Type Analyzer for JavaScript
+TbDa - Type-based Dependency Analysis
+(https://github.com/keil/TbDA)
 
-Copyright (C) 2008-2010 Anders Møller, Simon Holm Jensen, Peter Thiemann, Magnus Madsen
+based on
+
+TAJS - Type Analyzer for JavaScript
+(https://github.com/cs-au-dk/TAJS)
+
+Copyright (C) 2008-2010 Anders Møller, Simon Holm Jensen, Peter Thiemann, Magnus Madsen, Matthias Keil
 Aarhus University and Freiburg University
 
 For information about this tool see http://www.brics.dk/TAJS
